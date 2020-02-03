@@ -1,6 +1,6 @@
 {
-  "name": "MnMSheet",
-  "version": "0.1.0",
+  "name": "hero-sheet",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,5 +14,9 @@
   "dependencies": {
     "vue": "^2.6.11"
   },
-  "postcss": {}
+  "postcss": {},
+  "devDependencies": {
+    "@vue/cli-service": "^4.1.2",
+    "vue-template-compiler": "^2.6.11"
+  }
 }
