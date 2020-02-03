@@ -1,0 +1,26 @@
+{
+  "strength": {
+    "docsURL": "https://www.d20herosrd.com/character-creation../3-abilities/#STRENGTH_STR"
+  },
+  "stamina": {
+    "docsURL": "https://www.d20herosrd.com/character-creation../3-abilities/#STAMINA_STA"
+  },
+  "agility": {
+    "docsURL": "https://www.d20herosrd.com/character-creation../3-abilities/#AGILITY_AGL"
+  },
+  "dexterity": {
+    "docsURL": "https://www.d20herosrd.com/character-creation../3-abilities/#DEXTERITY_DEX"
+  },
+  "fighting": {
+    "docsURL": "https://www.d20herosrd.com/character-creation../3-abilities/#FIGHTING_FGT"
+  },
+  "intellect": {
+    "docsURL": "https://www.d20herosrd.com/character-creation../3-abilities/#INTELLECT_INT"
+  },
+  "awareness": {
+    "docsURL": "https://www.d20herosrd.com/character-creation../3-abilities/#AWARENESS_AWE"
+  },
+  "presence": {
+    "docsURL": "https://www.d20herosrd.com/character-creation../3-abilities/#PRESENCE_PRE"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "normalSkills": {
+    "acrobatics": {
+      "ability": "agility",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-ACROBATICS-Agility"
+    },
+    "athletics": {
+      "ability": "agility",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-ATHLETICS"
+    },
+    "deception": {
+      "ability": "presence",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-DECEPTION"
+    },
+    "insight": {
+      "ability": "awareness",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-INSIGHT"
+    },
+    "intimidation": {
+      "ability": "presence",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-INTIMIDATION"
+    },
+    "investigation": {
+      "ability": "intellect",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-INVESTIGATION"
+    },
+    "perception": {
+      "ability": "awareness",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-PERCEPTION"
+    },
+    "persuasion": {
+      "ability": "presence",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-PERSUASION"
+    },
+    "slightofhand": {
+      "ability": "dexterity",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-SLEIGHT-OF-HAND"
+    },
+    "stealth": {
+      "ability": "agility",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-STEALTH"
+    },
+    "technology": {
+      "ability": "intellect",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-TECHNOLOGY"
+    },
+    "treatment": {
+      "ability": "intellect",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-TREATMENT"
+    },
+    "vehicles": {
+      "ability": "dexterity",
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-VEHICLES"
+    }
+  },
+  "templateSkills": {
+    "Close Combat": null,
+    "Expertise": null,
+    "Ranged Combat": null
+  }
+}

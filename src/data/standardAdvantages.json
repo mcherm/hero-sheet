@@ -1,0 +1,446 @@
+{
+  "Accurate Attack": {
+    "name": "Accurate Attack",
+    "description": "Trade effect DC for attack bonus.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/9-gamemastering/8-action-adventure#TOC-ACCURATE-ATTACK"
+  },
+  "Agile Feint": {
+    "name": "Agile Feint",
+    "description": "Feint using Acrobatics skill or Speed rank",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-AGILE-FEINT-SKILL-"
+  },
+  "All-out Attack": {
+    "name": "All-out Attack",
+    "description": "Trade active defense for attack bonus.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-ALL-OUT-ATTACK-COMBAT-"
+  },
+  "Animal Empathy": {
+    "name": "Animal Empathy",
+    "description": "Use Interaction skills normally with animals.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-ANIMAL-EMPATHY-SKILL-"
+  },
+  "Artificer": {
+    "name": "Artificer",
+    "description": "Use Expertise (Magic) to create temporary magical devices.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-ARTIFICER-SKILL-"
+  },
+  "Assessment": {
+    "name": "Assessment",
+    "description": "Use Insight to learn an opponent's combat capabilities.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-ASSESSMENT-GENERAL-"
+  },
+  "Attractive": {
+    "name": "Attractive",
+    "description": "Circumstance bonus to interaction based on your looks.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-ATTRACTIVE-SKILL-RANKED-2-"
+  },
+  "Beginner's Luck": {
+    "name": "Beginner's Luck",
+    "description": "Spend a hero point to gain 5 temporary ranks in a skill.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-BEGINNER-S-LUCK-FORTUNE-"
+  },
+  "Benefit": {
+    "name": "Benefit",
+    "description": "Gain a significant perquisite or fringe benefit.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-BENEFIT-GENERAL-RANKED-"
+  },
+  "Chokehold": {
+    "name": "Chokehold",
+    "description": "Suffocate an opponent you have successfully grabbed.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-CHOKEHOLD-COMBAT-"
+  },
+  "Close Attack": {
+    "name": "Close Attack",
+    "description": "+1 bonus to close attack checks per rank.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-CLOSE-ATTACK-COMBAT-RANKED-"
+  },
+  "Connected": {
+    "name": "Connected",
+    "description": "Call in assistance or favors with a Persuasion check.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-CONNECTED-SKILL-"
+  },
+  "Contacts": {
+    "name": "Contacts",
+    "description": "Make an initial Investigation check in one minute.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-CONTACTS-SKILL-"
+  },
+  "Daze": {
+    "name": "Daze",
+    "description": "Use Deception or Intimidation to daze an opponent.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-DAZE-SKILL-RANKED-2-"
+  },
+  "Defensive Attack": {
+    "name": "Defensive Attack",
+    "description": "Trade attack bonus for active defense bonus.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/9-gamemastering/8-action-adventure#TOC-DEFENSIVE-ATTACK"
+  },
+  "Defensive Roll": {
+    "name": "Defensive Roll",
+    "description": "+1 active defense bonus to Toughness per rank.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-DEFENSIVE-ROLL-COMBAT-RANKED-"
+  },
+  "Diehard": {
+    "name": "Diehard",
+    "description": "Automatically stablize when dying.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-DIEHARD-GENERAL-"
+  },
+  "Eidetic Memory": {
+    "name": "Eidetic Memory",
+    "description": "Total recall, +5 circumstance bonus to remember things.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-EIDETIC-MEMORY-GENERAL-"
+  },
+  "Equipment": {
+    "name": "Equipment",
+    "description": "5 points of equipment per rank.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-EQUIPMENT-GENERAL-RANKED-"
+  },
+  "Evasion": {
+    "name": "Evasion",
+    "description": "Circumstance bonus to avoid area effects.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-EVASION-COMBAT-RANKED-2-"
+  },
+  "Extraordinary Effort": {
+    "name": "Extraordinary Effort",
+    "description": "Gain two benefits when using extra effort.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-EXTRAORDINARY-EFFORT-GENERAL-"
+  },
+  "Fascinate": {
+    "name": "Fascinate",
+    "description": "Use an interaction skill to entrance others.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-FASCINATE-SKILL-RANKED-"
+  },
+  "Fast Grab": {
+    "name": "Fast Grab",
+    "description": "Make a free grab check after an unarmed attack.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-FAST-GRAB-COMBAT-"
+  },
+  "Favored Environment": {
+    "name": "Favored Environment",
+    "description": "Circumstance bonus to attack or defense in an environment.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-FAVORED-ENVIRONMENT-COMBAT-"
+  },
+  "Favored Foe": {
+    "name": "Favored Foe",
+    "description": "Circumstance bonus to certain checks against a type of opponent.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-FAVORED-FOE-SKILL-"
+  },
+  "Fearless": {
+    "name": "Fearless",
+    "description": "Immune to fear effects.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-FEARLESS-GENERAL-"
+  },
+  "Grabbing Finesse": {
+    "name": "Grabbing Finesse",
+    "description": "Substitute DEX for STR when making grab attacks.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-GRABBING-FINESSE-COMBAT-"
+  },
+  "Great Endurance": {
+    "name": "Great Endurance",
+    "description": "+5 checks involving endurance.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-GREAT-ENDURANCE-GENERAL-"
+  },
+  "Hide in Plain Sight": {
+    "name": "Hide in Plain Sight",
+    "description": "Hide while observed without need for a diversion.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-HIDE-IN-PLAIN-SIGHT-SKILL-"
+  },
+  "Improved Aim": {
+    "name": "Improved Aim",
+    "description": "Double circumstance bonuses for aiming.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-AIM-COMBAT-"
+  },
+  "Improved Critical": {
+    "name": "Improved Critical",
+    "description": "+1 to critical threat range with an attack per rank.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-CRITICAL-COMBAT-RANKED-"
+  },
+  "Improved Defense": {
+    "name": "Improved Defense",
+    "description": "+2 bonus to active defense when you take the defend action.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-DEFENSE-COMBAT-"
+  },
+  "Improved Disarm": {
+    "name": "Improved Disarm",
+    "description": "No penalty for the disarm action.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-DISARM-COMBAT-"
+  },
+  "Improved Grab": {
+    "name": "Improved Grab",
+    "description": "Make grab attacks with one arm.  Not vulnerable while grabbing.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-GRAB-COMBAT-"
+  },
+  "Improved Hold": {
+    "name": "Improved Hold",
+    "description": "-5 circumstance penalty to escape from your holds.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-HOLD-COMBAT-"
+  },
+  "Improved Initiative": {
+    "name": "Improved Initiative",
+    "description": "+4 bonus to initiative checks per rank.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-INITIATIVE-COMBAT-RANKED-"
+  },
+  "Improved Smash": {
+    "name": "Improved Smash",
+    "description": "No penalty for the smash action.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-SMASH-COMBAT-"
+  },
+  "Improved Trip": {
+    "name": "Improved Trip",
+    "description": "No penalty for the trip action.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-TRIP-COMBAT-"
+  },
+  "Improvised Tools": {
+    "name": "Improvised Tools",
+    "description": "No penalty for using skills without tools.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVISED-TOOLS-SKILL-"
+  },
+  "Improvised Weapon": {
+    "name": "Improvised Weapon",
+    "description": "Use Close Combat: Unarmed skill with improvised weapons, +1 damage bonus.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVISED-WEAPON-COMBAT-RANKED-"
+  },
+  "Inspire": {
+    "name": "Inspire",
+    "description": "Spend a hero point to grant allies a +1 circumstance bonus per rank.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-INSPIRE-FORTUNE-RANKED-5-"
+  },
+  "Instant Up": {
+    "name": "Instant Up",
+    "description": "Stand from prone as a free action.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-INSTANT-UP-GENERAL-"
+  },
+  "Interpose": {
+    "name": "Interpose",
+    "description": "Take an attack meant for an ally.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-INTERPOSE-GENERAL-"
+  },
+  "Inventor": {
+    "name": "Inventor",
+    "description": "Use Technology to create temporary devices.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-INVENTOR-SKILL-"
+  },
+  "Jack-of-All-Trades": {
+    "name": "Jack-of-All-Trades",
+    "description": "Use any skill untrained.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-JACK-OF-ALL-TRADES-SKILL-"
+  },
+  "Languages": {
+    "name": "Languages",
+    "description": "Speak and understand additional languages.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-LANGUAGES-SKILL-RANKED-"
+  },
+  "Leadership": {
+    "name": "Leadership",
+    "description": "Spend a hero point to remove a condition from an ally.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-LEADERSHIP-FORTUNE-"
+  },
+  "Luck": {
+    "name": "Luck",
+    "description": "Re-roll a die once per rank.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-LUCK-FORTUNE-RANKED-1-2-PL-"
+  },
+  "Minion": {
+    "name": "Minion",
+    "description": "Gain a follower or minion with (15xrank) power points.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-MINION-GENERAL-RANKED-"
+  },
+  "Move-by Action": {
+    "name": "Move-by Action",
+    "description": "Move both before and after your standard action.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-MOVE-BY-ACTION-COMBAT-"
+  },
+  "Power Attack": {
+    "name": "Power Attack",
+    "description": "Trade attack bonus for effect bonus.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/9-gamemastering/8-action-adventure#TOC-POWER-ATTACK"
+  },
+  "Precise Attack": {
+    "name": "Precise Attack",
+    "description": "Ignore attack check penalties for either cover or concealment.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-PRECISE-ATTACK-COMBAT-RANKED-4-"
+  },
+  "Prone Fighting": {
+    "name": "Prone Fighting",
+    "description": "No penalties for fighting while prone.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-PRONE-FIGHTING-COMBAT-"
+  },
+  "Quick Draw": {
+    "name": "Quick Draw",
+    "description": "Draw a weapon as a free action.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-QUICK-DRAW-COMBAT-"
+  },
+  "Ranged Attack": {
+    "name": "Ranged Attack",
+    "description": "+1 bonus to ranged attack checks per rank.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-RANGED-ATTACK-COMBAT-RANKED-"
+  },
+  "Redirect": {
+    "name": "Redirect",
+    "description": "Use Deception to redirect a missed attack at another target.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-REDIRECT-COMBAT-"
+  },
+  "Ritualist": {
+    "name": "Ritualist",
+    "description": "Use Expertise (Magic) to create and perform rituals.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-RITUALIST-SKILL-"
+  },
+  "Second Chance": {
+    "name": "Second Chance",
+    "description": "Re-roll a failed check against a hazard once.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-SECOND-CHANCE-GENERAL-RANKED-"
+  },
+  "Seize Initiative": {
+    "name": "Seize Initiative",
+    "description": "Spend a hero point to go first in the initiative order.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-SEIZE-INITIATIVE-FORTUNE-"
+  },
+  "Set-up": {
+    "name": "Set-up",
+    "description": "Transfer the benefit of an interaction skill to an ally.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-SET-UP-COMBAT-RANKED-"
+  },
+  "Sidekick": {
+    "name": "Sidekick",
+    "description": "Gain a sidekick with (5xrank) power points.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-SIDEKICK-GENERAL-RANKED-"
+  },
+  "Skill Mastery": {
+    "name": "Skill Mastery",
+    "description": "Make routine checks with one skill under any circumstances.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-SKILL-MASTERY-SKILL-"
+  },
+  "Startle": {
+    "name": "Startle",
+    "description": "Use Intimidation to feint during combat.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-STARTLE-SKILL-"
+  },
+  "Takedown": {
+    "name": "Takedown",
+    "description": "Free extra attack when you incapacitate a minion.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-TAKEDOWN-COMBAT-RANKED-2-"
+  },
+  "Taunt": {
+    "name": "Taunt",
+    "description": "Use Deception to demoralize in combat.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-TAUNT-SKILL-"
+  },
+  "Teamwork": {
+    "name": "Teamwork",
+    "description": "+5 bonus to support team checks.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-TEAMWORK-GENERAL-"
+  },
+  "Throwing Mastery": {
+    "name": "Throwing Mastery",
+    "description": "+1 damage bonus with thrown weapons per rank.",
+    "isRanked": true,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-THROWING-MASTERY-COMBAT-RANKED-"
+  },
+  "Tracking": {
+    "name": "Tracking",
+    "description": "Use Perception to follow tracks.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-TRACKING-SKILL-"
+  },
+  "Trance": {
+    "name": "Trance",
+    "description": "Go into a deathlike trance that slows bodily functions.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-TRANCE-GENERAL-"
+  },
+  "Ultimate Effort": {
+    "name": "Ultimate Effort",
+    "description": "Spend a hero point to get an effective 20 on a specific check.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-ULTIMATE-EFFORT-FORTUNE-"
+  },
+  "Uncanny Dodge": {
+    "name": "Uncanny Dodge",
+    "description": "Not vulnerable when surprised or caught off-guard.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-UNCANNY-DODGE-COMBAT-"
+  },
+  "Weapon Bind": {
+    "name": "Weapon Bind",
+    "description": "Free disarm attempt when you actively defend.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-WEAPON-BIND-COMBAT-"
+  },
+  "Weapon Break": {
+    "name": "Weapon Break",
+    "description": "Free smash attack when you actively defend.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-WEAPON-BREAK-COMBAT-"
+  },
+  "Well-Informed": {
+    "name": "Well-Informed",
+    "description": "Immediate Investigation or Persuasion check to know something.",
+    "isRanked": false,
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-WELL-INFORMED-SKILL-"
+  }
+}

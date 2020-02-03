@@ -1,0 +1,25 @@
+Design Notes for MnMSheet
+
+== The Document Tree: ==
+
+I have several different trees of data, each of which could be expressed
+in JSON, which overlap. I am figuring out just how to handle them.
+
+(1) The "character save". This consists of only the fields that the
+  user enters. Calculated fields (like costs, or actual number of
+  ranks) are not included. This is used for saving (or loading) a
+  character.
+
+(2) The "character sheet". This consists of the character save plus
+  those fields that are calculated (like costs, or actual number of
+  ranks). This is used for rendering to the screen.
+
+ (3) The "current state". This consists of the character sheet plus
+   some additional data about temporary effects on the character (like
+   statuses, currently-activated-powers, and so forth). This is also
+   rendered to the screen if desired, and can be cleared out.
+
+ 
+Special Handling for Powers:
+TODO: Some powers (like Invisiblity or Concealment) don't have ranks. I should
+  probably categorize those and hide the rank selector for them.

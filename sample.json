@@ -1,0 +1,200 @@
+{
+  "version": "0.1",
+  "characterData": {
+    "campaign": {
+      "powerLevel": 8,
+      "xpAwarded": 0,
+      "setting": "Seattle"
+    },
+    "description": {
+      "name": "Teen Inventor",
+      "player": "Michael Chermside",
+      "identityType": "secret",
+      "identity": "Martin Blum, Highschooler",
+      "gender": "",
+      "age": "",
+      "heightWeight": "",
+      "eyesHair": "",
+      "costume": "",
+      "groupAffiliation": "",
+      "baseOfOperations":""
+    },
+    "abilities": {
+      "strength": 0,
+      "stamina": 0,
+      "agility": 0,
+      "dexterity": 0,
+      "fighting": 0,
+      "intellect": 0,
+      "awareness": 0,
+      "presence": 0
+    }
+  },
+  "character": {
+    "campaign": {
+      "powerLevel": 8,
+      "xpAwarded": 0
+    },
+    "naming": {
+      "name": "Teen Inventor",
+      "player": "Michael Chermside"
+    },
+    "abilities": {
+      "strength": {
+        "entered": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "stamina": {
+        "entered": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "agility": {
+        "entered": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "dexterity": {
+        "entered": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "fighting": {
+        "entered": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "intellect": {
+        "entered": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "awareness": {
+        "entered": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "presence": {
+        "entered": 0,
+        "cost": 0,
+        "ranks": 0
+      }
+    },
+    "defenses": {
+      "dodge": {
+        "base": 2,
+        "purchased": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "fortitude": {
+        "base": 2,
+        "purchased": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "parry": {
+        "base": 2,
+        "purchased": 0,
+        "cost": 0,
+        "ranks": 0
+      },
+      "toughness": {
+        "base": 2,
+        "ranks": 0
+      },
+      "will": {
+        "base": 2,
+        "purchased": 0,
+        "cost": 0,
+        "ranks": 0
+      }
+    },
+    "initiative": 3,
+    "skills": {
+      "skillList": {
+        "acrobatics": {
+          "baseValue": 0,
+          "ranks": 0,
+          "skillRoll": 0
+        },
+        "athletics": {
+          "baseValue": 0,
+          "ranks": 0,
+          "skillRoll": 0
+        }
+      },
+      "totalRanks": 0,
+      "cost": 0
+    },
+    "advantages": [
+      {
+        "name": "Accurate Attack",
+        "effect": "Trade effect DC for attack bonus.",
+        "isRanked": false,
+        "ranks": null,
+        "description": ""
+      },
+      {
+        "name": "Luck",
+        "effect": "Re-roll a die once per rank.",
+        "isRanked": true,
+        "ranks": 3,
+        "description": ""
+      },
+      {
+        "name": "Improvised Tools",
+        "effect": "No penalty for using skills without tools.",
+        "isRanked": false,
+        "ranks": null,
+        "description": ""
+      }
+    ],
+    "powers": [
+      {
+        "name": "Iron Armor",
+        "effect": "Protection",
+        "description": "",
+        "extras": [
+          {
+            "name": "Impervious",
+            "value": 1,
+            "description": ""
+          }
+        ],
+        "flaws": [
+        ],
+        "flats": [
+        ],
+        "baseCost": 1,
+        "ranks": 10,
+        "cost": 16,
+        "subpowers": []
+      },
+      {
+        "name": "Floating Eye",
+        "effect": "Remote Sensing",
+        "description": "",
+        "extras": [],
+        "flaws": [],
+        "flats": [],
+        "baseCost": 1,
+        "ranks": 10,
+        "cost": 16,
+        "option": "One Sense Type",
+        "subpowers": []
+      }
+    ],
+    "complications": [
+      {
+        "complicationType": "motivation",
+        "description": "Patriotism drives her -- her desire to serve her country."
+      },
+      {
+        "complicationType": "addiction",
+        "description": "She is addicted to the super-soldier drug."
+      }
+    ]
+  }
+}

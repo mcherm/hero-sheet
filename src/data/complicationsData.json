@@ -1,0 +1,88 @@
+{
+  "complicationTypes": {
+    "motivation": {
+      "name": "Motivation",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-MOTIVATION"
+    },
+    "accident": {
+      "name": "Accident",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "addiction": {
+      "name": "Addiction",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "disability": {
+      "name": "Disability",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "enemy": {
+      "name": "Enemy",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "fame": {
+      "name": "Fame",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "hatred": {
+      "name": "Hatred",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "identity": {
+      "name": "Identity",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "obsession": {
+      "name": "Obsession",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "phobia": {
+      "name": "Phobia",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "powerLoss": {
+      "name": "Power Loss",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "predjudice": {
+      "name": "Predjudice",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "quirk": {
+      "name": "Quirk",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "relationship": {
+      "name": "Relationship",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "reputation": {
+      "name": "Reputation",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "responsibility": {
+      "name": "Responsibility",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "rivalry": {
+      "name": "Rivalry",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "secret": {
+      "name": "Secret",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "temper": {
+      "name": "Temper",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "weakness": {
+      "name": "Weakness",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    },
+    "other": {
+      "name": "Other",
+      "docsURL": "https://www.d20herosrd.com/character-creation../#TOC-OTHER-COMPLICATIONS"
+    }
+  }
+}
