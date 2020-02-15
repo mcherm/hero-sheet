@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MnMSheet.iml" filepath="$PROJECT_DIR$/MnMSheet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hero-sheet.iml" filepath="$PROJECT_DIR$/hero-sheet.iml" />
     </modules>
   </component>
 </project>

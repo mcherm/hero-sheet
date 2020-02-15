@@ -1,18 +1,32 @@
 <template>
   <div class="character-sheet v-box">
-    <div class="h-box">
-      <Campaign :campaign="character.campaign"/>
-      <Naming :naming="character.naming"/>
-    </div>
-    <div class="h-box">
-      <BasicStats :abilities="character.abilities"/>
-      <Defenses :character="character" />
-      <OverallCosts :character="character"/>
-    </div>
-    <Skills :skills="character.skills" :abilities="character.abilities"/>
-    <Advantages :advantages="character.advantages"/>
-    <PowerListTopLevel :powers="character.powers"/>
-    <Complications :complications="character.complications"/>
+    <TabDisplay>
+      <template slot="background">
+        <div class="h-box">
+          <Campaign :campaign="character.campaign"/>
+          <Naming :naming="character.naming"/>
+        </div>
+      </template>
+      <template slot="abilities">
+        <div class="h-box">
+          <BasicStats :abilities="character.abilities"/>
+          <Defenses :character="character" />
+          <OverallCosts :character="character"/>
+        </div>
+      </template>
+      <template slot="skills">
+        <Skills :skills="character.skills" :abilities="character.abilities"/>
+      </template>
+      <template slot="advantages">
+        <Advantages :advantages="character.advantages"/>
+      </template>
+      <template slot="powers">
+        <PowerListTopLevel :powers="character.powers"/>
+      </template>
+      <template slot="complications">
+        <Complications :complications="character.complications"/>
+      </template>
+    </TabDisplay>
     <div id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
       <textarea v-model="characterData_json" readonly></textarea>
@@ -21,6 +35,7 @@
 </template>
 
 <script>
+  import TabDisplay from "./TabDisplay.vue";
   import Campaign from "./Campaign.vue"
   import Naming from "./Naming.vue"
   import BasicStats from "./BasicStats.vue"
@@ -38,6 +53,7 @@
   export default {
     name: "CharacterSheet",
     components: {
+      TabDisplay,
       Campaign,
       Naming,
       BasicStats,
@@ -217,5 +233,8 @@
   .v-box {
     display: flex;
     flex-flow: column;
+  }
+  #data-dump {
+    margin-top: 10px;
   }
 </style>
