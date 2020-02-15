@@ -107,6 +107,6 @@
   }
   .grid-spacer {
     height: 6px;
-    background-color: var(--section-color);
+    background-color: var(--inapplicable-color);
   }
 </style>

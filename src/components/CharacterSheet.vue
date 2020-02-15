@@ -5,6 +5,7 @@
         <div class="h-box">
           <Campaign :campaign="character.campaign"/>
           <Naming :naming="character.naming"/>
+          <OverallCosts :character="character"/>
         </div>
       </template>
       <template slot="abilities">
