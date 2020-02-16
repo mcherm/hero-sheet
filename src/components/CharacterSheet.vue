@@ -67,35 +67,26 @@
     },
     data: function() {
       return {
-        characterData: {
-          abilities: {
-            strength: 1,
-            stamina: 3,
-            agility: 2,
-            dexterity: 1,
-            fighting: 4,
-            intellect: 2,
-            awareness: 0,
-            presence: 1
-          }
-        },
+        user: "mcherm",
+        characterId: "123456",
         character: null,
       }
     },
     created: function() {
-      this.character = this.characterFromCharacterData(this.characterData);
+      this.character = this.newBlankCharacter();
+      this.loadCharacter(this.user, this.characterId);
     },
     methods: {
-      characterFromCharacterData: function(d) {
+      newBlankCharacter: function() {
         const campaign = {
-          powerLevel: 8,
+          powerLevel: 10,
           xpAwarded: 0,
           setting: ""
         };
         const naming = {
-          name: "Teen Inventor",
-          player: "Michael Chermside",
-          identityType: "secret",
+          name: "",
+          player: "",
+          identityType: "none",
           identity: "",
           gender: "",
           age: "",
@@ -105,20 +96,16 @@
           groupAffiliation: "",
           baseOfOperations: ""
         };
-        const stats = [
-          "strength", "stamina", "agility", "dexterity",
-          "fighting", "intellect", "awareness", "presence"
-        ];
         const abilities = {};
         for (const statName in statsData) {
           abilities[statName] = {
-            entered: d.abilities[statName],
+            entered: 0,
             cost: null,
             ranks: null
           };
-        };
-        const defenses = {
-        };
+        }
+        const defenses = {};
+        const initiative = null;
         for (const defenseName of defenseNames) {
           // These will be populated by defenses
           defenses[defenseName] = {
@@ -127,9 +114,8 @@
             cost: null,
             ranks: null
           }
-        };
-        const skillList = {
-        };
+        }
+        const skillList = {};
         for (const skillName in skillsData.normalSkills) {
           skillList[skillName] = {
             ranks: 0,
@@ -141,78 +127,29 @@
           totalRanks: null,
           cost: 0
         };
-        const advantages = [
-          {
-              "name": "Accurate Attack",
-              "effect": null,
-              "isRanked": null,
-              "ranks": null,
-              "description": ""
-          },
-          {
-              "name": "Luck",
-              "effect": null,
-              "isRanked": null,
-              "ranks": 3,
-              "description": ""
-          },
-          {
-              "name": "Improvised Tools",
-              "effect": null,
-              "isRanked": null,
-              "ranks": null,
-              "description": "Trained with master mechanic."
-          }
-        ];
-        const powers = [
-          {
-            name: "Iron Armor",
-            effect: "Protection",
-            effectDescription: null,
-            description: "",
-            extras: [],
-            flaws: [],
-            flats: [],
-            baseCost: null,
-            ranks: 10,
-            cost: 16,
-            subpowers: []
-          },
-          {
-            name: "Fury Fists",
-            effect: "Blast",
-            effectDescription: null,
-            description: "Punch real hard",
-            extras: [],
-            flaws: [],
-            flats: [],
-            baseCost: null,
-            ranks: 3,
-            cost: 6,
-            subpowers: []
-          }
-        ];
-        const complications = [
-          {
-            "complicationType": "motivation",
-            "description": "Patriotism drives her -- her desire to serve her country."
-          },
-          {
-            "complicationType": "addiction",
-            "description": "She is addicted to the super-soldier drug."
-          }
-        ];
+        const advantages = [];
+        const powers = [];
+        const complications = [];
         return {
           campaign,
           naming,
           abilities,
           defenses,
-          initiative: null,
+          initiative,
           advantages,
           skills,
           powers,
           complications
         }
+      },
+      loadCharacter: function(user, characterId) {
+        fetch(`https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${user}/characters/${characterId}`)
+          .then((response) => {
+            return response.json()
+          })
+          .then((json) => {
+            this.character = json;
+          });
       }
     },
     computed: {
