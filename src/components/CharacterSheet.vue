@@ -33,7 +33,6 @@
     </div>
     <div id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
-      <textarea v-model="characterData_json" readonly></textarea>
     </div>
   </div>
 </template>
@@ -173,8 +172,17 @@
       character_json: function() {
         return JSON.stringify(this.character, null, 2);
       },
-      characterData_json: function() {
-        return JSON.stringify(this.characterData, null, 2);
+      characterName: function() {
+        try {
+          return this.character.naming.name;
+        } catch(err) {
+          return "";
+        }
+      }
+    },
+    watch: {
+      characterName: function(newName, oldName) {
+        this.$emit("change-character-name", newName);
       }
     }
   }

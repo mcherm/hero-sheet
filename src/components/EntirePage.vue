@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <div class="title">Hero Sheet</div>
+      <div class="title">Hero Sheet<span v-if="characterSelected && characterName !== ''"> : {{characterName}}</span></div>
       <button v-if="characterSelected" v-on:click="resetCharacter()" class="character-display">{{characterName}}</button>
       <button v-if="userSelected" v-on:click="resetUser()" class="user-display">{{user}}</button>
     </div>
@@ -20,6 +20,7 @@
         v-if="userSelected && characterSelected"
         :user="user"
         :characterId="characterId"
+        v-on:change-character-name="characterName = $event"
     />
   </div>
 </template>
