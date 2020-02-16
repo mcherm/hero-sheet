@@ -68,11 +68,13 @@
       PowerListTopLevel,
       Complications
     },
+    props: {
+      user: { type: String, required: true },
+      characterId: { type: String, required: true }
+    },
     data: function() {
       return {
-        user: "mcherm",
-        characterId: "123456",
-        character: null,
+        character: null
       }
     },
     created: function() {

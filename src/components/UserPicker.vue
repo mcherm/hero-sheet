@@ -1,0 +1,35 @@
+<template>
+  <BoxedSection title="Enter Username" class="user-picker">
+    <input v-model="currentUser" class="user-entry"/>
+    <button v-on:click="$emit('change-user', currentUser)">Set User</button>
+  </BoxedSection>
+</template>
+
+<script>
+  export default {
+    name: "UserPicker",
+    props: {
+      user: { type: String, required: true }
+    },
+    data: function() {
+      return {
+        currentUser: ""
+      }
+    },
+    created: function() {
+      this.currentUser = this.user;
+    }
+  }
+</script>
+
+<style scoped>
+  .user-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .user-entry {
+    font-size: inherit;
+    margin: 3px;
+  }
+</style>

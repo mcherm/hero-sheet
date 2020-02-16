@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <CharacterSheet/>
+    <EntirePage/>
+    <div class="copyright-notice">Code &copy; 2020 by Michael Chermside; Game content licensed under <a href="game_license.html">Open Gaming License</a>.</div>
   </div>
 </template>
 
 <script>
-  import CharacterSheet from './components/CharacterSheet.vue'
+  import EntirePage from "./components/EntirePage.vue";
 
   export default {
-    name: 'app',
+    name: "app",
     components: {
-      CharacterSheet
+      EntirePage
     }
   }
 </script>
@@ -59,5 +60,9 @@
   }
   .grid-with-lines .grid-with-lines-no-lines {
     border: 0px;
+  }
+  .copyright-notice {
+    border-top: 1px solid var(--box-border-color);
+    margin-top: 5px;
   }
 </style>
