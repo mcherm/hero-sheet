@@ -28,6 +28,9 @@
         <Complications :complications="character.complications"/>
       </template>
     </TabDisplay>
+    <div class="persistence-controls">
+      <button v-on:click="saveCharacter()">Save</button>
+    </div>
     <div id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
       <textarea v-model="characterData_json" readonly></textarea>
@@ -74,7 +77,7 @@
     },
     created: function() {
       this.character = this.newBlankCharacter();
-      this.loadCharacter(this.user, this.characterId);
+      this.loadCharacter();
     },
     methods: {
       newBlankCharacter: function() {
@@ -142,14 +145,26 @@
           complications
         }
       },
-      loadCharacter: function(user, characterId) {
-        fetch(`https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${user}/characters/${characterId}`)
+      loadCharacter: function() {
+        const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
+        fetch(url)
           .then((response) => {
             return response.json()
           })
           .then((json) => {
             this.character = json;
           });
+      },
+      saveCharacter: async function() {
+        const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
+        const body = this.character_json;
+        const response = await fetch(url, {
+          method: "PUT",
+          mode: "cors",
+          body: body
+        });
+        console.log("Response", response);
+        // FIXME: for a 200 response I should do nothing, but if I get an error response we should display it!
       }
     },
     computed: {
@@ -171,6 +186,9 @@
   .v-box {
     display: flex;
     flex-flow: column;
+  }
+  .persistence-controls {
+    margin-top: 10px;
   }
   #data-dump {
     margin-top: 10px;
