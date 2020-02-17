@@ -11,7 +11,7 @@
     "specialExtras": "Alternate Resistance (+0), Concentration (+1), Cumulative (+1), Extra Condition (+1), Progressive (+2)",
     "specialFlaws": "Instant Recovery (-1), Limited Degree (-1)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Blast": {
@@ -26,7 +26,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Burrow": {
@@ -41,7 +41,7 @@
     "specialExtras": "Penetrating (+1), Ranged (+1 or +2)",
     "specialFlaws": "Limited (-1)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Communication": {
@@ -56,7 +56,7 @@
     "specialExtras": "Area (+1), Selective (+1)",
     "specialFlaws": "Limited (-1), Sense-Dependent (-1)",
     "specialFlats": "Dimensional (+1), Subtle (+1 or +2)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Comprehend": {
@@ -71,7 +71,7 @@
     "specialExtras": "-",
     "specialFlaws": "Type: Broad (-1), Type: Narrow (-2)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Concealment": {
@@ -86,7 +86,7 @@
     "specialExtras": "Affects Others (+1), Area (+1), Attack (+1)",
     "specialFlaws": "Blending (-1), Limited (-1), Partial (-1), Passive (-1), Resistible (-1)",
     "specialFlats": "Precise (+1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Create": {
@@ -101,7 +101,7 @@
     "specialExtras": "Continuous (+1), Impervious (+1), Movable (+1), Selective (+1), Stationary (+0)",
     "specialFlaws": "Feedback (-1), Permanent (+0), Proportional (-1)",
     "specialFlats": "Innate (+1), Precise (+1), Subtle (+1 or +2), Tether (+1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Custom": {
@@ -116,7 +116,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Damage": {
@@ -131,7 +131,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Dazzle": {
@@ -146,7 +146,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Deflect": {
@@ -161,7 +161,7 @@
     "specialExtras": "Reflect (+1), Redirect (+1)",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Duplication": {
@@ -176,7 +176,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Element Control": {
@@ -191,7 +191,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Elongation": {
@@ -206,7 +206,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Energy Absorption": {
@@ -221,7 +221,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Energy Aura": {
@@ -236,7 +236,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Energy Control": {
@@ -251,7 +251,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Enhanced Advantages": {
@@ -266,7 +266,7 @@
     "specialExtras": "-",
     "specialFlaws": "Limited (-1), Permanent (+0)",
     "specialFlats": "Reduced Trait (equal to lowered trait)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Enhanced Trait": {
@@ -408,7 +408,7 @@
     "specialExtras": "-",
     "specialFlaws": "Limited (-1), Permanent (+0)",
     "specialFlats": "Reduced Trait (equal to lowered trait)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Environment": {
@@ -475,7 +475,7 @@
     "specialExtras": "Selective (+1)",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Extra Limbs": {
@@ -490,7 +490,7 @@
     "specialExtras": "Continuous (+1), Projection (+1), Sustained (+0)",
     "specialFlaws": "Distracting (-1)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Feature": {
@@ -501,11 +501,11 @@
     "duration": "Permanent",
     "resistance": "-",
     "baseCost": 1,
-    "description": "You have one or more minor features, effects granting you an occassional useful ability.",
+    "description": "You have one or more minor features, effects granting you an occasional useful ability.",
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Flight": {
@@ -520,7 +520,7 @@
     "specialExtras": "Continuous (+1)",
     "specialFlaws": "Concentration (-1), Distracting (-1), Gliding, (-1), Levitation (-1), Platform (-1), Wings (-1)",
     "specialFlats": "Aquatic (+1), Subtle (+1 or +2)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Force Field": {
@@ -535,7 +535,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Growth": {
@@ -550,7 +550,7 @@
     "specialExtras": "Permanent (+0)",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Healing": {
@@ -565,7 +565,7 @@
     "specialExtras": "Action (+1), Affects Objects (+1), Area (+1), Energizing (+1), Perception (+1), Ranged (+1), Restorative (+1), Resurrection (+1), Selective (+1)",
     "specialFlaws": "Empathic (-1), Limited (-1), Temporary (-1)",
     "specialFlats": "Persistent (+1), Stabilize (+1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Illusion": {
@@ -607,7 +607,7 @@
     "specialExtras": "Independent (+1), Selective (+1)",
     "specialFlaws": "Feedback (-1), Limited to One Subject (-1), Ranged (-1), Resistible (-1)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Immortality": {
@@ -622,7 +622,7 @@
     "specialExtras": "-",
     "specialFlaws": "Limited (-1)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Immunity": {
@@ -637,7 +637,7 @@
     "specialExtras": "Affects Others (+1), Sustained (+0), Ranged (+1), Reflect (+1), Redirect (+1)",
     "specialFlaws": "Limited to Half Effect (-1)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Impervious": {
@@ -652,7 +652,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Impervious Toughness": {
@@ -667,7 +667,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Insubstantial": {
@@ -682,7 +682,7 @@
     "specialExtras": "Affects Others (+0 or +1), Attack (+0 or +1), Continuous (+1), Progressive (+0), Reaction (+1)",
     "specialFlaws": "Permanent (+0)",
     "specialFlats": "Affects Corporeal (+1), Innate (+1), Precise (+1), Subtle (+1 or +2), Absent Strength (-1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Invisibility": {
@@ -709,7 +709,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Leaping": {
@@ -724,7 +724,7 @@
     "specialExtras": "Affects Others (+0 or +1)",
     "specialFlaws": "Acrobatics Check Required (-1)",
     "specialFlats": "Full Power (-1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Luck Control": {
@@ -739,7 +739,7 @@
     "specialExtras": "Area (+1), Selective (+1)",
     "specialFlaws": "Action (-1), Ranged (-1), Resistible (-1), Side Effect (-1)",
     "specialFlats": "Luck (+1 per rank)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Magic": {
@@ -754,7 +754,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Mental Blast": {
@@ -769,7 +769,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Mimic": {
@@ -784,7 +784,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Mind Control": {
@@ -799,7 +799,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Mind Reading": {
@@ -814,7 +814,7 @@
     "specialExtras": "Cumulative (+1), Effortless (+1), Sensory Link (+1)",
     "specialFlaws": "Close (-1), Feedback (-1), Limited by Language (-1), Limited to Emotions (-1), Limited to Sensory Link (-1), Ranged (-1), Sense-Dependent (-1)",
     "specialFlats": "Subtle (+1 or +2)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Morph": {
@@ -829,7 +829,7 @@
     "specialExtras": "Attack (+0)",
     "specialFlaws": "Resistible (-1)",
     "specialFlats": "Metamorph (+1 per rank)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Move Object": {
@@ -844,7 +844,7 @@
     "specialExtras": "Continuous (+2), Damaging (+1), Perception (+1), Sustained (+1)",
     "specialFlaws": "Close (-1), Limited Direction (-1), Limited Material (-1)",
     "specialFlats": "Improvised Weapon or Throwing Mastery (+1 per rank), Precise (+1), Subtle (+1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Movement": {
@@ -859,7 +859,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Nullify": {
@@ -874,7 +874,7 @@
     "specialExtras": "Alternate Resistance (+0), Area (+1), Broad (+1), Concentration (+1), Simultaneous (+1), Effortless (+1), Randomize (+0), Selective (+1), Sustained (+1)",
     "specialFlaws": "Side Effect (-1)",
     "specialFlats": "Precise (+1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Power-Lifting": {
@@ -889,7 +889,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Protection": {
@@ -904,7 +904,7 @@
     "specialExtras": "-",
     "specialFlaws": "Sustained (0)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Quickness": {
@@ -919,7 +919,7 @@
     "specialExtras": "-",
     "specialFlaws": "Limited to One Type (-1), Limited to One Task (-2)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Ranged Affliction": {
@@ -934,7 +934,7 @@
     "specialExtras": "Alternate Resistance (+0), Concentration (+1), Cumulative (+1), Extra Condition (+1), Progressive (+2)",
     "specialFlaws": "Instant Recovery (-1), Limited Degree (-1)",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Ranged Damage": {
@@ -949,7 +949,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Regeneration": {
@@ -964,7 +964,7 @@
     "specialExtras": "Persistent (+1)",
     "specialFlaws": "Source (-1)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Remote Sensing": {
@@ -1006,7 +1006,7 @@
     "specialExtras": "No Conduit (+1), Simultaneous (+1)",
     "specialFlaws": "Feedback (-1), Medium (-1)",
     "specialFlats": "Dimensional (+1 per rank), Subtle (+1 per rank), Noticeable (-1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Senses": {
@@ -1021,7 +1021,7 @@
     "specialExtras": "Affects Others (+1), Area (+1), Dimensional (+1), Ranged (+1 or +2)",
     "specialFlaws": "Limited (-1), Unreliable (-1)",
     "specialFlats": "Innate (+1), Noticeable (-1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Shapeshift": {
@@ -1036,7 +1036,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Shrinking": {
@@ -1051,7 +1051,7 @@
     "specialExtras": "Normal Strength (+1)",
     "specialFlaws": "-",
     "specialFlats": "Atomic (+1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Sleep": {
@@ -1066,7 +1066,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Snare": {
@@ -1081,7 +1081,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Speed": {
@@ -1096,7 +1096,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Strike": {
@@ -1111,7 +1111,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Suffocation": {
@@ -1126,7 +1126,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Summon": {
@@ -1141,7 +1141,7 @@
     "specialExtras": "Active (+1), Controlled (+1), Heroic (+2), Horde (+1), Multiple Minions (+2), Variable Type (+1 or +2)",
     "specialFlaws": "Attitude (-1 or -2), Resistible (-1)",
     "specialFlats": "Mental Link (+1), Sacrifice (+1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Super-Speed": {
@@ -1156,7 +1156,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": false,
+    "isPrimitiveEffect": false,
     "isArray": false
   },
   "Swimming": {
@@ -1171,7 +1171,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Teleport": {
@@ -1186,7 +1186,7 @@
     "specialExtras": "Accurate (+1), Easy (+1), Extended (+1), Portal (+2)",
     "specialFlaws": "Limited to Extended (-1), Medium (-1)",
     "specialFlats": "Change Direction (+1), Change Velocity (+1), Increased Mass (+1), Turnabout (+1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Transform": {
@@ -1223,7 +1223,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Variable": {
@@ -1238,7 +1238,7 @@
     "specialExtras": "Action (+1, +2, or +3), Affects Others (+0 or +1), Perception (+1), Ranged (+1)",
     "specialFlaws": "Limited (-1 or more), Slow (-1)",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Weaken": {
@@ -1253,7 +1253,7 @@
     "specialExtras": "Affects Objects (+1), Broad (+1), Concentration (+1), Progressive (+2), Selective (+1), Simultaneous (+1)",
     "specialFlaws": "-",
     "specialFlats": "Incurable (+1), Precise (+1)",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": false
   },
   "Array": {
@@ -1268,7 +1268,7 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
-    "isPrimativeEffect": true,
+    "isPrimitiveEffect": true,
     "isArray": true
   }
 }

@@ -14,7 +14,7 @@
                 :key="standardPower.name"
                 :value="standardPower.name"
             >
-              {{standardPower.name}}{{standardPower.isPrimativeEffect ? "" : "*"}}
+              {{standardPower.name}}{{standardPower.isPrimitiveEffect ? "" : "*"}}
             </option>
           </select>
         </div>

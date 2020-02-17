@@ -26,7 +26,7 @@
         const result = {};
         for (const key in standardPowers) {
           const power = standardPowers[key];
-          if (power.isArray || power.isPrimativeEffect && typeof(power.baseCost) === "number") {
+          if (power.isArray || power.isPrimitiveEffect && typeof(power.baseCost) === "number") {
             result[key] = power;
           }
         }
