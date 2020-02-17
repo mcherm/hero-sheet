@@ -36,9 +36,8 @@
           <label class="row-label">Option Desc</label><div>{{theOption.description}}</div>
         </div>
 
-        <label class="row-label">Extras</label><div></div>
-        <label class="row-label">Flaws</label><div></div>
-        <label class="row-label">Flats</label><div></div>
+        <label class="row-label">Extras</label><ModifierList modifierType="extras"/>
+        <label class="row-label">Flaws</label><ModifierList modifierType="flaws"/>
         <label class="row-label">Description</label><StringEntry v-model="power.description"/>
       </div>
       <div class="power-costs">
@@ -59,8 +58,13 @@
 </template>
 
 <script>
+  import ModifierList from "./ModifierList";
+
   export default {
     name: "Power",
+    components: {
+      ModifierList
+    },
     props: {
       power: { type: Object, required: true },
       standardPowers: { type: Object, required: true }

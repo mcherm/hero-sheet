@@ -206,8 +206,21 @@
       "effectDescription": "Ranged damaging attack.",
       "description": "Punch real hard",
       "extras": [],
-      "flaws": [],
-      "flats": [],
+      "flaws": [
+        {
+          "displayText": "Accurate +1",
+          "modifierName": "Accurate",
+          "costType": "flatPerRankOfPower",
+          "cost": 1
+        },
+        {
+          "displayText": "Affects Objects +0",
+          "modifierName": "Affects Objects",
+          "optionName": "Affects Objects",
+          "costType": "perRank",
+          "cost": 1
+        }
+      ],
       "baseCost": 2,
       "ranks": 3,
       "cost": 6,

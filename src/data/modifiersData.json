@@ -1,0 +1,146 @@
+{
+  "extras": [
+    {
+      "name": "Accurate",
+      "description": "+2 attack check bonus per rank",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-ACCURATE-FLAT-1-POINT-PER-RANK-",
+      "costType": "flatPerRankOfPower",
+      "cost": 1
+    },
+    {
+      "name": "Affects Corporeal",
+      "description": "Effect works on corporeal beings with rank equal to extra rank.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-AFFECTS-CORPOREAL-FLAT-1-POINT-PER-RANK-",
+      "costType": "flatPerRankOfPower",
+      "cost": 1
+    },
+    {
+      "name": "Affects Insubstantial",
+      "description": "Effect works on insubstantial beings at half (1 rank) or full (2 ranks) effect.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-AFFECTS-INSUBSTANTIAL-FLAT-1-OR-2-POINTS-",
+      "costType": "byModifierOption",
+      "cost": null,
+      "modifierOptions": [
+        {
+          "name": "Partially Affects Insubstantial",
+          "costType": "flat",
+          "cost": 1,
+          "description": "The effect works at half its normal rank against insubstantial targets (rounded down)."
+        },
+        {
+          "name": "Fully Affects Insubstantial",
+          "costType": "flat",
+          "cost": 2,
+          "description": "The effect functions at its full rank against insubstantial targets."
+        }
+      ]
+    },
+    {
+      "name": "Affects Objects",
+      "description": "Fortitude resisted effect works on objects.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-AFFECTS-OBJECTS-0-OR-1-COST-PER-RANK-",
+      "costType": "byModifierOption",
+      "cost": null,
+      "modifierOptions": [
+        {
+          "name": "Affects Only Objects",
+          "costType": "flat",
+          "cost": 0,
+          "description": "The effect works on objects but not on living creatures."
+        },
+        {
+          "name": "Affects Objects",
+          "costType": "perRank",
+          "cost": 1,
+          "description": "The effect work on objects in the same way as it does on living creatures."
+        }
+      ]
+    },
+    {
+      "name": "Affects Others",
+      "description": "Personal effect works on others.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-AFFECTS-OTHERS-0-OR-1-COST-PER-RANK-",
+      "costType": "byModifierOption",
+      "cost": null,
+      "modifierOptions": [
+        {
+          "name": "Affects Only Others",
+          "costType": "flat",
+          "cost": 0,
+          "description": "The effect affects only others, and not you."
+        },
+        {
+          "name": "Affects Others",
+          "costType": "perRank",
+          "cost": 1,
+          "description": "Both you and your subject(s) can use the effect simultaneously."
+        }
+      ]
+    },
+    {
+      "name": "Alternate Resistance",
+      "description": "Effect uses a different resistance.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-ALTERNATE-RESISTANCE-0-OR-1-COST-PER-RANK-",
+      "costType": "byModifierOption",
+      "cost": null,
+      "modifierOptions": [
+        {
+          "name": "No Increase in Effectiveness",
+          "costType": "flat",
+          "cost": 0,
+          "description": "In the GM’s opinion, there is no real increase in effectiveness, just a change to the resistance."
+        },
+        {
+          "name": "Lower Resistance",
+          "costType": "perRank",
+          "cost": 1,
+          "description": "The change is to a generally lower (and therefore more advantageous) resistance."
+        }
+      ]
+    }
+  ],
+  "flaws": [
+    {
+      "name": "Activation",
+      "description": "Effect requires a move or standard action to activate.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-ACTIVATION-FLAT--1-OR--2-POINTS-",
+      "costType": "byModifierOption",
+      "cost": null,
+      "modifierOptions": [
+        {
+          "name": "Move Action to Activate",
+          "costType": "flat",
+          "cost": -1,
+          "description": "The power requires a move action to activate."
+        },
+        {
+          "name": "Standard Action to Activate",
+          "costType": "flat",
+          "cost": -2,
+          "description": "The power requires a Standard action to activate."
+        }
+      ]
+    },
+    {
+      "name": "Check Required",
+      "description": "Must succeed on a check to use effect.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-CHECK-REQUIRED-FLAT--1-POINT-PER-RANK-",
+      "costType": "perRank",
+      "cost": -1
+    },
+    {
+      "name": "Concentration",
+      "description": "Sustained effect becomes concentration duration.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-CONCENTRATION--1-COST-PER-RANK-",
+      "costType": "perRank",
+      "cost": -1
+    },
+    {
+      "name": "Diminished Range",
+      "description": "Reduces short, medium, and long ranges for the effect.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-DIMINISHED-RANGE-FLAT--1-POINT-PER-RANK-",
+      "costType": "flatPerRankOfPower",
+      "cost": -1
+    }
+  ]
+}
