@@ -18,10 +18,13 @@
         </tr>
       </tbody>
     </table>
+    <button v-on:click="createNewCharacter()" class="new-character-button">New Character</button>
   </BoxedSection>
 </template>
 
 <script>
+  import {newBlankCharacter} from "../js/heroSheetUtil.js";
+
   export default {
     name: "CharacterPicker",
     props: {
@@ -33,15 +36,11 @@
         characters: [],
       }
     },
-    created: function() {
+    created: async function() {
       const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters`;
-      fetch(url)
-        .then((response) => {
-          return response.json()
-        })
-        .then((json) => {
-          this.characters = json.characters;
-        });
+      const response = await fetch(url);
+      const json = await response.json();
+      this.characters = json.characters;
     },
     methods: {
       idFromKey: function(key) {
@@ -49,10 +48,29 @@
       },
       selectCharacter: function(character) {
         const eventData = {
-          key: this.idFromKey(character.key),
+          characterId: character.characterId || this.idFromKey(character.key),
           name: character.name
         };
         this.$emit("change-character", eventData);
+      },
+      createNewCharacter: async function() {
+        const character = newBlankCharacter();
+        const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters`;
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(character)
+        });
+        if (response.status === 200) {
+          const json = await response.json();
+          this.selectCharacter({
+            characterId: json.characterId,
+            name: ""
+          });
+        } else {
+          // FIXME: Need to display the error to the user
+          console.log("Failed to create character", response);
+        }
       }
     }
   }

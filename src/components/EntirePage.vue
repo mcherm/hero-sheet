@@ -52,7 +52,7 @@
         this.userSelected = true;
       },
       setCharacterId: function(newCharacter) {
-        this.characterId = newCharacter.key;
+        this.characterId = newCharacter.characterId;
         this.characterName = newCharacter.name;
         this.characterSelected = true;
       },

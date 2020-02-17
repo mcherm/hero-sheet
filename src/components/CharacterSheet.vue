@@ -48,10 +48,8 @@
   import OverallCosts from "./OverallCosts.vue"
   import PowerListTopLevel from "./PowerListTopLevel.vue"
   import Complications from "./Complications";
+  import {newBlankCharacter} from "../js/heroSheetUtil.js";
 
-  const statsData = require("../data/statsData.json");
-  const defenseNames = require("../data/defenseNames.json");
-  const skillsData = require("../data/skillsData.json");
 
   export default {
     name: "CharacterSheet",
@@ -77,75 +75,10 @@
       }
     },
     created: function() {
-      this.character = this.newBlankCharacter();
+      this.character = newBlankCharacter();
       this.loadCharacter();
     },
     methods: {
-      newBlankCharacter: function() {
-        const campaign = {
-          powerLevel: 10,
-          xpAwarded: 0,
-          setting: ""
-        };
-        const naming = {
-          name: "",
-          player: "",
-          identityType: "none",
-          identity: "",
-          gender: "",
-          age: "",
-          heightWeight: "",
-          eyesHair: "",
-          costume: "",
-          groupAffiliation: "",
-          baseOfOperations: ""
-        };
-        const abilities = {};
-        for (const statName in statsData) {
-          abilities[statName] = {
-            entered: 0,
-            cost: null,
-            ranks: null
-          };
-        }
-        const defenses = {};
-        const initiative = null;
-        for (const defenseName of defenseNames) {
-          // These will be populated by defenses
-          defenses[defenseName] = {
-            base: null,
-            purchased: 0,
-            cost: null,
-            ranks: null
-          }
-        }
-        const skillList = {};
-        for (const skillName in skillsData.normalSkills) {
-          skillList[skillName] = {
-            ranks: 0,
-            skillRoll: null
-          };
-        }
-        const skills = {
-          skillList,
-          totalRanks: null,
-          cost: 0
-        };
-        const advantages = [];
-        const powers = [];
-        const complications = [];
-        return {
-          campaign,
-          naming,
-          abilities,
-          defenses,
-          initiative,
-          advantages,
-          skills,
-          powers,
-          complications
-        }
-      },
       loadCharacter: function() {
         const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
         fetch(url)
@@ -161,11 +94,14 @@
         const body = this.character_json;
         const response = await fetch(url, {
           method: "PUT",
+          headers: { 'Content-Type': 'application/json' },
           mode: "cors",
           body: body
         });
-        console.log("Response", response);
-        // FIXME: for a 200 response I should do nothing, but if I get an error response we should display it!
+        if (response.status !== 200) {
+          // FIXME: Need to display the error to the user
+          console.log("Failed to save character", response);
+        }
       }
     },
     computed: {

@@ -6,7 +6,7 @@ async function invalidEndpoint(pathParameters, body) {
   return {
     statusCode: 404,
     body: JSON.stringify("Invalid endpoint.")
-  }
+  };
 }
 
 
@@ -23,7 +23,7 @@ async function getCharacterEndpoint(pathParameters, body) {
   return {
     statusCode: 200,
     body: responseBody
-  }
+  };
 }
 
 
@@ -48,7 +48,7 @@ async function putCharacterEndpoint(pathParameters, body) {
     return {
       statusCode: 500,
       body: JSON.stringify("Could not save.")
-    }
+    };
   }
 }
 
@@ -74,7 +74,7 @@ async function listCharactersEndpoint(pathParameters, body) {
       // FIXME: Reading every file isn't efficient if the sizes get big.
       // FIXME: For now it will do, but I may need to improve it later.
       console.log("Listing", character.Key);
-      loadableFilenames.push(character.Key)
+      loadableFilenames.push(character.Key);
     }
     const fileFindings = await Promise.all(loadableFilenames.map(async key => {
       const fileResult = await s3.getObject({
@@ -123,6 +123,66 @@ async function listCharactersEndpoint(pathParameters, body) {
 }
 
 
+async function createUserEndpoint(pathParameters, body) {
+  console.log("invoked createUserEndpoint");
+  return {
+    statusCode: 200,
+    body: JSON.stringify("Success")
+  };
+}
+
+
+async function getUserEndpoint(pathParameters, body) {
+  console.log("invoked getUserEndpoint");
+  const user = pathParameters.user;
+  const result = {
+    username: user
+  };
+  return {
+    statusCode: 200,
+    body: JSON.stringify(result)
+  };
+}
+
+
+function createCharacterId() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const length = 8;
+  let id = 'CH';
+  for (let i = 0; i < length; i++) {
+    id += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return id;
+}
+
+
+async function createCharacterEndpoint(pathParameters, body) {
+  console.log("invoked createCharacterEndpoint");
+  const user = pathParameters.user;
+  const characterId = createCharacterId();
+  const filename = `mutants/users/${user}/characters/${characterId}.json`;
+  try {
+    const writeTo = {
+      Bucket: "hero-sheet-storage",
+      Key: filename,
+      Body: body
+    };
+    await s3.putObject(writeTo).promise();
+    const responseBody = {
+      characterId: characterId
+    };
+    return {
+      statusCode: 200,
+      body: JSON.stringify(responseBody)
+    };
+  } catch(err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify("Could not save.")
+    };
+  }
+}
+
 
 exports.handler = async (event) => {
   console.log("hero-sheet-storage is running.");
@@ -133,9 +193,23 @@ exports.handler = async (event) => {
       httpMethod: event.requestContext.httpMethod
     };
     let endpointFunction = null;
-    if (invoked.resourcePath === "/hero-sheet/users/{user}/characters") {
+    if (invoked.resourcePath === "/hero-sheet/users") {
+      if (invoked.httpMethod === "POST") {
+        endpointFunction = createUserEndpoint;
+      } else {
+        endpointFunction = invalidEndpoint;
+      }
+    } else if (invoked.resourcePath === "/hero-sheet/users/{user}/characters") {
       if (invoked.httpMethod === "GET") {
         endpointFunction = listCharactersEndpoint;
+      } else if (invoked.httpMethod === "POST") {
+        endpointFunction = createCharacterEndpoint;
+      } else {
+        endpointFunction = invalidEndpoint;
+      }
+    } else if (invoked.resourcePath === "/hero-sheet/users/{user}") {
+      if (invoked.httpMethod === "GET") {
+        endpointFunction = getUserEndpoint;
       } else {
         endpointFunction = invalidEndpoint;
       }
@@ -156,14 +230,14 @@ exports.handler = async (event) => {
     response = {
       statusCode: 500,
       body: JSON.stringify(err.toString())
-    }
+    };
   }
   // Add CORS headers
   response.headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
     "Access-Control-Allow-Credentials": true
-  }
+  };
   console.log("Response", response);
   return response;
 };
