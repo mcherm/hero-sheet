@@ -21,8 +21,8 @@
         >{{option.name}}</option>
       </select>
     </div>
-    <button>Create</button>
-    <button v-on:click="$emit('choose-modifier', null)">Cancel</button>
+    <button :disabled="!isFullySelected" v-on:click="emitSelection()">Create</button>
+    <button v-on:click="emitSelection()">Cancel</button>
   </div>
 </template>
 
@@ -54,6 +54,30 @@
         } else {
           return this.selectedModifier.modifierOptions[index];
         }
+      },
+      isFullySelected: function() {
+        return this.selectedOption ||
+          (this.selectedModifier && !this.selectedModifier.modifierOptions);
+      }
+    },
+    methods: {
+      emitSelection: function() {
+        let response = null;
+        if (this.isFullySelected) {
+          response = {
+            "modifierName": this.selectedModifier.name,
+          };
+          if (this.selectedOption === null) {
+            response.costType = this.selectedModifier.costType;
+            response.cost = this.selectedModifier.cost;
+          } else {
+            response.optionName = this.selectedOption.name;
+            response.costType = this.selectedOption.costType;
+            response.cost = this.selectedOption.cost;
+          }
+          response.displayText = "Some-Modifier";
+        }
+        this.$emit('choose-modifier', response);
       }
     }
   }

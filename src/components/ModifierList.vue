@@ -1,24 +1,42 @@
 <template>
   <div class="modifier-list">
-    <div v-for="modifier in modifiers" class="modifier">{{modifier.displayText}}</div>
+    <div v-for="modifier in modifiers" class="modifier">
+      {{modifier.displayText}}
+      <div
+          v-if="isDeleting"
+          v-on:click="deleteModifier(modifier)"
+          class="trash-can"
+      >
+        <TrashIcon/>
+      </div>
+    </div>
     <button
-        v-if="!isAddingModifier"
-        v-on:click="isAddingModifier = true"
-    >{{addButtonName}}</button>
+        v-if="!isAdding && !isDeleting"
+        v-on:click="isAdding = true"
+    >+</button>
     <ModifierListNewModifierChooser
-        v-if="isAddingModifier"
-        v-on:choose-modifier="isAddingModifier = false"
+        v-if="isAdding"
+        v-on:choose-modifier="finishChoosingNewModifier($event)"
     />
+    <button
+        v-if="modifiers.length > 0 && !isAdding && !isDeleting"
+        v-on:click="isDeleting = true"
+    >-</button>
+    <button
+        v-if="isDeleting"
+        v-on:click="isDeleting = false"
+    >Done Deleting</button>
   </div>
 </template>
 
 <script>
   import ModifierListNewModifierChooser from "./ModifierListNewModifierChooser";
-  const modifiersData = require("../data/modifiersData.json");
+  import TrashIcon from "./TrashIcon";
 
   export default {
     name: "ModifierList",
     components: {
+      TrashIcon,
       ModifierListNewModifierChooser
     },
     props: {
@@ -26,22 +44,9 @@
     },
     data: function() {
       return {
-        modifiers: [
-          {
-            "displayText": "Accurate +1",
-            "modifierName": "Accurate",
-            "costType": "flatPerRankOfPower",
-            "cost": 1
-          },
-          {
-            "displayText": "Affects Objects +0",
-            "modifierName": "Affects Objects",
-            "optionName": "Affects Objects",
-            "costType": "perRank",
-            "cost": 1
-          }
-        ],
-        isAddingModifier: false
+        modifiers: [],
+        isAdding: false,
+        isDeleting: false
       }
     },
     computed: {
@@ -54,6 +59,20 @@
           throw Error(`Invalid modifierType, ${this.modifierType}`);
         }
       }
+    },
+    methods: {
+      finishChoosingNewModifier: function(event) {
+        if (event !== null) {
+          this.modifiers.push(event);
+        }
+        this.isAdding = false;
+      },
+      deleteModifier: function(modifier) {
+        const index = this.modifiers.indexOf(modifier);
+        if (index !== -1) {
+          this.$delete(this.modifiers, index);
+        }
+      }
     }
   }
 </script>
@@ -62,14 +81,16 @@
   .modifier-list {
     display: flex;
     flex-wrap: wrap;
-  }
-  .modifier-list > * {
-    margin-left: 3px;
-    margin-right: 3px;
+    align-items: center;
   }
   .modifier {
     padding: 1px;
     border: 1px solid var(--box-border-color);
     margin: 1px;
+    display: flex;
+    align-items: center;
+  }
+  .trash-can {
+    margin-left: 2px;
   }
 </style>
