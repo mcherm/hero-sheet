@@ -1,7 +1,7 @@
 <template>
   <div class="add-modifier-chooser">
     <select v-model="selectedModifierIndex">
-      <option disabled value="">Select One</option>
+      <option disabled value="-1">Select One</option>
       <option
           v-for="(modifier, index) in modifiers"
           :key="index"
@@ -13,7 +13,7 @@
         class="new-modifier-option-picker"
     >
       <select v-model="selectedOptionIndex">
-        <option disabled value="">Select One</option>
+        <option disabled value="-1">Select One</option>
         <option
             v-for="(option, index) in selectedModifier.modifierOptions"
             :key="index"
@@ -34,14 +34,14 @@
     data: function() {
       return {
         modifiers: modifiersData.extras,
-        selectedModifierIndex: null,
-        selectedOptionIndex: null
+        selectedModifierIndex: -1,
+        selectedOptionIndex: -1
       }
     },
     computed: {
       selectedModifier: function() {
         const index = this.selectedModifierIndex;
-        if (index === null || index === "") {
+        if (index === -1) {
           return null;
         } else {
           return this.modifiers[index];
@@ -49,7 +49,7 @@
       },
       selectedOption: function() {
         const index = this.selectedOptionIndex;
-        if (index === null || index === "") {
+        if (index === -1) {
           return null;
         } else {
           return this.selectedModifier.modifierOptions[index];
@@ -75,7 +75,10 @@
             response.costType = this.selectedOption.costType;
             response.cost = this.selectedOption.cost;
           }
-          response.displayText = "Some-Modifier";
+          const importantThing = this.selectedOption ? this.selectedOption : this.selectedModifier;
+          const cost = importantThing.cost;
+          const sign = cost === 0 ? "" : cost > 0 ? "+" : "-";
+          response.displayText = `${importantThing.name} (${sign}${cost})`;
         }
         this.$emit('choose-modifier', response);
       }

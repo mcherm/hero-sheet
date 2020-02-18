@@ -13,6 +13,7 @@
     <button
         v-if="!isAdding && !isDeleting"
         v-on:click="isAdding = true"
+        class="plus-minus-button"
     >+</button>
     <ModifierListNewModifierChooser
         v-if="isAdding"
@@ -21,6 +22,7 @@
     <button
         v-if="modifiers.length > 0 && !isAdding && !isDeleting"
         v-on:click="isDeleting = true"
+        class="plus-minus-button"
     >-</button>
     <button
         v-if="isDeleting"
@@ -92,5 +94,9 @@
   }
   .trash-can {
     margin-left: 2px;
+  }
+  .plus-minus-button {
+    padding-left: 0;
+    padding-right: 0;
   }
 </style>
