@@ -97,6 +97,54 @@
           "description": "The change is to a generally lower (and therefore more advantageous) resistance."
         }
       ]
+    },
+    {
+      "name": "Attack",
+      "description": "Personal effect works on others as an attack.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-ATTACK-0-COST-PER-RANK-",
+      "costType": "perRank",
+      "cost": 0
+    },
+    {
+      "name": "Contagious",
+      "description": "Effect works on anyone coming into contact with its target.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-CONTAGIOUS-1-COST-PER-RANK-",
+      "costType": "perRank",
+      "cost": 1
+    },
+    {
+      "name": "Dimensional",
+      "description": "Effect works on targets in other dimensions.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-DIMENSIONAL-FLAT-1-3-POINTS-",
+      "costType": "byModifierOption",
+      "cost": null,
+      "modifierOptions": [
+        {
+          "name": "Affects Single Dimension",
+          "costType": "flat",
+          "cost": 1,
+          "description": "Affect a single other dimension."
+        },
+        {
+          "name": "Afects Related Dimensions",
+          "costType": "flat",
+          "cost": 2,
+          "description": "Affect any of a related group of dimensions."
+        },
+        {
+          "name": "Affects Any Dimension",
+          "costType": "flat",
+          "cost": 3,
+          "description": "Effect can reach into any other dimension in the setting."
+        }
+      ]
+    },
+    {
+      "name": "Extended Range",
+      "description": "Doubles ranged effect’s distances per rank.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-EXTENDED-RANGE-FLAT-1-POINT-PER-RANK-",
+      "costType": "flatPerRank",
+      "cost": 1
     }
   ],
   "flaws": [
