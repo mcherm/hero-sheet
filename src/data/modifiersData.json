@@ -4,34 +4,36 @@
       "name": "Accurate",
       "description": "+2 attack check bonus per rank",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-ACCURATE-FLAT-1-POINT-PER-RANK-",
-      "costType": "flatPerRankOfPower",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
       "cost": 1
     },
     {
       "name": "Affects Corporeal",
       "description": "Effect works on corporeal beings with rank equal to extra rank.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-AFFECTS-CORPOREAL-FLAT-1-POINT-PER-RANK-",
-      "costType": "flatPerRankOfPower",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
       "cost": 1
     },
     {
       "name": "Affects Insubstantial",
       "description": "Effect works on insubstantial beings at half (1 rank) or full (2 ranks) effect.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-AFFECTS-INSUBSTANTIAL-FLAT-1-OR-2-POINTS-",
-      "costType": "byModifierOption",
-      "cost": null,
       "modifierOptions": [
         {
           "name": "Partially Affects Insubstantial",
-          "costType": "flat",
-          "cost": 1,
-          "description": "The effect works at half its normal rank against insubstantial targets (rounded down)."
+          "description": "The effect works at half its normal rank against insubstantial targets (rounded down).",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 1
         },
         {
           "name": "Fully Affects Insubstantial",
-          "costType": "flat",
-          "cost": 2,
-          "description": "The effect functions at its full rank against insubstantial targets."
+          "description": "The effect functions at its full rank against insubstantial targets.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 2
         }
       ]
     },
@@ -39,20 +41,20 @@
       "name": "Affects Objects",
       "description": "Fortitude resisted effect works on objects.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-AFFECTS-OBJECTS-0-OR-1-COST-PER-RANK-",
-      "costType": "byModifierOption",
-      "cost": null,
       "modifierOptions": [
         {
           "name": "Affects Only Objects",
-          "costType": "flat",
-          "cost": 0,
-          "description": "The effect works on objects but not on living creatures."
+          "description": "The effect works on objects but not on living creatures.",
+          "hasRanks": false,
+          "costType": "pointsOfMultiplier",
+          "cost": 0
         },
         {
           "name": "Affects Objects",
-          "costType": "perRank",
-          "cost": 1,
-          "description": "The effect work on objects in the same way as it does on living creatures."
+          "description": "The effect work on objects in the same way as it does on living creatures.",
+          "hasRanks": false,
+          "costType": "pointsOfMultiplier",
+          "cost": 1
         }
       ]
     },
@@ -60,20 +62,20 @@
       "name": "Affects Others",
       "description": "Personal effect works on others.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-AFFECTS-OTHERS-0-OR-1-COST-PER-RANK-",
-      "costType": "byModifierOption",
-      "cost": null,
       "modifierOptions": [
         {
           "name": "Affects Only Others",
-          "costType": "flat",
-          "cost": 0,
-          "description": "The effect affects only others, and not you."
+          "description": "The effect affects only others, and not you.",
+          "hasRanks": false,
+          "costType": "pointsOfMultiplier",
+          "cost": 0
         },
         {
           "name": "Affects Others",
-          "costType": "perRank",
-          "cost": 1,
-          "description": "Both you and your subject(s) can use the effect simultaneously."
+          "description": "Both you and your subject(s) can use the effect simultaneously.",
+          "hasRanks": false,
+          "costType": "pointsOfMultiplier",
+          "cost": 1
         }
       ]
     },
@@ -81,20 +83,76 @@
       "name": "Alternate Resistance",
       "description": "Effect uses a different resistance.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-ALTERNATE-RESISTANCE-0-OR-1-COST-PER-RANK-",
-      "costType": "byModifierOption",
-      "cost": null,
       "modifierOptions": [
         {
           "name": "No Increase in Effectiveness",
+          "description": "In the GM’s opinion, there is no real increase in effectiveness, just a change to the resistance.",
+          "hasRanks": false,
           "costType": "flat",
-          "cost": 0,
-          "description": "In the GM’s opinion, there is no real increase in effectiveness, just a change to the resistance."
+          "cost": 0
         },
         {
           "name": "Lower Resistance",
+          "description": "The change is to a generally lower (and therefore more advantageous) resistance.",
+          "hasRanks": false,
           "costType": "perRank",
-          "cost": 1,
-          "description": "The change is to a generally lower (and therefore more advantageous) resistance."
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "name": "Area",
+      "description": "Effect works on an area.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-AREA-1-COST-PER-RANK-",
+      "modifierOptions": [
+        {
+          "name": "Burst Area",
+          "description": "The effect fills a sphere with a 30-foot radius (distance rank 0) for rank 1 of the extra. Bursts on level surfaces (like the ground) create hemispheres 30 feet in radius and height.",
+          "hasRanks": true,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1
+        },
+        {
+          "name": "Cloud Area",
+          "description": "The effect fills a sphere with a 15-foot radius (distance rank –1) for rank 1 of the extra, that lingers in that area for one round after its duration expires (affecting any targets in the area normally during the additional round). Clouds on level surfaces (like the ground) create hemispheres 15 feet in radius and height.",
+          "hasRanks": true,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1
+        },
+        {
+          "name": "Cone Area",
+          "description": "The effect fills a cone with a length, width, and height of 60 feet (distance rank 1) for rank 1 of the extra, spreading out from the effect’s starting point. Cones on a level surface halve their final height.",
+          "hasRanks": true,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1
+        },
+        {
+          "name": "Cylinder Area",
+          "description": "The effect fills a cylinder 30 feet in radius and height (distance rank 0) for rank 1 of the extra.",
+          "hasRanks": true,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1
+        },
+        {
+          "name": "Line Area",
+          "description": "The effect fills a path 6 feet wide and 30 feet long (distance ranks -2 and 0, respectively) in a straight line. Additional ranks of area increases the length. To increase the width, purchase additional ranks for that.",
+          "hasRanks": true,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1
+        },
+        {
+          "name": "Perception Area",
+          "description": "The effect works on anyone able to perceive the target point with a particular sense, chosen when you apply this extra, like a Sense-Dependent effect (see the Sense-Dependent modifier). Targets get a Dodge resistance check, as usual, but if the check is successful suffer no effect (rather than half). Concealment that prevents a target from perceiving the effect also blocks it. This modifier includes the Sense-Dependent flaw (see Flaws) so it cannot be applied again.",
+          "hasRanks": false,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1
+        },
+        {
+          "name": "Shapeable Area",
+          "description": "The effect fills a volume of 30 cubic feet (volume rank 5) for rank 1 of the extra, and you may shape the volume as you wish, so long as it all remains contiguous. Affecting an average-sized human requires 4 cubic feet (volume rank 2).",
+          "hasRanks": true,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1
         }
       ]
     },
@@ -102,40 +160,43 @@
       "name": "Attack",
       "description": "Personal effect works on others as an attack.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-ATTACK-0-COST-PER-RANK-",
-      "costType": "perRank",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
       "cost": 0
     },
     {
       "name": "Contagious",
       "description": "Effect works on anyone coming into contact with its target.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-CONTAGIOUS-1-COST-PER-RANK-",
-      "costType": "perRank",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
       "cost": 1
     },
     {
       "name": "Dimensional",
       "description": "Effect works on targets in other dimensions.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-DIMENSIONAL-FLAT-1-3-POINTS-",
-      "costType": "byModifierOption",
-      "cost": null,
       "modifierOptions": [
         {
           "name": "Affects Single Dimension",
-          "costType": "flat",
-          "cost": 1,
-          "description": "Affect a single other dimension."
+          "description": "Affect a single other dimension.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 1
         },
         {
-          "name": "Afects Related Dimensions",
-          "costType": "flat",
-          "cost": 2,
-          "description": "Affect any of a related group of dimensions."
+          "name": "Affects Related Dimensions",
+          "description": "Affect any of a related group of dimensions.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 2
         },
         {
           "name": "Affects Any Dimension",
-          "costType": "flat",
-          "cost": 3,
-          "description": "Effect can reach into any other dimension in the setting."
+          "description": "Effect can reach into any other dimension in the setting.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 3
         }
       ]
     },
@@ -143,7 +204,8 @@
       "name": "Extended Range",
       "description": "Doubles ranged effect’s distances per rank.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-EXTENDED-RANGE-FLAT-1-POINT-PER-RANK-",
-      "costType": "flatPerRank",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
       "cost": 1
     }
   ],
@@ -152,20 +214,20 @@
       "name": "Activation",
       "description": "Effect requires a move or standard action to activate.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-ACTIVATION-FLAT--1-OR--2-POINTS-",
-      "costType": "byModifierOption",
-      "cost": null,
       "modifierOptions": [
         {
           "name": "Move Action to Activate",
-          "costType": "flat",
-          "cost": -1,
-          "description": "The power requires a move action to activate."
+          "description": "The power requires a move action to activate.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": -1
         },
         {
           "name": "Standard Action to Activate",
-          "costType": "flat",
-          "cost": -2,
-          "description": "The power requires a Standard action to activate."
+          "description": "The power requires a Standard action to activate.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": -2
         }
       ]
     },
@@ -173,21 +235,24 @@
       "name": "Check Required",
       "description": "Must succeed on a check to use effect.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-CHECK-REQUIRED-FLAT--1-POINT-PER-RANK-",
-      "costType": "perRank",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
       "cost": -1
     },
     {
       "name": "Concentration",
       "description": "Sustained effect becomes concentration duration.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-CONCENTRATION--1-COST-PER-RANK-",
-      "costType": "perRank",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
       "cost": -1
     },
     {
       "name": "Diminished Range",
       "description": "Reduces short, medium, and long ranges for the effect.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-DIMINISHED-RANGE-FLAT--1-POINT-PER-RANK-",
-      "costType": "flatPerRankOfPower",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
       "cost": -1
     }
   ]

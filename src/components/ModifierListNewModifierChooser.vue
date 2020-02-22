@@ -21,6 +21,12 @@
         >{{option.name}}</option>
       </select>
     </div>
+    <div
+        v-if="isItemSelected && selectedItem.hasRanks"
+    >
+      <label>Ranks:</label>
+      <NumberEntry v-model="ranks"/>
+    </div>
     <button :disabled="!isFullySelected" v-on:click="emitSelection()">Create</button>
     <button v-on:click="emitSelection()">Cancel</button>
   </div>
@@ -33,9 +39,10 @@
     name: "ModifierListNewModifierChooser",
     data: function() {
       return {
-        modifiers: modifiersData.extras,
+        modifiers: modifiersData.extras, // FIXME: or could be flaws
         selectedModifierIndex: -1,
-        selectedOptionIndex: -1
+        selectedOptionIndex: -1,
+        ranks: 1
       }
     },
     computed: {
@@ -47,39 +54,65 @@
           return this.modifiers[index];
         }
       },
+      selectedModifierHasOptions: function() {
+        return Boolean(this.selectedModifier && this.selectedModifier.modifierOptions);
+      },
       selectedOption: function() {
-        const index = this.selectedOptionIndex;
-        if (index === -1) {
-          return null;
+        if (this.selectedModifierHasOptions) {
+          const index = this.selectedOptionIndex;
+          if (index === -1) {
+            return null;
+          } else {
+            return this.selectedModifier.modifierOptions[index];
+          }
         } else {
-          return this.selectedModifier.modifierOptions[index];
+          return null;
         }
       },
+      isItemSelected: function() {
+        return Boolean(this.selectedModifierHasOptions ? this.selectedOption : this.selectedModifier);
+      },
+      selectedItem: function() {
+        if (this.isItemSelected) {
+          if (this.selectedModifierHasOptions) {
+            return this.selectedOption;
+          } else {
+            return this.selectedModifier;
+          }
+        } else {
+          return null;
+        }
+      },
+      isRankInvalid: function() {
+        return (this.isItemSelected && this.selectedItem.hasRanks && (isNaN(this.ranks) || this.ranks <= 0));
+      },
       isFullySelected: function() {
-        return this.selectedOption ||
-          (this.selectedModifier && !this.selectedModifier.modifierOptions);
+        return this.isItemSelected && !this.isRankInvalid;
       }
     },
     methods: {
       emitSelection: function() {
         let response = null;
-        if (this.isFullySelected) {
+        const selectedItem = this.selectedItem;
+        if (selectedItem) {
           response = {
             "modifierName": this.selectedModifier.name,
           };
-          if (this.selectedOption === null) {
-            response.costType = this.selectedModifier.costType;
-            response.cost = this.selectedModifier.cost;
-          } else {
-            response.optionName = this.selectedOption.name;
-            response.costType = this.selectedOption.costType;
-            response.cost = this.selectedOption.cost;
+          if (this.selectedModifierHasOptions) {
+            response.optionName = selectedItem.name;
           }
-          const importantThing = this.selectedOption ? this.selectedOption : this.selectedModifier;
-          const cost = importantThing.cost;
+          if (selectedItem.hasRanks) {
+            response.ranks = this.ranks;
+          }
+          response.costType = selectedItem.costType;
+          response.cost = selectedItem.cost;
+
+          const name = selectedItem.name;
+          const cost = selectedItem.cost;
           const sign = cost === 0 ? "" : cost > 0 ? "+" : "-";
-          response.displayText = `${importantThing.name} (${sign}${cost})`;
+          response.displayText = `${name} (${sign}${cost})`;
         }
+        console.log("About to return response:", response); // FIXME: Remove
         this.$emit('choose-modifier', response);
       }
     }
