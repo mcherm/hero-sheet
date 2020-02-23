@@ -15,11 +15,12 @@
     name: "NumberDisplay",
     props: {
       value: { type: Number, required: true },
-      isOutOfSpec: { type: Boolean, required: false, default: false }
+      isOutOfSpec: { type: Boolean, required: false, default: false },
+      showErrForNegatives: { type: Boolean, required: false, default: true }
     },
     computed: {
       isNegative: function() {
-        return this.value < 0;
+        return this.showErrForNegatives && this.value < 0;
       },
       isNaNValue: function() {
         return Number.isNaN(this.value);

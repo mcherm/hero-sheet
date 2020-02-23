@@ -37,9 +37,12 @@
 
   export default {
     name: "ModifierListNewModifierChooser",
+    props: {
+      modifierType: { type: String, required: true },
+    },
     data: function() {
       return {
-        modifiers: modifiersData.extras, // FIXME: or could be flaws
+        modifiers: modifiersData[this.modifierType],
         selectedModifierIndex: -1,
         selectedOptionIndex: -1,
         ranks: 1
@@ -108,11 +111,10 @@
           response.cost = selectedItem.cost;
 
           const name = selectedItem.name;
-          const cost = selectedItem.cost;
-          const sign = cost === 0 ? "" : cost > 0 ? "+" : "-";
-          response.displayText = `${name} (${sign}${cost})`;
+          const costShown = selectedItem.cost * (selectedItem.hasRanks ? this.ranks : 1);
+          const sign = costShown > 0 ? "+" : "";
+          response.displayText = `${name} (${sign}${costShown})`;
         }
-        console.log("About to return response:", response); // FIXME: Remove
         this.$emit('choose-modifier', response);
       }
     }

@@ -17,6 +17,7 @@
     >+</button>
     <ModifierListNewModifierChooser
         v-if="isAdding"
+        :modifier-type="modifierType"
         v-on:choose-modifier="finishChoosingNewModifier($event)"
     />
     <button
@@ -42,11 +43,11 @@
       ModifierListNewModifierChooser
     },
     props: {
-       modifierType: { type: String, required: true },
+      modifierType: { type: String, required: true },
+      modifiers: { type: Array, required: true }
     },
     data: function() {
       return {
-        modifiers: [],
         isAdding: false,
         isDeleting: false
       }
@@ -73,6 +74,9 @@
         const index = this.modifiers.indexOf(modifier);
         if (index !== -1) {
           this.$delete(this.modifiers, index);
+        }
+        if (this.modifiers.length === 0) {
+          this.isDeleting = false;
         }
       }
     }

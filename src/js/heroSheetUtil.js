@@ -70,5 +70,17 @@ const newBlankCharacter = function() {
   }
 };
 
+const newBlankPower = function() {
+  return {
+    name: "New Power",
+    effect: "",
+    description: "",
+    extras: [],
+    flaws: [],
+    ranks: 1,
+    cost: 0,
+    subpowers: []
+  };
+};
 
-export {newBlankCharacter};
+export {newBlankCharacter, newBlankPower};

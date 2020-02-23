@@ -27,6 +27,7 @@
 <script>
   import TrashIcon from "./TrashIcon";
 
+  import {newBlankPower} from "../js/heroSheetUtil.js";
   const standardPowers = require("../data/standardPowers.json");
 
   export default {
@@ -66,17 +67,7 @@
     },
     methods: {
       addPower: function() {
-        const blankPower = {
-          name: "New Power",
-          effect: "",
-          description: "",
-          extras: [],
-          flaws: [],
-          flats: [],
-          ranks: 1,
-          cost: 0,
-          subpowers: []
-        };
+        const blankPower = newBlankPower();
         this.powers.push(blankPower);
         const newPower = this.powers[this.powers.length - 1];
         this.renamePower(newPower, newPower.name);

@@ -29,7 +29,7 @@ TODO: I can't enter the modifiers for the extra "Area" because it depends on
 
 Modifiers:
   List of Charge Values:
-    flatPointsPerRankOfModifier
     flatPoints
+    flatPointsPerRankOfModifier
     pointsOfMultiplier
     pointsOfMultiplierPerRankOfModifier

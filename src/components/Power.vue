@@ -36,17 +36,18 @@
           <label class="row-label">Option Desc</label><div>{{theOption.description}}</div>
         </div>
 
-        <label class="row-label">Extras</label><ModifierList modifierType="extras"/>
-        <label class="row-label">Flaws</label><ModifierList modifierType="flaws"/>
+        <label class="row-label">Extras</label><ModifierList modifierType="extras" :modifiers="power.extras"/>
+        <label class="row-label">Flaws</label><ModifierList modifierType="flaws" :modifiers="power.flaws"/>
         <label class="row-label">Description</label><StringEntry v-model="power.description"/>
       </div>
       <div class="power-costs">
-        <label class="row-label">Base Cost</label><div><NumberDisplay :value="power.baseCost"/></div>
-        <label class="row-label">Extras</label><div><NumberDisplay :value="0"/></div>
-        <label class="row-label">Flaws</label><div><NumberDisplay :value="0"/></div>
+        <label class="row-label">Power</label><div><NumberDisplay :value="power.baseCost"/></div>
+        <label class="row-label">Extras</label><div><NumberDisplay :value="extrasMultiplier"/></div>
+        <label class="row-label">Flaws</label><div><NumberDisplay :value="flawsMultiplier" :show-err-for-negatives="false"/></div>
         <label v-if="!isArray" class="row-label">Ranks</label><div v-if="!isArray">
           <NumberEntry v-model="power.ranks"/>
         </div>
+        <label class="row-label">Flats</label><div><NumberDisplay :value="flatAdder" :show-err-for-negatives="false"/></div>
         <label class="row-label">Cost</label><div><NumberDisplay :value="power.cost"/></div>
       </div>
     </div>
@@ -69,7 +70,7 @@
       power: { type: Object, required: true },
       standardPowers: { type: Object, required: true }
     },
-    created: function() {
+    created: function() { // FIXME: Experiment to see if some of these watches can be done as calculations
       this.$watch("power.effect", function() {
         this.recalculateEffectStuff();
       }, { immediate: true });
@@ -84,11 +85,16 @@
         this.recalculateBaseCost();
         this.recalculateCost();
       });
+      this.$watch("power.extras", function() {
+        this.recalculateCost();
+      }, { deep: true });
+      this.$watch("power.flaws", function() {
+        this.recalculateCost();
+      }, { deep: true });
     },
     computed: {
       standardPower: function() {
         return this.standardPowers[this.power.effect] || null;
-        // FIXME: If this works, use it below
       },
       isArray: function() {
         return this.standardPower && this.standardPower.isArray;
@@ -102,6 +108,46 @@
         } else {
           return null;
         }
+      },
+      extrasMultiplier: function() {
+        let result = 0;
+        for (const extra of this.power.extras) {
+          if (extra.costType === "pointsOfMultiplier") {
+            result += extra.cost;
+          } else if (extra.costType === "pointsOfMultiplierPerRankOfModifier") {
+            result += extra.cost * extra.ranks;
+          }
+        }
+        return result;
+      },
+      flawsMultiplier: function() {
+        let result = 0;
+        for (const flaw of this.power.flaws) {
+          if (flaw.costType === "pointsOfMultiplier") {
+            result += flaw.cost;
+          } else if (flaw.costType === "pointsOfMultiplierPerRankOfModifier") {
+            result += flaw.cost * flaw.ranks;
+          }
+        }
+        return result;
+      },
+      flatAdder: function() {
+        let result = 0;
+        for (const extra of this.power.extras) {
+          if (extra.costType === "flatPoints") {
+            result += extra.cost;
+          } else if (extra.costType === "flatPointsPerRankOfModifier") {
+            result += extra.cost * extra.ranks;
+          }
+        }
+        for (const flaw of this.power.flaws) {
+          if (flaw.costType === "flatPoints") {
+            result += flaw.cost;
+          } else if (flaw.costType === "flatPointsPerRankOfModifier") {
+            result += flaw.cost * flaw.ranks;
+          }
+        }
+        return result;
       }
     },
     methods: {
@@ -157,7 +203,12 @@
       },
       recalculateCost: function() {
         const effectiveRanks = this.isArray ? 1 : this.power.ranks;
-        this.power.cost = Math.ceil(this.power.baseCost * effectiveRanks);
+        const modifiedCostPerRank = this.power.baseCost + this.extrasMultiplier + this.flawsMultiplier;
+        const costBeforeFlats = modifiedCostPerRank >= 1
+          ? modifiedCostPerRank * effectiveRanks
+          : Math.ceil( effectiveRanks / (2 - modifiedCostPerRank) );
+        console.log("recalculateCost", effectiveRanks, modifiedCostPerRank, costBeforeFlats); // FIXME: Remove
+        this.power.cost = Math.max(1, costBeforeFlats + this.flatAdder);
       }
     }
   }
