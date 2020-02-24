@@ -41,7 +41,9 @@
         <label class="row-label">Description</label><StringEntry v-model="power.description"/>
       </div>
       <div class="power-costs">
-        <label class="row-label">Power</label><div><NumberDisplay :value="power.baseCost"/></div>
+        <label v-if="!isArray" class="row-label">Power</label><div v-if="!isArray">
+          <NumberDisplay :value="power.baseCost"/>
+        </div>
         <label class="row-label">Extras</label><div><NumberDisplay :value="extrasMultiplier"/></div>
         <label class="row-label">Flaws</label><div><NumberDisplay :value="flawsMultiplier" :show-err-for-negatives="false"/></div>
         <label v-if="!isArray" class="row-label">Ranks</label><div v-if="!isArray">
@@ -60,6 +62,7 @@
 
 <script>
   import ModifierList from "./ModifierList";
+  import {powerCostCalculate} from "../js/heroSheetUtil.js";
 
   export default {
     name: "Power",
@@ -69,6 +72,13 @@
     props: {
       power: { type: Object, required: true },
       standardPowers: { type: Object, required: true }
+    },
+    data: function() {
+      return {
+        extrasMultiplier: 0,
+        flawsMultiplier: 0,
+        flatAdder: 0
+      }
     },
     created: function() { // FIXME: Experiment to see if some of these watches can be done as calculations
       this.$watch("power.effect", function() {
@@ -108,52 +118,12 @@
         } else {
           return null;
         }
-      },
-      extrasMultiplier: function() {
-        let result = 0;
-        for (const extra of this.power.extras) {
-          if (extra.costType === "pointsOfMultiplier") {
-            result += extra.cost;
-          } else if (extra.costType === "pointsOfMultiplierPerRankOfModifier") {
-            result += extra.cost * extra.ranks;
-          }
-        }
-        return result;
-      },
-      flawsMultiplier: function() {
-        let result = 0;
-        for (const flaw of this.power.flaws) {
-          if (flaw.costType === "pointsOfMultiplier") {
-            result += flaw.cost;
-          } else if (flaw.costType === "pointsOfMultiplierPerRankOfModifier") {
-            result += flaw.cost * flaw.ranks;
-          }
-        }
-        return result;
-      },
-      flatAdder: function() {
-        let result = 0;
-        for (const extra of this.power.extras) {
-          if (extra.costType === "flatPoints") {
-            result += extra.cost;
-          } else if (extra.costType === "flatPointsPerRankOfModifier") {
-            result += extra.cost * extra.ranks;
-          }
-        }
-        for (const flaw of this.power.flaws) {
-          if (flaw.costType === "flatPoints") {
-            result += flaw.cost;
-          } else if (flaw.costType === "flatPointsPerRankOfModifier") {
-            result += flaw.cost * flaw.ranks;
-          }
-        }
-        return result;
       }
     },
     methods: {
       recalculateEffectStuff: function() {
-        const standardPower = this.standardPowers[this.power.effect];
-        if (typeof standardPower == "undefined") {
+        const standardPower = this.standardPower;
+        if (standardPower === null) {
           this.power.effectDescription = "";
           this.power.baseCost = NaN; // Default to a cost of NaN when the power is unknown
         } else {
@@ -171,44 +141,28 @@
           } else {
             this.$delete(this.power, "option");
           }
-          if (this.isArray) {
-            this.recalculateBaseCost();
-          } else if (this.hasOptions) {
-            this.recalculateBaseCost();
-          } else {
-            this.power.baseCost = standardPower.baseCost;
-          }
+          this.recalculateBaseCost();
         }
         this.recalculateCost();
       },
       // If it's an array, this will be called to find the base cost
       recalculateBaseCost: function() {
         if (this.isArray) {
-          // FIXME: This is only calculating for the most common
-          //   type of array; there are other options and I don't
-          //   support even specifying them yet. For this one type
-          //   the cost is:
-          //     <largest-subpower-cost> + (<number-of-subpowers> - 1)
-          const subpowers = this.power.subpowers;
-          const numberOfSubpowers = subpowers.length;
-          if (numberOfSubpowers === 0) {
-            this.power.baseCost = 0;
-          } else {
-            const largestSubpowerCost = Math.max(...subpowers.map(x => x.cost));
-            this.power.baseCost = largestSubpowerCost + (numberOfSubpowers - 1);
-          }
+          this.$delete(this.power, "baseCost");
         } else if (this.hasOptions) {
           this.power.baseCost = this.theOption.baseCost;
+        } else {
+          this.power.baseCost = this.standardPower.baseCost;
         }
       },
       recalculateCost: function() {
-        const effectiveRanks = this.isArray ? 1 : this.power.ranks;
-        const modifiedCostPerRank = this.power.baseCost + this.extrasMultiplier + this.flawsMultiplier;
-        const costBeforeFlats = modifiedCostPerRank >= 1
-          ? modifiedCostPerRank * effectiveRanks
-          : Math.ceil( effectiveRanks / (2 - modifiedCostPerRank) );
-        console.log("recalculateCost", effectiveRanks, modifiedCostPerRank, costBeforeFlats); // FIXME: Remove
-        this.power.cost = Math.max(1, costBeforeFlats + this.flatAdder);
+        const costCalcs = powerCostCalculate(this.power);
+        this.extrasMultiplier = costCalcs.extrasMultiplier;
+        this.flawsMultiplier = costCalcs.flawsMultiplier;
+        this.flatAdder = costCalcs.flatAdder;
+        if (this.power.cost !== costCalcs.cost) {
+          this.power.cost = costCalcs.cost;
+        }
       }
     }
   }
