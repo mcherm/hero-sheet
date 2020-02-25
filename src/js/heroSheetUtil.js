@@ -107,7 +107,8 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
   // --- Calculate multipliers & adders from modifiers ---
   let extrasMultiplier = 0;
   let flawsMultiplier = 0;
-  let flatAdder = 0;
+  let normalFlatAdder = 0;
+  let flatPer5FinalPoints = 0;
   const modifierLists = [power.extras, power.flaws, ...extraModifierLists];
   for (const modifierList of modifierLists) {
     for (const modifier of modifierList) {
@@ -124,9 +125,11 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
           extrasMultiplier += modifier.cost * modifier.ranks;
         }
       } else if (modifier.costType === "flatPoints") {
-        flatAdder += modifier.cost;
+        normalFlatAdder += modifier.cost;
       } else if (modifier.costType === "flatPointsPerRankOfModifier") {
-        flatAdder += modifier.cost * modifier.ranks;
+        normalFlatAdder += modifier.cost * modifier.ranks;
+      } else if (modifier.costType === "flatPointsPer5PointsOfFinalCost") {
+        flatPer5FinalPoints += modifier.cost;
       } else {
         throw Error(`Unsupported modifier costType of ${modifier.costType}`);
       }
@@ -135,22 +138,28 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
 
   // --- Calculate the cost ---
   let cost;
+  let flatAdder;
   if (isArray(power)) {
     const subpowers = power.subpowers;
     const numberOfSubpowers = subpowers.length;
     if (numberOfSubpowers === 0) {
       cost = 0;
+      flatAdder = 0;
     } else {
       const subpowerCosts = subpowers.map(x => powerCostCalculate(x, modifierLists).cost);
       const largestSubpowerCost = Math.max(...subpowerCosts);
       cost = largestSubpowerCost + (numberOfSubpowers - 1);
+      flatAdder = normalFlatAdder; // no easy way to display values from a per-5-pts on the array
     }
   } else {
     const modifiedCostPerRank = power.baseCost + extrasMultiplier + flawsMultiplier;
     const costBeforeFlats = modifiedCostPerRank >= 1
       ? modifiedCostPerRank * power.ranks
       : Math.ceil( power.ranks / (2 - modifiedCostPerRank) );
-    cost = Math.max(1, costBeforeFlats + flatAdder);
+    const costWithNormalAdder = Math.max(1, costBeforeFlats + normalFlatAdder);
+    const finalAdjustment = Math.round((costWithNormalAdder / 5) * flatPer5FinalPoints);
+    cost = Math.max(1, costBeforeFlats + normalFlatAdder + finalAdjustment);
+    flatAdder = cost - costBeforeFlats;
   }
 
   // --- Return result object ---

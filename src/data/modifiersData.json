@@ -207,6 +207,272 @@
       "hasRanks": true,
       "costType": "flatPointsPerRankOfModifier",
       "cost": 1
+    },
+    {
+      "name": "Feature",
+      "description": "Adds a minor capability or benefit to an effect.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-FEATURE-FLAT-1-POINT-PER-RANK-",
+      "hasRanks": false,
+      "costType": "flatPoints",
+      "cost": 1
+    },
+    {
+      "name": "Homing",
+      "description": "Attack effect gains additional chances to hit.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-HOMING-FLAT-1-POINT-PER-RANK-",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Impervious",
+      "description": "Resistance ignores effects with difficulty modifier of half extra rank or less.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-IMPERVIOUS-1-COST-PER-RANK-",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Increased Duration",
+      "description": "Improves effect's duration by one step along instant->sustained->continuous per rank.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-DURATION-1-COST-PER-RANK-",
+      "hasRanks": true,
+      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Increased Mass",
+      "description": "Effect can carry a greater amount of mass.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-MASS-FLAT-1-POINT-PER-RANK-",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Increased Range",
+      "description": "Improves effect's range by one step along close->ranged->perception per rank.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-RANGE-1-COST-PER-RANK-",
+      "hasRanks": true,
+      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Incurable",
+      "description": "Effect cannot be countered or removed using Healing or Regeneration.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCURABLE-FLAT-1-POINT-",
+      "hasRanks": false,
+      "costType": "flatPoints",
+      "cost": 1
+    },
+    {
+      "name": "Indirect",
+      "description": "Effect can originate from a point other than the user.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INDIRECT-FLAT-1-4-POINTS-",
+      "modifierOptions": [
+        {
+          "name": "Indirect 1",
+          "description": "The effect originates from a fixed point away from you.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 1
+        },
+        {
+          "name": "Indirect 2",
+          "description": "The effect can come from any point away from you or a fixed point in a fixed direction (not away from you).",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 2
+        },
+        {
+          "name": "Indirect 3",
+          "description": "The effect can come from any point in a fixed direction (not away from you) or a fixed point in any direction.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 3
+        },
+        {
+          "name": "Indirect 4",
+          "description": "The effect can originate from any point and aim in any direction, including towards you (hitting a target in front of you from behind, for example).",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 4
+        }
+      ]
+    },
+    {
+      "name": "Innate",
+      "description": "Effect cannot be Nullified.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INNATE-FLAT-1-POINT-",
+      "hasRanks": false,
+      "costType": "flatPoints",
+      "cost": 1
+    },
+    {
+      "name": "Insidious",
+      "description": "Result of the effect is more difficult to detect.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INSIDIOUS-FLAT-1-POINT-",
+      "hasRanks": false,
+      "costType": "flatPoints",
+      "cost": 1
+    },
+    {
+      "name": "Multiattack",
+      "description": "Effect can hit multiple targets or a single target multiple times.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-MULTIATTACK-1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": 1
+    },
+    {
+      "name": "Penetrating",
+      "description": "Effect overcomes Impervious Resistance.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-PENETRATING-FLAT-1-POINT-PER-RANK-",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Precise",
+      "description": "Effect can perform delicate and precise tasks.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-PRECISE-FLAT-1-POINT-",
+      "hasRanks": false,
+      "costType": "flatPoints",
+      "cost": 1
+    },
+    {
+      "name": "Reach",
+      "description": "Extend effect’s reach by 5 feet per rank.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REACH-FLAT-1-POINT-PER-RANK-",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Reaction",
+      "description": "Changes effect's required action to reaction.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REACTION-1-OR-3-COST-PER-RANK-",
+      "modifierOptions": [
+        {
+          "name": "Free action becomes Reaction",
+          "description": "Power that would have been a free action instead occurs as a reaction.",
+          "hasRanks": false,
+          "costType": "pointsOfMultiplier",
+          "cost": 1
+        },
+        {
+          "name": "Standard action becomes Reaction",
+          "description": "Power that would have been a standard action instead occurs as a reaction.",
+          "hasRanks": false,
+          "costType": "pointsOfMultiplier",
+          "cost": 3
+        }
+      ]
+    },
+    {
+      "name": "Reversible",
+      "description": "Effect can be removed at will as a free action.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REVERSIBLE-FLAT-1-POINT-",
+      "hasRanks": false,
+      "costType": "flatPoints",
+      "cost": 1
+    },
+    {
+      "name": "Ricochet",
+      "description": "Attacker can bounce effect to change direction.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-RICOCHET-FLAT-1-POINT-PER-RANK-",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Secondary Effect",
+      "description": "Instant effect works on the target twice.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-SECONDARY-EFFECT-1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": 1
+    },
+    {
+      "name": "Selective",
+      "description": "Resistible effect works only on the targets you choose.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-SELECTIVE-1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": 1
+    },
+    {
+      "name": "Sleep",
+      "description": "Effect leaves targets asleep rather than incapacitated.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-SLEEP-0-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "flatPoints",
+      "cost": 0
+    },
+    {
+      "name": "Split",
+      "description": "Effect can split into multiple, smaller, effects.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-SPLIT-FLAT-1-POINT-PER-RANK-",
+      "hasRanks": true  ,
+      "costType": "flatPointsPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Subtle",
+      "description": "Effect is less noticeable or not noticeable.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-SUBTLE-FLAT-1-POINTS-PER-RANK-",
+      "modifierOptions": [
+        {
+          "name": "Subtle",
+          "description": "A DC 20 Perception check is required, or the effect is noticeable only to certain exotic senses.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 1
+        },
+        {
+          "name": "Undetectable",
+          "description": "The effect completely undetectable.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 2
+        }
+      ]
+    },
+    {
+      "name": "Sustained",
+      "description": "Makes a permanent effect sustained.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-SUSTAINED-0-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": 0
+    },
+    {
+      "name": "Triggered",
+      "description": "Effect can be set for later activation.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-TRIGGERED-FLAT-1-POINT-PER-RANK-",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
+      "cost": 1
+    },
+    {
+      "name": "Variable Descriptor",
+      "description": "Effect can change descriptors.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-VARIABLE-DESCRIPTOR-FLAT-1-POINT-PER-RANK-",
+      "modifierOptions": [
+        {
+          "name": "Variable within a close group of effects",
+          "description": "You can apply any of a closely related group of descriptors, such as weather, electromagnetic, temperature, and so forth.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 1
+        },
+        {
+          "name": "Variable within a broad group of effects",
+          "description": "You can apply any of a broad group, such as any mental, magical, or technological descriptor.",
+          "hasRanks": false,
+          "costType": "flatPoints",
+          "cost": 2
+        }
+      ]
     }
   ],
   "flaws": [
@@ -253,6 +519,168 @@
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-DIMINISHED-RANGE-FLAT--1-POINT-PER-RANK-",
       "hasRanks": true,
       "costType": "flatPointsPerRankOfModifier",
+      "cost": -1
+    },
+    {
+      "name": "Distracting",
+      "description": "Vulnerable while using effect.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-DISTRACTING--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Fades",
+      "description": "Effect loses 1 rank each time it is used.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-FADES--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Feedback",
+      "description": "Suffer damage when your effect’s manifestation is damaged.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-FEEDBACK--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Grab-Based",
+      "description": "Effect requires a successful grab attack to use.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-GRAB-BASED--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Increased Action",
+      "description": "Increases action required to use effect from reaction->free->move->standard for each rank.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-ACTION--1-TO--3-COST-PER-RANK-",
+      "hasRanks": true,
+      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "cost": -1
+    },
+    {
+      "name": "Limited",
+      "description": "Effect loses about half its effectiveness.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-LIMITED--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Noticeable",
+      "description": "Continuous or permanent effect is noticeable.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-NOTICEABLE-FLAT--1-POINT-",
+      "hasRanks": false,
+      "costType": "flatPoints",
+      "cost": -1
+    },
+    {
+      "name": "Permanent",
+      "description": "Effect cannot be turned off or improved with extra effort.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-PERMANENT--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Quirk",
+      "description": "A minor flaw attached to an effect. The opposite of a Feature.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-QUIRK-FLAT--1-POINT-PER-RANK-",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
+      "cost": -1
+    },
+    {
+      "name": "Reduced Range",
+      "description": "Effect's range decreases.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REDUCED-RANGE--1-OR--2-COST-PER-RANK-",
+      "hasRanks": true,
+      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "cost": -1
+    },
+    {
+      "name": "Removable",
+      "description": "Effect can be taken away from the user.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REMOVABLE-FLAT--1-OR--2-POINTS-PER-5-POINTS-",
+      "modifierOptions": [
+        {
+          "name": "Removable",
+          "description": "The power may be removed when you are both stunned and defenseless.",
+          "hasRanks": false,
+          "costType": "flatPointsPer5PointsOfFinalCost",
+          "cost": -1
+        },
+        {
+          "name": "Easily Removable",
+          "description": "The power can be taken away with a disarm or grab action.",
+          "hasRanks": false,
+          "costType": "flatPointsPer5PointsOfFinalCost",
+          "cost": -2
+        }
+      ]
+    },
+    {
+      "name": "Resistible",
+      "description": "Effect gains a resistance check.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-RESISTIBLE--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Sense-Dependent",
+      "description": "Target must be able to perceive the effect for it to work.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-SENSE-DEPENDENT--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Side Effect",
+      "description": "Failing to use the effect causes a problematic side effect.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-SIDE-EFFECT--1-OR--2-COST-PER-RANK-",
+      "modifierOptions": [
+        {
+          "name": "Side effect when power fails",
+          "description": "Failing to successfully use an effect with this flaw causes some problematic effect.",
+          "hasRanks": false,
+          "costType": "pointsOfMultiplier",
+          "cost": -1
+        },
+        {
+          "name": "Side effect when used.",
+          "description": "The side effect always occurs when you use the effect, whether you succeed or fail.",
+          "hasRanks": false,
+          "costType": "pointsOfMultiplier",
+          "cost": -2
+        }
+      ]
+    },
+    {
+      "name": "Tiring",
+      "description": "Effect causes a level of fatigue when used.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-TIRING--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Uncontrolled",
+      "description": "You have no control over the effect.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-UNCONTROLLED--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
+      "cost": -1
+    },
+    {
+      "name": "Unreliable",
+      "description": "Effect only works about half the time (roll of 11 or more).",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-UNRELIABLE--1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplier",
       "cost": -1
     }
   ]

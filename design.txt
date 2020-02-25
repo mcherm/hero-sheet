@@ -27,9 +27,19 @@ TODO: Some powers (like Invisiblity or Concealment) don't have ranks. I should
 TODO: I can't enter the modifiers for the extra "Area" because it depends on
   two dimensions (shape and ranks) and I don't have support for that (yet).
 
+TODO: I said that the Impervious advantage used "flatPointsPerRankOfModifier".
+  I'm not sure that was correct. But then again, I don't know what else it
+  would be.
+
+TODO: Linked, Alternate, and Dynamic are three ways an array can work. Or
+  anyhow, that's how I want to implement it.
+
+TODO: Support the coding "flatPointsPer5PointsOfFinalCost" for modifiers.
+
 Modifiers:
   List of Charge Values:
     flatPoints
     flatPointsPerRankOfModifier
+    flatPointsPer5PointsOfFinalCost
     pointsOfMultiplier
     pointsOfMultiplierPerRankOfModifier
