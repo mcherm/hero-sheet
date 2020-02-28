@@ -34,7 +34,6 @@ TODO: I said that the Impervious advantage used "flatPointsPerRankOfModifier".
 TODO: Linked, Alternate, and Dynamic are three ways an array can work. Or
   anyhow, that's how I want to implement it.
 
-TODO: Support the coding "flatPointsPer5PointsOfFinalCost" for modifiers.
 
 Modifiers:
   List of Charge Values:
