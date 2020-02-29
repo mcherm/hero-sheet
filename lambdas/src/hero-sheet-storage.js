@@ -1,3 +1,5 @@
+const LOG_REQUESTS = false;
+
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 
@@ -184,8 +186,34 @@ async function createCharacterEndpoint(pathParameters, body) {
 }
 
 
+async function deleteCharacterEndpoint(pathParameters, body) {
+  console.log("invoked deleteCharacterEndpoint");
+  const user = pathParameters.user;
+  const characterId = pathParameters.characterId;
+  const filename = `mutants/users/${user}/characters/${characterId}.json`;
+  try {
+    const file = await s3.deleteObject({
+      Bucket: "hero-sheet-storage",
+      Key: filename
+    }).promise();
+    return {
+      statusCode: 200,
+      body: JSON.stringify(`Deleted ${characterId}`)
+    };
+  } catch(err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(`Could not delete ${characterId}.`)
+    };
+  }
+}
+
+
 exports.handler = async (event) => {
   console.log("hero-sheet-storage is running.");
+  if (LOG_REQUESTS) {
+    console.log(`hero-sheet-storage received event ${JSON.stringify(event)}`);
+  }
   let response = null;
   try {
     const invoked = {
@@ -218,6 +246,8 @@ exports.handler = async (event) => {
         endpointFunction = getCharacterEndpoint;
       } else if (invoked.httpMethod === "PUT") {
         endpointFunction = putCharacterEndpoint;
+      } else if (invoked.httpMethod === "DELETE") {
+        endpointFunction = deleteCharacterEndpoint;
       } else {
         endpointFunction = invalidEndpoint;
       }
