@@ -46,9 +46,9 @@
         this.updateTotalRanksAndCost();
       },
       updateTotalRanksAndCost: function() {
-        this.skills.totalRanks = Object.values(this.skills.skillList).reduce(
+        const totalRanks = Object.values(this.skills.skillList).reduce(
           (x, y) => x + y.ranks, 0);
-        this.skills.cost = Math.ceil(this.skills.totalRanks / 2);
+        this.skills.cost = Math.ceil(totalRanks / 2);
       }
     }
   }

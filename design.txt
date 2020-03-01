@@ -53,6 +53,3 @@ TODO: There are several skills I haven't added because they work differently.
 
 TODO: The skill "Expertise" can alter the ability it is based on (with GM
   permission). That isn't supported at the moment.
-
-TODO: The skill "Slightofhand" needs spaces in it. To make the change I need
-  a tool for modifying existing characters to a new version.

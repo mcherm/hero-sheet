@@ -51,7 +51,6 @@ const newBlankCharacter = function() {
   }
   const skills = {
     skillList,
-    totalRanks: null,
     cost: 0
   };
   const advantages = [];

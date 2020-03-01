@@ -40,7 +40,7 @@
       "useUntrained": true,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-PERSUASION"
     },
-    "slightofhand": {
+    "slight of hand": {
       "ability": "dexterity",
       "useUntrained": false,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-SLEIGHT-OF-HAND"
