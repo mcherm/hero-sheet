@@ -2,60 +2,85 @@
   "normalSkills": {
     "acrobatics": {
       "ability": "agility",
+      "useUntrained": false,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-ACROBATICS-Agility"
     },
     "athletics": {
-      "ability": "agility",
+      "ability": "strength",
+      "useUntrained": true,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-ATHLETICS"
     },
     "deception": {
       "ability": "presence",
+      "useUntrained": true,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-DECEPTION"
     },
     "insight": {
       "ability": "awareness",
+      "useUntrained": true,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-INSIGHT"
     },
     "intimidation": {
       "ability": "presence",
+      "useUntrained": true,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-INTIMIDATION"
     },
     "investigation": {
       "ability": "intellect",
+      "useUntrained": false,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-INVESTIGATION"
     },
     "perception": {
       "ability": "awareness",
+      "useUntrained": true,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-PERCEPTION"
     },
     "persuasion": {
       "ability": "presence",
+      "useUntrained": true,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-PERSUASION"
     },
     "slightofhand": {
       "ability": "dexterity",
+      "useUntrained": false,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-SLEIGHT-OF-HAND"
     },
     "stealth": {
       "ability": "agility",
+      "useUntrained": true,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-STEALTH"
     },
     "technology": {
       "ability": "intellect",
+      "useUntrained": false,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-TECHNOLOGY"
     },
     "treatment": {
       "ability": "intellect",
+      "useUntrained": false,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-TREATMENT"
     },
     "vehicles": {
       "ability": "dexterity",
+      "useUntrained": false,
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-VEHICLES"
     }
   },
   "templateSkills": {
-    "Close Combat": null,
-    "Expertise": null,
-    "Ranged Combat": null
+    "close combat": {
+      "ability": "fighting",
+      "useUntrained": true,
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-CLOSE-COMBAT"
+    },
+    "expertise": {
+      "ability": "intellect",
+      "useUntrained": false,
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-EXPERTISE"
+    },
+    "ranged combat": {
+      "ability": "dexterity",
+      "useUntrained": true,
+      "docsURL": "https://www.d20herosrd.com/4-skills#TOC-RANGED-COMBAT"
+    }
   }
 }

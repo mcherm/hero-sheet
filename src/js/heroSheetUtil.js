@@ -46,8 +46,7 @@ const newBlankCharacter = function() {
   const skillList = {};
   for (const skillName in skillsData.normalSkills) {
     skillList[skillName] = {
-      ranks: 0,
-      skillRoll: null
+      ranks: 0
     };
   }
   const skills = {
@@ -59,6 +58,7 @@ const newBlankCharacter = function() {
   const powers = [];
   const complications = [];
   return {
+    version: 1,
     campaign,
     naming,
     abilities,

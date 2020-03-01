@@ -118,69 +118,43 @@
   "skills": {
     "skillList": {
       "acrobatics": {
-        "ranks": 0,
-        "skillRoll": 2,
-        "baseValue": 2
+        "ranks": 0
       },
       "athletics": {
-        "ranks": 0,
-        "skillRoll": 2,
-        "baseValue": 2
+        "ranks": 0
       },
       "deception": {
-        "ranks": 0,
-        "skillRoll": 1,
-        "baseValue": 1
+        "ranks": 0
       },
       "insight": {
-        "ranks": 0,
-        "skillRoll": 0,
-        "baseValue": 0
+        "ranks": 0
       },
       "intimidation": {
-        "ranks": 0,
-        "skillRoll": 1,
-        "baseValue": 1
+        "ranks": 0
       },
       "investigation": {
-        "ranks": 0,
-        "skillRoll": 2,
-        "baseValue": 2
+        "ranks": 0
       },
       "perception": {
-        "ranks": 0,
-        "skillRoll": 0,
-        "baseValue": 0
+        "ranks": 0
       },
       "persuasion": {
-        "ranks": 0,
-        "skillRoll": 1,
-        "baseValue": 1
+        "ranks": 0
       },
       "slightofhand": {
-        "ranks": 0,
-        "skillRoll": 1,
-        "baseValue": 1
+        "ranks": 0
       },
       "stealth": {
-        "ranks": 0,
-        "skillRoll": 2,
-        "baseValue": 2
+        "ranks": 0
       },
       "technology": {
-        "ranks": 0,
-        "skillRoll": 2,
-        "baseValue": 2
+        "ranks": 0
       },
       "treatment": {
-        "ranks": 0,
-        "skillRoll": 2,
-        "baseValue": 2
+        "ranks": 0
       },
       "vehicles": {
-        "ranks": 0,
-        "skillRoll": 1,
-        "baseValue": 1
+        "ranks": 0
       }
     },
     "totalRanks": 0,

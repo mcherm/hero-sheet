@@ -115,14 +115,10 @@
     "skills": {
       "skillList": {
         "acrobatics": {
-          "baseValue": 0,
-          "ranks": 0,
-          "skillRoll": 0
+          "ranks": 0
         },
         "athletics": {
-          "baseValue": 0,
-          "ranks": 0,
-          "skillRoll": 0
+          "ranks": 0
         }
       },
       "totalRanks": 0,

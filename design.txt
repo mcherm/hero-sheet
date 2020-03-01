@@ -20,7 +20,17 @@ in JSON, which overlap. I am figuring out just how to handle them.
    rendered to the screen if desired, and can be cleared out.
 
  
-Special Handling for Powers:
+Modifiers:
+  List of Charge Values:
+    flatPoints
+    flatPointsPerRankOfModifier
+    flatPointsPer5PointsOfFinalCost
+    pointsOfMultiplier
+    pointsOfMultiplierPerRankOfModifier
+
+
+Bug List:
+
 TODO: Some powers (like Invisiblity or Concealment) don't have ranks. I should
   probably categorize those and hide the rank selector for them.
 
@@ -34,11 +44,15 @@ TODO: I said that the Impervious advantage used "flatPointsPerRankOfModifier".
 TODO: Linked, Alternate, and Dynamic are three ways an array can work. Or
   anyhow, that's how I want to implement it.
 
+TODO: The ability "Ultimate Effort" should be specific to a particular skill
+  (and can be taken multiple times). Also Improved Critical should apply
+  to a particular attack.
 
-Modifiers:
-  List of Charge Values:
-    flatPoints
-    flatPointsPerRankOfModifier
-    flatPointsPer5PointsOfFinalCost
-    pointsOfMultiplier
-    pointsOfMultiplierPerRankOfModifier
+TODO: There are several skills I haven't added because they work differently.
+  I should add them.
+
+TODO: The skill "Expertise" can alter the ability it is based on (with GM
+  permission). That isn't supported at the moment.
+
+TODO: The skill "Slightofhand" needs spaces in it. To make the change I need
+  a tool for modifying existing characters to a new version.
