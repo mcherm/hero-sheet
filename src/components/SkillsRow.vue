@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <th scope="row" class="row-label">{{skillName}}</th>
+    <th scope="row" class="row-label">{{skill.name}}</th>
     <td class="abilityName">{{skillData.ability}}</td>
     <td><NumberDisplay :value="baseValue"/></td>
     <td>
@@ -10,31 +10,50 @@
       />
     </td>
     <td>
+      <StringEntry v-if="skill.isTemplate" v-model="skill.specialization"/>
+    </td>
+    <td>
       <div class="roll-not-applicable" v-if="skillRoll === null">N/A</div>
       <NumberDisplay v-if="skillRoll !== null" :value="skillRoll"/>
     </td>
     <td><DocsLookup :docsURL="skillData.docsURL"/></td>
+    <td v-if="isDeleting">
+      <div v-if="skill.isTemplate" @click="$emit('delete')">
+        <TrashIcon/>
+      </div>
+    </td>
   </tr>
 </template>
 
 <script>
   import DocsLookup from "./DocsLookup.vue"
+  import TrashIcon from "./TrashIcon";
 
   const skillsData = require("../data/skillsData.json");
 
   export default {
-    name: "SkillsRowNormal",
+    name: "SkillsRow",
     components: {
-      DocsLookup
+      DocsLookup,
+      TrashIcon
     },
     props: {
-      skillName: { type: String, required: true },
       skill: { type: Object, required: true },
-      abilities: { type: Object, required: true }
+      abilities: { type: Object, required: true },
+      isDeleting: { type: Boolean, required: true }
     },
     computed: {
       skillData: function() {
-        return skillsData.normalSkills[this.skillName];
+        let result;
+        if (this.skill.isTemplate) {
+          result = skillsData.templateSkills[this.skill.name];
+        } else {
+          result = skillsData.normalSkills[this.skill.name];
+        }
+        if (!result) {
+          console.log(`skillData = ${JSON.stringify(result)} for skill ${JSON.stringify(this.skill)}`); // FIXME: Remove and inline
+        }
+        return result;
       },
       baseValue: function() {
         return this.abilities[this.skillData.ability].ranks;

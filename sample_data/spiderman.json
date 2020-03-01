@@ -1,0 +1,367 @@
+{
+  "version": 1,
+  "campaign": {
+    "powerLevel": 13,
+    "xpAwarded": 71,
+    "setting": "Marvel Comics"
+  },
+  "naming": {
+    "name": "Spiderman",
+    "player": "Michael Chermside",
+    "identityType": "secret",
+    "identity": "Peter Parker, teenager",
+    "gender": "Male",
+    "age": "Teenager",
+    "heightWeight": "Skinny",
+    "eyesHair": "",
+    "costume": "Red with blue legs; facemask and spider symbol.",
+    "groupAffiliation": "Works alone",
+    "baseOfOperations": ""
+  },
+  "abilities": {
+    "strength": {
+      "entered": 9,
+      "cost": 18,
+      "ranks": 9
+    },
+    "stamina": {
+      "entered": 10,
+      "cost": 20,
+      "ranks": 10
+    },
+    "agility": {
+      "entered": 12,
+      "cost": 24,
+      "ranks": 12
+    },
+    "dexterity": {
+      "entered": 12,
+      "cost": 24,
+      "ranks": 12
+    },
+    "fighting": {
+      "entered": 9,
+      "cost": 18,
+      "ranks": 9
+    },
+    "intellect": {
+      "entered": 8,
+      "cost": 16,
+      "ranks": 8
+    },
+    "awareness": {
+      "entered": 7,
+      "cost": 14,
+      "ranks": 7
+    },
+    "presence": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    }
+  },
+  "defenses": {
+    "dodge": {
+      "base": 12,
+      "purchased": 4,
+      "cost": 4,
+      "ranks": 16
+    },
+    "fortitude": {
+      "base": 10,
+      "purchased": 1,
+      "cost": 1,
+      "ranks": 11
+    },
+    "parry": {
+      "base": 9,
+      "purchased": 7,
+      "cost": 7,
+      "ranks": 16
+    },
+    "toughness": {
+      "base": 10,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 10
+    },
+    "will": {
+      "base": 7,
+      "purchased": 8,
+      "cost": 8,
+      "ranks": 15
+    }
+  },
+  "initiative": 12,
+  "advantages": [
+    {
+      "name": "Accurate Attack",
+      "effect": "Trade effect DC for attack bonus.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Agile Feint",
+      "effect": "Feint using Acrobatics skill or Speed rank",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "All-out Attack",
+      "effect": "Trade active defense for attack bonus.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Defensive Attack",
+      "effect": "Trade attack bonus for active defense bonus.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Equipment",
+      "effect": "5 points of equipment per rank.",
+      "isRanked": true,
+      "ranks": 1,
+      "description": ""
+    },
+    {
+      "name": "Evasion",
+      "effect": "Circumstance bonus to avoid area effects.",
+      "isRanked": true,
+      "ranks": 2,
+      "description": ""
+    },
+    {
+      "name": "Fast Grab",
+      "effect": "Make a free grab check after an unarmed attack.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Favored Environment",
+      "effect": "Circumstance bonus to attack or defense in an environment.",
+      "isRanked": false,
+      "ranks": null,
+      "description": "When fighting with Danger Sense"
+    },
+    {
+      "name": "Fearless",
+      "effect": "Immune to fear effects.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Improved Aim",
+      "effect": "Double circumstance bonuses for aiming.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Improved Defense",
+      "effect": "+2 bonus to active defense when you take the defend action.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Improved Disarm",
+      "effect": "No penalty for the disarm action.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Improved Grab",
+      "effect": "Make grab attacks with one arm.  Not vulnerable while grabbing.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Improved Initiative",
+      "effect": "+4 bonus to initiative checks per rank.",
+      "isRanked": true,
+      "ranks": 2,
+      "description": ""
+    },
+    {
+      "name": "Instant Up",
+      "effect": "Stand from prone as a free action.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Move-by Action",
+      "effect": "Move both before and after your standard action.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Power Attack",
+      "effect": "Trade attack bonus for effect bonus.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Skill Mastery",
+      "effect": "Make routine checks with one skill under any circumstances.",
+      "isRanked": false,
+      "ranks": null,
+      "description": "Acrobatics"
+    },
+    {
+      "name": "Takedown",
+      "effect": "Free extra attack when you incapacitate a minion.",
+      "isRanked": true,
+      "ranks": 2,
+      "description": ""
+    },
+    {
+      "name": "Ultimate Effort",
+      "effect": "Spend a hero point to get an effective 20 on a specific check.",
+      "isRanked": false,
+      "ranks": null,
+      "description": "With both dodge and parry"
+    },
+    {
+      "name": "Uncanny Dodge",
+      "effect": "Not vulnerable when surprised or caught off-guard.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    }
+  ],
+  "skills": {
+    "skillList": [
+      {
+        "name": "acrobatics",
+        "ranks": 8,
+        "isTemplate": false
+      },
+      {
+        "name": "athletics",
+        "ranks": 6,
+        "isTemplate": false
+      },
+      {
+        "name": "deception",
+        "ranks": 2,
+        "isTemplate": false
+      },
+      {
+        "name": "insight",
+        "ranks": 2,
+        "isTemplate": false
+      },
+      {
+        "name": "intimidation",
+        "ranks": 2,
+        "isTemplate": false
+      },
+      {
+        "name": "investigation",
+        "ranks": 2,
+        "isTemplate": false
+      },
+      {
+        "name": "perception",
+        "ranks": 4,
+        "isTemplate": false
+      },
+      {
+        "name": "persuasion",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "slight of hand",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "stealth",
+        "ranks": 2,
+        "isTemplate": false
+      },
+      {
+        "name": "technology",
+        "ranks": 6,
+        "isTemplate": false
+      },
+      {
+        "name": "treatment",
+        "ranks": 2,
+        "isTemplate": false
+      },
+      {
+        "name": "vehicles",
+        "ranks": 1,
+        "isTemplate": false
+      }
+    ],
+    "cost": 19
+  },
+  "powers": [
+    {
+      "name": "Regeneration",
+      "effect": "Regeneration",
+      "description": "Recovers quickly",
+      "extras": [],
+      "flaws": [],
+      "ranks": 2,
+      "cost": 2,
+      "subpowers": [],
+      "effectDescription": "You recover quickly from damage.",
+      "baseCost": 1
+    },
+    {
+      "name": "Superhuman Equilibrium",
+      "effect": "Movement",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 5,
+      "cost": 10,
+      "subpowers": [],
+      "effectDescription": "You have a special form of movement.",
+      "baseCost": 2
+    },
+    {
+      "name": "Spider Sense",
+      "effect": "Senses",
+      "description": "Danger Sense.",
+      "extras": [],
+      "flaws": [],
+      "ranks": 2,
+      "cost": 2,
+      "subpowers": [],
+      "effectDescription": "One or more of your senses are improved or you have additional sensory abilities beyond the normal five senses.",
+      "baseCost": 1
+    }
+  ],
+  "complications": [
+    {
+      "complicationType": "motivation",
+      "description": "\"With great power comes great responsibility.\""
+    },
+    {
+      "complicationType": "enemy",
+      "description": "The Green Goblin"
+    },
+    {
+      "complicationType": "relationship",
+      "description": "Aunt May; Mary Jane Watson"
+    }
+  ]
+}
