@@ -148,11 +148,17 @@
       // If it's an array, this will be called to find the base cost
       recalculateBaseCost: function() {
         if (this.isArray) {
-          this.$delete(this.power, "baseCost");
+          if ("baseCost" in this.power) {
+            this.$delete(this.power, "baseCost");
+          }
         } else if (this.hasOptions) {
-          this.power.baseCost = this.theOption.baseCost;
+          if (this.power.baseCost !== this.theOption.baseCost) {
+            this.power.baseCost = this.theOption.baseCost;
+          }
         } else {
-          this.power.baseCost = this.standardPower.baseCost;
+          if (this.power.baseCost !== this.standardPower.baseCost) {
+            this.power.baseCost = this.standardPower.baseCost;
+          }
         }
       },
       recalculateCost: function() {

@@ -50,9 +50,6 @@
         selectedAdvantageToAdd: ""
       }
     },
-    created: function() {
-      this.sortAdvantages();
-    },
     computed: {
       // A list of all standardAdvantages that are NOT in use on this character
       unusedStandardAdvantages: function() {
