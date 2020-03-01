@@ -1,6 +1,9 @@
 <template>
   <div class="character-sheet v-box">
-    <TabDisplay>
+    <div v-if="character === null" class="character-loading">
+      Loading...
+    </div>
+    <TabDisplay v-if="character !== null">
       <template slot="background">
         <div class="h-box">
           <Campaign :campaign="character.campaign"/>
@@ -28,9 +31,6 @@
         <Complications :complications="character.complications"/>
       </template>
     </TabDisplay>
-    <div class="persistence-controls">
-      <button v-on:click="saveCharacter()">Save</button>
-    </div>
     <div id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
     </div>
@@ -48,6 +48,7 @@
   import OverallCosts from "./OverallCosts.vue"
   import PowerListTopLevel from "./PowerListTopLevel.vue"
   import Complications from "./Complications";
+
   import {newBlankCharacter} from "../js/heroSheetUtil.js";
 
 
@@ -71,12 +72,22 @@
     },
     data: function() {
       return {
-        character: null
+        character: null,
+        hasUnsavedChanges: false,
+        initialLoadHasTriggeredEvent: false
       }
     },
     created: function() {
-      this.character = newBlankCharacter();
       this.loadCharacter();
+      const theVueObject = this;
+      window.onbeforeunload = function() {
+        if (theVueObject.hasUnsavedChanges) {
+          theVueObject.saveCharacter();
+          return true; // Displays a dialog saying there are unsaved changes
+        } else {
+          return null; // No dialog; just move on
+        }
+      };
     },
     methods: {
       loadCharacter: function() {
@@ -92,6 +103,7 @@
       saveCharacter: async function() {
         const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
         const body = this.character_json;
+        this.hasUnsavedChanges = false; // Assume the request will save the changes. If it fails, we'll handle that below.
         const response = await fetch(url, {
           method: "PUT",
           headers: { 'Content-Type': 'application/json' },
@@ -101,6 +113,7 @@
         if (response.status !== 200) {
           // FIXME: Need to display the error to the user
           console.log("Failed to save character", response);
+          this.hasUnsavedChanges = true;
         }
       }
     },
@@ -119,12 +132,40 @@
     watch: {
       characterName: function(newName, oldName) {
         this.$emit("change-character-name", newName);
+      },
+      character: {
+        deep: true,
+        handler: function(newCharacter) {
+          if (!this.initialLoadHasTriggeredEvent) {
+            this.initialLoadHasTriggeredEvent = true;
+          } else {
+            if (!this.hasUnsavedChanges) {
+              this.hasUnsavedChanges = true;
+              const SAVE_FREQUENCY_MILLIS = 30000; // How often to save (in milliseconds)
+              setTimeout(() => {
+                this.saveCharacter();
+              }, SAVE_FREQUENCY_MILLIS);
+            }
+          }
+        }
+      }
+    },
+    beforeDestroy() {
+      if (this.hasUnsavedChanges) {
+        this.saveCharacter();
       }
     }
   }
 </script>
 
 <style scoped>
+  .character-loading {
+    background-color: var(--section-color);
+    border: 2px solid var(--box-border-color);
+    padding: 6px;
+    display: table;
+    font-size: larger;
+  }
   .h-box {
     display: flex;
     flex-flow: row wrap;
@@ -132,9 +173,6 @@
   .v-box {
     display: flex;
     flex-flow: column;
-  }
-  .persistence-controls {
-    margin-top: 10px;
   }
   #data-dump {
     margin-top: 10px;

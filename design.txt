@@ -53,3 +53,7 @@ TODO: There are several skills I haven't added because they work differently.
 
 TODO: The skill "Expertise" can alter the ability it is based on (with GM
   permission). That isn't supported at the moment.
+
+TODO: When you arrive on the Advantages tab it makes a change. I'm guessing
+  it is sorting the advantages. We should sort them only if you add one.
+  ALSO generating unsaved changes by just viewing powers.
