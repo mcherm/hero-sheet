@@ -11,8 +11,75 @@
     "specialExtras": "Alternate Resistance (+0), Concentration (+1), Cumulative (+1), Extra Condition (+1), Progressive (+2)",
     "specialFlaws": "Instant Recovery (-1), Limited Degree (-1)",
     "specialFlats": "-",
+    "extras": [
+      {
+        "name": "Alternate Resistance",
+        "description": "Resisted by an alternate ability.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      },
+      {
+        "name": "Concentration",
+        "description": "So long as you continue to take a standard action each turn to maintain the effect, the target must make a new resistance check against it, with no attack check required.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Cumulative",
+        "description": "Allows successive attacks to combine their effects.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Extra Condition",
+        "description": "The affliction imposes an additional condition per degree of success.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Progressive",
+        "description": "The affliction increase incrementally without any effort from you.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 2
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Instant Recovery",
+        "description": "The target of an Affliction effect with this modifier recovers automatically, no check required, at the end of the round in which the duration ends.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited Degree",
+        "description": "The target of an Affliction effect with this modifier recovers automatically, no check required, at the end of the round in which the duration ends.",
+        "modifierOptions": [
+          {
+            "name": "Limited to two degrees of effect",
+            "description": "The affliction is limited to no more than two degrees of effect.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -1
+          },
+          {
+            "name": "Limited to one degree of effect",
+            "description": "The affliction is limited to no more than a single degree of effect.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -2
+          }
+        ]
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/affliction-attack/"
   },
   "Blast": {
     "name": "Blast",
@@ -29,20 +96,59 @@
     "isPrimitiveEffect": false,
     "isArray": false
   },
-  "Burrow": {
-    "name": "Burrow",
+  "Burrowing": {
+    "name": "Burrowing",
     "type": "Movement",
     "action": "Free",
     "range": "Personal",
     "duration": "Sustained",
     "resistance": "-",
     "baseCost": 1,
-    "description": "You can burrow throught the ground, leaving a tunnel behind if you choose.",
+    "description": "You can burrow through the ground, leaving a tunnel behind if you choose.",
     "specialExtras": "Penetrating (+1), Ranged (+1 or +2)",
     "specialFlaws": "Limited (-1)",
     "specialFlats": "-",
+    "extras": [
+      {
+        "name": "Penetrating",
+        "description": "Allows burrowing to dig through super-hard materials that are impervious.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Ranged",
+        "description": "Allows burrowing at a distance.",
+        "modifierOptions": [
+          {
+            "name": "Use at Range",
+            "description": "Allows the creation of tunnels at a greater distance (without having to be at the end-point of the tunnel as it forms).",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 1
+          },
+          {
+            "name": "Grant burrowing to others",
+            "description": "Allows you to grant the Burrowing effect to someone else at a distance.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 2
+          }
+        ]
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Limited",
+        "description": "Limited to certain circumstances or materials such as only loose sand and soil or only snow and ice.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/burrowing-movement"
   },
   "Communication": {
     "name": "Communication",
@@ -56,8 +162,75 @@
     "specialExtras": "Area (+1), Selective (+1)",
     "specialFlaws": "Limited (-1), Sense-Dependent (-1)",
     "specialFlats": "Dimensional (+1), Subtle (+1 or +2)",
+    "extras": [
+      {
+        "name": "Area",
+        "description": "You can broadcast omni-directionally to every receiver within your maximum communication range at once.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Dimensional",
+        "description": "Communication with this modifier can bridge dimensional barriers, reaching into other dimensions and planes of existence.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Rapid",
+        "description": "Your communication occurs 10 times faster than normal speech for each rank of this modifier.",
+        "hasRanks": true,
+        "costType": "flatPointsPerRankOfModifier",
+        "cost": 1
+      },
+      {
+        "name": "Selective",
+        "description": "If you have the Area extra, you can choose which receiver(s) within range get your communication, excluding everyone else.",
+        "hasRanks": true,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Subtle",
+        "description": "If you have the Area extra, you can choose which receiver(s) within range get your communication, excluding everyone else.",
+        "modifierOptions": [
+          {
+            "name": "Encrypted",
+            "description": "Your communication cannot be “overheard” (it is encrypted, scrambled, or otherwise protected).",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 1
+          },
+          {
+            "name": "Undetectable",
+            "description": "Your communication cannot even be detected (that is, no one can even tell you are transmitting, much less what you’re saying).",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 2
+          }
+        ]
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Limited",
+        "description": "Limited to only members of a particular group, such as a species, family, members of an organization, and so forth.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Sense-Dependent",
+        "description": "Other perception range effects can be Communication-Dependent, meaning you must be in communication with your subject for them to work.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/communication-sensory"
   },
   "Comprehend": {
     "name": "Comprehend",
@@ -67,12 +240,37 @@
     "duration": "Permanent",
     "resistance": "-",
     "baseCost": 2,
-    "description": "You can comprehend different sorts of communication.",
+    "description": "You can comprehend different sorts of communication. Each rank gives one of Animals, Languages, Machines, Objects, Plants, Spirits.",
     "specialExtras": "-",
     "specialFlaws": "Type: Broad (-1), Type: Narrow (-2)",
     "specialFlats": "-",
+    "extras": [
+    ],
+    "flaws": [
+      {
+        "name": "Type",
+        "description": "You can only comprehend a certain type of subject.",
+        "modifierOptions": [
+          {
+            "name": "Comprehend broad type",
+            "description": "You can only comprehend a broad type of subject (only elves, canines, avians, or sea creatures, for example).",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -1
+          },
+          {
+            "name": "Comprehend narrow type",
+            "description": "You can only comprehend a narrow type of subject (dogs, falcons, or dolphins, for example).",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -2
+          }
+        ]
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/comprehend-sensory"
   },
   "Concealment": {
     "name": "Concealment",
@@ -86,8 +284,76 @@
     "specialExtras": "Affects Others (+1), Area (+1), Attack (+1)",
     "specialFlaws": "Blending (-1), Limited (-1), Partial (-1), Passive (-1), Resistible (-1)",
     "specialFlats": "Precise (+1)",
+    "extras": [
+      {
+        "name": "Affects Others",
+        "description": "This modifier allows you to grant Concealment to others while you are touching them, or at range, if you also apply the Range modifier.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Area",
+        "description": "Concealment with Affects Others or attack may have this extra, affecting everything in the area.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Attack",
+        "description": "Use this extra for a Concealment effect you can impose on others (whether they want to be concealed or not).",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      },
+      {
+        "name": "Precise",
+        "description": "You can vary your Concealment at will as a free action: going from total to partial to no concealment, concealing some parts and not others, or anywhere in-between. If your Concealment affects multiple senses, you can also choose to affect some of those senses and not others.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Blending",
+        "description": "You \"blend\" into the background. Your Concealment only functions as long as you move no faster than your (ground speed rank –1), since your blending can’t adapt faster than that.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited",
+        "description": "Your Concealment only works under certain conditions, such as in fog, shadows, or in urban locales. One example is Limited to Machines, where your Concealment only fools senses with a technological descriptor.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Partial",
+        "description": "Your effect provides partial rather than total concealment.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Passive",
+        "description": "Your Concealment only lasts until you do something requiring an attack or effect check on your part, at which point it stops working until you reactivate it, which you may do on the following round.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Resistible",
+        "description": "Your Concealment offers a resistance check (chose a defense when the flaw is applied) for anyone aware of your presence and actively looking for you.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/concealment-sensory"
   },
   "Create": {
     "name": "Create",

@@ -48,8 +48,8 @@ TODO: The ability "Ultimate Effort" should be specific to a particular skill
   (and can be taken multiple times). Also Improved Critical should apply
   to a particular attack.
 
-TODO: There are several skills I haven't added because they work differently.
-  I should add them.
-
 TODO: The skill "Expertise" can alter the ability it is based on (with GM
   permission). That isn't supported at the moment.
+
+TODO: For the power "Communication", the extra "Sense-Dependent" isn't really
+  a flaw of the power, it is a flaw of any other power
