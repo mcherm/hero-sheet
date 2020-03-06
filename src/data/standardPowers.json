@@ -1717,19 +1717,64 @@
     "isPrimitiveEffect": true,
     "isArray": false
   },
-  "Array": {
-    "name": "Array",
+  "Linked": {
+    "name": "Linked",
     "type": "General",
     "action": "Varies",
     "range": "Varies",
     "duration": "Varies",
     "resistance": "-",
-    "baseCost": "based on components",
+    "baseCost": "sum of components",
     "description": "Several different effects together.",
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
+    "extras": [
+    ],
+    "flaws": [
+    ],
     "isPrimitiveEffect": true,
-    "isArray": true
+    "isArray": true,
+    "docsURL": "https://www.d20herosrd.com/6-powers/modifiers/#TOC-LINKED-FLAT-0-POINTS-"
+  },
+  "Dynamic": {
+    "name": "Dynamic",
+    "type": "General",
+    "action": "Varies",
+    "range": "Varies",
+    "duration": "Varies",
+    "resistance": "-",
+    "baseCost": "most expensive + 1 + 2 per other component",
+    "description": "Several different effects together.",
+    "specialExtras": "-",
+    "specialFlaws": "-",
+    "specialFlats": "-",
+    "extras": [
+    ],
+    "flaws": [
+    ],
+    "isPrimitiveEffect": true,
+    "isArray": true,
+    "docsURL": "https://www.d20herosrd.com/6-powers/modifiers/#TOC-DYNAMIC-ALTERNATE-EFFECT"
+  },
+  "Alternate": {
+    "name": "Alternate",
+    "type": "General",
+    "action": "Varies",
+    "range": "Varies",
+    "duration": "Varies",
+    "resistance": "-",
+    "baseCost": "most expensive + 1 per other component",
+    "description": "Several different effects together.",
+    "specialExtras": "-",
+    "specialFlaws": "-",
+    "specialFlats": "-",
+    "extras": [
+    ],
+    "flaws": [
+    ],
+    "isPrimitiveEffect": true,
+    "isArray": true,
+    "docsURL": "https://www.d20herosrd.com/6-powers/modifiers/#TOC-ALTERNATE-EFFECT-FLAT-1-OR-2-POINTS-"
   }
 }

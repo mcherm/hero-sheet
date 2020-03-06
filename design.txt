@@ -41,9 +41,6 @@ TODO: I said that the Impervious advantage used "flatPointsPerRankOfModifier".
   I'm not sure that was correct. But then again, I don't know what else it
   would be.
 
-TODO: Linked, Alternate, and Dynamic are three ways an array can work. Or
-  anyhow, that's how I want to implement it.
-
 TODO: The ability "Ultimate Effort" should be specific to a particular skill
   (and can be taken multiple times). Also Improved Critical should apply
   to a particular attack.

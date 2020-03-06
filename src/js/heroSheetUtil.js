@@ -130,7 +130,7 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
       } else if (modifier.costType === "flatPointsPer5PointsOfFinalCost") {
         flatPer5FinalPoints += modifier.cost;
       } else {
-        throw Error(`Unsupported modifier costType of ${modifier.costType}`);
+        throw Error(`Unsupported modifier costType of '${modifier.costType}'.`);
       }
     }
   }
@@ -147,7 +147,15 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
     } else {
       const subpowerCosts = subpowers.map(x => powerCostCalculate(x, modifierLists).cost);
       const largestSubpowerCost = Math.max(...subpowerCosts);
-      cost = largestSubpowerCost + (numberOfSubpowers - 1);
+      if (power.effect === "Linked") {
+        cost = subpowerCosts.reduce((x,y) => x + y, 0);
+      } else if (power.effect === "Alternate") {
+        cost = largestSubpowerCost + (numberOfSubpowers - 1);
+      } else if (power.effect === "Dynamic") {
+        cost = largestSubpowerCost + 2 *(numberOfSubpowers - 1) + 1;
+      } else {
+        throw Error(`Unsupported array power of '${power.name}'.`)
+      }
       flatAdder = normalFlatAdder; // no easy way to display values from a per-5-pts on the array
     }
   } else {
