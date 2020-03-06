@@ -367,23 +367,110 @@
     "specialExtras": "Continuous (+1), Impervious (+1), Movable (+1), Selective (+1), Stationary (+0)",
     "specialFlaws": "Feedback (-1), Permanent (+0), Proportional (-1)",
     "specialFlats": "Innate (+1), Precise (+1), Subtle (+1 or +2), Tether (+1)",
+    "extras": [
+      {
+        "name": "Continuous",
+        "description": "Makes objects that remain until they are destroyed, nullified, or you choose to dismiss them.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Impervious",
+        "description": "This makes the objects' Toughness Impervious.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Innate",
+        "description": "Continuous or Permanent Create with this modifier makes objects that cannot be nullified, they're essentially “real” objects for all intents and purposes (although the user can \"unmake\" them at will unless the effect is also permanent).",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Movable",
+        "description": "You can move your created objects around with a Move Object effect at your Create rank.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Precise",
+        "description": "You can create more precise and detailed objects with moving parts, and considerable detail.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Selective",
+        "description": "You can make your created objects selectively \"transparent\" to attacks, blocking some while allowing others (yours and your allies', for example) to pass through them. You can also selectively make your objects solid to some creatures and incorporeal to others, such as allowing one person to walk through a created wall, while blocking another.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Stationary",
+        "description": "Your created objects can hang immobile in the air. They resist being moved with a Strength rank equal to the modifier rank.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      },
+      {
+        "name": "Subtle",
+        "description": "Your created objects can hang immobile in the air. They resist being moved with a Strength rank equal to the modifier rank.",
+        "modifierOptions": [
+          {
+            "name": "Appears Real",
+            "description": "Created objects are not noticeable as constructs (they look just like real objects).",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 1
+          },
+          {
+            "name": "Invisible",
+            "description": "Created objects are not noticeable at all (such as objects composed of invisible force).",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 2
+          }
+        ]
+      },
+      {
+        "name": "Tether",
+        "description": "You have a connection to your created objects, allowing you to exert your own Strength to move them (provided you are strong enough to do so).",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Feedback",
+        "description": "You may suffer damage when your created objects are damaged.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Permanent",
+        "description": "Permanent created objects last until destroyed or nullified.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      },
+      {
+        "name": "Proportional",
+        "description": "Your created objects have a total volume rank plus Toughness rank equal to your Create rank.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
-  },
-  "Custom": {
-    "name": "Custom",
-    "type": "-",
-    "action": "-",
-    "range": "-",
-    "duration": "-",
-    "resistance": "-",
-    "baseCost": 1,
-    "description": "Use this Power Effect to represent any other effect you want.",
-    "specialExtras": "-",
-    "specialFlaws": "-",
-    "specialFlats": "-",
-    "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/create-control"
   },
   "Damage": {
     "name": "Damage",
@@ -397,8 +484,13 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
+    "extras": [
+    ],
+    "flaws": [
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/damage-attack"
   },
   "Dazzle": {
     "name": "Dazzle",
@@ -413,7 +505,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/dazzle/"
   },
   "Deflect": {
     "name": "Deflect",
@@ -427,8 +520,33 @@
     "specialExtras": "Reflect (+1), Redirect (+1)",
     "specialFlaws": "-",
     "specialFlats": "-",
+    "extras": [
+      {
+        "name": "Reflect",
+        "description": "You can reflect attacks as a free action.",
+        "modifierOptions": [
+          {
+            "name": "Reflect",
+            "description": "You can reflect attacks back at the attacker as a free action.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 1
+          },
+          {
+            "name": "Redirect",
+            "description": "You can redirect attacks you successfully deflect at any target within the attack's normal range.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 2
+          }
+        ]
+      }
+    ],
+    "flaws": [
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/deflect-defense"
   },
   "Duplication": {
     "name": "Duplication",
@@ -443,7 +561,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/duplication/"
   },
   "Element Control": {
     "name": "Element Control",
@@ -458,7 +577,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/element-control/"
   },
   "Elongation": {
     "name": "Elongation",
@@ -473,7 +593,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/elongation-general"
   },
   "Energy Absorption": {
     "name": "Energy Absorption",
@@ -488,7 +609,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/energy-absorption/"
   },
   "Energy Aura": {
     "name": "Energy Aura",
@@ -503,7 +625,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/energy-aura/"
   },
   "Energy Control": {
     "name": "Energy Control",
@@ -518,7 +641,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/energy-control/"
   },
   "Enhanced Advantages": {
     "name": "Enhanced Advantages",
@@ -674,8 +798,34 @@
     "specialExtras": "-",
     "specialFlaws": "Limited (-1), Permanent (+0)",
     "specialFlats": "Reduced Trait (equal to lowered trait)",
+    "extras": [
+    ],
+    "flaws": [
+      {
+        "name": "Limited",
+        "description": "Enhanced Traits are often Limited in some fashion, such as Nighttime (or Daytime) Only, While Angry (or in another emotional state), Underwater (or in some other environment), and so forth.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Permanent",
+        "description": "At no change in cost, your Enhanced Trait may be a permanent improvement, rather than a sustained effect.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      },
+      {
+        "name": "Reduced Trait",
+        "description": "One or more of your traits is lowered while others are enhanced. This flaw is worth as many points as the reduction in the affected trait(s).",
+        "hasRanks": true,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/enhanced-trait-general"
   },
   "Environment": {
     "name": "Environment",
@@ -741,8 +891,20 @@
     "specialExtras": "Selective (+1)",
     "specialFlaws": "-",
     "specialFlats": "-",
+    "extras": [
+      {
+        "name": "Selective",
+        "description": "With this extra you can vary the environment within your affected area, affecting some while not affecting others, or even mixing and matching different environments (making part of the area cold and another hot, for example).",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/environment-control"
   },
   "Extra Limbs": {
     "name": "Extra Limbs",
@@ -756,8 +918,41 @@
     "specialExtras": "Continuous (+1), Projection (+1), Sustained (+0)",
     "specialFlaws": "Distracting (-1)",
     "specialFlats": "-",
+    "extras": [
+      {
+        "name": "Continuous",
+        "description": "Continuous Extra Limbs are a power effect you can turn on and off at will, but that remain until you choose to deactivate them, even if you are stunned or incapacitated.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Projection",
+        "description": "Your Extra Limbs are merely a projection of your power rather than an extension of your body. therefore, any harm directed specifically against your Extra Limb(s) has no effect.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Sustained",
+        "description": "Sustained Extra Limbs can be turned on or off (growing or forming the additional limbs and then making them disappear just as easily), but the limbs disappear or stop working if you are unable to continue the effect.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Distracting",
+        "description": "Coordinating the actions of your multiple limbs is difficult, so you are vulnerable while applying any extra limbs to an action.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/extra-limbs-general"
   },
   "Feature": {
     "name": "Feature",
