@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import {newBlankPower} from "../js/heroSheetUtil.js";
+  import {newBlankPower} from "../js/heroSheetVersioning.js";
   const standardPowers = require("../data/standardPowers.json");
 
   export default {

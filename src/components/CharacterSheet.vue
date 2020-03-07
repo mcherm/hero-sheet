@@ -49,6 +49,10 @@
   import PowerListTopLevel from "./PowerListTopLevel.vue"
   import Complications from "./Complications";
 
+  import {upgradeVersion} from "../js/heroSheetVersioning";
+
+  const TESTING_NEW_VERSION = false;
+
   export default {
     name: "CharacterSheet",
     components: {
@@ -94,7 +98,20 @@
             return response.json()
           })
           .then((json) => {
-            this.character = json;
+            const initialVersion = json.version;
+            if (TESTING_NEW_VERSION) {
+              this.character = JSON.parse(JSON.stringify(json)); // make a copy
+            }
+            upgradeVersion(json);
+            if (TESTING_NEW_VERSION) {
+              console.log(`Updated version: ${JSON.stringify(json)}`);
+            } else {
+              this.character = json;
+              if (json.version !== initialVersion) {
+                console.log("Version has been upgraded.");
+                this.hasUnsavedChanges = true;
+              }
+            }
           });
       },
       saveCharacter: async function() {

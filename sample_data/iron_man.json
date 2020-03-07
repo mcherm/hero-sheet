@@ -1,0 +1,512 @@
+{
+  "version": 2,
+  "campaign": {
+    "powerLevel": 14,
+    "xpAwarded": 158,
+    "setting": "Marvel Comics"
+  },
+  "naming": {
+    "name": "Iron Man",
+    "player": "Michael Chermside",
+    "identityType": "public",
+    "identity": "Tony Stark",
+    "gender": "Male",
+    "age": "",
+    "heightWeight": "",
+    "eyesHair": "",
+    "costume": "",
+    "groupAffiliation": "",
+    "baseOfOperations": ""
+  },
+  "abilities": {
+    "strength": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    },
+    "stamina": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    },
+    "agility": {
+      "entered": 8,
+      "cost": 16,
+      "ranks": 8
+    },
+    "dexterity": {
+      "entered": 8,
+      "cost": 16,
+      "ranks": 8
+    },
+    "fighting": {
+      "entered": 10,
+      "cost": 20,
+      "ranks": 10
+    },
+    "intellect": {
+      "entered": 11,
+      "cost": 22,
+      "ranks": 11
+    },
+    "awareness": {
+      "entered": 5,
+      "cost": 10,
+      "ranks": 5
+    },
+    "presence": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    }
+  },
+  "defenses": {
+    "dodge": {
+      "purchased": 4,
+      "cost": 4,
+      "ranks": 12
+    },
+    "fortitude": {
+      "purchased": 1,
+      "cost": 1,
+      "ranks": 3
+    },
+    "parry": {
+      "purchased": 2,
+      "cost": 2,
+      "ranks": 12
+    },
+    "toughness": {
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 2
+    },
+    "will": {
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 5
+    }
+  },
+  "initiative": 8,
+  "advantages": [
+    {
+      "name": "Accurate Attack",
+      "effect": "Trade effect DC for attack bonus.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "All-out Attack",
+      "effect": "Trade active defense for attack bonus.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Assessment",
+      "effect": "Use Insight to learn an opponent's combat capabilities.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Attractive",
+      "effect": "Circumstance bonus to interaction based on your looks.",
+      "isRanked": true,
+      "ranks": 1,
+      "description": ""
+    },
+    {
+      "name": "Benefit",
+      "effect": "Gain a significant perquisite or fringe benefit.",
+      "isRanked": true,
+      "ranks": 5,
+      "description": "Wealthy Billionare"
+    },
+    {
+      "name": "Close Attack",
+      "effect": "+1 bonus to close attack checks per rank.",
+      "isRanked": true,
+      "ranks": 2,
+      "description": ""
+    },
+    {
+      "name": "Connected",
+      "effect": "Call in assistance or favors with a Persuasion check.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Contacts",
+      "effect": "Make an initial Investigation check in one minute.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Defensive Attack",
+      "effect": "Trade attack bonus for active defense bonus.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Eidetic Memory",
+      "effect": "Total recall, +5 circumstance bonus to remember things.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Evasion",
+      "effect": "Circumstance bonus to avoid area effects.",
+      "isRanked": true,
+      "ranks": 2,
+      "description": ""
+    },
+    {
+      "name": "Favored Environment",
+      "effect": "Circumstance bonus to attack or defense in an environment.",
+      "isRanked": false,
+      "ranks": null,
+      "description": "Air Combat"
+    },
+    {
+      "name": "Improved Aim",
+      "effect": "Double circumstance bonuses for aiming.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Improved Critical",
+      "effect": "+1 to critical threat range with an attack per rank.",
+      "isRanked": true,
+      "ranks": 4,
+      "description": "For Override Repulsors: Blast 20, Plasma Bolts: Blast 15, Repulsor Rays: Blast 14, Unibeam: Cone Area Blast 14"
+    },
+    {
+      "name": "Improved Defense",
+      "effect": "+2 bonus to active defense when you take the defend action.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Improved Disarm",
+      "effect": "No penalty for the disarm action.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Improved Initiative",
+      "effect": "+4 bonus to initiative checks per rank.",
+      "isRanked": true,
+      "ranks": 2,
+      "description": ""
+    },
+    {
+      "name": "Improved Smash",
+      "effect": "No penalty for the smash action.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Improved Trip",
+      "effect": "No penalty for the trip action.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Inventor",
+      "effect": "Use Technology to create temporary devices.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Jack-of-All-Trades",
+      "effect": "Use any skill untrained.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Leadership",
+      "effect": "Spend a hero point to remove a condition from an ally.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Luck",
+      "effect": "Re-roll a die once per rank.",
+      "isRanked": true,
+      "ranks": 6,
+      "description": ""
+    },
+    {
+      "name": "Move-by Action",
+      "effect": "Move both before and after your standard action.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Power Attack",
+      "effect": "Trade attack bonus for effect bonus.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Precise Attack",
+      "effect": "Ignore attack check penalties for either cover or concealment.",
+      "isRanked": true,
+      "ranks": 4,
+      "description": ""
+    },
+    {
+      "name": "Ranged Attack",
+      "effect": "+1 bonus to ranged attack checks per rank.",
+      "isRanked": true,
+      "ranks": 2,
+      "description": ""
+    },
+    {
+      "name": "Seize Initiative",
+      "effect": "Spend a hero point to go first in the initiative order.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Takedown",
+      "effect": "Free extra attack when you incapacitate a minion.",
+      "isRanked": true,
+      "ranks": 1,
+      "description": ""
+    },
+    {
+      "name": "Tracking",
+      "effect": "Use Perception to follow tracks.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Well-Informed",
+      "effect": "Immediate Investigation or Persuasion check to know something.",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    }
+  ],
+  "skills": {
+    "skillList": [
+      {
+        "name": "acrobatics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "athletics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "close combat",
+        "ranks": 2,
+        "isTemplate": true,
+        "specialization": "Unarmed"
+      },
+      {
+        "name": "deception",
+        "ranks": 10,
+        "isTemplate": false
+      },
+      {
+        "name": "expertise",
+        "ranks": 8,
+        "isTemplate": true,
+        "specialization": "Electronics"
+      },
+      {
+        "name": "expertise",
+        "ranks": 8,
+        "isTemplate": true,
+        "specialization": "Engineering"
+      },
+      {
+        "name": "expertise",
+        "ranks": 8,
+        "isTemplate": true,
+        "specialization": "Science"
+      },
+      {
+        "name": "expertise",
+        "ranks": 8,
+        "isTemplate": true,
+        "specialization": "Weapons Design"
+      },
+      {
+        "name": "insight",
+        "ranks": 8,
+        "isTemplate": false
+      },
+      {
+        "name": "intimidation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "investigation",
+        "ranks": 2,
+        "isTemplate": false
+      },
+      {
+        "name": "perception",
+        "ranks": 8,
+        "isTemplate": false
+      },
+      {
+        "name": "persuasion",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "slight of hand",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "stealth",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "technology",
+        "ranks": 8,
+        "isTemplate": false
+      },
+      {
+        "name": "treatment",
+        "ranks": 2,
+        "isTemplate": false
+      },
+      {
+        "name": "vehicles",
+        "ranks": 4,
+        "isTemplate": false
+      }
+    ],
+    "cost": 38
+  },
+  "powers": [
+    {
+      "name": "Iron Man Bleeding Edge Armor",
+      "effect": "Array",
+      "description": "",
+      "extras": [],
+      "flaws": [
+        {
+          "modifierName": "Removable",
+          "optionName": "Removable",
+          "costType": "flatPointsPer5PointsOfFinalCost",
+          "cost": -1,
+          "displayText": "Removable (-1)"
+        }
+      ],
+      "ranks": 1,
+      "cost": 30,
+      "subpowers": [
+        {
+          "name": "Cloaking System",
+          "effect": "Invisibility",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 4,
+          "cost": 32,
+          "subpowers": [],
+          "effectDescription": "You can vanish from sight at will.  Created Power: Visual Concealment",
+          "baseCost": 8,
+          "option": "Invisible to All Vision"
+        },
+        {
+          "name": "ECM",
+          "effect": "Concealment",
+          "description": "Other Sense Type: Electronic Senses; Limited to Machines",
+          "extras": [],
+          "flaws": [
+            {
+              "modifierName": "Limited",
+              "costType": "pointsOfMultiplier",
+              "cost": -1,
+              "displayText": "Limited (-1)"
+            }
+          ],
+          "ranks": 2,
+          "cost": 2,
+          "subpowers": [],
+          "effectDescription": "You gain total concealment from a particular sense while this effect is active.",
+          "baseCost": 2
+        },
+        {
+          "name": "Energy Absorption",
+          "effect": "Energy Absorption",
+          "description": "Absorbs: Energy, Boost: Blast; Unreliable (5 uses)",
+          "extras": [],
+          "flaws": [],
+          "ranks": 1,
+          "cost": 2,
+          "subpowers": [],
+          "effectDescription": "Created Power: Enhanced Strength, Fades",
+          "baseCost": 2
+        },
+        {
+          "name": "Enhanced Stamina",
+          "effect": "Enhanced Trait",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 12,
+          "cost": 24,
+          "subpowers": [],
+          "effectDescription": "You can temporarily improve one of your existing traits.",
+          "baseCost": 2,
+          "option": "Enhanced Stamina"
+        },
+        {
+          "name": "Enhanced Strength",
+          "effect": "Enhanced Trait",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 13,
+          "cost": 26,
+          "subpowers": [],
+          "effectDescription": "You can temporarily improve one of your existing traits.",
+          "baseCost": 2,
+          "option": "Enhanced Strength"
+        }
+      ],
+      "effectDescription": "Several different effects together."
+    }
+  ],
+  "complications": [
+    {
+      "complicationType": "motivation",
+      "description": "Doing Good"
+    },
+    {
+      "complicationType": "motivation",
+      "description": "Thrills"
+    }
+  ]
+}

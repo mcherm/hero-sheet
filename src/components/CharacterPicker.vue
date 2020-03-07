@@ -32,7 +32,7 @@
 </template>
 
 <script>
-  import {newBlankCharacter} from "../js/heroSheetUtil.js";
+  import {newBlankCharacter} from "../js/heroSheetVersioning.js";
   import TrashIcon from "./TrashIcon";
 
   export default {

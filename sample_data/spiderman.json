@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 71,
@@ -62,31 +62,26 @@
   },
   "defenses": {
     "dodge": {
-      "base": 12,
       "purchased": 4,
       "cost": 4,
       "ranks": 16
     },
     "fortitude": {
-      "base": 10,
       "purchased": 1,
       "cost": 1,
       "ranks": 11
     },
     "parry": {
-      "base": 9,
       "purchased": 7,
       "cost": 7,
       "ranks": 16
     },
     "toughness": {
-      "base": 10,
       "purchased": 0,
       "cost": 0,
       "ranks": 10
     },
     "will": {
-      "base": 7,
       "purchased": 8,
       "cost": 8,
       "ranks": 15
@@ -255,9 +250,21 @@
         "isTemplate": false
       },
       {
+        "name": "close combat",
+        "ranks": 3,
+        "isTemplate": true,
+        "specialization": "Unarmed"
+      },
+      {
         "name": "deception",
         "ranks": 2,
         "isTemplate": false
+      },
+      {
+        "name": "expertise",
+        "ranks": 6,
+        "isTemplate": true,
+        "specialization": "Photography"
       },
       {
         "name": "insight",
@@ -310,7 +317,7 @@
         "isTemplate": false
       }
     ],
-    "cost": 19
+    "cost": 23
   },
   "powers": [
     {

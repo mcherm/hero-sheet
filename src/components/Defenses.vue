@@ -13,7 +13,7 @@
           :key="defenseName"
       >
         <label class="row-label grid-with-lines-cell">{{defenseName}}</label>
-        <number-display class="grid-with-lines-cell" :value="obj(defenseName).base"/>
+        <number-display class="grid-with-lines-cell" :value="base(defenseName)"/>
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
         <number-entry
             v-else
@@ -36,37 +36,28 @@
 </template>
 
 <script>
+  const baseValueMap = {
+    dodge: "agility",
+    fortitude: "stamina",
+    parry: "fighting",
+    toughness: "stamina",
+    will: "awareness"
+  };
+
   export default {
     name: "Defenses",
     props: {
       character: { type: Object, required: true }
     },
     created: function() {
-      const abilities = this.character.abilities;
-      const defenses = this.character.defenses;
-
+      const recalculate = this.recalculate;
+      for (const defenseName in baseValueMap) {
+        this.$watch(`character.abilities.${baseValueMap[defenseName]}.ranks`, function() {
+          recalculate(defenseName);
+        }, {immediate: true});
+      }
       this.$watch("character.abilities.agility.ranks", function () {
-        defenses.dodge.base = abilities.agility.ranks;
-        this.recalculate("dodge");
-      }, {immediate: true});
-      this.$watch("character.abilities.stamina.ranks", function () {
-        defenses.fortitude.base = abilities.stamina.ranks;
-        this.recalculate("fortitude");
-      }, {immediate: true});
-      this.$watch("character.abilities.fighting.ranks", function () {
-        defenses.parry.base = abilities.fighting.ranks;
-        this.recalculate("parry");
-      }, {immediate: true});
-      this.$watch("character.abilities.stamina.ranks", function () {
-        defenses.toughness.base = abilities.stamina.ranks;
-        this.recalculate("toughness");
-      }, {immediate: true});
-      this.$watch("character.abilities.awareness.ranks", function () {
-        defenses.will.base = abilities.awareness.ranks;
-        this.recalculate("will");
-      }, {immediate: true});
-      this.$watch("character.abilities.agility.ranks", function () {
-        this.character.initiative = abilities.agility.ranks;
+        this.character.initiative = this.character.abilities.agility.ranks;
       }, {immediate: true});
     },
     methods: {
@@ -81,10 +72,13 @@
         this.obj(defenseName).purchased = newValue;
         this.recalculate(defenseName);
       },
+      base: function(defenseName) {
+        return this.character.abilities[baseValueMap[defenseName]].ranks;
+      },
       recalculate: function(defenseName) {
         const dob = this.obj(defenseName);
         dob.cost = dob.purchased;
-        dob.ranks = dob.base + dob.purchased;
+        dob.ranks = this.base(defenseName) + dob.purchased;
       },
       isOutOfSpec: function(defenseName) {
         // -- values --
