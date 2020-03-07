@@ -14,7 +14,7 @@
       <template slot="abilities">
         <div class="h-box">
           <BasicStats :abilities="character.abilities"/>
-          <Defenses :character="character" />
+          <Defenses :character="character"/>
           <OverallCosts :character="character"/>
         </div>
       </template>
@@ -48,9 +48,6 @@
   import OverallCosts from "./OverallCosts.vue"
   import PowerListTopLevel from "./PowerListTopLevel.vue"
   import Complications from "./Complications";
-
-  import {newBlankCharacter} from "../js/heroSheetUtil.js";
-
 
   export default {
     name: "CharacterSheet",

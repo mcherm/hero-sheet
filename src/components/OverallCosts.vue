@@ -1,34 +1,5 @@
 <template>
   <BoxedSection :title="'Costs'">
-    <!-- FIXME: I haven't decided if the table or the grid works
-      better so for now I have both of them to compare. -->
-    <table>
-      <tr>
-        <th scope="row" class="row-label">Abilities</th>
-        <td><NumberDisplay :value="abilityCost"/></td>
-      </tr>
-      <tr>
-        <th scope="row" class="row-label">Defenses</th>
-        <td><NumberDisplay :value="defenseCost"/></td>
-      </tr>
-      <tr>
-        <th scope="row" class="row-label">Skills</th>
-        <td><NumberDisplay :value="skillCost"/></td>
-      </tr>
-      <tr>
-        <th scope="row" class="row-label">Advantages</th>
-        <td><NumberDisplay :value="advantageCost"/></td>
-      </tr>
-      <tr>
-        <th scope="row" class="row-label">Powers</th>
-        <td><NumberDisplay :value="powerCost"/></td>
-      </tr>
-      <tr>
-        <th scope="row" class="row-label">TOTAL</th>
-        <td><NumberDisplay :value="totalCost"/></td>
-      </tr>
-    </table>
-    <hr>
     <div class="cost-grid grid-with-lines">
       <label class="row-label">Abilities</label>
       <NumberDisplay :value="abilityCost" class="values-column"/>
@@ -92,18 +63,11 @@
 </script>
 
 <style scoped>
-  td {
-    border: 1px solid var(--grid-line-color);
-  }
-  th {
-    border: 1px solid var(--grid-line-color);
-  }
-
   .cost-grid {
     grid-template-columns: max-content max-content;
   }
   .values-column.number-display {
-    margin-left: 0px;
+    margin-left: 0;
   }
   .grid-spacer {
     height: 6px;

@@ -1,74 +1,84 @@
 <template>
-  <BoxedSection :title="'Defenses and Initiative'">
-    <table class="defenses-table">
-      <tr class="column-headers">
-        <th></th>
-        <th class="col-label">Base</th>
-        <th class="col-label">Added</th>
-        <th class="col-label">Cost</th>
-        <th class="col-label">Ranks</th>
-      </tr>
-      <tr
-        v-for="defenseName in Object.keys(character.defenses)"
-        :key="defenseName"
-        is="DefensesRow"
-        :defenseName="defenseName"
-        :defenseObj="character.defenses[defenseName]"
-      />
-    </table>
-    <table class="initiative-table">
-      <th class="row-label" scope="row">Initiative</th>
-      <td><NumberDisplay :value="character.initiative"/></td>
-    </table>
+  <BoxedSection title="Defenses and Initiative">
+
+    <div class="defense-grid grid-with-lines">
+      <label class="col-label"></label>
+      <label class="col-label">Base</label>
+      <label class="col-label">Added</label>
+      <label class="col-label">Cost</label>
+      <label class="col-label">Ranks</label>
+
+      <div class="display-contents"
+          v-for="defenseName in Object.keys(character.defenses)"
+          :key="defenseName"
+      >
+        <label class="row-label grid-with-lines-cell">{{defenseName}}</label>
+        <NumberDisplay class="grid-with-lines-cell" :value="obj(defenseName).base"/>
+        <div v-if="isImmutable(defenseName)" class="inapplicable"/>
+        <NumberEntry
+            v-else
+            class="grid-with-lines-cell"
+            :value="obj(defenseName).purchased"
+            @input="updatePurchased(defenseName, $event)"
+        />
+        <div v-if="isImmutable(defenseName)" class="inapplicable"/>
+        <NumberDisplay v-else class="grid-with-lines-cell" :value="obj(defenseName).cost"/>
+        <NumberDisplay class="grid-with-lines-cell" :value="obj(defenseName).ranks"/>
+      </div>
+    </div>
+
+    <div class="initiative-grid grid-with-lines">
+      <label class="row-label">initiative</label>
+      <NumberDisplay :value="character.initiative"/>
+    </div>
+
   </BoxedSection>
 </template>
 
 <script>
-  import DefensesRow from "./DefensesRow.vue"
-
   export default {
     name: "Defenses",
     props: {
       character: { type: Object, required: true }
     },
-    components: {
-      DefensesRow
-    },
-    created: function() {
-      const character = this.character;
-      const abilities = this.character.abilities;
-      const defenses = this.character.defenses;
-
-      this.$watch("character.abilities.agility.ranks", function() {
-        defenses.dodge.base = abilities.agility.ranks;
-      }, { immediate: true });
-      this.$watch("character.abilities.stamina.ranks", function() {
-        defenses.fortitude.base = abilities.stamina.ranks;
-      }, { immediate: true });
-      this.$watch("character.abilities.fighting.ranks", function() {
-        defenses.parry.base = abilities.fighting.ranks;
-      }, { immediate: true });
-      this.$watch("character.abilities.stamina.ranks", function() {
-        defenses.toughness.base = abilities.stamina.ranks;
-      }, { immediate: true });
-      this.$watch("character.abilities.awareness.ranks", function() {
-        defenses.will.base = abilities.awareness.ranks;
-      }, { immediate: true });
-      this.$watch("character.abilities.agility.ranks", function() {
-        character.initiative = abilities.agility.ranks;
-      }, { immediate: true });
+    methods: {
+      // Use within v-for to access the defense
+      obj: function(defenseName) {
+        return this.character.defenses[defenseName];
+      },
+      isImmutable: function(defenseName) {
+        return defenseName === 'toughness';
+      },
+      updatePurchased: function(defenseName, newValue) {
+        this.obj(defenseName).purchased = newValue;
+        this.recalculate(defenseName);
+      },
+      recalculate: function(defenseName) {
+        const dob = this.obj(defenseName);
+        dob.cost = dob.purchased;
+        dob.ranks = dob.base + dob.purchased;
+      }
     }
   }
 </script>
 
 <style scoped>
-  td {
-    border: 1px solid var(--grid-line-color);
+  div.display-contents {
+    display: contents;
   }
-  th {
-    border: 1px solid var(--grid-line-color);
+  .defense-grid {
+    grid-template-columns: max-content max-content max-content max-content max-content;
   }
-  .initiative-table {
-    margin-top: 5px;
+  .initiative-grid {
+    grid-template-columns: max-content max-content;
+    margin-top: 10px;
+    display: inline grid;
   }
+  .defense-grid > .display-contents > .number-display {
+    margin-left: 0;
+  }
+  .inapplicable {
+    background-color: var(--inapplicable-color);
+  }
+
 </style>
