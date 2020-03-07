@@ -41,6 +41,34 @@
     props: {
       character: { type: Object, required: true }
     },
+    created: function() {
+      const abilities = this.character.abilities;
+      const defenses = this.character.defenses;
+
+      this.$watch("character.abilities.agility.ranks", function () {
+        defenses.dodge.base = abilities.agility.ranks;
+        this.recalculate("dodge");
+      }, {immediate: true});
+      this.$watch("character.abilities.stamina.ranks", function () {
+        defenses.fortitude.base = abilities.stamina.ranks;
+        this.recalculate("fortitude");
+      }, {immediate: true});
+      this.$watch("character.abilities.fighting.ranks", function () {
+        defenses.parry.base = abilities.fighting.ranks;
+        this.recalculate("parry");
+      }, {immediate: true});
+      this.$watch("character.abilities.stamina.ranks", function () {
+        defenses.toughness.base = abilities.stamina.ranks;
+        this.recalculate("toughness");
+      }, {immediate: true});
+      this.$watch("character.abilities.awareness.ranks", function () {
+        defenses.will.base = abilities.awareness.ranks;
+        this.recalculate("will");
+      }, {immediate: true});
+      this.$watch("character.abilities.agility.ranks", function () {
+        this.character.initiative = abilities.agility.ranks;
+      }, {immediate: true});
+    },
     methods: {
       // Use within v-for to access the defense
       obj: function(defenseName) {
