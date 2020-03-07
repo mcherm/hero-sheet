@@ -14,7 +14,7 @@
     </td>
     <td>
       <div class="roll-not-applicable" v-if="skillRoll === null">N/A</div>
-      <NumberDisplay v-if="skillRoll !== null" :value="skillRoll"/>
+      <NumberDisplay v-if="skillRoll !== null" :value="skillRoll" :isOutOfSpec="skillOutOfSpec(skillRoll)"/>
     </td>
     <td><DocsLookup :docsURL="skillData.docsURL"/></td>
     <td v-if="isDeleting">
@@ -39,8 +39,8 @@
     },
     props: {
       skill: { type: Object, required: true },
-      abilities: { type: Object, required: true },
-      isDeleting: { type: Boolean, required: true }
+      isDeleting: { type: Boolean, required: true },
+      character: { type: Object, required: true }
     },
     computed: {
       skillData: function() {
@@ -56,7 +56,7 @@
         return result;
       },
       baseValue: function() {
-        return this.abilities[this.skillData.ability].ranks;
+        return this.character.abilities[this.skillData.ability].ranks;
       },
       skillRoll: function() {
         if (this.skillData.useUntrained || this.skill.ranks > 0) {
@@ -66,6 +66,12 @@
         }
       }
     },
+    methods: {
+      skillOutOfSpec: function(skillRoll) {
+        const powerLevel = this.character.campaign.powerLevel;
+        return !isNaN(powerLevel) && !isNaN(skillRoll) && skillRoll > powerLevel + 10;
+      }
+    }
   }
 </script>
 

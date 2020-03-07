@@ -23,7 +23,7 @@
         />
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
         <NumberDisplay v-else class="grid-with-lines-cell" :value="obj(defenseName).cost"/>
-        <NumberDisplay class="grid-with-lines-cell" :value="obj(defenseName).ranks"/>
+        <NumberDisplay class="grid-with-lines-cell" :value="obj(defenseName).ranks" :isOutOfSpec="isOutOfSpec(defenseName)"/>
       </div>
     </div>
 
@@ -85,6 +85,37 @@
         const dob = this.obj(defenseName);
         dob.cost = dob.purchased;
         dob.ranks = dob.base + dob.purchased;
+      },
+      isOutOfSpec: function(defenseName) {
+        // -- values --
+        const powerLevel = this.character.campaign.powerLevel;
+        const defenses = this.character.defenses;
+        const dodge = defenses.dodge.ranks;
+        const fortitude = defenses.fortitude.ranks;
+        const parry = defenses.parry.ranks;
+        const toughness = defenses.toughness.ranks;
+        const will = defenses.will.ranks;
+        // -- rules --
+        const exceeds = function(maxValue, value) {
+          return !isNaN(maxValue) && !isNaN(value) && value > maxValue;
+        };
+        const fortWillExceeded = exceeds(powerLevel * 2, fortitude + will);
+        const parryToughExceeded = exceeds(powerLevel * 2, parry + toughness);
+        const dodgeToughExceeded = exceeds(powerLevel * 2, dodge + toughness);
+        // -- results --
+        if (defenseName === "dodge") {
+          return dodgeToughExceeded;
+        } else if (defenseName === "fortitude") {
+          return fortWillExceeded;
+        } else if (defenseName === "parry") {
+          return parryToughExceeded;
+        } else if (defenseName === "toughness") {
+          return parryToughExceeded || dodgeToughExceeded;
+        } else if (defenseName === "will") {
+          return fortWillExceeded;
+        } else {
+          return false;
+        }
       }
     }
   }

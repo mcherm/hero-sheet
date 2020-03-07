@@ -19,7 +19,7 @@
         </div>
       </template>
       <template slot="skills">
-        <Skills :skills="character.skills" :abilities="character.abilities"/>
+        <Skills :character="character"/>
       </template>
       <template slot="advantages">
         <Advantages :advantages="character.advantages"/>

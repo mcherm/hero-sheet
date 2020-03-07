@@ -12,12 +12,12 @@
         <th v-if="isDeleting" class="col-label"></th>
       </tr>
       <tr
-        v-for="(skill, skillIndex) in skills.skillList"
+        v-for="(skill, skillIndex) in character.skills.skillList"
         :key="skillIndex"
         is="SkillsRow"
         :skill="skill"
-        :abilities="abilities"
         :isDeleting="isDeleting"
+        :character="character"
         v-on:update:ranks="updateRank(skill, $event)"
         v-on:delete="deleteSkill(skill)"
       />
@@ -62,8 +62,7 @@
       };
     },
     props: {
-      skills: { type: Object, required: true },
-      abilities: { type: Object, required: true }
+      character: { type: Object, required: true },
     },
     methods: {
       /*
@@ -74,8 +73,8 @@
         this.updateTotalCost();
       },
       updateTotalCost: function() {
-        const totalRanks = this.skills.skillList.reduce((x, y) => x + y.ranks, 0);
-        this.skills.cost = Math.ceil(totalRanks / 2);
+        const totalRanks = this.character.skills.skillList.reduce((x, y) => x + y.ranks, 0);
+        this.character.skills.cost = Math.ceil(totalRanks / 2);
       },
       /*
        * Call this whenever we exit from the adding mode
@@ -94,14 +93,15 @@
           "isTemplate": true,
           "specialization": ""
         };
-        this.skills.skillList.push(newSkillObject);
-        this.skills.skillList.sort(
+        this.character.skills.skillList.push(newSkillObject);
+        this.character.skills.skillList.sort(
           (x,y) => (x.name < y.name) ? -1 : (x.name > y.name) ? 1: 0
         );
         this.stopAdding();
       },
       deleteSkill: function(skill) {
-        this.$delete(this.skills.skillList, this.skills.skillList.indexOf(skill));
+        const skillList = this.character.skills.skillList;
+        this.$delete(skillList, skillList.indexOf(skill));
       }
     }
   }

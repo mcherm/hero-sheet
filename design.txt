@@ -51,12 +51,9 @@ TODO: The skill "Expertise" can alter the ability it is based on (with GM
 TODO: For the power "Communication", the extra "Sense-Dependent" isn't really
   a flaw of the power, it is a flaw of any other power
 
-TODO: Campaign limits:
-  * Total skill modifier (ability + skill + advantage modifiers) <= powerLevel + 10
-    Even for untrained skills. [easy]
+TODO: Campaign limits not implemented yet:
   * For an attack, (Attack bonus + effect rank) <= powerLevel * 2
   * For an attack with resistance, not attack,
     effect Rank <= powerLevel
-  * Dodge + toughness <= 2 * powerLevel [easy]
-  * Parry + toughness <= 2 * powerLevel [easy]
-  * fortitude + will <= 2 * powerLevel [easy]
+  * For all campaign limits, should make a list of them and be able to display
+    it and even make exceptions for individual ones.
