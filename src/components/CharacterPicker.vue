@@ -23,9 +23,11 @@
       </tr>
       </tbody>
     </table>
-    <button v-if="characters !== null && !isDeleting" v-on:click="createNewCharacter()" class="new-character-button">New Character</button>
-    <button v-if="characters !== null && !isDeleting" v-on:click="isDeleting=true">Delete</button>
-    <button v-if="characters !== null && isDeleting" v-on:click="isDeleting=false">Done Deleting</button>
+    <div class="buttons">
+      <button v-if="characters !== null && !isDeleting" v-on:click="createNewCharacter()" class="new-character-button">New Character</button>
+      <button v-if="characters !== null && !isDeleting" v-on:click="isDeleting=true">Delete</button>
+      <button v-if="characters !== null && isDeleting" v-on:click="isDeleting=false">Done Deleting</button>
+    </div>
   </BoxedSection>
 </template>
 
@@ -116,5 +118,9 @@
     border: 2px solid var(--grid-line-color);
     padding: 4px;
     display: table;
+  }
+  .character-picker .buttons {
+    margin-top: 5px;
+    background-color: inherit;
   }
 </style>
