@@ -1,5 +1,5 @@
 <template>
-  <BoxedSection :title="'Skills'">
+  <boxed-section :title="'Skills'">
     <table class="skills-table">
       <tr class="column-headers">
         <th></th>
@@ -14,7 +14,7 @@
       <tr
         v-for="(skill, skillIndex) in character.skills.skillList"
         :key="skillIndex"
-        is="SkillsRow"
+        is="skills-row"
         :skill="skill"
         :isDeleting="isDeleting"
         :character="character"
@@ -37,7 +37,7 @@
     </div>
     <button v-if="isAdding" :disabled="selectedTemplateToAdd === ''" v-on:click="addTemplateSkill()">Add Skill</button>
     <button v-if="isAdding" v-on:click="stopAdding()">Cancel</button>
-  </BoxedSection>
+  </boxed-section>
 </template>
 
 <script>

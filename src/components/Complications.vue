@@ -1,5 +1,5 @@
 <template>
-  <BoxedSection :title="'Complications'">
+  <boxed-section :title="'Complications'">
     <div
         class="complications-list grid-with-lines"
         :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}"
@@ -10,7 +10,7 @@
       <tr
           v-for="(complication, index) in complications"
           :key="index"
-          is="ComplicationsRow"
+          is="complications-row"
           :complication="complication"
           :complications="complications"
           :deleteIsVisible="deleteIsVisible"
@@ -30,7 +30,7 @@
         <span v-else>Delete</span>
       </button>
     </div>
-  </BoxedSection>
+  </boxed-section>
 </template>
 
 <script>

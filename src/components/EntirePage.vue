@@ -5,18 +5,18 @@
       <button v-if="characterSelected" v-on:click="resetCharacter()" class="character-display">{{characterName}}</button>
       <button v-if="userSelected" v-on:click="resetUser()" class="user-display">{{user}}</button>
     </div>
-    <UserPicker
+    <user-picker
         v-if="!userSelected"
         :user="user"
         v-on:change-user="setUser($event)"
     />
-    <CharacterPicker
+    <character-picker
         v-if="userSelected && !characterSelected"
         :user="user"
         :characterId="characterId"
         v-on:change-character="setCharacterId($event)"
     />
-    <CharacterSheet
+    <character-sheet
         v-if="userSelected && characterSelected"
         :user="user"
         :characterId="characterId"

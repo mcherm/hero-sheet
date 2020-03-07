@@ -2,14 +2,14 @@
   <tr>
     <th scope="row" class="row-label">{{statName}}</th>
     <td>
-      <NumberEntry
+      <number-entry
         :value="statObj.entered"
         @input="updateEntered($event)"
       />
     </td>
-    <td><NumberDisplay :value="statObj.cost"/></td>
-    <td><NumberDisplay :value="statObj.ranks"/></td>
-    <td><DocsLookup :docsURL="docsURL"/></td>
+    <td><number-display :value="statObj.cost"/></td>
+    <td><number-display :value="statObj.ranks"/></td>
+    <td><docs-lookup :docsURL="docsURL"/></td>
   </tr>
 </template>
 

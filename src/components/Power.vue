@@ -2,7 +2,7 @@
   <div class="power">
     <div class="flex-row">
       <div class="power-features">
-        <label class="row-label">Name</label><StringEntry
+        <label class="row-label">Name</label><string-entry
             :value="power.name"
             @input="$emit('update:name', $event)"
         />
@@ -36,26 +36,26 @@
           <label class="row-label">Option Desc</label><div>{{theOption.description}}</div>
         </div>
 
-        <label class="row-label">Extras</label><ModifierList modifierType="extras" :modifiers="power.extras"/>
-        <label class="row-label">Flaws</label><ModifierList modifierType="flaws" :modifiers="power.flaws"/>
-        <label class="row-label">Description</label><StringEntry v-model="power.description"/>
+        <label class="row-label">Extras</label><modifier-list modifierType="extras" :modifiers="power.extras"/>
+        <label class="row-label">Flaws</label><modifier-list modifierType="flaws" :modifiers="power.flaws"/>
+        <label class="row-label">Description</label><string-entry v-model="power.description"/>
       </div>
       <div class="power-costs">
         <label v-if="!isArray" class="row-label">Power</label><div v-if="!isArray">
-          <NumberDisplay :value="power.baseCost"/>
+          <number-display :value="power.baseCost"/>
         </div>
-        <label class="row-label">Extras</label><div><NumberDisplay :value="extrasMultiplier"/></div>
-        <label class="row-label">Flaws</label><div><NumberDisplay :value="flawsMultiplier" :show-err-for-negatives="false"/></div>
+        <label class="row-label">Extras</label><div><number-display :value="extrasMultiplier"/></div>
+        <label class="row-label">Flaws</label><div><number-display :value="flawsMultiplier" :show-err-for-negatives="false"/></div>
         <label v-if="!isArray" class="row-label">Ranks</label><div v-if="!isArray">
-          <NumberEntry v-model="power.ranks"/>
+          <number-entry v-model="power.ranks"/>
         </div>
-        <label class="row-label">Flats</label><div><NumberDisplay :value="flatAdder" :show-err-for-negatives="false"/></div>
-        <label class="row-label">Cost</label><div><NumberDisplay :value="power.cost"/></div>
+        <label class="row-label">Flats</label><div><number-display :value="flatAdder" :show-err-for-negatives="false"/></div>
+        <label class="row-label">Cost</label><div><number-display :value="power.cost"/></div>
       </div>
     </div>
     <div v-if="isArray" class="subpower-list">
       <div class="scrolling-list-header">Array Powers</div>
-      <PowerList :powers="power.subpowers"/>
+      <power-list :powers="power.subpowers"/>
     </div>
   </div>
 </template>

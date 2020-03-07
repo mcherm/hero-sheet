@@ -1,5 +1,5 @@
 <template>
-  <BoxedSection title="Select Character" class="character-picker">
+  <boxed-section title="Select Character" class="character-picker">
     <div v-if="characters === null" class="placeholder">Loading...</div>
     <table v-if="characters !== null" class="character-list">
       <thead>
@@ -17,7 +17,7 @@
         <td>{{character.name}}</td>
         <td>{{idFromKey(character.key)}}</td>
         <td>
-          <div v-if="isDeleting" v-on:click="deleteCharacter(character)"><TrashIcon/></div>
+          <div v-if="isDeleting" v-on:click="deleteCharacter(character)"><trash-icon/></div>
           <button v-if="!isDeleting" v-on:click="selectCharacter(character)">Open</button>
         </td>
       </tr>
@@ -28,7 +28,7 @@
       <button v-if="characters !== null && !isDeleting" v-on:click="isDeleting=true">Delete</button>
       <button v-if="characters !== null && isDeleting" v-on:click="isDeleting=false">Done Deleting</button>
     </div>
-  </BoxedSection>
+  </boxed-section>
 </template>
 
 <script>

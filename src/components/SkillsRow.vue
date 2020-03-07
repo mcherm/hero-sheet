@@ -2,24 +2,24 @@
   <tr>
     <th scope="row" class="row-label">{{skill.name}}</th>
     <td class="abilityName">{{skillData.ability}}</td>
-    <td><NumberDisplay :value="baseValue"/></td>
+    <td><number-display :value="baseValue"/></td>
     <td>
-      <NumberEntry
+      <number-entry
         :value="skill.ranks"
         @input="$emit('update:ranks', $event)"
       />
     </td>
     <td>
-      <StringEntry v-if="skill.isTemplate" v-model="skill.specialization"/>
+      <string-entry v-if="skill.isTemplate" v-model="skill.specialization"/>
     </td>
     <td>
       <div class="roll-not-applicable" v-if="skillRoll === null">N/A</div>
-      <NumberDisplay v-if="skillRoll !== null" :value="skillRoll" :isOutOfSpec="skillOutOfSpec(skillRoll)"/>
+      <number-display v-if="skillRoll !== null" :value="skillRoll" :isOutOfSpec="skillOutOfSpec(skillRoll)"/>
     </td>
-    <td><DocsLookup :docsURL="skillData.docsURL"/></td>
+    <td><docs-lookup :docsURL="skillData.docsURL"/></td>
     <td v-if="isDeleting">
       <div v-if="skill.isTemplate" @click="$emit('delete')">
-        <TrashIcon/>
+        <trash-icon/>
       </div>
     </td>
   </tr>

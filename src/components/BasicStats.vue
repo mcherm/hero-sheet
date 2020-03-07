@@ -1,5 +1,5 @@
 <template>
-  <BoxedSection :title="'Abilities'">
+  <boxed-section :title="'Abilities'">
     <div id="stat-display">
       <table>
         <thead>
@@ -14,7 +14,7 @@
         <tbody>
           <tr
             v-for="(statData, statName) in statsData"
-            is="BasicStatsRow"
+            is="basic-stats-row"
             :key="statName"
             :statName="statName"
             :statObj="abilities[statName]"
@@ -23,7 +23,7 @@
         </tbody>
       </table>
     </div>
-  </BoxedSection>
+  </boxed-section>
 </template>
 
 <script>

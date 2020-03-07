@@ -3,14 +3,14 @@
   user can toggle between several different bits of content.
 
   It is used like this:
-      <TabDisplay>
+      <tab-display>
       <template slot="tab 1">
         First Tab Contents
       </template>
       <template slot="tab 2">
         <some-other-component/>
       </template>
-    </TabDisplay>
+    </tab-display>
 -->
 <template>
   <div class="tab-area">

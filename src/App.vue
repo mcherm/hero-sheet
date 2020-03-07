@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <EntirePage/>
+    <entire-page/>
     <div class="copyright-notice">Code &copy; 2020 by Michael Chermside; Game content licensed under <a href="game_license.html">Open Gaming License</a>.</div>
   </div>
 </template>

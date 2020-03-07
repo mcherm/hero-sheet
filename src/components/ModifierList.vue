@@ -7,7 +7,7 @@
           v-on:click="deleteModifier(modifier)"
           class="trash-can"
       >
-        <TrashIcon/>
+        <trash-icon/>
       </div>
     </div>
     <button
@@ -15,7 +15,7 @@
         v-on:click="isAdding = true"
         class="plus-minus-button"
     >+</button>
-    <ModifierListNewModifierChooser
+    <modifier-list-new-modifier-chooser
         v-if="isAdding"
         :modifier-type="modifierType"
         v-on:choose-modifier="finishChoosingNewModifier($event)"

@@ -1,8 +1,8 @@
 <template>
-  <BoxedSection title="Enter Username" class="user-picker">
+  <boxed-section title="Enter Username" class="user-picker">
     <input v-model="currentUser" class="user-entry" @keyup.enter="$emit('change-user', currentUser)" />
     <button v-on:click="$emit('change-user', currentUser)">Set User</button>
-  </BoxedSection>
+  </boxed-section>
 </template>
 
 <script>

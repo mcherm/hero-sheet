@@ -1,7 +1,7 @@
 <template>
-  <BoxedSection :title="'Powers'">
-    <PowerList :powers="powers"/>
-  </BoxedSection>
+  <boxed-section :title="'Powers'">
+    <power-list :powers="powers"/>
+  </boxed-section>
 </template>
 
 <script>

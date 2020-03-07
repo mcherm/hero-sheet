@@ -1,19 +1,19 @@
 <template>
   <div class="display-contents">
     <div class="grid-with-lines-cell">{{advantage.name}}</div>
-    <NumberEntry v-if="advantage.isRanked" v-model="advantage.ranks"/>
+    <number-entry v-if="advantage.isRanked" v-model="advantage.ranks"/>
     <div v-else class="grid-with-lines-cell inapplicable"></div>
     <div class="grid-with-lines-cell">
       {{advantage.effect}}
-      <DocsLookup :docsURL="docsURL"/>
+      <docs-lookup :docsURL="docsURL"/>
     </div>
-    <StringEntry v-model="advantage.description" class="grid-with-lines-cell"/>
+    <string-entry v-model="advantage.description" class="grid-with-lines-cell"/>
     <button
       v-if="deleteIsVisible"
       class="trash-button grid-with-lines-no-lines"
       v-on:click="$delete(advantages, advantages.indexOf(advantage))"
     >
-      <TrashIcon/>
+      <trash-icon/>
     </button>
   </div>
 </template>

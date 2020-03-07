@@ -1,5 +1,5 @@
 <template>
-  <BoxedSection title="Defenses and Initiative">
+  <boxed-section title="Defenses and Initiative">
 
     <div class="defense-grid grid-with-lines">
       <label class="col-label"></label>
@@ -13,26 +13,26 @@
           :key="defenseName"
       >
         <label class="row-label grid-with-lines-cell">{{defenseName}}</label>
-        <NumberDisplay class="grid-with-lines-cell" :value="obj(defenseName).base"/>
+        <number-display class="grid-with-lines-cell" :value="obj(defenseName).base"/>
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
-        <NumberEntry
+        <number-entry
             v-else
             class="grid-with-lines-cell"
             :value="obj(defenseName).purchased"
             @input="updatePurchased(defenseName, $event)"
         />
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
-        <NumberDisplay v-else class="grid-with-lines-cell" :value="obj(defenseName).cost"/>
-        <NumberDisplay class="grid-with-lines-cell" :value="obj(defenseName).ranks" :isOutOfSpec="isOutOfSpec(defenseName)"/>
+        <number-display v-else class="grid-with-lines-cell" :value="obj(defenseName).cost"/>
+        <number-display class="grid-with-lines-cell" :value="obj(defenseName).ranks" :isOutOfSpec="isOutOfSpec(defenseName)"/>
       </div>
     </div>
 
     <div class="initiative-grid grid-with-lines">
       <label class="row-label">initiative</label>
-      <NumberDisplay :value="character.initiative"/>
+      <number-display :value="character.initiative"/>
     </div>
 
-  </BoxedSection>
+  </boxed-section>
 </template>
 
 <script>

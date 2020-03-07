@@ -3,13 +3,13 @@
     <div class="grid-with-lines-cell">
       {{complicationsData.complicationTypes[complication.complicationType].name}}
     </div>
-    <StringEntry v-model="complication.description" class="grid-with-lines-cell"/>
+    <string-entry v-model="complication.description" class="grid-with-lines-cell"/>
     <button
         v-if="deleteIsVisible"
         class="trash-button grid-with-lines-no-lines"
         v-on:click="$delete(complications, complications.indexOf(complication))"
     >
-      <TrashIcon/>
+      <trash-icon/>
     </button>
   </div>
 </template>

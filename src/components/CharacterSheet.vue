@@ -3,34 +3,34 @@
     <div v-if="character === null" class="character-loading">
       Loading...
     </div>
-    <TabDisplay v-if="character !== null">
+    <tab-display v-if="character !== null">
       <template slot="background">
         <div class="h-box">
-          <Campaign :campaign="character.campaign"/>
-          <Naming :naming="character.naming"/>
-          <OverallCosts :character="character"/>
+          <campaign :campaign="character.campaign"/>
+          <naming :naming="character.naming"/>
+          <overall-costs :character="character"/>
         </div>
       </template>
       <template slot="abilities">
         <div class="h-box">
-          <BasicStats :abilities="character.abilities"/>
-          <Defenses :character="character"/>
-          <OverallCosts :character="character"/>
+          <basic-stats :abilities="character.abilities"/>
+          <defenses :character="character"/>
+          <overall-costs :character="character"/>
         </div>
       </template>
       <template slot="skills">
-        <Skills :character="character"/>
+        <skills :character="character"/>
       </template>
       <template slot="advantages">
-        <Advantages :advantages="character.advantages"/>
+        <advantages :advantages="character.advantages"/>
       </template>
       <template slot="powers">
-        <PowerListTopLevel :powers="character.powers"/>
+        <power-list-top-level :powers="character.powers"/>
       </template>
       <template slot="complications">
-        <Complications :complications="character.complications"/>
+        <complications :complications="character.complications"/>
       </template>
-    </TabDisplay>
+    </tab-display>
     <div id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
     </div>

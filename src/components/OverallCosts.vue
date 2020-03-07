@@ -1,24 +1,24 @@
 <template>
-  <BoxedSection :title="'Costs'">
+  <boxed-section :title="'Costs'">
     <div class="cost-grid grid-with-lines">
       <label class="row-label">Abilities</label>
-      <NumberDisplay :value="abilityCost" class="values-column"/>
+      <number-display :value="abilityCost" class="values-column"/>
       <label class="row-label">Defenses</label>
-      <NumberDisplay :value="defenseCost" class="values-column"/>
+      <number-display :value="defenseCost" class="values-column"/>
       <label class="row-label">Skills</label>
-      <NumberDisplay :value="skillCost" class="values-column"/>
+      <number-display :value="skillCost" class="values-column"/>
       <label class="row-label">Advantages</label>
-      <NumberDisplay :value="advantageCost" class="values-column"/>
+      <number-display :value="advantageCost" class="values-column"/>
       <label class="row-label">Powers</label>
-      <NumberDisplay :value="powerCost" class="values-column"/>
+      <number-display :value="powerCost" class="values-column"/>
       <label class="row-label">TOTAL</label>
-      <NumberDisplay :value="totalCost" :isOutOfSpec="costOutOfSpec" class="values-column"/>
+      <number-display :value="totalCost" :isOutOfSpec="costOutOfSpec" class="values-column"/>
       <div class="grid-spacer grid-with-lines-no-lines"/>
       <div class="grid-spacer grid-with-lines-no-lines"/>
       <label class="row-label">Available</label>
-      <NumberDisplay :value="availablePoints" class="values-column"/>
+      <number-display :value="availablePoints" class="values-column"/>
     </div>
-  </BoxedSection>
+  </boxed-section>
 </template>
 
 <script>

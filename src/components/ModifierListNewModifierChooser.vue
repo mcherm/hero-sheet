@@ -25,7 +25,7 @@
         v-if="isItemSelected && selectedItem.hasRanks"
     >
       <label>Ranks:</label>
-      <NumberEntry v-model="ranks"/>
+      <number-entry v-model="ranks"/>
     </div>
     <button :disabled="!isFullySelected" v-on:click="emitSelection()">Create</button>
     <button v-on:click="emitSelection()">Cancel</button>

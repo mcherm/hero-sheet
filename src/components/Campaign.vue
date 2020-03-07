@@ -1,24 +1,24 @@
 <template>
-  <BoxedSection :title="'Campaign'">
+  <boxed-section :title="'Campaign'">
     <div class="campaign-fields grid-with-lines">
       <label class="row-label">Power Level</label>
       <div class="spacer">
-        <NumberEntry v-model="campaign.powerLevel"/>
+        <number-entry v-model="campaign.powerLevel"/>
         <div class="blank-spot">
-          <DocsLookup :docsURL="campaignData.powerLevel.docsURL"/>
+          <docs-lookup :docsURL="campaignData.powerLevel.docsURL"/>
         </div>
       </div>
       <label class="row-label">XP Awarded</label>
       <div class="spacer">
-        <NumberEntry v-model="campaign.xpAwarded"/>
+        <number-entry v-model="campaign.xpAwarded"/>
         <div class="blank-spot">
-          <DocsLookup :docsURL="campaignData.experience.docsURL"/>
+          <docs-lookup :docsURL="campaignData.experience.docsURL"/>
         </div>
       </div>
       <label class="row-label">Setting</label>
-      <StringEntry v-model="campaign.setting" />
+      <string-entry v-model="campaign.setting" />
     </div>
-  </BoxedSection>
+  </boxed-section>
 </template>
 
 <script>

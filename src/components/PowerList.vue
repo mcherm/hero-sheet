@@ -3,13 +3,13 @@
     <ul class="power-list">
       <li v-for="(power, powerIndex) in powers" :key="power.name">
         <div class="power-list-row">
-          <Power
+          <power
             :power="power"
             :standardPowers="filteredStandardPowers"
             v-on:update:name="renamePower(power, $event)"
           />
           <button class="trash-button" v-if="deleteIsVisible" v-on:click="$delete(powers, powerIndex)">
-            <TrashIcon/>
+            <trash-icon/>
           </button>
         </div>
       </li>
