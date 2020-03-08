@@ -70,3 +70,8 @@ TODO: I need to record (and display) attacks.
 
 TODO: I like the way I enter new powers - click "new" then it appears in an invalid
   state and I can edit it. I should use that approach in other places as well.
+
+TODO: Keep the advantages list sorted.
+
+TODO: Display error colors when an advantage which should have ranks has an invalid
+  value (not numeric OR is null).

@@ -70,9 +70,6 @@
 </script>
 
 <style scoped>
-  div.display-contents {
-    display: contents;
-  }
   .complications-list.deleteVisible {
     grid-template-columns: max-content 1fr max-content;
   }

@@ -175,9 +175,6 @@
 </script>
 
 <style scoped>
-  div.display-contents {
-    display: contents;
-  }
   div.power {
     border: 1px solid var(--grid-line-color);
     padding: 5px;

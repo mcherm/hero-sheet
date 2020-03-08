@@ -3,7 +3,7 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 2;
+const currentVersion = 3;
 
 const newBlankCharacter = function() {
   const version = currentVersion;
@@ -76,6 +76,14 @@ const newBlankCharacter = function() {
   }
 };
 
+const newBlankAdvantage = function() {
+  return {
+    name: "",
+    ranks: null,
+    description: ""
+  }
+};
+
 const newBlankPower = function() {
   return {
     name: "New Power",
@@ -94,7 +102,7 @@ const newBlankComplication = function() {
     complicationType: "",
     description: ""
   }
-}
+};
 
 
 const upgradeFrom1 = function(charsheet) {
@@ -105,6 +113,15 @@ const upgradeFrom1 = function(charsheet) {
   console.log(`Upgraded character from version 1 to 2.`);
 };
 
+const upgradeFrom2 = function(charsheet) {
+  for (const advantage of charsheet.advantages) {
+    delete advantage.effect;
+    delete advantage.isRanked;
+    console.log(`have deleted from ${advantage}`); // FIXME: Remove
+  }
+  charsheet.version = 3;
+  console.log(`Upgraded character from version 2 to 3.`);
+};
 
 /*
  * Modifies a charsheet in place to upgrade it one step.
@@ -113,6 +130,8 @@ const upgradeFrom = function(charsheet) {
   const oldVersion = charsheet.version;
   if (oldVersion === 1) {
     upgradeFrom1(charsheet);
+  } else if (oldVersion === 2) {
+      upgradeFrom2(charsheet);
   } else {
     throw Error(`In upgradeVersion(), upgrading from version ${oldVersion} is not supported.`);
   }
@@ -132,6 +151,7 @@ const upgradeVersion = function(charsheet) {
 
 export {
   newBlankCharacter,
+  newBlankAdvantage,
   newBlankPower,
   newBlankComplication,
   upgradeVersion

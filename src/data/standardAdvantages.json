@@ -289,7 +289,7 @@
   },
   "Minion": {
     "name": "Minion",
-    "description": "Gain a follower or minion with (15xrank) power points.",
+    "description": "Gain a follower or minion with (15 x rank) power points.",
     "isRanked": true,
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-MINION-GENERAL-RANKED-"
   },

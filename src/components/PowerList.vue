@@ -107,9 +107,6 @@
 </script>
 
 <style scoped>
-  div.display-contents {
-    display: contents;
-  }
   div.power-list {
     border: 1px solid black;
     padding: 5px;

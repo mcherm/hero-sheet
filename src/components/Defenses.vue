@@ -115,9 +115,6 @@
 </script>
 
 <style scoped>
-  div.display-contents {
-    display: contents;
-  }
   .defense-grid {
     grid-template-columns: max-content max-content max-content max-content max-content;
   }

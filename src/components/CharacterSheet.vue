@@ -103,31 +103,29 @@
               this.character = JSON.parse(JSON.stringify(json)); // make a copy
             }
             upgradeVersion(json);
-            if (TESTING_NEW_VERSION) {
-              console.log(`Updated version: ${JSON.stringify(json)}`);
-            } else {
-              this.character = json;
-              if (json.version !== initialVersion) {
-                console.log("Version has been upgraded.");
-                this.hasUnsavedChanges = true;
-              }
+            this.character = json;
+            if (json.version !== initialVersion) {
+              console.log("Version has been upgraded.");
+              this.hasUnsavedChanges = true;
             }
           });
       },
       saveCharacter: async function() {
-        const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
-        const body = this.character_json;
-        this.hasUnsavedChanges = false; // Assume the request will save the changes. If it fails, we'll handle that below.
-        const response = await fetch(url, {
-          method: "PUT",
-          headers: { 'Content-Type': 'application/json' },
-          mode: "cors",
-          body: body
-        });
-        if (response.status !== 200) {
-          // FIXME: Need to display the error to the user
-          console.log("Failed to save character", response);
-          this.hasUnsavedChanges = true;
+        if (!TESTING_NEW_VERSION) {
+          const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
+          const body = this.character_json;
+          this.hasUnsavedChanges = false; // Assume the request will save the changes. If it fails, we'll handle that below.
+          const response = await fetch(url, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            mode: "cors",
+            body: body
+          });
+          if (response.status !== 200) {
+            // FIXME: Need to display the error to the user
+            console.log("Failed to save character", response);
+            this.hasUnsavedChanges = true;
+          }
         }
       }
     },

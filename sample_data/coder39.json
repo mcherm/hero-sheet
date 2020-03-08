@@ -1,0 +1,279 @@
+{
+  "version": 2,
+  "campaign": {
+    "powerLevel": 13,
+    "xpAwarded": 0,
+    "setting": "Robo World"
+  },
+  "naming": {
+    "name": "Coder39",
+    "player": "Genevieve Chermside",
+    "identityType": "none",
+    "identity": "",
+    "gender": "Female",
+    "age": "16",
+    "heightWeight": "",
+    "eyesHair": "Blue / Brown",
+    "costume": "",
+    "groupAffiliation": "",
+    "baseOfOperations": "Mars Secret lab"
+  },
+  "abilities": {
+    "strength": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    },
+    "stamina": {
+      "entered": 5,
+      "cost": 10,
+      "ranks": 5
+    },
+    "agility": {
+      "entered": 15,
+      "cost": 30,
+      "ranks": 15
+    },
+    "dexterity": {
+      "entered": 16,
+      "cost": 32,
+      "ranks": 16
+    },
+    "fighting": {
+      "entered": 4,
+      "cost": 8,
+      "ranks": 4
+    },
+    "intellect": {
+      "entered": 17,
+      "cost": 34,
+      "ranks": 17
+    },
+    "awareness": {
+      "entered": 3,
+      "cost": 6,
+      "ranks": 3
+    },
+    "presence": {
+      "entered": 1,
+      "cost": 2,
+      "ranks": 1
+    }
+  },
+  "defenses": {
+    "dodge": {
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 15
+    },
+    "fortitude": {
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 5
+    },
+    "parry": {
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 4
+    },
+    "toughness": {
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 5
+    },
+    "will": {
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 3
+    }
+  },
+  "initiative": 15,
+  "advantages": [
+    {
+      "name": "Accurate Attack",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Beginner's Luck",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Great Endurance",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Inventor",
+      "isRanked": false,
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Minion",
+      "isRanked": true,
+      "ranks": 6,
+      "description": ""
+    }
+  ],
+  "skills": {
+    "skillList": [
+      {
+        "name": "acrobatics",
+        "ranks": 6,
+        "isTemplate": false
+      },
+      {
+        "name": "athletics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "deception",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "insight",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "intimidation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "investigation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "perception",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "persuasion",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "slight of hand",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "stealth",
+        "ranks": 3,
+        "isTemplate": false
+      },
+      {
+        "name": "technology",
+        "ranks": 3,
+        "isTemplate": false
+      },
+      {
+        "name": "treatment",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "vehicles",
+        "ranks": 0,
+        "isTemplate": false
+      }
+    ],
+    "cost": 6
+  },
+  "powers": [
+    {
+      "name": "Electromagnetic sense",
+      "effect": "Senses",
+      "description": "COder32 can detect megnets and electricity with her mind!",
+      "extras": [],
+      "flaws": [],
+      "flats": [],
+      "ranks": 15,
+      "cost": 15,
+      "subpowers": [],
+      "effectDescription": "One or more of your senses are improved or you have additional sensory abilities beyond the normal five senses.",
+      "baseCost": 1
+    },
+    {
+      "name": "Exta Eyes",
+      "effect": "Extra Limbs",
+      "description": "Coder32 has a eye on the back of her head (she can't really see out of it because of her hair in the way) and she has one on each foot(but those are also often covered up by her shoes).",
+      "extras": [],
+      "flaws": [],
+      "flats": [],
+      "ranks": 4,
+      "cost": 4,
+      "subpowers": [],
+      "effectDescription": "You have extra manipulative limbs, such as arms, tentacles, or even prehensile hair or a tail.",
+      "baseCost": 1
+    },
+    {
+      "name": "Braclet",
+      "effect": "Variable",
+      "description": "",
+      "extras": [],
+      "flaws": [
+        {
+          "modifierName": "Removable",
+          "optionName": "Easily Removable",
+          "costType": "flatPointsPer5PointsOfFinalCost",
+          "cost": -2,
+          "displayText": "Easily Removable (-2)"
+        }
+      ],
+      "flats": [],
+      "ranks": 5,
+      "cost": 21,
+      "subpowers": [
+        {
+          "name": "Braclet flash",
+          "effect": "Dazzle",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "flats": [],
+          "ranks": 6,
+          "cost": 12,
+          "subpowers": [],
+          "effectDescription": "Created Power: Ranged, Cumulative Affliction, Limited to One Sense",
+          "baseCost": 2
+        },
+        {
+          "name": "Faster typing",
+          "effect": "Quickness",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "flats": [],
+          "ranks": 26,
+          "cost": 26,
+          "subpowers": [],
+          "effectDescription": "You can perform routine tasks fast.",
+          "baseCost": 1
+        }
+      ],
+      "effectDescription": "You can gain or use potentially any effect of the appropriate type and descriptor!",
+      "baseCost": 7
+    }
+  ],
+  "complications": [
+    {
+      "complicationType": "motivation",
+      "description": "Became a hero becuase of my dog."
+    },
+    {
+      "complicationType": "phobia",
+      "description": "Is extremly shy."
+    }
+  ]
+}

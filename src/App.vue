@@ -68,4 +68,7 @@
     border-top: 1px solid var(--box-border-color);
     margin-top: 5px;
   }
+  .display-contents {
+    display: contents;
+  }
 </style>
