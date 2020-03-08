@@ -1,5 +1,5 @@
 <template>
-  <boxed-section :title="'Powers'">
+  <boxed-section title="Powers">
     <power-list :powers="powers"/>
   </boxed-section>
 </template>

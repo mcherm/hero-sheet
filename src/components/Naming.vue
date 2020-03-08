@@ -1,5 +1,5 @@
 <template>
-  <boxed-section :title="'Naming'">
+  <boxed-section title="Naming">
     <div class="campaign-fields grid-with-lines">
       <label class="row-label">Name</label>
       <string-entry v-model="naming.name"/>

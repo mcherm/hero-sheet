@@ -1,5 +1,5 @@
 <template>
-  <boxed-section :title="'Skills'">
+  <boxed-section title="Skills">
     <table class="skills-table">
       <tr class="column-headers">
         <th></th>

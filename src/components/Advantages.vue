@@ -1,5 +1,5 @@
 <template>
-  <boxed-section :title="'Advantages'">
+  <boxed-section title="Advantages">
     <div class="advantages-list grid-with-lines" :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
       <div class="col-label">Advantage</div>
       <div class="col-label">Ranks</div>

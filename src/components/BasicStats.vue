@@ -1,5 +1,5 @@
 <template>
-  <boxed-section :title="'Abilities'">
+  <boxed-section title="Abilities">
     <div id="stat-display">
       <table>
         <thead>

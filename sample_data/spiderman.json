@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 71,
@@ -91,148 +91,106 @@
   "advantages": [
     {
       "name": "Accurate Attack",
-      "effect": "Trade effect DC for attack bonus.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Agile Feint",
-      "effect": "Feint using Acrobatics skill or Speed rank",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "All-out Attack",
-      "effect": "Trade active defense for attack bonus.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Defensive Attack",
-      "effect": "Trade attack bonus for active defense bonus.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Equipment",
-      "effect": "5 points of equipment per rank.",
-      "isRanked": true,
       "ranks": 1,
       "description": ""
     },
     {
       "name": "Evasion",
-      "effect": "Circumstance bonus to avoid area effects.",
-      "isRanked": true,
       "ranks": 2,
       "description": ""
     },
     {
       "name": "Fast Grab",
-      "effect": "Make a free grab check after an unarmed attack.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Favored Environment",
-      "effect": "Circumstance bonus to attack or defense in an environment.",
-      "isRanked": false,
       "ranks": null,
       "description": "When fighting with Danger Sense"
     },
     {
       "name": "Fearless",
-      "effect": "Immune to fear effects.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Improved Aim",
-      "effect": "Double circumstance bonuses for aiming.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Improved Defense",
-      "effect": "+2 bonus to active defense when you take the defend action.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Improved Disarm",
-      "effect": "No penalty for the disarm action.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Improved Grab",
-      "effect": "Make grab attacks with one arm.  Not vulnerable while grabbing.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Improved Initiative",
-      "effect": "+4 bonus to initiative checks per rank.",
-      "isRanked": true,
       "ranks": 2,
       "description": ""
     },
     {
       "name": "Instant Up",
-      "effect": "Stand from prone as a free action.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Move-by Action",
-      "effect": "Move both before and after your standard action.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Power Attack",
-      "effect": "Trade attack bonus for effect bonus.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Skill Mastery",
-      "effect": "Make routine checks with one skill under any circumstances.",
-      "isRanked": false,
       "ranks": null,
       "description": "Acrobatics"
     },
     {
       "name": "Takedown",
-      "effect": "Free extra attack when you incapacitate a minion.",
-      "isRanked": true,
       "ranks": 2,
       "description": ""
     },
     {
       "name": "Ultimate Effort",
-      "effect": "Spend a hero point to get an effective 20 on a specific check.",
-      "isRanked": false,
       "ranks": null,
       "description": "With both dodge and parry"
     },
     {
       "name": "Uncanny Dodge",
-      "effect": "Not vulnerable when surprised or caught off-guard.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     }

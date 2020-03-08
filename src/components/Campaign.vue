@@ -1,5 +1,5 @@
 <template>
-  <boxed-section :title="'Campaign'">
+  <boxed-section title="Campaign">
     <div class="campaign-fields grid-with-lines">
       <label class="row-label">Power Level</label>
       <div class="spacer">

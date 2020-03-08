@@ -1,5 +1,5 @@
 <template>
-  <boxed-section :title="'Costs'">
+  <boxed-section title="Costs">
     <div class="cost-grid grid-with-lines">
       <label class="row-label">Abilities</label>
       <number-display :value="abilityCost" class="values-column"/>
