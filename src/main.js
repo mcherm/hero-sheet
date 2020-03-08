@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-// Pre-register all components that will be involved in recursion
+// Pre-register all components that will be involved in recursion or are widely used
 import PowerList from "./components/PowerList.vue"
 Vue.component("PowerList", PowerList);
 import Power from "./components/Power.vue"
