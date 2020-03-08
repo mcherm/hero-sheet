@@ -55,6 +55,9 @@
   .grid-with-lines > * {
     border: 1px solid var(--grid-line-color);
   }
+  .grid-with-lines > .display-contents > * {
+    border: 1px solid var(--grid-line-color);
+  }
   .grid-with-lines .grid-with-lines-cell {
     border: 1px solid var(--grid-line-color);
   }

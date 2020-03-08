@@ -56,7 +56,12 @@ const newBlankCharacter = function() {
   };
   const advantages = [];
   const powers = [];
-  const complications = [];
+  const complications = [
+    {
+      complicationType: "motivation",
+      description: ""
+    }
+  ];
   return {
     version,
     campaign,
@@ -83,6 +88,13 @@ const newBlankPower = function() {
     subpowers: []
   };
 };
+
+const newBlankComplication = function() {
+  return {
+    complicationType: "",
+    description: ""
+  }
+}
 
 
 const upgradeFrom1 = function(charsheet) {
@@ -121,5 +133,6 @@ const upgradeVersion = function(charsheet) {
 export {
   newBlankCharacter,
   newBlankPower,
+  newBlankComplication,
   upgradeVersion
 };

@@ -14,6 +14,10 @@ import StringEntry from "./components/StringEntry.vue"
 Vue.component("StringEntry", StringEntry);
 import BoxedSection from "./components/BoxedSection.vue"
 Vue.component("BoxedSection", BoxedSection);
+import TrashIcon from "./components/TrashIcon.vue";
+Vue.component("TrashIcon", TrashIcon);
+import DocsLookup from "./components/DocsLookup";
+Vue.component("DocsLookup", DocsLookup);
 
 const app = new Vue({
   el: "#app",

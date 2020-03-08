@@ -7,23 +7,32 @@
       <label class="col-label">Type</label>
       <label class="col-label">Complication</label>
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
-      <tr
-          v-for="(complication, index) in complications"
-          :key="index"
-          is="complications-row"
-          :complication="complication"
-          :complications="complications"
-          :deleteIsVisible="deleteIsVisible"
-      />
+
+      <div class="display-contents"
+           v-for="(complication, index) in complications"
+           :key="index"
+      >
+        <div class="complication-type" :class="{'isOutOfSpec': isOutOfSpec(complication)}">
+          <select v-model="complication.complicationType">
+            <option value="" disabled>Select One</option>
+            <option
+                v-for="(complicationType, complicationTypeName) in complicationsData.complicationTypes"
+                :key="complicationTypeName"
+                :value="complicationTypeName"
+            >{{complicationType.name}}</option>
+          </select>
+        </div>
+        <string-entry v-model="complication.description" class="grid-with-lines-cell"/>
+        <button
+            v-if="deleteIsVisible"
+            class="trash-button grid-with-lines-no-lines"
+            v-on:click="$delete(complications, complications.indexOf(complication))"
+        >
+          <trash-icon/>
+        </button>
+      </div>
     </div>
     <div class="scrolling-list-footer">
-      <select v-model="selectedComplicationTypeToAdd">
-        <option
-            v-for="(complicationType, complicationTypeName) in complicationsData.complicationTypes"
-            :key="complicationTypeName"
-            :value="complicationTypeName"
-        >{{complicationType.name}}</option>
-      </select>
       <button v-on:click="addComplication()">Add Complication</button>
       <button v-on:click="deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
@@ -34,37 +43,36 @@
 </template>
 
 <script>
-  import ComplicationsRow from "./ComplicationsRow";
+  import {newBlankComplication} from "../js/heroSheetVersioning.js";
+
   const complicationsData = require("../data/complicationsData.json");
 
   export default {
-    name: "Complications.vue",
-    components: {
-      ComplicationsRow
-    },
+    name: "Complications",
     props: {
       "complications": { type: Array, required: true }
     },
     data: function() {
       return {
-        complicationsData,
-        deleteIsVisible: false,
-        selectedComplicationTypeToAdd: "motivation"
+        complicationsData: complicationsData,
+        deleteIsVisible: false
       }
     },
     methods: {
       addComplication: function() {
-        const newComplication = {
-          complicationType: this.selectedComplicationTypeToAdd,
-          description: ""
-        };
-        this.complications.push(newComplication);
+        this.complications.push(newBlankComplication());
+      },
+      isOutOfSpec: function(complication) {
+        return !Object.keys(complicationsData.complicationTypes).includes(complication.complicationType);
       }
     }
   }
 </script>
 
 <style scoped>
+  div.display-contents {
+    display: contents;
+  }
   .complications-list.deleteVisible {
     grid-template-columns: max-content 1fr max-content;
   }
@@ -75,5 +83,12 @@
     background-color: var(--section-color);
     text-align: center;
     margin-top: 5px;
+  }
+  .complication-type {
+    background-color: var(--entry-field);
+  }
+  .isOutOfSpec {
+    outline: var(--error-color) solid 4px;
+    outline-offset: -4px;
   }
 </style>

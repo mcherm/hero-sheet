@@ -25,16 +25,11 @@
 </template>
 
 <script>
-  import TrashIcon from "./TrashIcon";
-
   import {newBlankPower} from "../js/heroSheetVersioning.js";
   const standardPowers = require("../data/standardPowers.json");
 
   export default {
     name: "PowerList",
-    components: {
-      TrashIcon
-    },
     props: {
       powers: { type: Array, required: true }
     },

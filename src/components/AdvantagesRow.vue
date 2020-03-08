@@ -19,17 +19,11 @@
 </template>
 
 <script>
-  import DocsLookup from "./DocsLookup.vue"
-  import TrashIcon from "./TrashIcon.vue"
   // FIXME: known bug: Luck costs 2 per level, not 1.
   const standardAdvantages = require("../data/standardAdvantages.json");
 
   export default {
     name: "AdvantagesRow",
-    components: {
-      DocsLookup,
-      TrashIcon
-    },
     props: {
       advantage: { type: Object, required: true },
       advantages: { type: Array, required: true },

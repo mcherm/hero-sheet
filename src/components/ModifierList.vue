@@ -34,12 +34,10 @@
 
 <script>
   import ModifierListNewModifierChooser from "./ModifierListNewModifierChooser";
-  import TrashIcon from "./TrashIcon";
 
   export default {
     name: "ModifierList",
     components: {
-      TrashIcon,
       ModifierListNewModifierChooser
     },
     props: {

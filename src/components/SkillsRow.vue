@@ -26,17 +26,10 @@
 </template>
 
 <script>
-  import DocsLookup from "./DocsLookup.vue"
-  import TrashIcon from "./TrashIcon";
-
   const skillsData = require("../data/skillsData.json");
 
   export default {
     name: "SkillsRow",
-    components: {
-      DocsLookup,
-      TrashIcon
-    },
     props: {
       skill: { type: Object, required: true },
       isDeleting: { type: Boolean, required: true },

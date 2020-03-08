@@ -12,18 +12,17 @@
           v-for="defenseName in Object.keys(character.defenses)"
           :key="defenseName"
       >
-        <label class="row-label grid-with-lines-cell">{{defenseName}}</label>
-        <number-display class="grid-with-lines-cell" :value="base(defenseName)"/>
+        <label class="row-label">{{defenseName}}</label>
+        <number-display :value="base(defenseName)"/>
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
         <number-entry
             v-else
-            class="grid-with-lines-cell"
             :value="obj(defenseName).purchased"
             @input="updatePurchased(defenseName, $event)"
         />
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
-        <number-display v-else class="grid-with-lines-cell" :value="obj(defenseName).cost"/>
-        <number-display class="grid-with-lines-cell" :value="obj(defenseName).ranks" :isOutOfSpec="isOutOfSpec(defenseName)"/>
+        <number-display v-else :value="obj(defenseName).cost"/>
+        <number-display :value="obj(defenseName).ranks" :isOutOfSpec="isOutOfSpec(defenseName)"/>
       </div>
     </div>
 

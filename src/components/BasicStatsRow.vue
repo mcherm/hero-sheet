@@ -14,13 +14,8 @@
 </template>
 
 <script>
-  import DocsLookup from "./DocsLookup.vue"
-
   export default {
     name: "BasicStatsRow",
-    components: {
-      DocsLookup
-    },
     props: {
       statName: { type: String, required: true },
       statObj: { type: Object, required: true },

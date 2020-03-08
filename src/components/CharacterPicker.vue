@@ -33,13 +33,9 @@
 
 <script>
   import {newBlankCharacter} from "../js/heroSheetVersioning.js";
-  import TrashIcon from "./TrashIcon";
 
   export default {
     name: "CharacterPicker",
-    components: {
-      TrashIcon
-    },
     props: {
       user: { type: String, required: true },
       characterId: { type: String, required: true }

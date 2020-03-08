@@ -22,12 +22,10 @@
 </template>
 
 <script>
-  import DocsLookup from "./DocsLookup";
   const campaignData = require("../data/campaignData.json");
 
   export default {
     name: "Campaign",
-    components: {DocsLookup},
     props: {
       campaign: { type: Object, required: true }
     },
