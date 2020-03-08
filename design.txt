@@ -57,3 +57,16 @@ TODO: Campaign limits not implemented yet:
     effect Rank <= powerLevel
   * For all campaign limits, should make a list of them and be able to display
     it and even make exceptions for individual ones.
+
+TODO: Need to be able to purchase equipment.
+
+TODO: There are power-specific modifiers. I need to:
+  * Enter the information into my data files.
+  * Write code that displays them.
+
+TODO: The way I display modifiers right now could really use some improvement.
+
+TODO: I need to record (and display) attacks.
+
+TODO: I like the way I enter new powers - click "new" then it appears in an invalid
+  state and I can edit it. I should use that approach in other places as well.
