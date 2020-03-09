@@ -88,14 +88,14 @@
           "name": "No Increase in Effectiveness",
           "description": "In the GM’s opinion, there is no real increase in effectiveness, just a change to the resistance.",
           "hasRanks": false,
-          "costType": "flat",
+          "costType": "pointsOfMultiplier",
           "cost": 0
         },
         {
           "name": "Lower Resistance",
           "description": "The change is to a generally lower (and therefore more advantageous) resistance.",
           "hasRanks": false,
-          "costType": "perRank",
+          "costType": "pointsOfMultiplier",
           "cost": 1
         }
       ]

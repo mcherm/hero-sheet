@@ -102,10 +102,10 @@
 
 <style scoped>
   .advantages-list.deleteVisible {
-    grid-template-columns: 1fr max-content 2fr 2fr max-content;
+    grid-template-columns: max-content max-content 2fr 2fr max-content;
   }
   .advantages-list.deleteInvisible {
-    grid-template-columns: 1fr max-content 2fr 2fr;
+    grid-template-columns: max-content max-content 2fr 2fr;
   }
   div.scrolling-list-footer {
     background-color: var(--section-color);
