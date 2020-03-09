@@ -29,8 +29,8 @@ const newBlankCharacter = function() {
   for (const statName in statsData) {
     abilities[statName] = {
       entered: 0,
-      cost: null,
-      ranks: null
+      cost: 0,
+      ranks: 0
     };
   }
   const defenses = {};
@@ -38,17 +38,19 @@ const newBlankCharacter = function() {
   for (const defenseName of defenseNames) {
     // These will be populated by defenses
     defenses[defenseName] = {
-      base: null,
+      base: 0,
       purchased: 0,
-      cost: null,
-      ranks: null
+      cost: 0,
+      ranks: 0
     }
   }
-  const skillList = {};
+  const skillList = [];
   for (const skillName in skillsData.normalSkills) {
-    skillList[skillName] = {
-      ranks: 0
-    };
+    skillList.push({
+      name: skillName,
+      ranks: 0,
+      isTemplate: false
+    });
   }
   const skills = {
     skillList,
@@ -81,7 +83,17 @@ const newBlankAdvantage = function() {
     name: "",
     ranks: null,
     description: ""
-  }
+  };
+};
+
+// New blank skills are ALWAYS template skills since that's the only kind you can add
+const newBlankSkill = function() {
+  return {
+    name: "",
+    ranks: 0,
+    isTemplate: true,
+    specialization: ""
+  };
 };
 
 const newBlankPower = function() {
@@ -152,6 +164,7 @@ const upgradeVersion = function(charsheet) {
 export {
   newBlankCharacter,
   newBlankAdvantage,
+  newBlankSkill,
   newBlankPower,
   newBlankComplication,
   upgradeVersion

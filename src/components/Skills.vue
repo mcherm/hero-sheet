@@ -1,74 +1,115 @@
 <template>
   <boxed-section title="Skills">
-    <table class="skills-table">
-      <tr class="column-headers">
-        <th></th>
-        <th class="col-label">Ability</th>
-        <th class="col-label">Base Value</th>
-        <th class="col-label">Ranks</th>
-        <th class="col-label">Specialization</th>
-        <th class="col-label">Skill Roll</th>
-        <th class="col-label">Docs</th>
-        <th v-if="isDeleting" class="col-label"></th>
-      </tr>
-      <tr
-        v-for="(skill, skillIndex) in character.skills.skillList"
-        :key="skillIndex"
-        is="skills-row"
-        :skill="skill"
-        :isDeleting="isDeleting"
-        :character="character"
-        v-on:update:ranks="updateRank(skill, $event)"
-        v-on:delete="deleteSkill(skill)"
-      />
-    </table>
-    <button v-if="!(isAdding || isDeleting)" v-on:click="isAdding = true">Add Skill</button>
-    <button v-if="!(isAdding || isDeleting)" v-on:click="isDeleting = true">Delete Skill</button>
-    <button v-if="isDeleting" v-on:click="isDeleting = false">Done Deleting</button>
-    <div v-if="isAdding" class="wrapper-to-leave-background-color-alone">
-      <select v-model="selectedTemplateToAdd">
-        <option disabled value="">Select Skill to Add</option>
-        <option
-            v-for="(templateSkill, templateSkillName) in skillsData.templateSkills"
-            :key="templateSkillName"
-            :value="templateSkillName"
-        >{{templateSkillName}}</option>
-      </select>
+    <div class="minimum-necessary-width">
+      <div
+          class="skills-list grid-with-lines"
+          :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}"
+      >
+
+        <label class="col-label">Skill</label>
+        <label class="col-label">Ability</label>
+        <label class="col-label">Base Value</label>
+        <label class="col-label">Ranks</label>
+        <label class="col-label">Specialization</label>
+        <label class="col-label">Skill Roll</label>
+        <label class="col-label">Docs</label>
+        <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
+
+        <div class="display-contents"
+             v-for="(skill, skillIndex) in character.skills.skillList"
+             :key="skillIndex"
+        >
+          <label class="row-label" :class="{isOutOfSpec: !skill.name}">
+            <span v-if="skillData(skill).ability">{{skill.name}}</span>
+            <select v-else :value="skill.name" @change="setSkillName(skill, $event.target.value)">
+              <option disabled value="">Select Skill</option>
+              <option
+                  v-for="(templateSkill, templateSkillName) in skillsData.templateSkills"
+                  :key="templateSkillName"
+                  :value="templateSkillName"
+              >{{templateSkillName}}</option>
+            </select>
+            <span v-else>CHOOSE</span>
+          </label>
+          <td class="abilityName" :class="{isOutOfSpec: !skillData(skill).ability}">{{skillData(skill).ability}}</td>
+          <number-display class="base-value" :value="baseValue(skill)"/>
+          <number-entry
+              :value="skill.ranks"
+              @input="updateRanks(skill, $event)"
+          />
+          <string-entry v-if="skill.isTemplate" v-model="skill.specialization"/>
+          <div v-else class="inapplicable"></div>
+          <div v-if="skillRoll(skill) === null" class="skill-roll roll-not-applicable">N/A</div>
+          <number-display v-else :value="skillRoll(skill)" :isOutOfSpec="skillOutOfSpec(skillRoll)" class="skill-roll"/>
+          <docs-lookup :docsURL="skillData(skill).docsURL"/>
+          <div v-if="deleteIsVisible && !skill.isTemplate" class="grid-with-lines-no-lines"></div>
+          <button
+              v-if="deleteIsVisible && skill.isTemplate"
+              class="trash-button grid-with-lines-no-lines"
+              @click="deleteSkill(skill)"
+          >
+            <trash-icon/>
+          </button>
+        </div>
+      </div>
+      <div class="scrolling-list-footer">
+        <button v-on:click="addSkill()">Add Skill</button>
+        <button v-on:click="deleteIsVisible = !deleteIsVisible">
+          <span v-if="deleteIsVisible">Done Deleting</span>
+          <span v-else>Delete</span>
+        </button>
+      </div>
     </div>
-    <button v-if="isAdding" :disabled="selectedTemplateToAdd === ''" v-on:click="addTemplateSkill()">Add Skill</button>
-    <button v-if="isAdding" v-on:click="stopAdding()">Cancel</button>
   </boxed-section>
 </template>
 
 <script>
-  import SkillsRow from "./SkillsRow.vue"
+  import {newBlankSkill} from "../js/heroSheetVersioning.js";
 
   const skillsData = require("../data/skillsData.json");
 
   export default {
     name: "Skills",
-    components: {
-      SkillsRow
-    },
-    created: function() {
-      this.updateTotalCost();
+    props: {
+      character: { type: Object, required: true }
     },
     data: function() {
       return {
         skillsData: skillsData,
-        isAdding: false,
-        isDeleting: false,
-        selectedTemplateToAdd: ""
-      };
-    },
-    props: {
-      character: { type: Object, required: true },
+        deleteIsVisible: false
+      }
     },
     methods: {
+      skillData: function(skill) {
+        let result;
+        if (skill.isTemplate) {
+          result = skillsData.templateSkills[skill.name];
+        } else {
+          result = skillsData.normalSkills[skill.name];
+        }
+        if (!result) {
+          // Need to return dummy value
+          return {
+            ability: null,
+            useUntrained: false,
+            docsURL: null
+          };
+        }
+        return result;
+      },
+      baseValue: function(skill) {
+        const ability = this.skillData(skill).ability;
+        if (ability === null) {
+          // This is a dummy skill (invalid). We just need to return some dummy data
+          return 0;
+        } else {
+          return this.character.abilities[ability].ranks;
+        }
+      },
       /*
        * Called when a skill gets a new number of ranks.
        */
-      updateRank: function(skill, newRanks) {
+      updateRanks: function(skill, newRanks) {
         skill.ranks = Number(newRanks);
         this.updateTotalCost();
       },
@@ -76,42 +117,75 @@
         const totalRanks = this.character.skills.skillList.reduce((x, y) => x + y.ranks, 0);
         this.character.skills.cost = Math.ceil(totalRanks / 2);
       },
-      /*
-       * Call this whenever we exit from the adding mode
-       */
-      stopAdding: function() {
-        this.isAdding = false;
-        this.selectedTemplateToAdd = "";
-      },
-      addTemplateSkill: function() {
-        if (this.selectedTemplateToAdd === "") {
-          throw Error("Should not be able to happen.");
+      skillRoll: function(skill) {
+        if (this.skillData(skill).useUntrained || skill.ranks > 0) {
+          return this.baseValue(skill) + skill.ranks;
+        } else {
+          return null;
         }
-        const newSkillObject = {
-          "name": this.selectedTemplateToAdd,
-          "ranks": 0,
-          "isTemplate": true,
-          "specialization": ""
-        };
-        this.character.skills.skillList.push(newSkillObject);
+      },
+      skillOutOfSpec: function(skillRoll) {
+        const powerLevel = this.character.campaign.powerLevel;
+        return !isNaN(powerLevel) && !isNaN(skillRoll) && skillRoll > powerLevel + 10;
+      },
+      setSkillName: function(skill, skillName) {
+        skill.name = skillName;
+        this.sortSkills();
+      },
+      sortSkills: function() {
         this.character.skills.skillList.sort(
           (x,y) => (x.name < y.name) ? -1 : (x.name > y.name) ? 1: 0
         );
-        this.stopAdding();
       },
       deleteSkill: function(skill) {
         const skillList = this.character.skills.skillList;
         this.$delete(skillList, skillList.indexOf(skill));
+      },
+      addSkill: function() {
+        const newSkill = newBlankSkill();
+        this.character.skills.skillList.push(newSkill);
       }
     }
   }
 </script>
 
 <style scoped>
-  th {
-    border: 1px solid var(--grid-line-color);
-  }
-  .wrapper-to-leave-background-color-alone {
+  .minimum-necessary-width {
     display: inline-block;
+    background-color: var(--section-color);
+  }
+  .minimum-necessary-width > * {
+    background-color: var(--paper-color);
+  }
+  .skills-list.deleteVisible {
+    grid-template-columns: max-content max-content max-content max-content max-content max-content max-content max-content;
+  }
+  .skills-list.deleteInvisible {
+    grid-template-columns: max-content max-content max-content max-content max-content max-content max-content;
+  }
+  div.scrolling-list-footer {
+    background-color: var(--section-color);
+    margin-top: 5px;
+    text-align: center;
+  }
+  .abilityName {
+    text-transform: capitalize;
+    padding: 0 2px;
+  }
+  .skills-list > .display-contents > .base-value {
+    margin-left: 0;
+  }
+  .skills-list > .display-contents > .skill-roll {
+    margin-left: 0;
+  }
+  .inapplicable {
+    background-color: var(--inapplicable-color);
+  }
+  .roll-not-applicable {
+    text-align: center;
+  }
+  .isOutOfSpec {
+    outline: var(--error-color) solid 4px;
+    outline-offset: -4px;
   }
 </style>
