@@ -1,0 +1,36 @@
+Beta Testing for Hero-Sheet
+------
+Thank you for offering to help beta-test my online Mutants and Masterminds character sheet.
+
+I'm hoping for a couple of things. First - I'd like you to try it out. Create a few characters, fiddle with the controls. Then, I'd like you to email me with feedback. I'm looking for several different kinds of feedback:
+
+(1) Comments on the user interface. Something like "It really needs to show the total character cost in the top or bottom of every screen."
+
+(2) Errors in the program. Something like "When I add a skill, then remove it the skill still shows until after I navigate away from the screen."
+
+(3) Errors in the game logic. Something like "You are calculating the cost for the Close Combat skill wrong. It should actually be calculated like xxx."
+
+(4) Suggestions for prioritization. Something like "The most important thing to do next would be to support a list of equipment."
+
+You can send me the feedback by email. My email address is <mcherm@mcherm.com>.
+
+There are a few BIG problems that I'm already aware of. For example, the mechanism for adding modifiers (extras and flaws) to powers is awkward, the descriptions of them aren't clear, and so far I only let you chose from the common modifiers, not the modifiers specific to the individual powers. I'm continuing to work on the system and I'm hoping your feedback and suggestions will help.
+
+The site itself is still in a preliminary state, and is not yet ready for general consumption. One of the things that I haven't yet implemented is user logins -- right now if anyone goes to the site they can simply type in any username and it will open that user's characters (or create that user if it didn't exist yet). No passwords; no limits on users messing up other user's stuff. So I would prefer if you didn't pass on the URL to anyone else until I have it ready for users.
+
+That being said, the site can be found at:
+    https://hero-sheet.com
+
+Thank you so much for offering to help me test this out! I'm really looking forward to finishing it and making it available to people.
+
+-- Michael Chermside
+
+
+------
+Sending to:
+
+/u/PonyPassingBy
+/u/Adran06
+/u/Mason_Claye
+/u/rcbeller
+/u/OptimismBeast
