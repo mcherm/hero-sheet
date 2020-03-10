@@ -1,16 +1,7 @@
 <template>
   <boxed-section title="Advantages">
     <template v-slot:exhibit>
-      <div class="horizontal">
-        <div class="cost-display grid-with-lines">
-          <label class="row-label">advantages</label>
-          <number-display :value="advantageCost(character)"/>
-        </div>
-        <div class="cost-display grid-with-lines">
-          <label class="row-label">character</label>
-          <number-display :value="totalCost(character)" :isOutOfSpec="costOutOfSpec(character)"/>
-        </div>
-      </div>
+      <local-cost-display :character="character" extra-label="advantages" :extra-value-function="advantageCost"/>
     </template>
     <div class="advantages-list grid-with-lines" :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
       <div class="col-label">Advantage</div>
@@ -63,13 +54,18 @@
 </template>
 
 <script>
+  import LocalCostDisplay from "./LocalCostDisplay";
+
   import {newBlankAdvantage} from "../js/heroSheetVersioning.js";
-  import {advantageIsRanked, advantageCost, totalCost, costOutOfSpec} from "../js/heroSheetUtil";
+  import {advantageIsRanked, advantageCost} from "../js/heroSheetUtil";
 
   const standardAdvantages = require("../data/standardAdvantages.json");
 
   export default {
     name: "Advantages",
+    components: {
+      LocalCostDisplay
+    },
     props: {
       character: { type: Object, required: true }
     },
@@ -91,8 +87,7 @@
     },
     methods: {
       advantageCost,
-      totalCost,
-      costOutOfSpec,
+      advantageIsRanked,
       standardAdvantage: function(advantage) {
         const result = standardAdvantages[advantage.name];
         if (result) {
@@ -107,7 +102,6 @@
           }
         }
       },
-      advantageIsRanked: advantageIsRanked,
       setAdvantageName: function(advantage, newAdvantageName) {
         advantage.name = newAdvantageName;
         if (advantageIsRanked(advantage)) {
@@ -165,15 +159,5 @@
   }
   .advantage-type {
     background-color: var(--entry-field);
-  }
-  .cost-display {
-    grid-template-columns: max-content max-content;
-    margin: 0 2px;
-  }
-  .cost-display > .row-label {
-    background-color: var(--paper-color);
-  }
-  .horizontal {
-    display: flex;
   }
 </style>

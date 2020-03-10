@@ -1,17 +1,25 @@
 <template>
   <boxed-section title="Powers">
-    <power-list :powers="powers"/>
+    <template v-slot:exhibit>
+      <local-cost-display :character="character" extra-label="powers" :extra-value-function="powerCost"/>
+    </template>
+    <power-list :powers="character.powers"/>
   </boxed-section>
 </template>
 
 <script>
+  import LocalCostDisplay from "./LocalCostDisplay";
   import {newBlankPower} from "../js/heroSheetVersioning.js";
+  import {powerCost} from "../js/heroSheetUtil";
   const standardPowers = require("../data/standardPowers.json");
 
   export default {
     name: "PowerListTopLevel",
+    components: {
+      LocalCostDisplay
+    },
     props: {
-      powers: { type: Array, required: true }
+      character: { type: Object, required: true }
     },
     data: function() {
       return {
@@ -35,6 +43,7 @@
       }
     },
     methods: {
+      powerCost,
       addPower: function() {
         const blankPower = newBlankPower();
         this.powers.push(blankPower);

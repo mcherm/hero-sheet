@@ -122,7 +122,6 @@ const skillCost = function(character) {
 };
 
 const advantageCost = function(character) {
-  console.log(`advantageCost() <- character=${character} character.version=${JSON.stringify(Object.keys(character))}`); // FIXME: Remove
   return character.advantages.reduce((x,y) => x + (advantageIsRanked(y) ? y.ranks : 1), 0);
 };
 

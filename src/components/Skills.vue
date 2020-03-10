@@ -1,5 +1,8 @@
 <template>
   <boxed-section title="Skills">
+    <template v-slot:exhibit>
+      <local-cost-display :character="character" extra-label="skills" :extra-value-function="skillCost"/>
+    </template>
     <div class="minimum-necessary-width">
       <div
           class="skills-list grid-with-lines"
@@ -64,12 +67,16 @@
 </template>
 
 <script>
+  import LocalCostDisplay from "./LocalCostDisplay";
   import {newBlankSkill} from "../js/heroSheetVersioning.js";
-
+  import {skillCost} from "../js/heroSheetUtil";
   const skillsData = require("../data/skillsData.json");
 
   export default {
     name: "Skills",
+    components: {
+      LocalCostDisplay
+    },
     props: {
       character: { type: Object, required: true }
     },
@@ -80,6 +87,7 @@
       }
     },
     methods: {
+      skillCost,
       skillData: function(skill) {
         let result;
         if (skill.isTemplate) {

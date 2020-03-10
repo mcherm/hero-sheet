@@ -25,7 +25,7 @@
         <advantages :character="character"/>
       </template>
       <template slot="powers">
-        <power-list-top-level :powers="character.powers"/>
+        <power-list-top-level :character="character"/>
       </template>
       <template slot="complications">
         <complications :complications="character.complications"/>
