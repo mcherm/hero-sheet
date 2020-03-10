@@ -3,7 +3,7 @@
   user can toggle between several different bits of content.
 
   It is used like this:
-      <tab-display>
+    <tab-display>
       <template slot="tab 1">
         First Tab Contents
       </template>

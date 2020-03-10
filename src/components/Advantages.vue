@@ -1,5 +1,17 @@
 <template>
   <boxed-section title="Advantages">
+    <template v-slot:exhibit>
+      <div class="horizontal">
+        <div class="cost-display grid-with-lines">
+          <label class="row-label">advantages</label>
+          <number-display :value="advantageCost(character)"/>
+        </div>
+        <div class="cost-display grid-with-lines">
+          <label class="row-label">character</label>
+          <number-display :value="totalCost(character)" :isOutOfSpec="costOutOfSpec(character)"/>
+        </div>
+      </div>
+    </template>
     <div class="advantages-list grid-with-lines" :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
       <div class="col-label">Advantage</div>
       <div class="col-label">Ranks</div>
@@ -8,7 +20,7 @@
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
 
       <div
-          v-for="advantage in advantages"
+          v-for="advantage in character.advantages"
           :key="advantage.name"
           class="display-contents"
       >
@@ -33,7 +45,7 @@
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="$delete(advantages, advantages.indexOf(advantage))"
+            v-on:click="$delete(character.advantages, character.advantages.indexOf(advantage))"
         >
           <trash-icon/>
         </button>
@@ -52,14 +64,14 @@
 
 <script>
   import {newBlankAdvantage} from "../js/heroSheetVersioning.js";
-  import {advantageIsRanked} from "../js/heroSheetUtil";
+  import {advantageIsRanked, advantageCost, totalCost, costOutOfSpec} from "../js/heroSheetUtil";
 
   const standardAdvantages = require("../data/standardAdvantages.json");
 
   export default {
     name: "Advantages",
     props: {
-      advantages: { type: Array, required: true }
+      character: { type: Object, required: true }
     },
     data: function() {
       return {
@@ -70,7 +82,7 @@
       // A list of all standardAdvantages that are NOT in use on this character
       unusedStandardAdvantages: function() {
         const advantageInUse = {};
-        for (const advantage of this.advantages) {
+        for (const advantage of this.character.advantages) {
           advantageInUse[advantage.name] = true;
         }
         return Object.values(standardAdvantages).filter(
@@ -78,6 +90,9 @@
       }
     },
     methods: {
+      advantageCost,
+      totalCost,
+      costOutOfSpec,
       standardAdvantage: function(advantage) {
         const result = standardAdvantages[advantage.name];
         if (result) {
@@ -114,11 +129,11 @@
             return x.name.localeCompare(y.name);
           }
         };
-        this.advantages.sort(sortFunc);
+        this.character.advantages.sort(sortFunc);
       },
       addAdvantage: function() {
         const newAdvantage = newBlankAdvantage();
-        this.advantages.push(newAdvantage);
+        this.character.advantages.push(newAdvantage);
         // FIXME: I should sort the advantages at some point, right?
       }
     }
@@ -150,5 +165,15 @@
   }
   .advantage-type {
     background-color: var(--entry-field);
+  }
+  .cost-display {
+    grid-template-columns: max-content max-content;
+    margin: 0 2px;
+  }
+  .cost-display > .row-label {
+    background-color: var(--paper-color);
+  }
+  .horizontal {
+    display: flex;
   }
 </style>

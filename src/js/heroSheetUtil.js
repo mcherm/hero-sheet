@@ -109,17 +109,50 @@ const advantageIsRanked = function(advantage) {
 };
 
 
-/*
- * Given a list of advantages, this calculates the total point cost needed to buy
- * that list of advantages.
- */
-const advantagesCost = function(advantages) {
-  return advantages.reduce((x,y) => x + (advantageIsRanked(y) ? y.ranks : 1), 0);
+const abilityCost = function(character) {
+  return Object.values(character.abilities).reduce((x,y) => x + y.cost, 0);
+};
+
+const defenseCost = function(character) {
+  return Object.values(character.defenses).reduce((x,y) => x + y.cost, 0);
+};
+
+const skillCost = function(character) {
+  return character.skills.cost
+};
+
+const advantageCost = function(character) {
+  console.log(`advantageCost() <- character=${character} character.version=${JSON.stringify(Object.keys(character))}`); // FIXME: Remove
+  return character.advantages.reduce((x,y) => x + (advantageIsRanked(y) ? y.ranks : 1), 0);
+};
+
+const powerCost = function(character) {
+  return Object.values(character.powers).reduce((x,y) => x + y.cost, 0);
+};
+
+const totalCost = function(character) {
+  return abilityCost(character) + defenseCost(character) + skillCost(character) +
+    advantageCost(character) + powerCost(character);
+};
+
+const availablePoints = function(character) {
+  return character.campaign.powerLevel * 15 + character.campaign.xpAwarded;
+};
+
+const costOutOfSpec = function(character) {
+  return totalCost(character) > availablePoints(character);
 };
 
 
 export {
   powerCostCalculate,
   advantageIsRanked,
-  advantagesCost
+  abilityCost,
+  defenseCost,
+  skillCost,
+  advantageCost,
+  powerCost,
+  totalCost,
+  availablePoints,
+  costOutOfSpec
 };

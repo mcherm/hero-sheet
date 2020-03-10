@@ -2,63 +2,42 @@
   <boxed-section title="Costs">
     <div class="cost-grid grid-with-lines">
       <label class="row-label">Abilities</label>
-      <number-display :value="abilityCost" class="values-column"/>
+      <number-display :value="abilityCost(character)" class="values-column"/>
       <label class="row-label">Defenses</label>
-      <number-display :value="defenseCost" class="values-column"/>
+      <number-display :value="defenseCost(character)" class="values-column"/>
       <label class="row-label">Skills</label>
-      <number-display :value="skillCost" class="values-column"/>
+      <number-display :value="skillCost(character)" class="values-column"/>
       <label class="row-label">Advantages</label>
-      <number-display :value="advantageCost" class="values-column"/>
+      <number-display :value="advantageCost(character)" class="values-column"/>
       <label class="row-label">Powers</label>
-      <number-display :value="powerCost" class="values-column"/>
+      <number-display :value="powerCost(character)" class="values-column"/>
       <label class="row-label">TOTAL</label>
-      <number-display :value="totalCost" :isOutOfSpec="costOutOfSpec" class="values-column"/>
+      <number-display :value="totalCost(character)" :isOutOfSpec="costOutOfSpec(character)" class="values-column"/>
       <div class="grid-spacer grid-with-lines-no-lines"/>
       <div class="grid-spacer grid-with-lines-no-lines"/>
       <label class="row-label">Available</label>
-      <number-display :value="availablePoints" class="values-column"/>
+      <number-display :value="availablePoints(character)" class="values-column"/>
     </div>
   </boxed-section>
 </template>
 
 <script>
-  import {advantagesCost} from "../js/heroSheetUtil";
+  import {abilityCost, defenseCost, skillCost, advantageCost, powerCost, totalCost, availablePoints, costOutOfSpec} from "../js/heroSheetUtil";
 
   export default {
     name: "OverallCosts",
     props: {
       character: { type: Object, required: true }
     },
-    computed: {
-      abilityCost: function() {
-        return Object.values(this.character.abilities).reduce(
-          (x,y) => x + y.cost, 0);
-      },
-      defenseCost: function() {
-        return Object.values(this.character.defenses).reduce(
-          (x,y) => x + y.cost, 0);
-      },
-      skillCost: function() {
-        return this.character.skills.cost;
-      },
-      advantageCost: function() {
-        return advantagesCost(this.character.advantages);
-      },
-      powerCost: function() {
-        return Object.values(this.character.powers).reduce(
-          (x,y) => x + y.cost, 0);
-      },
-      totalCost: function() {
-        return this.abilityCost + this.defenseCost + this.skillCost +
-          this.advantageCost + this.powerCost;
-      },
-      availablePoints: function() {
-        const c = this.character.campaign;
-        return c.powerLevel * 15 + c.xpAwarded;
-      },
-      costOutOfSpec: function() {
-        return this.totalCost > this.availablePoints;
-      }
+    methods: {
+      abilityCost,
+      defenseCost,
+      skillCost,
+      advantageCost,
+      powerCost,
+      totalCost,
+      availablePoints,
+      costOutOfSpec
     }
   }
 </script>

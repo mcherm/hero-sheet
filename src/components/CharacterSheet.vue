@@ -22,7 +22,7 @@
         <skills :character="character"/>
       </template>
       <template slot="advantages">
-        <advantages :advantages="character.advantages"/>
+        <advantages :character="character"/>
       </template>
       <template slot="powers">
         <power-list-top-level :powers="character.powers"/>
