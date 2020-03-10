@@ -1,4 +1,5 @@
 
+const standardAdvantages = require("../data/standardAdvantages.json");
 const standardPowers = require("../data/standardPowers.json");
 
 
@@ -97,6 +98,28 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
 };
 
 
+/*
+ * Given an advantage, this will return true if that advantage has ranks and
+ * false if it is the kind that doesn't. It returns false if the
+ * advantage is not one of the known kinds.
+ */
+const advantageIsRanked = function(advantage) {
+  const standardAdvantage = standardAdvantages[advantage.name];
+  return standardAdvantage ? standardAdvantage.isRanked : false;
+};
+
+
+/*
+ * Given a list of advantages, this calculates the total point cost needed to buy
+ * that list of advantages.
+ */
+const advantagesCost = function(advantages) {
+  return advantages.reduce((x,y) => x + (advantageIsRanked(y) ? y.ranks : 1), 0);
+};
+
+
 export {
-  powerCostCalculate
+  powerCostCalculate,
+  advantageIsRanked,
+  advantagesCost
 };

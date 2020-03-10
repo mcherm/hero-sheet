@@ -68,15 +68,6 @@ TODO: The way I display modifiers right now could really use some improvement.
 
 TODO: I need to record (and display) attacks.
 
-TODO: I like the way I enter new powers - click "new" then it appears in an invalid
-  state and I can edit it. I should use that approach in other places as well.
-  ** ONLY Skills remains to do!!
-
-TODO: Keep the advantages list sorted.
-
-TODO: Display error colors when an advantage which should have ranks has an invalid
-  value (not numeric OR is null).
-
 TODO: Sort the characters for a user by campaign, then by character name.
 
 TODO: Generate a PDF.
@@ -87,9 +78,8 @@ TODO: [Adran06] Some advantages should impact other things
 
 TODO: [Adran06] Expertise should be able to depend on other abilities besides "Intellect".
 
-TODO: [Adran06] Advantage cost should depend on the number of ranks. Also Luck should cost
-  2x. Also the # of ranks (for those with ranks) should start out as 0 not "".
-
 TODO: Extra sheet for minions. And for Morph[Metamorph]. And for Summon.
 
 TODO: Maybe an "extra sheet" for variable powers? Listing some options (for free)?
+
+TODO: Display cost on each pane that builds up costs.

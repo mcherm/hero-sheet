@@ -22,6 +22,8 @@
 </template>
 
 <script>
+  import {advantagesCost} from "../js/heroSheetUtil";
+
   export default {
     name: "OverallCosts",
     props: {
@@ -40,8 +42,7 @@
         return this.character.skills.cost;
       },
       advantageCost: function() {
-        return this.character.advantages.reduce(
-          (x,y) => x + (y.isRanked ? y.ranks : 1), 0);
+        return advantagesCost(this.character.advantages);
       },
       powerCost: function() {
         return Object.values(this.character.powers).reduce(

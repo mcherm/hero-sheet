@@ -13,7 +13,7 @@
           class="display-contents"
       >
         <div class="advantage-type" :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
-          <select v-model="advantage.name">
+          <select :value="advantage.name" @change="setAdvantageName(advantage, $event.target.value)">
             <option v-if="advantage.name === ''" disabled value="">Select One</option>
             <option v-else :value="advantage.name">{{advantage.name}}</option>
             <option
@@ -23,7 +23,7 @@
             >{{standardAdvantage.name}}</option>
           </select>
         </div>
-        <number-entry v-if="standardAdvantage(advantage).isRanked" v-model="advantage.ranks"/>
+        <number-entry v-if="advantageIsRanked(advantage)" v-model="advantage.ranks"/>
         <div v-else class="inapplicable"></div>
         <div :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
           {{standardAdvantage(advantage).description}}
@@ -52,6 +52,7 @@
 
 <script>
   import {newBlankAdvantage} from "../js/heroSheetVersioning.js";
+  import {advantageIsRanked} from "../js/heroSheetUtil";
 
   const standardAdvantages = require("../data/standardAdvantages.json");
 
@@ -90,6 +91,30 @@
             isOutOfSpec: true
           }
         }
+      },
+      advantageIsRanked: advantageIsRanked,
+      setAdvantageName: function(advantage, newAdvantageName) {
+        advantage.name = newAdvantageName;
+        if (advantageIsRanked(advantage)) {
+          if (advantage.ranks === null) {
+            advantage.ranks = 1;
+          }
+        } else {
+          advantage.ranks = null;
+        }
+        // Sort, but with empty strings at the end
+        const sortFunc = (x, y) => {
+          if (x.name === "" && y.name !== "") {
+            return 1;
+          } else if (x.name !== "" && y.name === "") {
+            return -1;
+          } else if (x.name === "" && y.name === "") {
+            return 0;
+          } else {
+            return x.name.localeCompare(y.name);
+          }
+        };
+        this.advantages.sort(sortFunc);
       },
       addAdvantage: function() {
         const newAdvantage = newBlankAdvantage();
