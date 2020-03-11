@@ -14,6 +14,8 @@ import StringEntry from "./components/StringEntry.vue"
 Vue.component("StringEntry", StringEntry);
 import BoxedSection from "./components/BoxedSection.vue"
 Vue.component("BoxedSection", BoxedSection);
+import ModalLightbox from "./components/ModalLightbox";
+Vue.component("ModalLightbox", ModalLightbox);
 import TrashIcon from "./components/TrashIcon.vue";
 Vue.component("TrashIcon", TrashIcon);
 import DocsLookup from "./components/DocsLookup";

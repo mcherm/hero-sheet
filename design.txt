@@ -81,5 +81,3 @@ TODO: [Adran06] Some advantages should impact other things
   * Jack-Of-All-Trades should changes skills fro N/A to proper numbers
 
 TODO: [Adran06] Expertise should be able to depend on other abilities besides "Intellect".
-
-TODO: Add a page where users can see information about the application.

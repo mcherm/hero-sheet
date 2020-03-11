@@ -1,10 +1,14 @@
 <template>
   <div>
     <div class="header">
+      <button v-on:click="showingAbout = true">About</button>
       <div class="title">Hero Sheet<span v-if="characterSelected && characterName !== ''"> : {{characterName}}</span></div>
-      <button v-if="characterSelected" v-on:click="resetCharacter()" class="character-display">{{characterName}}</button>
-      <button v-if="userSelected" v-on:click="resetUser()" class="user-display">{{user}}</button>
+      <button v-if="characterSelected" @click="resetCharacter()" class="character-display">{{characterName}}</button>
+      <button v-if="userSelected" @click="resetUser()" class="user-display">{{user}}</button>
     </div>
+    <modal-lightbox v-if="showingAbout" v-on:exit="showingAbout = false">
+      <about-application/>
+    </modal-lightbox>
     <user-picker
         v-if="!userSelected"
         :user="user"
@@ -26,6 +30,7 @@
 </template>
 
 <script>
+  import AboutApplication from "./AboutApplication";
   import UserPicker from "./UserPicker.vue";
   import CharacterPicker from "./CharacterPicker.vue";
   import CharacterSheet from "./CharacterSheet.vue";
@@ -33,6 +38,7 @@
   export default {
     name: "EntirePage",
     components: {
+      AboutApplication,
       UserPicker,
       CharacterPicker,
       CharacterSheet
@@ -43,7 +49,8 @@
         user: "",
         characterSelected: false,
         characterId: "",
-        characterName: ""
+        characterName: "",
+        showingAbout: false
       }
     },
     methods: {
@@ -77,15 +84,10 @@
     flex-direction: row;
     justify-content: flex-end;
   }
-  .user-display {
+  .header button {
     border: solid 1px var(--box-border-color);
     padding: 2px;
-    margin: 2px;
-  }
-  .character-display {
-    border: solid 1px var(--box-border-color);
-    padding: 2px;
-    margin: 2px;
+    margin: 4px 2px;
   }
   .title {
     text-align: center;

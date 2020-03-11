@@ -26,6 +26,7 @@
     --grid-line-color: rgb(0, 0, 0);
     --box-border-color: rgb(0, 0, 0);
     --inapplicable-color: rgb(144, 144, 144);
+    --lightbox-shade-color: rgba(0, 0, 0, 0.5);
     font-family: sans-serif;
     font-size: small;
   }
