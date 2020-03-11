@@ -50,7 +50,12 @@
       const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters`;
       const response = await fetch(url);
       const json = await response.json();
-      this.characters = json.characters;
+      const characterList = json.characters;
+      characterList.sort((a,b) => {
+        const campaignDelta = a.campaign.localeCompare(b.campaign);
+        return campaignDelta ? campaignDelta : a.name.localeCompare(b.name);
+      });
+      this.characters = characterList;
     },
     methods: {
       idFromKey: function(key) {
