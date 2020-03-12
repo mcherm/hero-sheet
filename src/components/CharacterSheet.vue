@@ -7,7 +7,7 @@
       <template slot="background">
         <div class="h-box">
           <campaign :campaign="character.campaign"/>
-          <naming :naming="character.naming"/>
+          <background :character="character"/>
           <overall-costs :character="character"/>
         </div>
       </template>
@@ -40,7 +40,7 @@
 <script>
   import TabDisplay from "./TabDisplay.vue";
   import Campaign from "./Campaign.vue"
-  import Naming from "./Naming.vue"
+  import Background from "./Background.vue"
   import BasicStats from "./BasicStats.vue"
   import Defenses from "./Defenses.vue"
   import Skills from "./Skills.vue"
@@ -58,7 +58,7 @@
     components: {
       TabDisplay,
       Campaign,
-      Naming,
+      Background,
       BasicStats,
       Defenses,
       Skills,

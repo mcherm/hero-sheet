@@ -1,5 +1,5 @@
 <template>
-  <boxed-section title="Naming">
+  <boxed-section title="Background">
     <div class="campaign-fields grid-with-lines">
       <label class="row-label">Name</label>
       <string-entry v-model="naming.name"/>
@@ -30,6 +30,8 @@
       <string-entry v-model="naming.groupAffiliation"/>
       <label class="row-label">Home Base</label>
       <string-entry v-model="naming.baseOfOperations"/>
+      <label class="row-label">Hero Points</label>
+      <number-entry v-model="character.heroPoints" class="hero-points"/>
     </div>
   </boxed-section>
 </template>
@@ -38,7 +40,12 @@
   export default {
     name: "Naming",
     props: {
-      naming: { type: Object, required: true }
+      character: { type: Object, required: true }
+    },
+    computed: {
+      naming: function() {
+        return this.character.naming;
+      }
     }
   }
 </script>
@@ -46,6 +53,7 @@
 <style scoped>
   .campaign-fields {
     grid-template-columns: max-content max-content;
+    justify-items: stretch;
   }
   .vert-stack {
     display: flex;
@@ -53,5 +61,8 @@
   }
   .spacer {
     background-color: var(--inapplicable-color);
+  }
+  .campaign-fields > .hero-points {
+    width: auto;
   }
 </style>

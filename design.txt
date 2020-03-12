@@ -31,6 +31,10 @@ Modifiers:
 
 Bug List:
 
+TODO: [Adran06] Expertise should be able to depend on other abilities besides "Intellect".
+  - NO: the manual says that individual CHECKS may depend on other stats, but that
+    the skill still depends on Intellect.
+
 TODO: Some powers (like Invisiblity or Concealment) don't have ranks. I should
   probably categorize those and hide the rank selector for them.
 
@@ -79,5 +83,3 @@ TODO: I need to record (and display) attacks.
 TODO: [Adran06] Some advantages should impact other things
   * Improved Initiative should increase initiative
   * Jack-Of-All-Trades should changes skills fro N/A to proper numbers
-
-TODO: [Adran06] Expertise should be able to depend on other abilities besides "Intellect".

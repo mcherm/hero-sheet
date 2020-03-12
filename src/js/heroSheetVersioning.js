@@ -3,7 +3,7 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 3;
+const currentVersion = 4;
 
 const newBlankCharacter = function() {
   const version = currentVersion;
@@ -25,6 +25,7 @@ const newBlankCharacter = function() {
     groupAffiliation: "",
     baseOfOperations: ""
   };
+  const heroPoints = 1;
   const abilities = {};
   for (const statName in statsData) {
     abilities[statName] = {
@@ -135,6 +136,12 @@ const upgradeFrom2 = function(charsheet) {
   console.log(`Upgraded character from version 2 to 3.`);
 };
 
+const upgradeFrom3 = function(charsheet) {
+  charsheet.heroPoints = 1;
+  charsheet.version = 4;
+  console.log(`Upgraded character from version 3 to 4.`);
+};
+
 /*
  * Modifies a charsheet in place to upgrade it one step.
  */
@@ -143,7 +150,9 @@ const upgradeFrom = function(charsheet) {
   if (oldVersion === 1) {
     upgradeFrom1(charsheet);
   } else if (oldVersion === 2) {
-      upgradeFrom2(charsheet);
+    upgradeFrom2(charsheet);
+  } else if (oldVersion === 3) {
+    upgradeFrom3(charsheet);
   } else {
     throw Error(`In upgradeVersion(), upgrading from version ${oldVersion} is not supported.`);
   }

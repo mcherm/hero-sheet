@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 71,
@@ -16,8 +16,9 @@
     "eyesHair": "",
     "costume": "Red with blue legs; facemask and spider symbol.",
     "groupAffiliation": "Works alone",
-    "baseOfOperations": ""
+    "baseOfOperations": "New York"
   },
+  "heroPoints": 1,
   "abilities": {
     "strength": {
       "entered": 9,
