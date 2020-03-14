@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 71,
@@ -329,5 +329,16 @@
       "complicationType": "relationship",
       "description": "Aunt May; Mary Jane Watson"
     }
-  ]
+  ],
+  "attacks": {
+    "attackList": [
+      {
+        "type": "unarmed",
+        "name": "Unarmed",
+        "attackCheck": 9,
+        "effectType": "damage",
+        "resistanceDC": 9
+      }
+    ]
+  }
 }
