@@ -29,6 +29,18 @@ Modifiers:
     pointsOfMultiplierPerRankOfModifier
 
 
+Proposed Design Policy:
+  Some fields are actually entered by users. These fields clearly should appear in the
+  JSON charsheet. Some fields (costs are a good example) get calculated. Here I think
+  there should be a mix of two policies. For fields that get calculated from something
+  that lives at a fixed location, do NOT include the calculated field in the charsheet
+  but instead calculate it on demand. However, for fields that get calculated based on
+  something that is NOT at a fixed location -- something that might or might not
+  exist, we should create a standard place for the field to be placed and then create
+  watches to update it. I'll want references to those entries so I'll create IDs for
+  the individual powers/abilities/whatever that create these and always list them by
+  those IDs.
+
 Bug List:
 
 TODO: [Adran06] Expertise should be able to depend on other abilities besides "Intellect".
@@ -83,3 +95,9 @@ TODO: I need to record (and display) attacks.
 TODO: [Adran06] Some advantages should impact other things
   * Improved Initiative should increase initiative
   * Jack-Of-All-Trades should changes skills fro N/A to proper numbers
+
+TODO: "Hero Points" and "Power Points" must be renamed; they are excluded from
+  the open game license.
+
+TODO: The Affliction power should select which kind of effect it applies and
+  what resists it.

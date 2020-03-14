@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 5,
   "campaign": {
     "powerLevel": 14,
     "xpAwarded": 158,
@@ -91,218 +91,156 @@
   "advantages": [
     {
       "name": "Accurate Attack",
-      "effect": "Trade effect DC for attack bonus.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "All-out Attack",
-      "effect": "Trade active defense for attack bonus.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Assessment",
-      "effect": "Use Insight to learn an opponent's combat capabilities.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Attractive",
-      "effect": "Circumstance bonus to interaction based on your looks.",
-      "isRanked": true,
       "ranks": 1,
       "description": ""
     },
     {
       "name": "Benefit",
-      "effect": "Gain a significant perquisite or fringe benefit.",
-      "isRanked": true,
       "ranks": 5,
       "description": "Wealthy Billionare"
     },
     {
       "name": "Close Attack",
-      "effect": "+1 bonus to close attack checks per rank.",
-      "isRanked": true,
       "ranks": 2,
       "description": ""
     },
     {
       "name": "Connected",
-      "effect": "Call in assistance or favors with a Persuasion check.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Contacts",
-      "effect": "Make an initial Investigation check in one minute.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Defensive Attack",
-      "effect": "Trade attack bonus for active defense bonus.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Eidetic Memory",
-      "effect": "Total recall, +5 circumstance bonus to remember things.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Evasion",
-      "effect": "Circumstance bonus to avoid area effects.",
-      "isRanked": true,
       "ranks": 2,
       "description": ""
     },
     {
       "name": "Favored Environment",
-      "effect": "Circumstance bonus to attack or defense in an environment.",
-      "isRanked": false,
       "ranks": null,
       "description": "Air Combat"
     },
     {
       "name": "Improved Aim",
-      "effect": "Double circumstance bonuses for aiming.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Improved Critical",
-      "effect": "+1 to critical threat range with an attack per rank.",
-      "isRanked": true,
       "ranks": 4,
       "description": "For Override Repulsors: Blast 20, Plasma Bolts: Blast 15, Repulsor Rays: Blast 14, Unibeam: Cone Area Blast 14"
     },
     {
       "name": "Improved Defense",
-      "effect": "+2 bonus to active defense when you take the defend action.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Improved Disarm",
-      "effect": "No penalty for the disarm action.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Improved Initiative",
-      "effect": "+4 bonus to initiative checks per rank.",
-      "isRanked": true,
       "ranks": 2,
       "description": ""
     },
     {
       "name": "Improved Smash",
-      "effect": "No penalty for the smash action.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Improved Trip",
-      "effect": "No penalty for the trip action.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Inventor",
-      "effect": "Use Technology to create temporary devices.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Jack-of-All-Trades",
-      "effect": "Use any skill untrained.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Leadership",
-      "effect": "Spend a hero point to remove a condition from an ally.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Luck",
-      "effect": "Re-roll a die once per rank.",
-      "isRanked": true,
       "ranks": 6,
       "description": ""
     },
     {
       "name": "Move-by Action",
-      "effect": "Move both before and after your standard action.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Power Attack",
-      "effect": "Trade attack bonus for effect bonus.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Precise Attack",
-      "effect": "Ignore attack check penalties for either cover or concealment.",
-      "isRanked": true,
       "ranks": 4,
       "description": ""
     },
     {
       "name": "Ranged Attack",
-      "effect": "+1 bonus to ranged attack checks per rank.",
-      "isRanked": true,
       "ranks": 2,
       "description": ""
     },
     {
       "name": "Seize Initiative",
-      "effect": "Spend a hero point to go first in the initiative order.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Takedown",
-      "effect": "Free extra attack when you incapacitate a minion.",
-      "isRanked": true,
       "ranks": 1,
       "description": ""
     },
     {
       "name": "Tracking",
-      "effect": "Use Perception to follow tracks.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     },
     {
       "name": "Well-Informed",
-      "effect": "Immediate Investigation or Persuasion check to know something.",
-      "isRanked": false,
       "ranks": null,
       "description": ""
     }
@@ -410,7 +348,7 @@
   "powers": [
     {
       "name": "Iron Man Bleeding Edge Armor",
-      "effect": "Array",
+      "effect": "Alternate",
       "description": "",
       "extras": [],
       "flaws": [
@@ -508,5 +446,17 @@
       "complicationType": "motivation",
       "description": "Thrills"
     }
-  ]
+  ],
+  "heroPoints": 1,
+  "attacks": {
+    "attackList": [
+      {
+        "type": "unarmed",
+        "name": "Unarmed",
+        "attackCheck": 10,
+        "effectType": "damage",
+        "resistanceDC": 2
+      }
+    ]
+  }
 }

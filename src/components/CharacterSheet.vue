@@ -30,6 +30,9 @@
       <template slot="complications">
         <complications :complications="character.complications"/>
       </template>
+      <template slot="attacks">
+        <attacks :character="character"/>
+      </template>
     </tab-display>
     <div id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
@@ -47,11 +50,10 @@
   import Advantages from "./Advantages.vue"
   import OverallCosts from "./OverallCosts.vue"
   import PowerListTopLevel from "./PowerListTopLevel.vue"
-  import Complications from "./Complications";
+  import Complications from "./Complications.vue";
+  import Attacks from "./Attacks.vue"
 
-  import {upgradeVersion} from "../js/heroSheetVersioning";
-
-  const TESTING_NEW_VERSION = false;
+  import {currentVersion, upgradeVersion, recreateUnarmedAttack} from "../js/heroSheetVersioning";
 
   export default {
     name: "CharacterSheet",
@@ -65,7 +67,8 @@
       Advantages,
       OverallCosts,
       PowerListTopLevel,
-      Complications
+      Complications,
+      Attacks
     },
     props: {
       user: { type: String, required: true },
@@ -75,6 +78,7 @@
       return {
         character: null,
         hasUnsavedChanges: false,
+        activeSaveTimeout: null,
         initialLoadHasTriggeredEvent: false
       }
     },
@@ -99,39 +103,72 @@
           })
           .then((json) => {
             const initialVersion = json.version;
-            if (TESTING_NEW_VERSION) {
-              this.character = JSON.parse(JSON.stringify(json)); // make a copy
-            }
             upgradeVersion(json);
             this.character = json;
             if (json.version !== initialVersion) {
-              console.log("Version has been upgraded.");
+              console.log(`Version has been upgraded from ${initialVersion} to ${json.version}.`);
               this.hasUnsavedChanges = true;
+              this.scheduleSave();
             }
           });
       },
       saveCharacter: async function() {
-        if (!TESTING_NEW_VERSION) {
+        this.activeSaveTimeout = null; // It has triggered so it is no longer active
+        const isExperimentalVersion = this.character.version > currentVersion;
+        if (isExperimentalVersion) {
+          console.log(`Not saving as ${this.character.version} is an experimental version of the charsheet.`);
+        } else {
           const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
           const body = this.character_json;
           this.hasUnsavedChanges = false; // Assume the request will save the changes. If it fails, we'll handle that below.
-          const response = await fetch(url, {
-            method: "PUT",
-            headers: { 'Content-Type': 'application/json' },
-            mode: "cors",
-            body: body
-          });
-          if (response.status !== 200) {
-            // FIXME: Need to display the error to the user
-            console.log("Failed to save character", response);
-            this.hasUnsavedChanges = true;
+          try {
+            const response = await fetch(url, {
+              method: "PUT",
+              headers: { 'Content-Type': 'application/json' },
+              mode: "cors",
+              body: body
+            });
+            if (response.status !== 200) {
+              // FIXME: Need to display the error to the user
+              console.log("Failed to save character", response);
+              throw Error(`Save failed with status ${response.status}.`);
+            } else {
+              console.log("Response status was 200. Save was successful."); // FIXME: Remove (maybe?)
+            }
+          } catch(err){
+            console.log(`Error attempting to save:`, err);
+            if (!this.hasUnsavedChanges) {
+              // We marked it as saved but it wasn't done; better schedule a re-try
+              this.hasUnsavedChanges = true;
+              this.scheduleSave();
+            }
           }
         }
+      },
+      scheduleSave() {
+        const SAVE_FREQUENCY_MILLIS = 30 * 1000; // How often to save (in milliseconds)
+        if (this.activeSaveTimeout !== null) {
+          throw Error("Attempt to schedule new timeout when an existing one is still running.");
+        }
+        this.activeSaveTimeout = setTimeout(() => {
+          this.saveCharacter();
+        }, SAVE_FREQUENCY_MILLIS);
+      },
+      installNormalWatches() {
+        // FIXME: Not sure if this is a good design, but this installs watches on things that we
+        //   always need to monitor for any character sheet. It feels like it should be defined
+        //   someplace else so eventually I will move it.
+        this.$watch("character.abilities.fighting.ranks", function(newValue) {
+          recreateUnarmedAttack(this.character);
+        });
+        this.$watch("character.abilities.strength.ranks", function(newValue) {
+          recreateUnarmedAttack(this.character);
+        });
       }
     },
     computed: {
       character_json: function() {
-        return JSON.stringify(this.character, null, 2);
+        return JSON.stringify(this.character, null, 2) + "\n";
       },
       characterName: function() {
         try {
@@ -150,19 +187,22 @@
         handler: function(newCharacter) {
           if (!this.initialLoadHasTriggeredEvent) {
             this.initialLoadHasTriggeredEvent = true;
+            this.installNormalWatches();
           } else {
             if (!this.hasUnsavedChanges) {
+              // It's a new change; better work on saving it
               this.hasUnsavedChanges = true;
-              const SAVE_FREQUENCY_MILLIS = 30000; // How often to save (in milliseconds)
-              setTimeout(() => {
-                this.saveCharacter();
-              }, SAVE_FREQUENCY_MILLIS);
+              this.scheduleSave();
             }
           }
         }
       }
     },
     beforeDestroy() {
+      if (this.activeSaveTimeout !== null) {
+        clearTimeout(this.activeSaveTimeout);
+        this.activeSaveTimeout = null;
+      }
       if (this.hasUnsavedChanges) {
         this.saveCharacter();
       }
