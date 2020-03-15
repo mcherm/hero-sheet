@@ -30,8 +30,8 @@
       <string-entry v-model="naming.groupAffiliation"/>
       <label class="row-label">Home Base</label>
       <string-entry v-model="naming.baseOfOperations"/>
-      <label class="row-label">Hero Points</label>
-      <number-entry v-model="character.heroPoints" class="hero-points"/>
+      <label class="row-label">Effort Points</label>
+      <number-entry v-model="character.effortPoints" class="effort-points"/>
     </div>
   </boxed-section>
 </template>
@@ -62,7 +62,7 @@
   .spacer {
     background-color: var(--inapplicable-color);
   }
-  .campaign-fields > .hero-points {
+  .campaign-fields > .effort-points {
     width: auto;
   }
 </style>

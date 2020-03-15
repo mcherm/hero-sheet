@@ -289,7 +289,7 @@
   },
   "Minion": {
     "name": "Minion",
-    "description": "Gain a follower or minion with (15 x rank) power points.",
+    "description": "Gain a follower or minion with (15 x rank) character points.",
     "isRanked": true,
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-MINION-GENERAL-RANKED-"
   },
@@ -361,7 +361,7 @@
   },
   "Sidekick": {
     "name": "Sidekick",
-    "description": "Gain a sidekick with (5x rank) power points.",
+    "description": "Gain a sidekick with (5x rank) character points.",
     "isRanked": true,
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-SIDEKICK-GENERAL-RANKED-"
   },

@@ -3,8 +3,37 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 5; // Up to this version can be saved
-const latestVersion = 5; // Might be an experimental version
+const currentVersion = 6; // Up to this version can be saved
+const latestVersion = 6; // Might be an experimental version
+
+
+const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
+  "initiative", "advantages", "skills", "powers", "complications", "attacks"];
+
+/*
+ * Given a charsheet, this re-orders the fields so they are in the preferred order.
+ */
+const sortFields = function(charsheet) {
+  // -- Make a shallow copy and delete the fields --
+  const original = {};
+  for (const field in charsheet) {
+    original[field] = charsheet[field];
+    delete charsheet[field];
+  }
+  // -- Re-insert in order --
+  for (const field of fieldsInOrder) {
+    if (field in original) {
+      charsheet[field] = original[field];
+    }
+  }
+  // -- Just in case, if anything isn't in the preferred order add it --
+  for (const field in original) {
+    if (!(field in charsheet)) {
+      charsheet[field] = original[field];
+    }
+  }
+};
+
 
 const newBlankCharacter = function() {
   const version = latestVersion;
@@ -26,7 +55,7 @@ const newBlankCharacter = function() {
     groupAffiliation: "",
     baseOfOperations: ""
   };
-  const heroPoints = 1;
+  const effortPoints = 1;
   const abilities = {};
   for (const statName in statsData) {
     abilities[statName] = {
@@ -81,7 +110,7 @@ const newBlankCharacter = function() {
     version,
     campaign,
     naming,
-    heroPoints,
+    effortPoints,
     abilities,
     defenses,
     initiative,
@@ -170,6 +199,8 @@ const recreateUnarmedAttack = function(charsheet) {
         */
 
 
+
+
 const upgradeFuncs = {
 
   upgradeFrom1: function(charsheet) {
@@ -177,7 +208,6 @@ const upgradeFuncs = {
       delete charsheet.defenses[defenseName].base;
     }
     charsheet.version = 2;
-    console.log(`Upgraded character from version 1 to 2.`);
   },
 
   upgradeFrom2: function(charsheet) {
@@ -187,13 +217,11 @@ const upgradeFuncs = {
       console.log(`have deleted from ${advantage}`); // FIXME: Remove
     }
     charsheet.version = 3;
-    console.log(`Upgraded character from version 2 to 3.`);
   },
 
   upgradeFrom3: function(charsheet) {
     charsheet.heroPoints = 1;
     charsheet.version = 4;
-    console.log(`Upgraded character from version 3 to 4.`);
   },
 
   upgradeFrom4: function(charsheet) {
@@ -206,7 +234,12 @@ const upgradeFuncs = {
     };
     recreateUnarmedAttack(charsheet);
     charsheet.version = 5;
-    console.log(`Upgraded character from version 4 to 5.`);
+  },
+
+  upgradeFrom5: function(charsheet) {
+    charsheet.effortPoints = charsheet.heroPoints;
+    delete charsheet.heroPoints;
+    charsheet.version = 6;
   }
 
 };
@@ -220,6 +253,7 @@ const upgradeFrom = function(charsheet) {
   const upgradeFunc = upgradeFuncs[`upgradeFrom${oldVersion}`];
   if (upgradeFunc) {
     upgradeFunc(charsheet);
+    console.log(`Upgraded character from version ${oldVersion} to ${charsheet.version}.`);
   } else {
     throw Error(`In upgradeVersion(), upgrading from version ${oldVersion} is not supported.`);
   }
@@ -234,6 +268,7 @@ const upgradeVersion = function(charsheet) {
   if (charsheet.version < latestVersion) {
     upgradeFrom(charsheet)
   }
+  sortFields(charsheet);
 };
 
 export {

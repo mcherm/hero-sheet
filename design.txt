@@ -28,6 +28,10 @@ Modifiers:
     pointsOfMultiplier
     pointsOfMultiplierPerRankOfModifier
 
+Naming:
+  For licensing reasons, the terms "Hero Points" and "Power Points" must be renamed; they are
+  excluded from the open game license. I'm using "Effort Points" for "Hero Points" and
+  "Character Points" for "Power Points".
 
 Proposed Design Policy:
   Some fields are actually entered by users. These fields clearly should appear in the
@@ -93,9 +97,6 @@ TODO: I need to record (and display) attacks.
 TODO: [Adran06] Some advantages should impact other things
   * Improved Initiative should increase initiative
   * Jack-Of-All-Trades should changes skills from N/A to proper numbers
-
-TODO: "Hero Points" and "Power Points" must be renamed; they are excluded from
-  the open game license.
 
 TODO: The Affliction power should select which kind of effect it applies and
   what resists it.
