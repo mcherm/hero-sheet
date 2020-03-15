@@ -4,6 +4,9 @@ const standardPowers = require("../data/standardPowers.json");
 
 
 function isArray(power) {
+  if (power.effect === "") { // dummy used for new powers that don't have an effect set yet
+    return false;
+  }
   const standardPower = standardPowers[power.effect];
   if (!standardPower) {
     throw Error(`Power effect '${power.effect}' is not a standard power.`);

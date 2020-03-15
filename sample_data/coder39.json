@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 6,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 0,
@@ -18,6 +18,7 @@
     "groupAffiliation": "",
     "baseOfOperations": "Mars Secret lab"
   },
+  "effortPoints": 1,
   "abilities": {
     "strength": {
       "entered": 2,
@@ -91,33 +92,38 @@
   "advantages": [
     {
       "name": "Accurate Attack",
-      "isRanked": false,
       "ranks": null,
-      "description": ""
+      "description": "",
+      "effect": "Trade effect DC for attack bonus.",
+      "isRanked": false
     },
     {
       "name": "Beginner's Luck",
-      "isRanked": false,
       "ranks": null,
-      "description": ""
+      "description": "",
+      "effect": "Spend a hero point to gain 5 temporary ranks in a skill.",
+      "isRanked": false
     },
     {
       "name": "Great Endurance",
-      "isRanked": false,
       "ranks": null,
-      "description": ""
+      "description": "",
+      "effect": "+5 checks involving endurance.",
+      "isRanked": false
     },
     {
       "name": "Inventor",
-      "isRanked": false,
       "ranks": null,
-      "description": ""
+      "description": "",
+      "effect": "Use Technology to create temporary devices.",
+      "isRanked": false
     },
     {
       "name": "Minion",
-      "isRanked": true,
-      "ranks": 6,
-      "description": ""
+      "ranks": 17,
+      "description": "",
+      "effect": "Gain a follower or minion with (15 x rank) power points.",
+      "isRanked": true
     }
   ],
   "skills": {
@@ -131,6 +137,12 @@
         "name": "athletics",
         "ranks": 0,
         "isTemplate": false
+      },
+      {
+        "name": "close combat",
+        "ranks": 0,
+        "isTemplate": true,
+        "specialization": "Unarmed"
       },
       {
         "name": "deception",
@@ -194,10 +206,9 @@
     {
       "name": "Electromagnetic sense",
       "effect": "Senses",
-      "description": "COder32 can detect megnets and electricity with her mind!",
+      "description": "Coder32 can detect magnets and electricity with her mind!",
       "extras": [],
       "flaws": [],
-      "flats": [],
       "ranks": 15,
       "cost": 15,
       "subpowers": [],
@@ -210,7 +221,6 @@
       "description": "Coder32 has a eye on the back of her head (she can't really see out of it because of her hair in the way) and she has one on each foot(but those are also often covered up by her shoes).",
       "extras": [],
       "flaws": [],
-      "flats": [],
       "ranks": 4,
       "cost": 4,
       "subpowers": [],
@@ -218,7 +228,7 @@
       "baseCost": 1
     },
     {
-      "name": "Braclet",
+      "name": "Bracelet",
       "effect": "Variable",
       "description": "",
       "extras": [],
@@ -231,39 +241,23 @@
           "displayText": "Easily Removable (-2)"
         }
       ],
-      "flats": [],
       "ranks": 5,
       "cost": 21,
-      "subpowers": [
-        {
-          "name": "Braclet flash",
-          "effect": "Dazzle",
-          "description": "",
-          "extras": [],
-          "flaws": [],
-          "flats": [],
-          "ranks": 6,
-          "cost": 12,
-          "subpowers": [],
-          "effectDescription": "Created Power: Ranged, Cumulative Affliction, Limited to One Sense",
-          "baseCost": 2
-        },
-        {
-          "name": "Faster typing",
-          "effect": "Quickness",
-          "description": "",
-          "extras": [],
-          "flaws": [],
-          "flats": [],
-          "ranks": 26,
-          "cost": 26,
-          "subpowers": [],
-          "effectDescription": "You can perform routine tasks fast.",
-          "baseCost": 1
-        }
-      ],
+      "subpowers": [],
       "effectDescription": "You can gain or use potentially any effect of the appropriate type and descriptor!",
       "baseCost": 7
+    },
+    {
+      "name": "test",
+      "effect": "Damage",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 1,
+      "subpowers": [],
+      "effectDescription": "You can inflict damage by making a close attack.",
+      "baseCost": 1
     }
   ],
   "complications": [
@@ -275,5 +269,16 @@
       "complicationType": "phobia",
       "description": "Is extremly shy."
     }
-  ]
+  ],
+  "attacks": {
+    "attackList": [
+      {
+        "type": "unarmed",
+        "name": "Unarmed",
+        "attackCheck": 4,
+        "effectType": "damage",
+        "resistanceDC": 2
+      }
+    ]
+  }
 }
