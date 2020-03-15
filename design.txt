@@ -78,11 +78,9 @@ TODO: Need to be able to purchase equipment.
 
 TODO: Generate a PDF.
 
-TODO: Extra sheet for minions. And for Morph[Metamorph]. And for Summon.
+TODO: [Adran06] Extra sheet for minions. And for Morph[Metamorph]. And for Summon.
 
-TODO: Maybe an "extra sheet" for variable powers? Listing some options (for free)?
-
-TODO: Display cost on each pane that builds up costs.
+TODO: [Adran06] Maybe an "extra sheet" for variable powers? Listing some options (for free)?
 
 TODO: There are power-specific modifiers. I need to:
   * Enter the information into my data files.
@@ -94,7 +92,7 @@ TODO: I need to record (and display) attacks.
 
 TODO: [Adran06] Some advantages should impact other things
   * Improved Initiative should increase initiative
-  * Jack-Of-All-Trades should changes skills fro N/A to proper numbers
+  * Jack-Of-All-Trades should changes skills from N/A to proper numbers
 
 TODO: "Hero Points" and "Power Points" must be renamed; they are excluded from
   the open game license.
