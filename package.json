@@ -6,17 +6,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "deploy": "s3-easy-deploy --public-root ./dist --bucket hero-sheet.com"
   },
   "keywords": [],
   "author": "Michael Chermside",
   "license": "ISC",
   "dependencies": {
+    "s3-easy-deploy": "^1.1.0",
     "vue": "^2.6.11"
   },
   "postcss": {},
   "devDependencies": {
-    "@vue/cli-service": "^4.1.2",
+    "@vue/cli-service": "^4.2.3",
     "vue-template-compiler": "^2.6.11"
   }
 }
