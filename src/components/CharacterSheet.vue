@@ -25,7 +25,11 @@
         <advantages :character="character"/>
       </template>
       <template slot="powers">
-        <power-list-top-level :character="character"/>
+        <power-list-top-level
+            :character="character"
+            v-on:newUpdater="createUpdater($event)"
+            v-on:deleteUpdater="deleteUpdater($event)"
+        />
       </template>
       <template slot="complications">
         <complications :complications="character.complications"/>
@@ -53,7 +57,10 @@
   import Complications from "./Complications.vue";
   import Attacks from "./Attacks.vue"
 
-  import {currentVersion, upgradeVersion, recreateUnarmedAttack} from "../js/heroSheetVersioning";
+  import {currentVersion, upgradeVersion, recreateUnarmedAttack, findPowerByHisd, updaterClasses} from "../js/heroSheetVersioning";
+
+  // Maintain the list OUTSIDE of the vue object to avoid cyclic object values
+  const updaters = [];
 
   export default {
     name: "CharacterSheet",
@@ -110,6 +117,7 @@
               this.hasUnsavedChanges = true;
               this.scheduleSave();
             }
+            this.installUpdaters();
           });
       },
       saveCharacter: async function() {
@@ -133,9 +141,9 @@
               console.log("Failed to save character", response);
               throw Error(`Save failed with status ${response.status}.`);
             } else {
-              console.log("Response status was 200. Save was successful."); // FIXME: Remove (maybe?)
+              console.log("Save was successful.");
             }
-          } catch(err){
+          } catch(err) {
             console.log(`Error attempting to save:`, err);
             if (!this.hasUnsavedChanges) {
               // We marked it as saved but it wasn't done; better schedule a re-try
@@ -155,6 +163,7 @@
         }, SAVE_FREQUENCY_MILLIS);
       },
       installNormalWatches() {
+        // FIXME: Replace this with an updater
         // FIXME: Not sure if this is a good design, but this installs watches on things that we
         //   always need to monitor for any character sheet. It feels like it should be defined
         //   someplace else so eventually I will move it.
@@ -164,6 +173,37 @@
         this.$watch("character.abilities.strength.ranks", function(newValue) {
           recreateUnarmedAttack(this.character);
         });
+      },
+      installUpdaters: function() {
+        for (const attack of this.character.attacks.attackList) {
+          if (attack.type !== "unarmed") {
+            const updaterType = attack.type;
+            const power = findPowerByHisd(this.character, attack.hsid);
+            const updateEvent = { updater: updaterType, power: power };
+            const updater = this.createUpdater(updateEvent);
+            updaters.push(updater);
+          }
+        }
+      },
+      createUpdater: function(newUpdaterEvent) {
+        console.log(`createUpdater( ${JSON.stringify(newUpdaterEvent)} )`); // FIXME: Remove
+        const updaterName = newUpdaterEvent.updater;
+
+        const character = this.character;
+        const power = newUpdaterEvent.power;
+        const updaterClass = updaterClasses[updaterName];
+        const updaterInstance = new updaterClass(this, character, newUpdaterEvent);
+        updaters.push(updaterInstance);
+      },
+      deleteUpdater: function(deleteUpdaterEvent) {
+        console.log(`DELETE updater ${JSON.stringify(deleteUpdaterEvent)}.`); // FIXME: Remove
+        for (const updater of updaters) {
+          const rightUpdaterType = updater.constructor.name === deleteUpdaterEvent.updater;
+          const rightHsid = updater.power.hsid === deleteUpdaterEvent.powerHsid;
+          if (rightUpdaterType && rightHsid) {
+            updater.destroy();
+          }
+        }
       }
     },
     computed: {

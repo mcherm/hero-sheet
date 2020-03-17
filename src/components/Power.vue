@@ -55,7 +55,11 @@
     </div>
     <div v-if="isArray" class="subpower-list">
       <div class="scrolling-list-header">Array Powers</div>
-      <power-list :powers="power.subpowers"/>
+      <power-list
+          :powers="power.subpowers"
+          v-on:newUpdater="$emit('newUpdater', $event)"
+          v-on:deleteUpdater="$emit('deleteUpdater', $event)"
+      />
     </div>
   </div>
 </template>
@@ -144,6 +148,9 @@
           this.recalculateBaseCost();
         }
         this.recalculateCost();
+        if (this.power.effect === "Damage") {
+          this.$emit("newUpdater", { updater: "DamagePowerAttackUpdater", power: this.power });
+        }
       },
       // If it's an array, this will be called to find the base cost
       recalculateBaseCost: function() {

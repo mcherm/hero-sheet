@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 7,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 71,
@@ -18,7 +18,7 @@
     "groupAffiliation": "Works alone",
     "baseOfOperations": "New York"
   },
-  "heroPoints": 1,
+  "effortPoints": 1,
   "abilities": {
     "strength": {
       "entered": 9,
@@ -93,107 +93,128 @@
     {
       "name": "Accurate Attack",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI5EZTQ9B"
     },
     {
       "name": "Agile Feint",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI9LTMRD1"
     },
     {
       "name": "All-out Attack",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI5T9KGMT"
     },
     {
       "name": "Defensive Attack",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIYJCADB9"
     },
     {
       "name": "Equipment",
       "ranks": 1,
-      "description": ""
+      "description": "",
+      "hsid": "HIWYV71SD"
     },
     {
       "name": "Evasion",
       "ranks": 2,
-      "description": ""
+      "description": "",
+      "hsid": "HIASL8PN8"
     },
     {
       "name": "Fast Grab",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIB7LETKE"
     },
     {
       "name": "Favored Environment",
       "ranks": null,
-      "description": "When fighting with Danger Sense"
+      "description": "When fighting with Danger Sense",
+      "hsid": "HI7ZK6F5T"
     },
     {
       "name": "Fearless",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIQJZA42A"
     },
     {
       "name": "Improved Aim",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIZTJR6EB"
     },
     {
       "name": "Improved Defense",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI7EMUYRB"
     },
     {
       "name": "Improved Disarm",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIZYLEVJN"
     },
     {
       "name": "Improved Grab",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HINQR7Z2N"
     },
     {
       "name": "Improved Initiative",
       "ranks": 2,
-      "description": ""
+      "description": "",
+      "hsid": "HID48D3TJ"
     },
     {
       "name": "Instant Up",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI62TLEL8"
     },
     {
       "name": "Move-by Action",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIMXKBMQ3"
     },
     {
       "name": "Power Attack",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HITVCK72N"
     },
     {
       "name": "Skill Mastery",
       "ranks": null,
-      "description": "Acrobatics"
+      "description": "Acrobatics",
+      "hsid": "HIM1K92GQ"
     },
     {
       "name": "Takedown",
       "ranks": 2,
-      "description": ""
+      "description": "",
+      "hsid": "HIU231CBL"
     },
     {
       "name": "Ultimate Effort",
       "ranks": null,
-      "description": "With both dodge and parry"
+      "description": "With both dodge and parry",
+      "hsid": "HI3L76RXK"
     },
     {
       "name": "Uncanny Dodge",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIKUFU3RG"
     }
   ],
   "skills": {
@@ -201,79 +222,94 @@
       {
         "name": "acrobatics",
         "ranks": 8,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIXA1TK7N"
       },
       {
         "name": "athletics",
         "ranks": 6,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HI2DRR425"
       },
       {
         "name": "close combat",
         "ranks": 3,
         "isTemplate": true,
-        "specialization": "Unarmed"
+        "specialization": "Unarmed",
+        "hsid": "HILZ41YR9"
       },
       {
         "name": "deception",
         "ranks": 2,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HICCXCVT6"
       },
       {
         "name": "expertise",
         "ranks": 6,
         "isTemplate": true,
-        "specialization": "Photography"
+        "specialization": "Photography",
+        "hsid": "HIQYS6TP5"
       },
       {
         "name": "insight",
         "ranks": 2,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HITL9FZAK"
       },
       {
         "name": "intimidation",
         "ranks": 2,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HI7MMZGMW"
       },
       {
         "name": "investigation",
         "ranks": 2,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIRMNQRKE"
       },
       {
         "name": "perception",
         "ranks": 4,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIJFJE4SW"
       },
       {
         "name": "persuasion",
         "ranks": 0,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIPPJFPD8"
       },
       {
         "name": "slight of hand",
         "ranks": 0,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HI6PLY4KG"
       },
       {
         "name": "stealth",
         "ranks": 2,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIPTBVL7C"
       },
       {
         "name": "technology",
         "ranks": 6,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIKM5DS49"
       },
       {
         "name": "treatment",
         "ranks": 2,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIJ4GQTXY"
       },
       {
         "name": "vehicles",
         "ranks": 1,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HITA272GW"
       }
     ],
     "cost": 23
@@ -289,7 +325,8 @@
       "cost": 2,
       "subpowers": [],
       "effectDescription": "You recover quickly from damage.",
-      "baseCost": 1
+      "baseCost": 1,
+      "hsid": "HIBERQ2UT"
     },
     {
       "name": "Superhuman Equilibrium",
@@ -301,7 +338,8 @@
       "cost": 10,
       "subpowers": [],
       "effectDescription": "You have a special form of movement.",
-      "baseCost": 2
+      "baseCost": 2,
+      "hsid": "HIPG27MXR"
     },
     {
       "name": "Spider Sense",
@@ -313,21 +351,25 @@
       "cost": 2,
       "subpowers": [],
       "effectDescription": "One or more of your senses are improved or you have additional sensory abilities beyond the normal five senses.",
-      "baseCost": 1
+      "baseCost": 1,
+      "hsid": "HI61J1N9W"
     }
   ],
   "complications": [
     {
       "complicationType": "motivation",
-      "description": "\"With great power comes great responsibility.\""
+      "description": "\"With great power comes great responsibility.\"",
+      "hsid": "HISCKQ13E"
     },
     {
       "complicationType": "enemy",
-      "description": "The Green Goblin"
+      "description": "The Green Goblin",
+      "hsid": "HI7WZWN14"
     },
     {
       "complicationType": "relationship",
-      "description": "Aunt May; Mary Jane Watson"
+      "description": "Aunt May; Mary Jane Watson",
+      "hsid": "HIKM2WETR"
     }
   ],
   "attacks": {

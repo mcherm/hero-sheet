@@ -3,8 +3,8 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 6; // Up to this version can be saved
-const latestVersion = 6; // Might be an experimental version
+const currentVersion = 7; // Up to this version can be saved
+const latestVersion = 7; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
@@ -32,6 +32,25 @@ const sortFields = function(charsheet) {
       charsheet[field] = original[field];
     }
   }
+};
+
+
+/*
+ * Generate a random element ID.
+ *
+ * A-Z0-9 is 36.
+ *
+ * 32 is 5 bits. So we can use 32 values as follows:
+ * ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
+ * ABCDEFG  JKLMN PQRSTUVWXYZ 123456789  (0 and O are easily confused; HI is used as a prefix)
+ * So "ID" followed by 7 characters chosen at random from "ABCDEFGJKLMNPQRSTUVWXYZ123456789"
+ */
+const newHsid = function() {
+  const allowedCharacters = "ABCDEFGJKLMNPQRSTUVWXYZ123456789"; // 32 chars long
+  const randomData = new Uint8Array(7);
+  window.crypto.getRandomValues(randomData);
+  const characters = Array.from(randomData).map(x => allowedCharacters[x % 32]);
+  return "HI" + characters.join("");
 };
 
 
@@ -125,6 +144,7 @@ const newBlankCharacter = function() {
 const newBlankAdvantage = function() {
   return {
     name: "",
+    hsid: newHsid(),
     ranks: null,
     description: ""
   };
@@ -134,6 +154,7 @@ const newBlankAdvantage = function() {
 const newBlankSkill = function() {
   return {
     name: "",
+    hsid: newHsid(),
     ranks: 0,
     isTemplate: true,
     specialization: ""
@@ -143,6 +164,7 @@ const newBlankSkill = function() {
 const newBlankPower = function() {
   return {
     name: "New Power",
+    hsid: newHsid(),
     effect: "",
     description: "",
     extras: [],
@@ -155,9 +177,38 @@ const newBlankPower = function() {
 
 const newBlankComplication = function() {
   return {
+    hsid: newHsid(),
     complicationType: "",
     description: ""
   }
+};
+
+
+/*
+ * Given a charsheet and an hsid in it, returns the power with that hsid or
+ * null if there isn't one.
+ *
+ * DESIGN NOTES:
+ *  1. it probably shouldn't just be for powers
+ *  2. it might need some smart caching
+ *  3. this will do for now while I clean up other stuff
+ */
+const findPowerByHisd = function(charsheet, hsid) {
+  function findByHsidRecursive(powerList) {
+    for (const power of powerList) {
+      if (power.hsid === hsid) {
+        return power;
+      }
+      if (power.subpowers) {
+        const recursiveResult = findByHsidRecursive(power.subpowers);
+        if (recursiveResult !== null) {
+          return recursiveResult;
+        }
+      }
+    }
+    return null;
+  }
+  return findByHsidRecursive(charsheet.powers);
 };
 
 
@@ -199,6 +250,128 @@ const recreateUnarmedAttack = function(charsheet) {
         */
 
 
+/*
+ * A parent class for all updaters. An Updater is a class, each instance of
+ * which monitors certain fields and updates other fields in the charsheet.
+ * An example would be an updater for creating an attack.
+ */
+class Updater {
+  constructor(vm, charsheet) {
+    this.charsheet = charsheet;
+    this.activeWatches = [];
+  }
+
+}
+
+class DamagePowerAttackUpdater extends Updater {
+  constructor(vm, charsheet, newUpdaterEvent) {
+    super(vm, charsheet);
+    this.power = newUpdaterEvent.power;
+    this.theAttack = this.findOrCreateTheAttack();
+    const cancelFunction = this.createWatch(vm);
+    this.activeWatches.push(cancelFunction);
+  }
+
+  /*
+   * This is run once during the constructor to obtain or create the specific
+   * attack.
+   */
+  findOrCreateTheAttack() {
+    const updaterName = this.constructor.name;
+    const attackList = this.charsheet.attacks.attackList;
+    const matchingAttacks = attackList.filter(
+      x => x.type === updaterName && x.hsid === this.power.hsid
+    );
+    if (matchingAttacks.length > 1) {
+      throw Error(`Multiple attacks of type ${updaterName} with key ${this.power.name}`);
+    } else if (matchingAttacks.length === 1) {
+      return matchingAttacks[0];
+    } else {
+      const newAttack = {
+        type: updaterName,
+        hsid: this.power.hsid,
+        name: this.power.name,
+        attackCheck: this.charsheet.abilities.fighting.ranks,
+        effectType: "damage",
+        resistanceDC: this.power.ranks
+      };
+      attackList.push(newAttack);
+      return newAttack;
+    }
+  }
+
+  /*
+   * Initiates the watch that drives this updater. In the future I will figure out
+   * how to generalize this; right now it is all specific to DamagePowerAttackUpdater.
+   * It returns the cancel function for the watch.
+   */
+  createWatch(vm) {
+    const power = this.power;
+    const charsheet = this.charsheet;
+    const theAttack = this.theAttack;
+    const activeWatches = this.activeWatches;
+    const cancelFunction = vm.$watch(function() {
+      // -- Test Function for Watch --
+      console.log(`Test Function for the watch runs now`); // FIXME: Remove
+      return {
+        identity: {
+          powerHsid: power.hsid,
+          powerEffect: power.effect
+        },
+        calculations: {
+          fighting: charsheet.abilities.fighting.ranks,
+          powerRanks: power.ranks,
+          powerName: power.name
+        }
+      }
+    }, function(newValue, oldValue) {
+      // -- Callback Function --
+      console.log(`Within New Watch: ${JSON.stringify(newValue)}, ${JSON.stringify(oldValue)}`); // FIXME: Remove
+      const newIdentity = JSON.stringify(newValue.identity);
+      const oldIdentity = oldValue === undefined ? newIdentity : JSON.stringify(oldValue.identity);
+      if (newIdentity !== oldIdentity) {
+        // -- Delete the attack we created --
+        const attackList = charsheet.attacks.attackList;
+        const index = attackList.indexOf(theAttack);
+        if (index !== -1) {
+          attackList.splice(index, 1); // Delete 1 item
+        }
+        // -- Cancel all the watches --
+        for (const cancelFunc of activeWatches) {
+          cancelFunc();
+        }
+      } else {
+        // -- Update the Values --
+        theAttack.name = newValue.calculations.powerName;
+        theAttack.attackCheck = newValue.calculations.fighting;
+        theAttack.resistanceDC = newValue.calculations.powerRanks;
+      }
+    }, { immediate: true }); // FIXME: Not sure if it should be immediate or not.
+    return cancelFunction;
+  }
+
+  /*
+   * Gets called when the updater is no longer needed. Everything it
+   * created should be eliminated.
+   */
+  destroy() {
+    // -- cancel all watches --
+    for (const cancelFunction of this.activeWatches) {
+      cancelFunction();
+    }
+    // -- remove the attack we made --
+    const attackList = this.charsheet.attacks.attackList;
+    const index = attackList.indexOf(this.theAttack);
+    if (index !== -1) {
+      attackList.splice(1, index);
+    }
+  }
+
+}
+
+const updaterClasses = {
+  DamagePowerAttackUpdater
+};
 
 
 const upgradeFuncs = {
@@ -214,7 +387,6 @@ const upgradeFuncs = {
     for (const advantage of charsheet.advantages) {
       delete advantage.effect;
       delete advantage.isRanked;
-      console.log(`have deleted from ${advantage}`); // FIXME: Remove
     }
     charsheet.version = 3;
   },
@@ -240,6 +412,28 @@ const upgradeFuncs = {
     charsheet.effortPoints = charsheet.heroPoints;
     delete charsheet.heroPoints;
     charsheet.version = 6;
+  },
+
+  upgradeFrom6: function(charsheet) {
+    for (const advantage of charsheet.advantages) {
+      advantage.hsid = newHsid();
+    }
+    for (const skill of charsheet.skills.skillList) {
+      skill.hsid = newHsid();
+    }
+    for (const complication of charsheet.complications) {
+      complication.hsid = newHsid();
+    }
+    const upgradePowerList = function(powerList) {
+      for (const power of powerList) {
+        power.hsid = newHsid();
+        if (power.subpowers) {
+          upgradePowerList(power.subpowers);
+        }
+      }
+    };
+    upgradePowerList(charsheet.powers);
+    charsheet.version = 7;
   }
 
 };
@@ -278,6 +472,9 @@ export {
   newBlankSkill,
   newBlankPower,
   newBlankComplication,
+  findPowerByHisd,
+  newHsid,
   recreateUnarmedAttack,
-  upgradeVersion
+  upgradeVersion,
+  updaterClasses
 };

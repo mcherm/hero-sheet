@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 7,
   "campaign": {
     "powerLevel": 14,
     "xpAwarded": 158,
@@ -18,6 +18,7 @@
     "groupAffiliation": "",
     "baseOfOperations": ""
   },
+  "effortPoints": 1,
   "abilities": {
     "strength": {
       "entered": 2,
@@ -92,157 +93,188 @@
     {
       "name": "Accurate Attack",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HISALSWN5"
     },
     {
       "name": "All-out Attack",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIX5XGPT6"
     },
     {
       "name": "Assessment",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI5354GET"
     },
     {
       "name": "Attractive",
       "ranks": 1,
-      "description": ""
+      "description": "",
+      "hsid": "HIXSFT9VK"
     },
     {
       "name": "Benefit",
       "ranks": 5,
-      "description": "Wealthy Billionare"
+      "description": "Wealthy Billionare",
+      "hsid": "HIF1ZTJ1D"
     },
     {
       "name": "Close Attack",
       "ranks": 2,
-      "description": ""
+      "description": "",
+      "hsid": "HIXSYK35Q"
     },
     {
       "name": "Connected",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI4ZS9A9U"
     },
     {
       "name": "Contacts",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HITAMVRGV"
     },
     {
       "name": "Defensive Attack",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIFY7LD7K"
     },
     {
       "name": "Eidetic Memory",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI9M5M7UA"
     },
     {
       "name": "Evasion",
       "ranks": 2,
-      "description": ""
+      "description": "",
+      "hsid": "HIZECMAZ6"
     },
     {
       "name": "Favored Environment",
       "ranks": null,
-      "description": "Air Combat"
+      "description": "Air Combat",
+      "hsid": "HIE3RNGR2"
     },
     {
       "name": "Improved Aim",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIVC1S4JT"
     },
     {
       "name": "Improved Critical",
       "ranks": 4,
-      "description": "For Override Repulsors: Blast 20, Plasma Bolts: Blast 15, Repulsor Rays: Blast 14, Unibeam: Cone Area Blast 14"
+      "description": "For Override Repulsors: Blast 20, Plasma Bolts: Blast 15, Repulsor Rays: Blast 14, Unibeam: Cone Area Blast 14",
+      "hsid": "HIP98SABL"
     },
     {
       "name": "Improved Defense",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIP1AFL81"
     },
     {
       "name": "Improved Disarm",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIUR3JBTV"
     },
     {
       "name": "Improved Initiative",
       "ranks": 2,
-      "description": ""
+      "description": "",
+      "hsid": "HIVPGDNAV"
     },
     {
       "name": "Improved Smash",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI371DE6N"
     },
     {
       "name": "Improved Trip",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI93KY6VY"
     },
     {
       "name": "Inventor",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI62124T7"
     },
     {
       "name": "Jack-of-All-Trades",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI23LF6L3"
     },
     {
       "name": "Leadership",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HISF6DBDB"
     },
     {
       "name": "Luck",
       "ranks": 6,
-      "description": ""
+      "description": "",
+      "hsid": "HITMU226C"
     },
     {
       "name": "Move-by Action",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HI9KGK1DU"
     },
     {
       "name": "Power Attack",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIA3VWTM2"
     },
     {
       "name": "Precise Attack",
       "ranks": 4,
-      "description": ""
+      "description": "",
+      "hsid": "HIWURV21A"
     },
     {
       "name": "Ranged Attack",
       "ranks": 2,
-      "description": ""
+      "description": "",
+      "hsid": "HIV6XVWTU"
     },
     {
       "name": "Seize Initiative",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIVKVFYAA"
     },
     {
       "name": "Takedown",
       "ranks": 1,
-      "description": ""
+      "description": "",
+      "hsid": "HI9FN9BPD"
     },
     {
       "name": "Tracking",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HIC26QJVJ"
     },
     {
       "name": "Well-Informed",
       "ranks": null,
-      "description": ""
+      "description": "",
+      "hsid": "HISBFZ2Z5"
     }
   ],
   "skills": {
@@ -250,97 +282,115 @@
       {
         "name": "acrobatics",
         "ranks": 0,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HISBLXFT2"
       },
       {
         "name": "athletics",
         "ranks": 0,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HI83G86Q1"
       },
       {
         "name": "close combat",
         "ranks": 2,
         "isTemplate": true,
-        "specialization": "Unarmed"
+        "specialization": "Unarmed",
+        "hsid": "HIJSV2AKS"
       },
       {
         "name": "deception",
         "ranks": 10,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HI712SYGV"
       },
       {
         "name": "expertise",
         "ranks": 8,
         "isTemplate": true,
-        "specialization": "Electronics"
+        "specialization": "Electronics",
+        "hsid": "HIMNKNQ81"
       },
       {
         "name": "expertise",
         "ranks": 8,
         "isTemplate": true,
-        "specialization": "Engineering"
+        "specialization": "Engineering",
+        "hsid": "HI5SCE1S1"
       },
       {
         "name": "expertise",
         "ranks": 8,
         "isTemplate": true,
-        "specialization": "Science"
+        "specialization": "Science",
+        "hsid": "HIABEU4AC"
       },
       {
         "name": "expertise",
         "ranks": 8,
         "isTemplate": true,
-        "specialization": "Weapons Design"
+        "specialization": "Weapons Design",
+        "hsid": "HIJJWJF5Y"
       },
       {
         "name": "insight",
         "ranks": 8,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIM71C7JJ"
       },
       {
         "name": "intimidation",
         "ranks": 0,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIUFZ3TPE"
       },
       {
         "name": "investigation",
         "ranks": 2,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HISDM2S74"
       },
       {
         "name": "perception",
         "ranks": 8,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIASXE4EX"
       },
       {
         "name": "persuasion",
         "ranks": 0,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIDSVWM1Y"
       },
       {
         "name": "slight of hand",
         "ranks": 0,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HITXVYACU"
       },
       {
         "name": "stealth",
         "ranks": 0,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIGCMSUJN"
       },
       {
         "name": "technology",
         "ranks": 8,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIC66SDRV"
       },
       {
         "name": "treatment",
         "ranks": 2,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HIMN3F13C"
       },
       {
         "name": "vehicles",
         "ranks": 4,
-        "isTemplate": false
+        "isTemplate": false,
+        "hsid": "HI3WK2XXK"
       }
     ],
     "cost": 38
@@ -374,7 +424,8 @@
           "subpowers": [],
           "effectDescription": "You can vanish from sight at will.  Created Power: Visual Concealment",
           "baseCost": 8,
-          "option": "Invisible to All Vision"
+          "option": "Invisible to All Vision",
+          "hsid": "HI63E8LD3"
         },
         {
           "name": "ECM",
@@ -393,7 +444,8 @@
           "cost": 2,
           "subpowers": [],
           "effectDescription": "You gain total concealment from a particular sense while this effect is active.",
-          "baseCost": 2
+          "baseCost": 2,
+          "hsid": "HIQQQV3NX"
         },
         {
           "name": "Energy Absorption",
@@ -405,7 +457,8 @@
           "cost": 2,
           "subpowers": [],
           "effectDescription": "Created Power: Enhanced Strength, Fades",
-          "baseCost": 2
+          "baseCost": 2,
+          "hsid": "HIFN2C38B"
         },
         {
           "name": "Enhanced Stamina",
@@ -418,7 +471,8 @@
           "subpowers": [],
           "effectDescription": "You can temporarily improve one of your existing traits.",
           "baseCost": 2,
-          "option": "Enhanced Stamina"
+          "option": "Enhanced Stamina",
+          "hsid": "HI5VJ4TV4"
         },
         {
           "name": "Enhanced Strength",
@@ -431,23 +485,26 @@
           "subpowers": [],
           "effectDescription": "You can temporarily improve one of your existing traits.",
           "baseCost": 2,
-          "option": "Enhanced Strength"
+          "option": "Enhanced Strength",
+          "hsid": "HI1MKND8Y"
         }
       ],
-      "effectDescription": "Several different effects together."
+      "effectDescription": "Several different effects together.",
+      "hsid": "HIWDPZMWF"
     }
   ],
   "complications": [
     {
       "complicationType": "motivation",
-      "description": "Doing Good"
+      "description": "Doing Good",
+      "hsid": "HIXFTWGJ6"
     },
     {
       "complicationType": "motivation",
-      "description": "Thrills"
+      "description": "Thrills",
+      "hsid": "HI22YD9YK"
     }
   ],
-  "heroPoints": 1,
   "attacks": {
     "attackList": [
       {

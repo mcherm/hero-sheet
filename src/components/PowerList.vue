@@ -7,8 +7,10 @@
             :power="power"
             :standardPowers="filteredStandardPowers"
             v-on:update:name="renamePower(power, $event)"
+            v-on:newUpdater="$emit('newUpdater', $event)"
+            v-on:deleteUpdater="$emit('deleteUpdater', $event)"
           />
-          <button class="trash-button" v-if="deleteIsVisible" v-on:click="$delete(powers, powerIndex)">
+          <button class="trash-button" v-if="deleteIsVisible" v-on:click="deletePower(powerIndex)">
             <trash-icon/>
           </button>
         </div>
@@ -81,7 +83,7 @@
           if (p !== power) {
             otherPowerNames[p.name] = true
           }
-        };
+        }
         const isDupName = otherPowerNames.hasOwnProperty(newName);
         if (!isDupName) {
           power.name = newName;
@@ -101,6 +103,19 @@
           }
           power.name = altName;
         }
+      },
+      /*
+       * Deletes the power at position index.
+       */
+      deletePower: function(powerIndex) {
+        if (powerIndex < 0 || powerIndex >= this.powers.length) {
+          throw Error("Attempting to delete a power beyond the list size.")
+        }
+        const power = this.powers[powerIndex];
+        if (power.effect === "Damage") {
+          this.$emit('deleteUpdater', { updater: "DamagePowerAttackUpdater", powerHsid: power.hsid });
+        }
+        this.$delete(this.powers, powerIndex);
       }
     }
   }
