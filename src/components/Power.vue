@@ -150,6 +150,8 @@
         this.recalculateCost();
         if (this.power.effect === "Damage") {
           this.$emit("newUpdater", { updater: "DamagePowerAttackUpdater", power: this.power });
+        } else if (this.power.effect === "Affliction") {
+          this.$emit("newUpdater", { updater: "AfflictionPowerAttackUpdater", power: this.power });
         }
       },
       // If it's an array, this will be called to find the base cost

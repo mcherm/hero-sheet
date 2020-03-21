@@ -114,6 +114,8 @@
         const power = this.powers[powerIndex];
         if (power.effect === "Damage") {
           this.$emit('deleteUpdater', { updater: "DamagePowerAttackUpdater", powerHsid: power.hsid });
+        } else if (power.effect === "Affliction") {
+          this.$emit('deleteUpdater', { updater: "AfflictionPowerAttackUpdater", powerHsid: power.hsid });
         }
         this.$delete(this.powers, powerIndex);
       }

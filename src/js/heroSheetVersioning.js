@@ -170,7 +170,9 @@ const newBlankPower = function() {
     extras: [],
     flaws: [],
     ranks: 1,
-    cost: 0,
+    cost: NaN,
+    effectDescription: "",
+    baseCost: NaN,
     subpowers: []
   };
 };
@@ -430,8 +432,53 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
 }
 
 
+class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
+  constructor(vm, charsheet, newUpdaterEvent) {
+    super(vm, charsheet, newUpdaterEvent);
+  }
+
+  makeNewAttack() {
+    return {
+      type: this.constructor.name,
+      hsid: this.power.hsid,
+      name: this.power.name,
+      attackCheck: this.charsheet.abilities.fighting.ranks,
+      effectType: "affliction",
+      resistanceDC: this.power.ranks
+    }
+  }
+
+  watchForChange() {
+    // -- Test Function for Watch --
+    console.log(`Test Function for the watch runs now`); // FIXME: Remove
+    return {
+      identity: {
+        powerHsid: this.power.hsid,
+        powerEffect: this.power.effect
+      },
+      calculations: {
+        fighting: this.charsheet.abilities.fighting.ranks,
+        powerRanks: this.power.ranks,
+        powerName: this.power.name
+      }
+    }
+  }
+
+  applyChanges(newCalculations) {
+    // -- Update the Values --
+    console.log(`Updating the watch. newCalculations = ${JSON.stringify(newCalculations)} and this =`, this); // FIXME: Remove
+    const theAttack = this.theAttack;
+    theAttack.name = newCalculations.powerName;
+    theAttack.attackCheck = newCalculations.fighting;
+    theAttack.resistanceDC = newCalculations.powerRanks;
+  }
+
+}
+
+
 const updaterClasses = {
-  DamagePowerAttackUpdater
+  DamagePowerAttackUpdater,
+  AfflictionPowerAttackUpdater
 };
 
 
