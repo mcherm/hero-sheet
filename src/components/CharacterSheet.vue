@@ -186,7 +186,7 @@
         }
       },
       createUpdater: function(newUpdaterEvent) {
-        console.log(`createUpdater( ${JSON.stringify(newUpdaterEvent)} )`); // FIXME: Remove
+        console.log(`createUpdater( ${JSON.stringify(newUpdaterEvent)} ) at ${Date.now()}`); // FIXME: Remove
         const updaterName = newUpdaterEvent.updater;
 
         const character = this.character;

@@ -84,13 +84,13 @@
         flatAdder: 0
       }
     },
-    created: function() { // FIXME: Experiment to see if some of these watches can be done as calculations
+    created: function() {
       this.$watch("power.effect", function() {
         this.recalculateEffectStuff();
-      }, { immediate: true });
+      });
       this.$watch("power.ranks", function() {
         this.recalculateCost();
-      }, { immediate: true });
+      });
       this.$watch("power.subpowers", function() {
         this.recalculateBaseCost();
         this.recalculateCost();

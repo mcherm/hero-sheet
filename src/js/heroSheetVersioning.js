@@ -260,8 +260,8 @@ class Updater {
     this.charsheet = charsheet;
     this.activeWatches = [];
   }
-
 }
+
 
 class DamagePowerAttackUpdater extends Updater {
   constructor(vm, charsheet, newUpdaterEvent) {
@@ -326,11 +326,12 @@ class DamagePowerAttackUpdater extends Updater {
       }
     }, function(newValue, oldValue) {
       // -- Callback Function --
-      console.log(`Within New Watch: ${JSON.stringify(newValue)}, ${JSON.stringify(oldValue)}`); // FIXME: Remove
+      console.log(`Within Watch Update: ${JSON.stringify(newValue)}, ${JSON.stringify(oldValue)}`); // FIXME: Remove
       const newIdentity = JSON.stringify(newValue.identity);
       const oldIdentity = oldValue === undefined ? newIdentity : JSON.stringify(oldValue.identity);
       if (newIdentity !== oldIdentity) {
         // -- Delete the attack we created --
+        console.log(`The identity has changed; deleting the watch.`); // FIXME: Remove
         const attackList = charsheet.attacks.attackList;
         const index = attackList.indexOf(theAttack);
         if (index !== -1) {
@@ -342,6 +343,7 @@ class DamagePowerAttackUpdater extends Updater {
         }
       } else {
         // -- Update the Values --
+        console.log(`Updating the watch`); // FIXME: Remove
         theAttack.name = newValue.calculations.powerName;
         theAttack.attackCheck = newValue.calculations.fighting;
         theAttack.resistanceDC = newValue.calculations.powerRanks;
