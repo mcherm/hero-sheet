@@ -246,7 +246,6 @@ const recreateUnarmedAttack = function(charsheet) {
            * Weaken
               Normal close attack
               Resist with Fortitude or Will.
-
         */
 
 
@@ -256,20 +255,111 @@ const recreateUnarmedAttack = function(charsheet) {
  * An example would be an updater for creating an attack.
  */
 class Updater {
-  constructor(vm, charsheet) {
-    this.charsheet = charsheet;
+  constructor(vm, charsheet, ...otherArgs) {
     this.activeWatches = [];
+    this.charsheet = charsheet;
+    this.setMoreFieldsInConstructor(vm, charsheet, ...otherArgs);
   }
+
+  /*
+   * This gets run during the constructor BEFORE the watch is created. It
+   * can be used to set instance fields that are needed by the watch.
+   */
+  setMoreFieldsInConstructor(vm, charsheet, ...otherArgs) {
+  }
+
+  /*
+   * This returns an object used in the watch to determine whether the updater needs
+   * to destroy itself and whether it needs to update itself. The object returned
+   * should have two fields: identity is an object -- if any field has changed then
+   * the updater is now invalid and should delete itself, and calculations is an
+   * object -- fields from this can be used in the update the updater performs.
+   */
+  watchForChange() {
+    throw Error("Subclasses must override this.");
+  }
+
+  /*
+   * When there have been changes to the attack, this is invoked to actually apply them.
+   * It is passed the new value of the calculations object from the watchForChange().
+   */
+  applyChanges(newCalculations) {
+    throw Error("Subclasses must override this.");
+  }
+
+  /*
+   * Gets called when the updater is no longer needed. Everything it
+   * created should be eliminated.
+   */
+  destroy() {
+    console.log(`In destroy(). this.theAttack = ${JSON.stringify(this.theAttack)}`); // FIXME: Remove
+    // -- cancel all watches --
+    for (const cancelFunction of this.activeWatches) {
+      cancelFunction();
+    }
+    // -- remove the attack we made --
+    const attackList = this.charsheet.attacks.attackList;
+    const index = attackList.indexOf(this.theAttack);
+    if (index !== -1) {
+      attackList.splice(index, 1);
+    }
+  }
+
+  /*
+   * This is passed a newValue and oldValue each of which is an output from the watchForChange()
+   * method, except that oldValue will be undefined the first time it is called. If there was
+   * any change in the identity then it will delete this updater and everything it created.
+   * Otherwise, it will use the values in calculations to update whatever this updater is
+   * updating.
+   */
+  processChange(newValue, oldValue) {
+    console.log(`Within watch processing a change: ${JSON.stringify(newValue)}, ${JSON.stringify(oldValue)}`, this); // FIXME: Remove
+    const newIdentity = JSON.stringify(newValue.identity);
+    const oldIdentity = oldValue === undefined ? newIdentity : JSON.stringify(oldValue.identity);
+    if (newIdentity !== oldIdentity) {
+      console.log(`The identity has changed; deleting the watch.`); // FIXME: Remove
+      this.destroy();
+    } else {
+      this.applyChanges(newValue.calculations);
+    }
+  }
+
+  /*
+   * Initiates the watch that drives this updater. In the future I will figure out
+   * how to generalize this; right now it is all specific to DamagePowerAttackUpdater.
+   * It returns the cancel function for the watch.
+   */
+  createWatch(vm) {
+    const cancelFunction = vm.$watch(
+      () => this.watchForChange.call(this),
+      (newValue, oldValue) => this.processChange.call(this, newValue, oldValue)
+    );
+    return cancelFunction;
+  }
+
 }
 
-
-class DamagePowerAttackUpdater extends Updater {
+class PowerAttackUpdater extends Updater {
   constructor(vm, charsheet, newUpdaterEvent) {
-    super(vm, charsheet);
-    this.power = newUpdaterEvent.power;
-    this.theAttack = this.findOrCreateTheAttack();
+    super(vm, charsheet, newUpdaterEvent);
     const cancelFunction = this.createWatch(vm);
     this.activeWatches.push(cancelFunction);
+  }
+
+  /*
+   * This gets run during the constructor BEFORE the watch is created. It
+   * can be used to set instance fields that are needed by the watch.
+   */
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent) {
+    this.power = newUpdaterEvent.power;
+    this.theAttack = this.findOrCreateTheAttack();
+  }
+
+  /*
+   * Subclasses should override this to return a new attack JSON object.
+   */
+  makeNewAttack() {
+    throw Error("Subclasses must override this.");
   }
 
   /*
@@ -287,89 +377,58 @@ class DamagePowerAttackUpdater extends Updater {
     } else if (matchingAttacks.length === 1) {
       return matchingAttacks[0];
     } else {
-      const newAttack = {
-        type: updaterName,
-        hsid: this.power.hsid,
-        name: this.power.name,
-        attackCheck: this.charsheet.abilities.fighting.ranks,
-        effectType: "damage",
-        resistanceDC: this.power.ranks
-      };
+      const newAttack = this.makeNewAttack();
       attackList.push(newAttack);
       return newAttack;
     }
   }
 
-  /*
-   * Initiates the watch that drives this updater. In the future I will figure out
-   * how to generalize this; right now it is all specific to DamagePowerAttackUpdater.
-   * It returns the cancel function for the watch.
-   */
-  createWatch(vm) {
-    const power = this.power;
-    const charsheet = this.charsheet;
-    const theAttack = this.theAttack;
-    const activeWatches = this.activeWatches;
-    const cancelFunction = vm.$watch(function() {
-      // -- Test Function for Watch --
-      console.log(`Test Function for the watch runs now`); // FIXME: Remove
-      return {
-        identity: {
-          powerHsid: power.hsid,
-          powerEffect: power.effect
-        },
-        calculations: {
-          fighting: charsheet.abilities.fighting.ranks,
-          powerRanks: power.ranks,
-          powerName: power.name
-        }
-      }
-    }, function(newValue, oldValue) {
-      // -- Callback Function --
-      console.log(`Within Watch Update: ${JSON.stringify(newValue)}, ${JSON.stringify(oldValue)}`); // FIXME: Remove
-      const newIdentity = JSON.stringify(newValue.identity);
-      const oldIdentity = oldValue === undefined ? newIdentity : JSON.stringify(oldValue.identity);
-      if (newIdentity !== oldIdentity) {
-        // -- Delete the attack we created --
-        console.log(`The identity has changed; deleting the watch.`); // FIXME: Remove
-        const attackList = charsheet.attacks.attackList;
-        const index = attackList.indexOf(theAttack);
-        if (index !== -1) {
-          attackList.splice(index, 1); // Delete 1 item
-        }
-        // -- Cancel all the watches --
-        for (const cancelFunc of activeWatches) {
-          cancelFunc();
-        }
-      } else {
-        // -- Update the Values --
-        console.log(`Updating the watch`); // FIXME: Remove
-        theAttack.name = newValue.calculations.powerName;
-        theAttack.attackCheck = newValue.calculations.fighting;
-        theAttack.resistanceDC = newValue.calculations.powerRanks;
-      }
-    }, { immediate: true }); // FIXME: Not sure if it should be immediate or not.
-    return cancelFunction;
+}
+
+
+class DamagePowerAttackUpdater extends PowerAttackUpdater {
+  constructor(vm, charsheet, newUpdaterEvent) {
+    super(vm, charsheet, newUpdaterEvent);
   }
 
-  /*
-   * Gets called when the updater is no longer needed. Everything it
-   * created should be eliminated.
-   */
-  destroy() {
-    // -- cancel all watches --
-    for (const cancelFunction of this.activeWatches) {
-      cancelFunction();
+  makeNewAttack() {
+    return {
+      type: this.constructor.name,
+      hsid: this.power.hsid,
+      name: this.power.name,
+      attackCheck: this.charsheet.abilities.fighting.ranks,
+      effectType: "damage",
+      resistanceDC: this.power.ranks
     }
-    // -- remove the attack we made --
-    const attackList = this.charsheet.attacks.attackList;
-    const index = attackList.indexOf(this.theAttack);
-    if (index !== -1) {
-      attackList.splice(1, index);
+  }
+
+  watchForChange() {
+    // -- Test Function for Watch --
+    console.log(`Test Function for the watch runs now`); // FIXME: Remove
+    return {
+      identity: {
+        powerHsid: this.power.hsid,
+        powerEffect: this.power.effect
+      },
+      calculations: {
+        fighting: this.charsheet.abilities.fighting.ranks,
+        powerRanks: this.power.ranks,
+        powerName: this.power.name
+      }
     }
+  }
+
+  applyChanges(newCalculations) {
+    // -- Update the Values --
+    console.log(`Updating the watch. newCalculations = ${JSON.stringify(newCalculations)} and this =`, this); // FIXME: Remove
+    const theAttack = this.theAttack;
+    theAttack.name = newCalculations.powerName;
+    theAttack.attackCheck = newCalculations.fighting;
+    theAttack.resistanceDC = newCalculations.powerRanks;
   }
 
 }
+
 
 const updaterClasses = {
   DamagePowerAttackUpdater
