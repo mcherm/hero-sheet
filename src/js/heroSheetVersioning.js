@@ -225,7 +225,7 @@ const recreateUnarmedAttack = function(charsheet) {
     throw Error(`Expected exactly 1 unarmed attack; found ${unarmedAttacks.length}`);
   }
   const unarmedAttack = unarmedAttacks[0];
-  unarmedAttack.name = "Unarmed"
+  unarmedAttack.name = "Unarmed";
   unarmedAttack.attackCheck = charsheet.abilities.fighting.ranks;
   unarmedAttack.effectType = "damage";
   unarmedAttack.resistanceDC = charsheet.abilities.strength.ranks;
@@ -315,11 +315,9 @@ class Updater {
    * updating.
    */
   processChange(newValue, oldValue) {
-    console.log(`Within watch processing a change: ${JSON.stringify(newValue)}, ${JSON.stringify(oldValue)}`, this); // FIXME: Remove
     const newIdentity = JSON.stringify(newValue.identity);
     const oldIdentity = oldValue === undefined ? newIdentity : JSON.stringify(oldValue.identity);
     if (newIdentity !== oldIdentity) {
-      console.log(`The identity has changed; deleting the watch.`); // FIXME: Remove
       this.destroy();
     } else {
       this.applyChanges(newValue.calculations);
@@ -406,7 +404,6 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
 
   watchForChange() {
     // -- Test Function for Watch --
-    console.log(`Test Function for the watch runs now`); // FIXME: Remove
     return {
       identity: {
         powerHsid: this.power.hsid,
@@ -422,7 +419,6 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
 
   applyChanges(newCalculations) {
     // -- Update the Values --
-    console.log(`Updating the watch. newCalculations = ${JSON.stringify(newCalculations)} and this =`, this); // FIXME: Remove
     const theAttack = this.theAttack;
     theAttack.name = newCalculations.powerName;
     theAttack.attackCheck = newCalculations.fighting;
@@ -450,7 +446,6 @@ class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
 
   watchForChange() {
     // -- Test Function for Watch --
-    console.log(`Test Function for the watch runs now`); // FIXME: Remove
     return {
       identity: {
         powerHsid: this.power.hsid,
@@ -466,7 +461,6 @@ class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
 
   applyChanges(newCalculations) {
     // -- Update the Values --
-    console.log(`Updating the watch. newCalculations = ${JSON.stringify(newCalculations)} and this =`, this); // FIXME: Remove
     const theAttack = this.theAttack;
     theAttack.name = newCalculations.powerName;
     theAttack.attackCheck = newCalculations.fighting;
@@ -476,9 +470,96 @@ class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
 }
 
 
+class NullifyPowerAttackUpdater extends PowerAttackUpdater {
+  constructor(vm, charsheet, newUpdaterEvent) {
+    super(vm, charsheet, newUpdaterEvent);
+  }
+
+  makeNewAttack() {
+    return {
+      type: this.constructor.name,
+      hsid: this.power.hsid,
+      name: this.power.name,
+      attackCheck: this.charsheet.abilities.dexterity.ranks,
+      effectType: "nullify",
+      resistanceDC: null,
+      nullifyRanks: this.power.updateRanks
+    }
+  }
+
+  watchForChange() {
+    // -- Test Function for Watch --
+    return {
+      identity: {
+        powerHsid: this.power.hsid,
+        powerEffect: this.power.effect
+      },
+      calculations: {
+        dexterity: this.charsheet.abilities.dexterity.ranks,
+        powerRanks: this.power.ranks,
+        powerName: this.power.name
+      }
+    }
+  }
+
+  applyChanges(newCalculations) {
+    // -- Update the Values --
+    const theAttack = this.theAttack;
+    theAttack.name = newCalculations.powerName;
+    theAttack.attackCheck = newCalculations.dexterity;
+    theAttack.nullifyRanks = newCalculations.powerRanks;
+  }
+
+}
+
+
+class WeakenPowerAttackUpdater extends PowerAttackUpdater {
+  constructor(vm, charsheet, newUpdaterEvent) {
+    super(vm, charsheet, newUpdaterEvent);
+  }
+
+  makeNewAttack() {
+    return {
+      type: this.constructor.name,
+      hsid: this.power.hsid,
+      name: this.power.name,
+      attackCheck: this.charsheet.abilities.fighting.ranks,
+      effectType: "weaken",
+      resistanceDC: 10 + this.power.ranks
+    }
+  }
+
+  watchForChange() {
+    // -- Test Function for Watch --
+    return {
+      identity: {
+        powerHsid: this.power.hsid,
+        powerEffect: this.power.effect
+      },
+      calculations: {
+        fighting: this.charsheet.abilities.fighting.ranks,
+        powerRanks: this.power.ranks,
+        powerName: this.power.name
+      }
+    }
+  }
+
+  applyChanges(newCalculations) {
+    // -- Update the Values --
+    const theAttack = this.theAttack;
+    theAttack.name = newCalculations.powerName;
+    theAttack.attackCheck = newCalculations.fighting;
+    theAttack.resistanceDC = 10 + newCalculations.powerRanks;
+  }
+
+}
+
+
 const updaterClasses = {
   DamagePowerAttackUpdater,
-  AfflictionPowerAttackUpdater
+  AfflictionPowerAttackUpdater,
+  NullifyPowerAttackUpdater,
+  WeakenPowerAttackUpdater
 };
 
 

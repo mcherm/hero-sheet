@@ -148,10 +148,16 @@
           this.recalculateBaseCost();
         }
         this.recalculateCost();
+        // FIXME: Should be returning this.power.hsid not this.power, right?
+        // FIXME: Should combine this with code in PowerList and pull it out somewhere
         if (this.power.effect === "Damage") {
           this.$emit("newUpdater", { updater: "DamagePowerAttackUpdater", power: this.power });
         } else if (this.power.effect === "Affliction") {
           this.$emit("newUpdater", { updater: "AfflictionPowerAttackUpdater", power: this.power });
+        } else if (this.power.effect === "Nullify") {
+          this.$emit("newUpdater", { updater: "NullifyPowerAttackUpdater", power: this.power });
+        } else if (this.power.effect === "Weaken") {
+          this.$emit("newUpdater", { updater: "WeakenPowerAttackUpdater", power: this.power });
         }
       },
       // If it's an array, this will be called to find the base cost

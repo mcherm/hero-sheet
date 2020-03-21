@@ -186,7 +186,6 @@
         }
       },
       createUpdater: function(newUpdaterEvent) {
-        console.log(`createUpdater( ${JSON.stringify(newUpdaterEvent)} ) at ${Date.now()}`); // FIXME: Remove
         const updaterName = newUpdaterEvent.updater;
 
         const character = this.character;
@@ -196,7 +195,6 @@
         updaters.push(updaterInstance);
       },
       deleteUpdater: function(deleteUpdaterEvent) {
-        console.log(`DELETE updater ${JSON.stringify(deleteUpdaterEvent)}.`); // FIXME: Remove
         for (const updater of updaters) {
           const rightUpdaterType = updater.constructor.name === deleteUpdaterEvent.updater;
           const rightHsid = updater.power.hsid === deleteUpdaterEvent.powerHsid;

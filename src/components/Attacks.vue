@@ -15,7 +15,8 @@
       >
         <div class="attack-name">{{attack.name}}</div>
         <number-display class="to-hit" :value="attack.attackCheck"/>
-        <number-display class="resistance-dc" :value="attack.resistanceDC"/>
+        <number-display v-if="attack.resistanceDC !== null" class="resistance-dc" :value="attack.resistanceDC"/>
+        <div v-else class="inapplicable"></div>
         <div>{{attack.effectType}}</div>
       </div>
     </div>
@@ -50,5 +51,8 @@
   }
   .attacks-list .resistance-dc {
     margin-left: 0;
+  }
+  .inapplicable {
+    background-color: var(--inapplicable-color);
   }
 </style>
