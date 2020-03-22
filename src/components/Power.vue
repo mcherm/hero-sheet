@@ -18,7 +18,11 @@
             </option>
           </select>
         </div>
-        <label class="row-label">Basic Desc</label><div>{{power.effectDescription}}</div>
+        <label class="row-label">Basic Desc</label>
+        <div>
+          <span>{{power.effectDescription}}</span>
+          <docs-lookup :docsURL="standardPower.docsURL"/>
+        </div>
 
         <div v-if="hasOptions" class="display-contents">
           <label class="row-label">Option</label>
