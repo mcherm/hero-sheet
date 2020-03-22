@@ -27,7 +27,7 @@
       <template slot="powers">
         <power-list-top-level
             :character="character"
-            v-on:newUpdater="createUpdater($event)"
+            v-on:newUpdater="createPowerUpdater($event)"
             v-on:deleteUpdater="deleteUpdater($event)"
         />
       </template>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+  // FIXME: Rename "character" to "charsheet" EVERYWHERE for consistency.
+
   import TabDisplay from "./TabDisplay.vue";
   import Campaign from "./Campaign.vue"
   import Background from "./Background.vue"
@@ -57,7 +59,7 @@
   import Complications from "./Complications.vue";
   import Attacks from "./Attacks.vue"
 
-  import {currentVersion, upgradeVersion, recreateUnarmedAttack, findPowerByHisd, updaterClasses} from "../js/heroSheetVersioning";
+  import {currentVersion, upgradeVersion, findPowerByHisd, updaterClasses} from "../js/heroSheetVersioning";
 
   // Maintain the list OUTSIDE of the vue object to avoid cyclic object values
   const updaters = [];
@@ -162,30 +164,22 @@
           this.saveCharacter();
         }, SAVE_FREQUENCY_MILLIS);
       },
-      installNormalWatches() {
-        // FIXME: Replace this with an updater
-        // FIXME: Not sure if this is a good design, but this installs watches on things that we
-        //   always need to monitor for any character sheet. It feels like it should be defined
-        //   someplace else so eventually I will move it.
-        this.$watch("character.abilities.fighting.ranks", function(newValue) {
-          recreateUnarmedAttack(this.character);
-        });
-        this.$watch("character.abilities.strength.ranks", function(newValue) {
-          recreateUnarmedAttack(this.character);
-        });
-      },
       installUpdaters: function() {
         for (const attack of this.character.attacks.attackList) {
-          if (attack.type !== "unarmed") {
-            const updaterType = attack.type;
+          // FIXME: With a better design maybe I wouldn't need a special case here
+          const updaterType = attack.type;
+          if (updaterType === "UnarmedAttackUpdater") {
+            const updater = new updaterClasses["UnarmedAttackUpdater"](this, this.character);
+            updaters.push(updater);
+          } else {
             const power = findPowerByHisd(this.character, attack.hsid);
             const updateEvent = { updater: updaterType, power: power };
-            const updater = this.createUpdater(updateEvent);
+            const updater = this.createPowerUpdater(updateEvent);
             updaters.push(updater);
           }
         }
       },
-      createUpdater: function(newUpdaterEvent) {
+      createPowerUpdater: function(newUpdaterEvent) {
         const updaterName = newUpdaterEvent.updater;
 
         const character = this.character;
@@ -225,7 +219,6 @@
         handler: function(newCharacter) {
           if (!this.initialLoadHasTriggeredEvent) {
             this.initialLoadHasTriggeredEvent = true;
-            this.installNormalWatches();
           } else {
             if (!this.hasUnsavedChanges) {
               // It's a new change; better work on saving it

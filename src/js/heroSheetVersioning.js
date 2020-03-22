@@ -3,8 +3,8 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 7; // Up to this version can be saved
-const latestVersion = 7; // Might be an experimental version
+const currentVersion = 8; // Up to this version can be saved
+const latestVersion = 8; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
@@ -117,7 +117,7 @@ const newBlankCharacter = function() {
   const attacks = {
     attackList: [
       {
-        type: "unarmed",
+        type: "UnarmedAttackUpdater",
         name: "Unarmed",
         attackCheck: 0,
         effectType: "damage",
@@ -217,8 +217,10 @@ const findPowerByHisd = function(charsheet, hsid) {
 /*
  * This modifies the character by finding the (singular) unarmed attack and then
  * setting it correctly.
+ *
+ * NOTE: This is now replaced by an updater so it exists only for upgrade purposes.
  */
-const recreateUnarmedAttack = function(charsheet) {
+const _recreateUnarmedAttack = function(charsheet) {
   const attackList = charsheet.attacks.attackList;
   const unarmedAttacks = attackList.filter(x => x.type === "unarmed");
   if (unarmedAttacks.length !== 1) {
@@ -230,25 +232,6 @@ const recreateUnarmedAttack = function(charsheet) {
   unarmedAttack.effectType = "damage";
   unarmedAttack.resistanceDC = charsheet.abilities.strength.ranks;
 };
-        /*
-          Fundamental powers that grant attacks:
-           * Damage
-              Resist with Toughness (normally)
-              Some augment strength; others don't
-              - 1 degree: bruised += 1
-              - 2 degree: dazed & bruised += 1
-              - 3 degree: staggered & bruised += 1
-              - 4 degree: incapacitated
-           * Affliction
-              Resist with Fortitude or Will (normally)
-              Effect varies; specified by designer
-           * Nullify
-              Uses opposed check (nullify vs targeted
-              effect or will, whichever is higher)
-           * Weaken
-              Normal close attack
-              Resist with Fortitude or Will.
-        */
 
 
 /*
@@ -258,10 +241,11 @@ const recreateUnarmedAttack = function(charsheet) {
  */
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
-    console.log(`In Updater.constructor and otherArgs = ${JSON.stringify(otherArgs)}`); // FIXME: Remove
     this.activeWatches = [];
     this.charsheet = charsheet;
     this.setMoreFieldsInConstructor(vm, charsheet, ...otherArgs);
+    const cancelFunction = this.createWatch(vm);
+    this.activeWatches.push(cancelFunction);
   }
 
   /*
@@ -295,7 +279,6 @@ class Updater {
    * created should be eliminated.
    */
   destroy() {
-    console.log(`In Updater.destroy().`); // FIXME: Remove
     // -- cancel all watches --
     for (const cancelFunction of this.activeWatches) {
       cancelFunction();
@@ -387,7 +370,6 @@ class AttackUpdater extends Updater {
    * created should be eliminated.
    */
   destroy() {
-    console.log(`In AttackUpdater.destroy(). this.theAttack = ${JSON.stringify(this.theAttack)}`); // FIXME: Remove
     super.destroy();
     // -- remove the attack we made --
     const attackList = this.charsheet.attacks.attackList;
@@ -397,6 +379,39 @@ class AttackUpdater extends Updater {
     }
   }
 
+}
+
+
+class UnarmedAttackUpdater extends AttackUpdater {
+  constructor(vm, charsheet, ...otherArgs) {
+    super(vm, charsheet, ...otherArgs);
+  }
+
+  makeNewAttack() {
+    return {
+      type: this.constructor.name,
+      name: "Unarmed",
+      attackCheck: 0,
+      effectType: "damage",
+      resistanceDC: 0
+    };
+  }
+
+  watchForChange() {
+    return {
+      identity: {
+      },
+      calculations: {
+        strength: this.charsheet.abilities.strength.ranks,
+        fighting: this.charsheet.abilities.fighting.ranks
+      }
+    }
+  }
+
+  applyChanges(newCalculations) {
+    this.theAttack.attackCheck = newCalculations.fighting;
+    this.theAttack.resistanceDC = newCalculations.strength;
+  }
 }
 
 
@@ -410,7 +425,6 @@ class PowerAttackUpdater extends AttackUpdater {
    * can be used to set instance fields that are needed by the watch.
    */
   setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
-    console.log(`in setMoreFieldsInConstructor, and newUpdaterEvent = ${newUpdaterEvent}`); // FIXME: Remove
     this.power = newUpdaterEvent.power;
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
   }
@@ -592,7 +606,7 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
 
 
 const updaterClasses = {
-  // UnarmedAttackUpdater, FIXME: Add this
+  UnarmedAttackUpdater,
   DamagePowerAttackUpdater,
   AfflictionPowerAttackUpdater,
   NullifyPowerAttackUpdater,
@@ -630,7 +644,7 @@ const upgradeFuncs = {
         }
       ]
     };
-    recreateUnarmedAttack(charsheet);
+    _recreateUnarmedAttack(charsheet);
     charsheet.version = 5;
   },
 
@@ -660,6 +674,15 @@ const upgradeFuncs = {
     };
     upgradePowerList(charsheet.powers);
     charsheet.version = 7;
+  },
+
+  upgradeFrom7: function(charsheet) {
+    for (const attack of charsheet.attacks.attackList) {
+      if (attack.type === "unarmed") {
+        attack.type = "UnarmedAttackUpdater";
+      }
+    }
+    charsheet.version = 8;
   }
 
 };
@@ -700,7 +723,6 @@ export {
   newBlankComplication,
   findPowerByHisd,
   newHsid,
-  recreateUnarmedAttack,
   upgradeVersion,
   updaterClasses
 };

@@ -1,12 +1,12 @@
 {
-  "version": 7,
+  "version": 8,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
     "setting": ""
   },
   "naming": {
-    "name": "Attacks",
+    "name": "Attacko",
     "player": "",
     "identityType": "none",
     "identity": "",
@@ -228,7 +228,7 @@
   "attacks": {
     "attackList": [
       {
-        "type": "unarmed",
+        "type": "UnarmedAttackUpdater",
         "name": "Unarmed",
         "attackCheck": 2,
         "effectType": "damage",
