@@ -2,21 +2,21 @@
   <boxed-section title="Costs">
     <div class="cost-grid grid-with-lines">
       <label class="row-label">Abilities</label>
-      <number-display :value="abilityCost(character)" class="values-column"/>
+      <number-display :value="abilityCost(charsheet)" class="values-column"/>
       <label class="row-label">Defenses</label>
-      <number-display :value="defenseCost(character)" class="values-column"/>
+      <number-display :value="defenseCost(charsheet)" class="values-column"/>
       <label class="row-label">Skills</label>
-      <number-display :value="skillCost(character)" class="values-column"/>
+      <number-display :value="skillCost(charsheet)" class="values-column"/>
       <label class="row-label">Advantages</label>
-      <number-display :value="advantageCost(character)" class="values-column"/>
+      <number-display :value="advantageCost(charsheet)" class="values-column"/>
       <label class="row-label">Powers</label>
-      <number-display :value="powerCost(character)" class="values-column"/>
+      <number-display :value="powerCost(charsheet)" class="values-column"/>
       <label class="row-label">TOTAL</label>
-      <number-display :value="totalCost(character)" :isOutOfSpec="costOutOfSpec(character)" class="values-column"/>
+      <number-display :value="totalCost(charsheet)" :isOutOfSpec="costOutOfSpec(charsheet)" class="values-column"/>
       <div class="grid-spacer grid-with-lines-no-lines"/>
       <div class="grid-spacer grid-with-lines-no-lines"/>
       <label class="row-label">Available</label>
-      <number-display :value="availablePoints(character)" class="values-column"/>
+      <number-display :value="availablePoints(charsheet)" class="values-column"/>
     </div>
   </boxed-section>
 </template>
@@ -27,7 +27,7 @@
   export default {
     name: "OverallCosts",
     props: {
-      character: { type: Object, required: true }
+      charsheet: { type: Object, required: true }
     },
     methods: {
       abilityCost,

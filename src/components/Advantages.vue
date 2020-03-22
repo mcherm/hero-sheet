@@ -1,7 +1,7 @@
 <template>
   <boxed-section title="Advantages">
     <template v-slot:exhibit>
-      <local-cost-display :character="character" extra-label="advantages" :extra-value-function="advantageCost"/>
+      <local-cost-display :charsheet="charsheet" extra-label="advantages" :extra-value-function="advantageCost"/>
     </template>
     <div class="advantages-list grid-with-lines" :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
       <div class="col-label">Advantage</div>
@@ -11,7 +11,7 @@
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
 
       <div
-          v-for="advantage in character.advantages"
+          v-for="advantage in charsheet.advantages"
           :key="advantage.name"
           class="display-contents"
       >
@@ -36,7 +36,7 @@
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="$delete(character.advantages, character.advantages.indexOf(advantage))"
+            v-on:click="$delete(charsheet.advantages, charsheet.advantages.indexOf(advantage))"
         >
           <trash-icon/>
         </button>
@@ -67,7 +67,7 @@
       LocalCostDisplay
     },
     props: {
-      character: { type: Object, required: true }
+      charsheet: { type: Object, required: true }
     },
     data: function() {
       return {
@@ -78,7 +78,7 @@
       // A list of all standardAdvantages that are NOT in use on this character
       unusedStandardAdvantages: function() {
         const advantageInUse = {};
-        for (const advantage of this.character.advantages) {
+        for (const advantage of this.charsheet.advantages) {
           advantageInUse[advantage.name] = true;
         }
         return Object.values(standardAdvantages).filter(
@@ -123,11 +123,11 @@
             return x.name.localeCompare(y.name);
           }
         };
-        this.character.advantages.sort(sortFunc);
+        this.charsheet.advantages.sort(sortFunc);
       },
       addAdvantage: function() {
         const newAdvantage = newBlankAdvantage();
-        this.character.advantages.push(newAdvantage);
+        this.charsheet.advantages.push(newAdvantage);
         // FIXME: I should sort the advantages at some point, right?
       }
     }

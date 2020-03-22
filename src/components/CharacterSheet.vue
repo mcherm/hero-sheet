@@ -1,41 +1,41 @@
 <template>
   <div class="character-sheet v-box">
-    <div v-if="character === null" class="character-loading">
+    <div v-if="charsheet === null" class="character-loading">
       Loading...
     </div>
-    <tab-display v-if="character !== null">
+    <tab-display v-if="charsheet !== null">
       <template slot="background">
         <div class="h-box">
-          <campaign :campaign="character.campaign"/>
-          <background :character="character"/>
-          <overall-costs :character="character"/>
+          <campaign :campaign="charsheet.campaign"/>
+          <background :charsheet="charsheet"/>
+          <overall-costs :charsheet="charsheet"/>
         </div>
       </template>
       <template slot="abilities">
         <div class="h-box">
-          <basic-stats :abilities="character.abilities"/>
-          <defenses :character="character"/>
-          <overall-costs :character="character"/>
+          <basic-stats :abilities="charsheet.abilities"/>
+          <defenses :charsheet="charsheet"/>
+          <overall-costs :charsheet="charsheet"/>
         </div>
       </template>
       <template slot="skills">
-        <skills :character="character"/>
+        <skills :charsheet="charsheet"/>
       </template>
       <template slot="advantages">
-        <advantages :character="character"/>
+        <advantages :charsheet="charsheet"/>
       </template>
       <template slot="powers">
         <power-list-top-level
-            :character="character"
+            :charsheet="charsheet"
             v-on:newUpdater="createPowerUpdater($event)"
             v-on:deleteUpdater="deleteUpdater($event)"
         />
       </template>
       <template slot="complications">
-        <complications :complications="character.complications"/>
+        <complications :complications="charsheet.complications"/>
       </template>
       <template slot="attacks">
-        <attacks :character="character"/>
+        <attacks :charsheet="charsheet"/>
       </template>
     </tab-display>
     <div id="data-dump">
@@ -45,8 +45,6 @@
 </template>
 
 <script>
-  // FIXME: Rename "character" to "charsheet" EVERYWHERE for consistency.
-
   import TabDisplay from "./TabDisplay.vue";
   import Campaign from "./Campaign.vue"
   import Background from "./Background.vue"
@@ -85,7 +83,7 @@
     },
     data: function() {
       return {
-        character: null,
+        charsheet: null,
         hasUnsavedChanges: false,
         activeSaveTimeout: null,
         initialLoadHasTriggeredEvent: false
@@ -113,7 +111,7 @@
           .then((json) => {
             const initialVersion = json.version;
             upgradeVersion(json);
-            this.character = json;
+            this.charsheet = json;
             if (json.version !== initialVersion) {
               console.log(`Version has been upgraded from ${initialVersion} to ${json.version}.`);
               this.hasUnsavedChanges = true;
@@ -124,9 +122,9 @@
       },
       saveCharacter: async function() {
         this.activeSaveTimeout = null; // It has triggered so it is no longer active
-        const isExperimentalVersion = this.character.version > currentVersion;
+        const isExperimentalVersion = this.charsheet.version > currentVersion;
         if (isExperimentalVersion) {
-          console.log(`Not saving as ${this.character.version} is an experimental version of the charsheet.`);
+          console.log(`Not saving as ${this.charsheet.version} is an experimental version of the charsheet.`);
         } else {
           const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
           const body = this.character_json;
@@ -165,14 +163,14 @@
         }, SAVE_FREQUENCY_MILLIS);
       },
       installUpdaters: function() {
-        for (const attack of this.character.attacks.attackList) {
+        for (const attack of this.charsheet.attacks.attackList) {
           // FIXME: With a better design maybe I wouldn't need a special case here
           const updaterType = attack.type;
           if (updaterType === "UnarmedAttackUpdater") {
-            const updater = new updaterClasses["UnarmedAttackUpdater"](this, this.character);
+            const updater = new updaterClasses["UnarmedAttackUpdater"](this, this.charsheet);
             updaters.push(updater);
           } else {
-            const power = findPowerByHisd(this.character, attack.hsid);
+            const power = findPowerByHisd(this.charsheet, attack.hsid);
             const updateEvent = { updater: updaterType, power: power };
             const updater = this.createPowerUpdater(updateEvent);
             updaters.push(updater);
@@ -182,10 +180,10 @@
       createPowerUpdater: function(newUpdaterEvent) {
         const updaterName = newUpdaterEvent.updater;
 
-        const character = this.character;
+        const charsheet = this.charsheet;
         const power = newUpdaterEvent.power;
         const updaterClass = updaterClasses[updaterName];
-        const updaterInstance = new updaterClass(this, character, newUpdaterEvent);
+        const updaterInstance = new updaterClass(this, charsheet, newUpdaterEvent);
         updaters.push(updaterInstance);
       },
       deleteUpdater: function(deleteUpdaterEvent) {
@@ -200,11 +198,11 @@
     },
     computed: {
       character_json: function() {
-        return JSON.stringify(this.character, null, 2) + "\n";
+        return JSON.stringify(this.charsheet, null, 2) + "\n";
       },
       characterName: function() {
         try {
-          return this.character.naming.name;
+          return this.charsheet.naming.name;
         } catch(err) {
           return "";
         }
@@ -214,9 +212,9 @@
       characterName: function(newName, oldName) {
         this.$emit("change-character-name", newName);
       },
-      character: {
+      charsheet: {
         deep: true,
-        handler: function(newCharacter) {
+        handler: function(newCharsheet) {
           if (!this.initialLoadHasTriggeredEvent) {
             this.initialLoadHasTriggeredEvent = true;
           } else {

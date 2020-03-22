@@ -9,7 +9,7 @@
       <label class="col-label">Ranks</label>
 
       <div class="display-contents"
-          v-for="defenseName in Object.keys(character.defenses)"
+          v-for="defenseName in Object.keys(charsheet.defenses)"
           :key="defenseName"
       >
         <label class="row-label">{{defenseName}}</label>
@@ -28,7 +28,7 @@
 
     <div class="initiative-grid grid-with-lines">
       <label class="row-label">initiative</label>
-      <number-display :value="character.initiative"/>
+      <number-display :value="charsheet.initiative"/>
     </div>
 
   </boxed-section>
@@ -46,23 +46,23 @@
   export default {
     name: "Defenses",
     props: {
-      character: { type: Object, required: true }
+      charsheet: { type: Object, required: true }
     },
     created: function() {
       const recalculate = this.recalculate;
       for (const defenseName in baseValueMap) {
-        this.$watch(`character.abilities.${baseValueMap[defenseName]}.ranks`, function() {
+        this.$watch(`charsheet.abilities.${baseValueMap[defenseName]}.ranks`, function() {
           recalculate(defenseName);
         }, {immediate: true});
       }
-      this.$watch("character.abilities.agility.ranks", function () {
-        this.character.initiative = this.character.abilities.agility.ranks;
+      this.$watch("charsheet.abilities.agility.ranks", function () {
+        this.charsheet.initiative = this.charsheet.abilities.agility.ranks;
       }, {immediate: true});
     },
     methods: {
       // Use within v-for to access the defense
       obj: function(defenseName) {
-        return this.character.defenses[defenseName];
+        return this.charsheet.defenses[defenseName];
       },
       isImmutable: function(defenseName) {
         return defenseName === 'toughness';
@@ -72,7 +72,7 @@
         this.recalculate(defenseName);
       },
       base: function(defenseName) {
-        return this.character.abilities[baseValueMap[defenseName]].ranks;
+        return this.charsheet.abilities[baseValueMap[defenseName]].ranks;
       },
       recalculate: function(defenseName) {
         const dob = this.obj(defenseName);
@@ -81,8 +81,8 @@
       },
       isOutOfSpec: function(defenseName) {
         // -- values --
-        const powerLevel = this.character.campaign.powerLevel;
-        const defenses = this.character.defenses;
+        const powerLevel = this.charsheet.campaign.powerLevel;
+        const defenses = this.charsheet.defenses;
         const dodge = defenses.dodge.ranks;
         const fortitude = defenses.fortitude.ranks;
         const parry = defenses.parry.ranks;

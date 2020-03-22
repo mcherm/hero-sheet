@@ -2,11 +2,11 @@
   <div class="horizontal">
     <div v-if="extraLabel" class="cost-display grid-with-lines">
       <label class="row-label">{{extraLabel}}</label>
-      <number-display :value="extraValueFunction(character)"/>
+      <number-display :value="extraValueFunction(charsheet)"/>
     </div>
     <div class="cost-display grid-with-lines">
       <label class="row-label">character</label>
-      <number-display :value="totalCost(character)" :isOutOfSpec="costOutOfSpec(character)"/>
+      <number-display :value="totalCost(charsheet)" :isOutOfSpec="costOutOfSpec(charsheet)"/>
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@
   export default {
     name: "LocalCostDisplay",
     props: {
-      character: { type: Object, required: true },
+      charsheet: { type: Object, required: true },
       extraLabel: { type: String, required: false, default: "" },
       extraValueFunction: { type: Function, required: false }
     },

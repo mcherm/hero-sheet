@@ -1,7 +1,7 @@
 <template>
   <boxed-section title="Attacks">
     <template v-slot:exhibit>
-      <local-cost-display :character="character"/>
+      <local-cost-display :charsheet="charsheet"/>
     </template>
     <div class="attacks-list grid-with-lines">
       <div class="col-label">Attack</div>
@@ -9,7 +9,7 @@
       <div class="col-label">Resist DC</div>
       <div class="col-label">Effect</div>
       <div
-          v-for="(attack, index) in character.attacks.attackList"
+          v-for="(attack, index) in charsheet.attacks.attackList"
           :key="index"
           class="display-contents"
       >
@@ -32,7 +32,7 @@
       LocalCostDisplay
     },
     props: {
-      character: { type: Object, required: true }
+      charsheet: { type: Object, required: true }
     }
   }
 </script>

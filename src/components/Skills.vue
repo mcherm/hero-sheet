@@ -1,7 +1,7 @@
 <template>
   <boxed-section title="Skills">
     <template v-slot:exhibit>
-      <local-cost-display :character="character" extra-label="skills" :extra-value-function="skillCost"/>
+      <local-cost-display :charsheet="charsheet" extra-label="skills" :extra-value-function="skillCost"/>
     </template>
     <div class="minimum-necessary-width">
       <div
@@ -19,7 +19,7 @@
         <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
 
         <div class="display-contents"
-             v-for="(skill, skillIndex) in character.skills.skillList"
+             v-for="(skill, skillIndex) in charsheet.skills.skillList"
              :key="skillIndex"
         >
           <label class="row-label" :class="{isOutOfSpec: !skill.name}">
@@ -78,7 +78,7 @@
       LocalCostDisplay
     },
     props: {
-      character: { type: Object, required: true }
+      charsheet: { type: Object, required: true }
     },
     data: function() {
       return {
@@ -111,7 +111,7 @@
           // This is a dummy skill (invalid). We just need to return some dummy data
           return 0;
         } else {
-          return this.character.abilities[ability].ranks;
+          return this.charsheet.abilities[ability].ranks;
         }
       },
       /*
@@ -122,8 +122,8 @@
         this.updateTotalCost();
       },
       updateTotalCost: function() {
-        const totalRanks = this.character.skills.skillList.reduce((x, y) => x + y.ranks, 0);
-        this.character.skills.cost = Math.ceil(totalRanks / 2);
+        const totalRanks = this.charsheet.skills.skillList.reduce((x, y) => x + y.ranks, 0);
+        this.charsheet.skills.cost = Math.ceil(totalRanks / 2);
       },
       skillRoll: function(skill) {
         if (this.skillData(skill).useUntrained || skill.ranks > 0) {
@@ -133,7 +133,7 @@
         }
       },
       skillOutOfSpec: function(skillRoll) {
-        const powerLevel = this.character.campaign.powerLevel;
+        const powerLevel = this.charsheet.campaign.powerLevel;
         return !isNaN(powerLevel) && !isNaN(skillRoll) && skillRoll > powerLevel + 10;
       },
       setSkillName: function(skill, skillName) {
@@ -141,17 +141,17 @@
         this.sortSkills();
       },
       sortSkills: function() {
-        this.character.skills.skillList.sort(
+        this.charsheet.skills.skillList.sort(
           (x,y) => (x.name < y.name) ? -1 : (x.name > y.name) ? 1: 0
         );
       },
       deleteSkill: function(skill) {
-        const skillList = this.character.skills.skillList;
+        const skillList = this.charsheet.skills.skillList;
         this.$delete(skillList, skillList.indexOf(skill));
       },
       addSkill: function() {
         const newSkill = newBlankSkill();
-        this.character.skills.skillList.push(newSkill);
+        this.charsheet.skills.skillList.push(newSkill);
       }
     }
   }
