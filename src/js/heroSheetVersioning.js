@@ -258,6 +258,7 @@ const recreateUnarmedAttack = function(charsheet) {
  */
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
+    console.log(`In Updater.constructor and otherArgs = ${JSON.stringify(otherArgs)}`); // FIXME: Remove
     this.activeWatches = [];
     this.charsheet = charsheet;
     this.setMoreFieldsInConstructor(vm, charsheet, ...otherArgs);
@@ -294,16 +295,10 @@ class Updater {
    * created should be eliminated.
    */
   destroy() {
-    console.log(`In destroy(). this.theAttack = ${JSON.stringify(this.theAttack)}`); // FIXME: Remove
+    console.log(`In Updater.destroy().`); // FIXME: Remove
     // -- cancel all watches --
     for (const cancelFunction of this.activeWatches) {
       cancelFunction();
-    }
-    // -- remove the attack we made --
-    const attackList = this.charsheet.attacks.attackList;
-    const index = attackList.indexOf(this.theAttack);
-    if (index !== -1) {
-      attackList.splice(index, 1);
     }
   }
 
@@ -339,20 +334,24 @@ class Updater {
 
 }
 
-class PowerAttackUpdater extends Updater {
-  constructor(vm, charsheet, newUpdaterEvent) {
-    super(vm, charsheet, newUpdaterEvent);
-    const cancelFunction = this.createWatch(vm);
-    this.activeWatches.push(cancelFunction);
+
+class AttackUpdater extends Updater {
+  constructor(vm, charsheet, ...otherArgs) {
+    super(vm, charsheet, ...otherArgs);
+  }
+
+  setMoreFieldsInConstructor(vm, charsheet, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, ...otherArgs);
+    this.theAttack = this.findOrCreateTheAttack();
   }
 
   /*
-   * This gets run during the constructor BEFORE the watch is created. It
-   * can be used to set instance fields that are needed by the watch.
+   * Given an attack in the list of attacks, this returns true if it is
+   * the one we are seeking and false if it isn't. Most subclasses will
+   * override it because most attack types aren't unique.
    */
-  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent) {
-    this.power = newUpdaterEvent.power;
-    this.theAttack = this.findOrCreateTheAttack();
+  matchAttack(attack) {
+    return attack.type === this.constructor.name;
   }
 
   /*
@@ -370,10 +369,10 @@ class PowerAttackUpdater extends Updater {
     const updaterName = this.constructor.name;
     const attackList = this.charsheet.attacks.attackList;
     const matchingAttacks = attackList.filter(
-      x => x.type === updaterName && x.hsid === this.power.hsid
+      x => this.matchAttack(x)
     );
     if (matchingAttacks.length > 1) {
-      throw Error(`Multiple attacks of type ${updaterName} with key ${this.power.name}`);
+      throw Error(`Multiple attacks of type ${updaterName} that matched.`);
     } else if (matchingAttacks.length === 1) {
       return matchingAttacks[0];
     } else {
@@ -381,6 +380,43 @@ class PowerAttackUpdater extends Updater {
       attackList.push(newAttack);
       return newAttack;
     }
+  }
+
+  /*
+   * Gets called when the updater is no longer needed. Everything it
+   * created should be eliminated.
+   */
+  destroy() {
+    console.log(`In AttackUpdater.destroy(). this.theAttack = ${JSON.stringify(this.theAttack)}`); // FIXME: Remove
+    super.destroy();
+    // -- remove the attack we made --
+    const attackList = this.charsheet.attacks.attackList;
+    const index = attackList.indexOf(this.theAttack);
+    if (index !== -1) {
+      attackList.splice(index, 1);
+    }
+  }
+
+}
+
+
+class PowerAttackUpdater extends AttackUpdater {
+  constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super(vm, charsheet, newUpdaterEvent, ...otherArgs);
+  }
+
+  /*
+   * This gets run during the constructor BEFORE the watch is created. It
+   * can be used to set instance fields that are needed by the watch.
+   */
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    console.log(`in setMoreFieldsInConstructor, and newUpdaterEvent = ${newUpdaterEvent}`); // FIXME: Remove
+    this.power = newUpdaterEvent.power;
+    super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
+  }
+
+  matchAttack(attack) {
+    return super.matchAttack(attack) && attack.hsid === this.power.hsid;
   }
 
 }
@@ -556,6 +592,7 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
 
 
 const updaterClasses = {
+  // UnarmedAttackUpdater, FIXME: Add this
   DamagePowerAttackUpdater,
   AfflictionPowerAttackUpdater,
   NullifyPowerAttackUpdater,

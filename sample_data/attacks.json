@@ -1,0 +1,273 @@
+{
+  "version": 7,
+  "campaign": {
+    "powerLevel": 10,
+    "xpAwarded": 0,
+    "setting": ""
+  },
+  "naming": {
+    "name": "Attacks",
+    "player": "",
+    "identityType": "none",
+    "identity": "",
+    "gender": "",
+    "age": "",
+    "heightWeight": "",
+    "eyesHair": "",
+    "costume": "",
+    "groupAffiliation": "",
+    "baseOfOperations": ""
+  },
+  "effortPoints": 1,
+  "abilities": {
+    "strength": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "stamina": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "agility": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "dexterity": {
+      "entered": 3,
+      "cost": 6,
+      "ranks": 3
+    },
+    "fighting": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    },
+    "intellect": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "awareness": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "presence": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    }
+  },
+  "defenses": {
+    "dodge": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "fortitude": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "parry": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 2
+    },
+    "toughness": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "will": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    }
+  },
+  "initiative": 0,
+  "advantages": [],
+  "skills": {
+    "skillList": [
+      {
+        "name": "acrobatics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "athletics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "deception",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "insight",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "intimidation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "investigation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "perception",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "persuasion",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "slight of hand",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "stealth",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "technology",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "treatment",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "vehicles",
+        "ranks": 0,
+        "isTemplate": false
+      }
+    ],
+    "cost": 0
+  },
+  "powers": [
+    {
+      "name": "Bite",
+      "hsid": "HI3BN17LC",
+      "effect": "Damage",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 5,
+      "cost": 5,
+      "effectDescription": "You can inflict damage by making a close attack.",
+      "baseCost": 1,
+      "subpowers": []
+    },
+    {
+      "name": "Disease",
+      "hsid": "HIMQE65RC",
+      "effect": "Affliction",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 8,
+      "cost": 8,
+      "effectDescription": "Impose some debilitating condition(s) on a target.",
+      "baseCost": 1,
+      "subpowers": []
+    },
+    {
+      "name": "Cancellation",
+      "hsid": "HIS11YCB8",
+      "effect": "Nullify",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 3,
+      "cost": 3,
+      "effectDescription": "Nullify can counter effects of a particular descriptor, such as fire or magic.",
+      "baseCost": 1,
+      "subpowers": []
+    },
+    {
+      "name": "DrainO",
+      "hsid": "HINV3TUB4",
+      "effect": "Weaken",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 15,
+      "cost": 15,
+      "effectDescription": "You can temporarily lower one of your target's traits.",
+      "baseCost": 1,
+      "subpowers": []
+    }
+  ],
+  "complications": [
+    {
+      "complicationType": "motivation",
+      "description": ""
+    }
+  ],
+  "attacks": {
+    "attackList": [
+      {
+        "type": "unarmed",
+        "name": "Unarmed",
+        "attackCheck": 2,
+        "effectType": "damage",
+        "resistanceDC": 0
+      },
+      {
+        "type": "DamagePowerAttackUpdater",
+        "hsid": "HI3BN17LC",
+        "name": "Bite",
+        "attackCheck": 2,
+        "effectType": "damage",
+        "resistanceDC": 5
+      },
+      {
+        "type": "AfflictionPowerAttackUpdater",
+        "hsid": "HIMQE65RC",
+        "name": "Disease",
+        "attackCheck": 2,
+        "effectType": "affliction",
+        "resistanceDC": 8
+      },
+      {
+        "type": "NullifyPowerAttackUpdater",
+        "hsid": "HIS11YCB8",
+        "name": "Cancellation",
+        "attackCheck": 3,
+        "effectType": "nullify",
+        "resistanceDC": null,
+        "nullifyRanks": 3
+      },
+      {
+        "type": "WeakenPowerAttackUpdater",
+        "hsid": "HINV3TUB4",
+        "name": "DrainO",
+        "attackCheck": 2,
+        "effectType": "weaken",
+        "resistanceDC": 25,
+        "nullifyRanks": 26
+      }
+    ]
+  }
+}
