@@ -1,5 +1,9 @@
 <!--
   Enter a single integer value.
+
+  Because JSON serialization turns NaNs into nulls, I want to make this support
+  inputs of null (and might as well throw in undefined also) and display them as
+  if they were a NaN.
 -->
 <template>
   <input
@@ -17,14 +21,14 @@
   export default {
     name: "NumberEntry",
     props: {
-      value: { type: Number, required: true }
+      value: { required: true, validator: x => x === undefined || x === null || typeof x === "number" },
     },
     computed: {
       isNegative: function() {
         return this.value < 0;
       },
       isNaNValue: function() {
-        return Number.isNaN(this.value);
+        return this.value === undefined || this.value === null || Number.isNaN(this.value);
       }
     },
     methods: {

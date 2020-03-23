@@ -1,5 +1,9 @@
 <!--
   Display a single numeric value.
+
+  Because JSON serialization turns NaNs into nulls, I want to make this support
+  inputs of null (and might as well throw in undefined also) and display them as
+  if they were a NaN.
 -->
 <template>
   <div
@@ -14,16 +18,16 @@
   export default {
     name: "NumberDisplay",
     props: {
-      value: { type: Number, required: true },
+      value: { required: true, validator: x => x === undefined || x === null || typeof x === "number" },
       isOutOfSpec: { type: Boolean, required: false, default: false },
       showErrForNegatives: { type: Boolean, required: false, default: true }
     },
     computed: {
       isNegative: function() {
-        return this.showErrForNegatives && this.value < 0;
+        return this.showErrForNegatives && !this.isNaNValue && this.value < 0;
       },
       isNaNValue: function() {
-        return Number.isNaN(this.value);
+        return this.value === undefined || this.value === null || Number.isNaN(this.value);
       }
     }
   }

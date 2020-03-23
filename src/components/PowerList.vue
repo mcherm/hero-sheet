@@ -117,9 +117,9 @@
           this.$emit('deleteUpdater', { updater: "DamagePowerAttackUpdater", powerHsid: power.hsid });
         } else if (power.effect === "Affliction") {
           this.$emit('deleteUpdater', { updater: "AfflictionPowerAttackUpdater", powerHsid: power.hsid });
-        } else if (this.power.effect === "Nullify") {
+        } else if (power.effect === "Nullify") {
           this.$emit('deleteUpdater', { updater: "NullifyPowerAttackUpdater", powerHsid: power.hsid });
-        } else if (this.power.effect === "Weaken") {
+        } else if (power.effect === "Weaken") {
           this.$emit('deleteUpdater', { updater: "WeakenPowerAttackUpdater", powerHsid: power.hsid });
         }
         this.$delete(this.powers, powerIndex);

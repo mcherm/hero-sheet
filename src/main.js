@@ -14,14 +14,14 @@ import StringEntry from "./components/StringEntry.vue"
 Vue.component("StringEntry", StringEntry);
 import BoxedSection from "./components/BoxedSection.vue"
 Vue.component("BoxedSection", BoxedSection);
-import ModalLightbox from "./components/ModalLightbox";
+import ModalLightbox from "./components/ModalLightbox.vue";
 Vue.component("ModalLightbox", ModalLightbox);
 import TrashIcon from "./components/TrashIcon.vue";
 Vue.component("TrashIcon", TrashIcon);
-import DocsLookup from "./components/DocsLookup";
+import DocsLookup from "./components/DocsLookup.vue";
 Vue.component("DocsLookup", DocsLookup);
 
 const app = new Vue({
   el: "#app",
   render: h => h(App)
-})
+});

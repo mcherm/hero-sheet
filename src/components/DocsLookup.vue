@@ -15,7 +15,7 @@
         default: null,
         validator: (x => x === null || typeof x === 'string')
       }
-    },
+    }
   }
 </script>
 

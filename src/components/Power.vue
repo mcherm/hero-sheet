@@ -6,22 +6,14 @@
             :value="power.name"
             @input="$emit('update:name', $event)"
         />
-        <label class="row-label">Effect</label><div>
-          <select v-model="power.effect" class="effect-select">
-            <option disabled value="">Select One</option>
-            <option
-                v-for="standardPower in standardPowers"
-                :key="standardPower.name"
-                :value="standardPower.name"
-            >
-              {{standardPower.name}}{{standardPower.isPrimitiveEffect ? "" : "*"}}
-            </option>
-          </select>
+        <label class="row-label">Effect</label>
+        <div>
+          <power-effect-select v-model="power.effect" :standard-powers="standardPowers"/>
         </div>
         <label class="row-label">Basic Desc</label>
         <div>
           <span>{{power.effectDescription}}</span>
-          <docs-lookup :docsURL="standardPower.docsURL"/>
+          <docs-lookup v-if="standardPower" :docsURL="standardPower.docsURL"/>
         </div>
 
         <div v-if="hasOptions" class="display-contents">
@@ -70,12 +62,14 @@
 
 <script>
   import ModifierList from "./ModifierList";
+  import PowerEffectSelect from "./PowerEffectSelect";
   import {powerCostCalculate} from "../js/heroSheetUtil.js";
 
   export default {
     name: "Power",
     components: {
-      ModifierList
+      ModifierList,
+      PowerEffectSelect
     },
     props: {
       power: { type: Object, required: true },
@@ -222,6 +216,7 @@
     grid-template-columns: max-content max-content;
     grid-gap: 0px 5px;
     flex: 0 1 auto;
+    margin-left: 5px;
   }
   div.subpower-list {
     border: 1px solid var(--box-border-color);
