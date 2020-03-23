@@ -123,6 +123,7 @@
 
 <style scoped>
   .add-modifier-chooser {
+    border: 1px solid var(--grid-line-color);
     display: flex;
   }
   .add-modifier-chooser > * {
