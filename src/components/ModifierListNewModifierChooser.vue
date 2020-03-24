@@ -1,34 +1,39 @@
 <template>
-  <div class="add-modifier-chooser">
-    <select v-model="selectedModifierIndex">
-      <option disabled value="-1">Select One</option>
-      <optgroup :label="`Special ${capitalize(modifierType)}`">
-        <option
-            v-for="(modifier, index) in specialExtras"
-            :key="index"
-            :value="index"
-        >{{modifier.name}}</option>
-      </optgroup>
-      <optgroup v-if="specialExtras" :label="`Standard ${capitalize(modifierType)}`">
-        <option
-            v-for="(modifier, index) in modifiers"
-            :key="index"
-            :value="index"
-        >{{modifier.name}}</option>
-      </optgroup>
-    </select>
-    <div
-        v-if="selectedModifier && selectedModifier.modifierOptions"
-        class="new-modifier-option-picker"
-    >
-      <select v-model="selectedOptionIndex">
-        <option disabled value="-1">Select One</option>
-        <option
-            v-for="(option, index) in selectedModifier.modifierOptions"
-            :key="index"
-            :value="index"
-        >{{option.name}}</option>
+  <div
+      class="add-modifier-chooser"
+      :class="{'ranks-col': isItemSelected && selectedItem.hasRanks}"
+  >
+    <div class="dropdowns">
+      <select v-model="selectedModifierKey">
+        <option disabled value="none">Select One</option>
+        <optgroup :label="`Special ${capitalize(modifierType)}`">
+          <option
+              v-for="(modifier, index) in specialExtras"
+              :key="`special_${index}`"
+              :value="`special_${index}`"
+          >{{modifier.name}}</option>
+        </optgroup>
+        <optgroup v-if="specialExtras" :label="`Standard ${capitalize(modifierType)}`">
+          <option
+              v-for="(modifier, index) in modifiers"
+              :key="`standard_${index}`"
+              :value="`standard_${index}`"
+          >{{modifier.name}}</option>
+        </optgroup>
       </select>
+      <div
+          v-if="selectedModifier && selectedModifier.modifierOptions"
+          class="new-modifier-option-picker"
+      >
+        <select v-model="selectedOptionIndex">
+          <option disabled value="-1">Select One</option>
+          <option
+              v-for="(option, index) in selectedModifier.modifierOptions"
+              :key="index"
+              :value="index"
+          >{{option.name}}</option>
+        </select>
+      </div>
     </div>
     <div
         v-if="isItemSelected && selectedItem.hasRanks"
@@ -36,8 +41,12 @@
       <label>Ranks:</label>
       <number-entry v-model="ranks"/>
     </div>
-    <button :disabled="!isFullySelected" v-on:click="emitSelection()">Create</button>
-    <button v-on:click="emitSelection()">Cancel</button>
+    <div>{{displaySign}}</div>
+    <div class="buttons">
+      <button :disabled="!isFullySelected" v-on:click="emitSelection()">Create</button>
+      <button v-on:click="cancelCreateModifier()">Cancel</button>
+    </div>
+    <div class="description">{{selectedDescription}}</div>
   </div>
 </template>
 
@@ -53,18 +62,24 @@
     data: function() {
       return {
         modifiers: modifiersData[this.modifierType],
-        selectedModifierIndex: -1,
+        selectedModifierKey: "none",
         selectedOptionIndex: -1,
         ranks: 1
       }
     },
     computed: {
       selectedModifier: function() {
-        const index = this.selectedModifierIndex;
-        if (index === -1) {
+        const key = this.selectedModifierKey;
+        if (key === "none") {
           return null;
-        } else {
+        } else if (key.startsWith("special_")) {
+          const index = parseInt(key.slice(8));
+          return this.specialExtras[index];
+        } else if (key.startsWith("standard_")) {
+          const index = parseInt(key.slice(9));
           return this.modifiers[index];
+        } else {
+          throw new Error("Invalid value for selectedModifierKey");
         }
       },
       selectedModifierHasOptions: function() {
@@ -101,6 +116,32 @@
       },
       isFullySelected: function() {
         return this.isItemSelected && !this.isRankInvalid;
+      },
+      selectedDescription: function() {
+        if (this.selectedOption) {
+          return this.selectedOption.description;
+        } else if (this.selectedModifier) {
+          return this.selectedModifier.description;
+        } else {
+          return "";
+        }
+      },
+      displaySign: function() {
+        if (this.selectedItem) {
+          const costShown = this.selectedItem.cost * (this.selectedItem.hasRanks ? this.ranks : 1);
+          const sign = costShown > 0 ? "+" : "";
+          return `(${sign}${costShown})`;
+        } else {
+          return "";
+        }
+      },
+      displayText: function() {
+        if (this.selectedItem) {
+          const name = this.selectedItem.name;
+          return `${name} ${this.displaySign}`;
+        } else {
+          return "";
+        }
       }
     },
     methods: {
@@ -119,13 +160,12 @@
           }
           response.costType = selectedItem.costType;
           response.cost = selectedItem.cost;
-
-          const name = selectedItem.name;
-          const costShown = selectedItem.cost * (selectedItem.hasRanks ? this.ranks : 1);
-          const sign = costShown > 0 ? "+" : "";
-          response.displayText = `${name} (${sign}${costShown})`;
+          response.displayText = this.displayText;
         }
         this.$emit('choose-modifier', response);
+      },
+      cancelCreateModifier: function() {
+        this.$emit('choose-modifier', null);
       },
       capitalize: function(s) {
         if (s.length === 0) {
@@ -139,12 +179,19 @@
 </script>
 
 <style scoped>
+  .dropdowns {
+    padding: 1px;
+    background-color: var(--entry-field);
+  }
   .add-modifier-chooser {
     border: 1px solid var(--grid-line-color);
-    display: flex;
+    padding: 1px;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    grid-column-gap: 5px;
+    align-items: center;
   }
-  .add-modifier-chooser > * {
-    margin-left: 3px;
-    margin-right: 3px;
+  .add-modifier-chooser.ranks-col {
+    grid-template-columns: auto auto 1fr auto auto;
   }
 </style>
