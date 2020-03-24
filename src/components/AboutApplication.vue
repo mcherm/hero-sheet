@@ -20,7 +20,7 @@
       <li>2020-03-11: Added Hero Points.</li>
       <li>2020-03-11: Added About page.</li>
     </ul>
-    <h2>Major Features Needed</h2>CBZJHT
+    <h2>Major Features Needed</h2>
     <ul>
       <li>Functioning list of attacks</li>
       <li>Logins for users</li>
