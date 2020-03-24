@@ -2,11 +2,20 @@
   <div class="add-modifier-chooser">
     <select v-model="selectedModifierIndex">
       <option disabled value="-1">Select One</option>
-      <option
-          v-for="(modifier, index) in modifiers"
-          :key="index"
-          :value="index"
-      >{{modifier.name}}</option>
+      <optgroup :label="`Special ${capitalize(modifierType)}`">
+        <option
+            v-for="(modifier, index) in specialExtras"
+            :key="index"
+            :value="index"
+        >{{modifier.name}}</option>
+      </optgroup>
+      <optgroup v-if="specialExtras" :label="`Standard ${capitalize(modifierType)}`">
+        <option
+            v-for="(modifier, index) in modifiers"
+            :key="index"
+            :value="index"
+        >{{modifier.name}}</option>
+      </optgroup>
     </select>
     <div
         v-if="selectedModifier && selectedModifier.modifierOptions"
@@ -39,6 +48,7 @@
     name: "ModifierListNewModifierChooser",
     props: {
       modifierType: { type: String, required: true },
+      specialExtras: { type: Array, required: true }
     },
     data: function() {
       return {
@@ -116,6 +126,13 @@
           response.displayText = `${name} (${sign}${costShown})`;
         }
         this.$emit('choose-modifier', response);
+      },
+      capitalize: function(s) {
+        if (s.length === 0) {
+          return s;
+        } else {
+          return s.charAt(0).toUpperCase() + s.slice(1);
+        }
       }
     }
   }

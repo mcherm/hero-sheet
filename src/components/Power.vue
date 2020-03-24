@@ -2,14 +2,17 @@
   <div class="power">
     <div class="flex-row">
       <div class="power-features">
-        <label class="row-label">Name</label><string-entry
+        <label class="row-label">Name</label>
+        <string-entry
             :value="power.name"
             @input="$emit('update:name', $event)"
         />
+
         <label class="row-label">Effect</label>
         <div>
           <power-effect-select v-model="power.effect" :standard-powers="standardPowers"/>
         </div>
+
         <label class="row-label">Basic Desc</label>
         <div>
           <span>{{power.effectDescription}}</span>
@@ -29,12 +32,19 @@
               </option>
             </select>
           </div>
-          <label class="row-label">Option Desc</label><div>{{theOption.description}}</div>
+
+          <label class="row-label">Option Desc</label>
+          <div>{{theOption.description}}</div>
         </div>
 
-        <label class="row-label">Extras</label><modifier-list modifierType="extras" :modifiers="power.extras"/>
-        <label class="row-label">Flaws</label><modifier-list modifierType="flaws" :modifiers="power.flaws"/>
-        <label class="row-label">Description</label><string-entry v-model="power.description"/>
+        <label class="row-label">Extras</label>
+        <modifier-list modifierType="extras" :modifiers="power.extras" :standardPower="standardPower"/>
+
+        <label class="row-label">Flaws</label>
+        <modifier-list modifierType="flaws" :modifiers="power.flaws" :standardPower="standardPower"/>
+
+        <label class="row-label">Description</label>
+        <string-entry v-model="power.description"/>
       </div>
       <div class="power-costs">
         <label v-if="!isArray" class="row-label">Power</label><div v-if="!isArray">

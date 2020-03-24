@@ -18,6 +18,7 @@
     <modifier-list-new-modifier-chooser
         v-if="isAdding"
         :modifier-type="modifierType"
+        :special-extras="specialExtras"
         v-on:choose-modifier="finishChoosingNewModifier($event)"
     />
     <button
@@ -42,7 +43,8 @@
     },
     props: {
       modifierType: { type: String, required: true },
-      modifiers: { type: Array, required: true }
+      modifiers: { type: Array, required: true },
+      standardPower: {type: Object, required: false, default: null }
     },
     data: function() {
       return {
@@ -58,6 +60,13 @@
           return "Add Flaw";
         } else {
           throw Error(`Invalid modifierType, ${this.modifierType}`);
+        }
+      },
+      specialExtras: function() {
+        if (this.standardPower === null) {
+          return [];
+        } else {
+          return this.standardPower[this.modifierType];
         }
       }
     },
