@@ -23,7 +23,6 @@
     <h2>Major Features Needed</h2>CBZJHT
     <ul>
       <li>Functioning list of attacks</li>
-      <li>Individualized Modifiers for Powers</li>
       <li>Logins for users</li>
       <li>Support for Equipment</li>
       <li>Numerous powers and abilities should impact other fields</li>
