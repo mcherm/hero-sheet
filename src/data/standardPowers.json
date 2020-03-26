@@ -1411,8 +1411,55 @@
     "specialExtras": "Independent (+1), Selective (+1)",
     "specialFlaws": "Feedback (-1), Limited to One Subject (-1), Ranged (-1), Resistible (-1)",
     "specialFlats": "-",
+    "extras": [
+      {
+        "name": "Independent",
+        "description": "Your active illusions only require a free action to maintain, rather than a standard action.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Selective",
+        "description": "You choose who perceives your Illusion and who doesn't.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Feedback",
+        "description": "A successful damaging attack on one of your illusions causes you to suffer damage.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited to One Subject",
+        "description": "Only a single subject at a time can perceive your Illusion.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Ranged",
+        "description": "It is left to the GM's discretion whether or not Illusion's range can be reduced at all, since being able to perceive the affected area is important in creating and directing the illusion.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Resistible",
+        "description": "Illusions Resistible by Will are typically hallucinatory effects projected into the target's mind. Illusions Resistible by Fortitude may represent a hallucinatory drug or similar biochemical effect. This resistance check is in addition to the usual Insight check; the first determines if the target can resist the effect creating the illusion, the Insight check determine if the target notices something wrong about the illusion, revealing it as false.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/illusion-control"
   },
   "Immortality": {
     "name": "Immortality",
@@ -1426,8 +1473,20 @@
     "specialExtras": "-",
     "specialFlaws": "Limited (-1)",
     "specialFlats": "-",
+    "extras": [
+    ],
+    "flaws": [
+      {
+        "name": "Limited",
+        "description": "Specify a reasonably common effect (or set of uncommon effects) that keeps you from recovering from death, such as beheading, cremation, a stake through the heart, and so forth.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/immortality-defense"
   },
   "Immunity": {
     "name": "Immunity",
@@ -1441,8 +1500,55 @@
     "specialExtras": "Affects Others (+1), Sustained (+0), Ranged (+1), Reflect (+1), Redirect (+1)",
     "specialFlaws": "Limited to Half Effect (-1)",
     "specialFlats": "-",
+    "extras": [
+      {
+        "name": "Affects Others",
+        "description": "This extra allows you to grant the benefits of your Immunity to others by touch.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Sustained",
+        "description": "Sustained duration Immunity may be suitable for certain types of powers, particularly force fields or similar protective abilities requiring a modicum of concentration.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      },
+      {
+        "name": "Ranged",
+        "description": "Affects Others Immunity may have this extra, allowing it to grant its benefits at range.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Reflect",
+        "description": "You can reflect attacks to which you are immune back at the attacker as a free action. Make a normal attack check using your own attack modifier to hit with the reflected attack. It has its normal effect if it hits.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Redirect",
+        "description": "You can redirect attacks to which are you are immune at any other target within the attack's normal range, as Reflect, above. You must have the Reflect extra to take this one.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Limited to Half Effect",
+        "description": "You suffer half the normal effect rather than being entirely immune to it. For environmental effects, you only make checks half as often. For other effects, halve the effect's rank (round down) before determining its resistance check DC, including for things like Impervious.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/immunity-defense"
   },
   "Impervious": {
     "name": "Impervious",
@@ -1486,8 +1592,122 @@
     "specialExtras": "Affects Others (+0 or +1), Attack (+0 or +1), Continuous (+1), Progressive (+0), Reaction (+1)",
     "specialFlaws": "Permanent (+0)",
     "specialFlats": "Affects Corporeal (+1), Innate (+1), Precise (+1), Subtle (+1 or +2), Absent Strength (-1)",
+    "extras": [
+      {
+        "name": "Affects Others",
+        "description": "This modifier allows you to extend your Insubstantial effect to another character by touch, taking them Insubstantial with you.",
+        "modifierOptions": [
+          {
+            "name": "Affects Only Others",
+            "description": "The effect affects only others, and not you.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 0
+          },
+          {
+            "name": "Self and Others",
+            "description": "It can affect yourself and others.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 0
+          }
+        ]
+      },
+      {
+        "name": "Attack",
+        "description": "Applied to Insubstantial, this extra makes it into a close range effect able to turn targets Insubstantial.",
+        "modifierOptions": [
+          {
+            "name": "Insubstantial Attack Only,",
+            "description": "The effect affects only others, and not you.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 0
+          },
+          {
+            "name": "Self and Attack",
+            "description": "you can both be Insubstantial and make an attack to make others Insubstantial.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 1
+          }
+        ]
+      },
+      {
+        "name": "Continuous",
+        "description": "Extending the effect's duration to continuous allows you to remain Insubstantial until you choose to return to your corporeal form.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Innate",
+        "description": "Use this modifier if your character’s form is naturally or innately Insubstantial, particularly if the effect is permanent in duration.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Precise",
+        "description": "This modifier allows you to selectively make some portions of your body insubstantial while keeping others substantial (or vice versa).",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Progressive",
+        "description": "You can assume lower ranked forms of Insubstantial, but you must progress through them in order to reach the higher-ranked ones.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      },
+      {
+        "name": "Reaction",
+        "description": "At the GM's option, applying the Action extra to use Insubstantial as a reaction allows you to switch forms \"reflexively\" in response to such hazards, even if it is not your turn.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Subtle",
+        "description": "This extra makes your Insubstantial nature less noticeable to observers.",
+        "modifierOptions": [
+          {
+            "name": "Requires Perception Check",
+            "description": "It requires a Perception check (DC 20) to detect that you are Insubstantial.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 1
+          },
+          {
+            "name": "Looks Normal",
+            "description": "You look entirely normal in Insubstantial form (which may cause opponents to waste effort on you, not knowing you are immune to their attacks, for example).",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 2
+          }
+        ]
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Absent Strength",
+        "description": "This flaw applies only to rank 1 Insubstantial and removes your effective Strength while in that form, leaving you with limited ability to affect the physical world like the higher ranks of the effect.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": -1
+      },
+      {
+        "name": "Permanent",
+        "description": "You are always Insubstantial; you cannot assume solid form, although your Insubstantial effect can still be Nullified unless it is also Innate.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 0
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/insubstantial-general"
   },
   "Invisibility": {
     "name": "Invisibility",
