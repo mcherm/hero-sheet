@@ -6,14 +6,14 @@
     <div class="dropdowns">
       <select v-model="selectedModifierKey">
         <option disabled value="none">Select One</option>
-        <optgroup :label="`Special ${capitalize(modifierType)}`">
+        <optgroup v-if="specialExtras.length" :label="`Special ${capitalize(modifierType)}`">
           <option
               v-for="(modifier, index) in specialExtras"
               :key="`special_${index}`"
               :value="`special_${index}`"
           >{{modifier.name}}</option>
         </optgroup>
-        <optgroup v-if="specialExtras" :label="`Standard ${capitalize(modifierType)}`">
+        <optgroup :label="`Standard ${capitalize(modifierType)}`">
           <option
               v-for="(modifier, index) in modifiers"
               :key="`standard_${index}`"

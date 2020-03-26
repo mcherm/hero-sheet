@@ -166,9 +166,57 @@
       {
         "name": "Area",
         "description": "You can broadcast omni-directionally to every receiver within your maximum communication range at once.",
-        "hasRanks": false,
-        "costType": "pointsOfMultiplier",
-        "cost": 1
+        "modifierOptions": [
+          {
+            "name": "Burst Area",
+            "description": "The effect fills a sphere with a 30-foot radius (distance rank 0) for rank 1 of the extra. Bursts on level surfaces (like the ground) create hemispheres 30 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cloud Area",
+            "description": "The effect fills a sphere with a 15-foot radius (distance rank –1) for rank 1 of the extra, that lingers in that area for one round after its duration expires (affecting any targets in the area normally during the additional round). Clouds on level surfaces (like the ground) create hemispheres 15 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cone Area",
+            "description": "The effect fills a cone with a length, width, and height of 60 feet (distance rank 1) for rank 1 of the extra, spreading out from the effect's starting point. Cones on a level surface halve their final height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cylinder Area",
+            "description": "The effect fills a cylinder 30 feet in radius and height (distance rank 0) for rank 1 of the extra.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Line Area",
+            "description": "The effect fills a path 6 feet wide and 30 feet long (distance ranks -2 and 0, respectively) in a straight line. Additional ranks of area increases the length. To increase the width, purchase additional ranks for that.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Perception Area",
+            "description": "The effect works on anyone able to perceive the target point with a particular sense, chosen when you apply this extra, like a Sense-Dependent effect (see the Sense-Dependent modifier). Targets get a Dodge resistance check, as usual, but if the check is successful suffer no effect (rather than half). Concealment that prevents a target from perceiving the effect also blocks it. This modifier includes the Sense-Dependent flaw (see Flaws) so it cannot be applied again.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Shapeable Area",
+            "description": "The effect fills a volume of 30 cubic feet (volume rank 5) for rank 1 of the extra, and you may shape the volume as you wish, so long as it all remains contiguous. Affecting an average-sized human requires 4 cubic feet (volume rank 2).",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          }
+        ]
       },
       {
         "name": "Dimensional",
@@ -204,7 +252,7 @@
           },
           {
             "name": "Undetectable",
-            "description": "Your communication cannot even be detected (that is, no one can even tell you are transmitting, much less what you’re saying).",
+            "description": "Your communication cannot even be detected (that is, no one can even tell you are transmitting, much less what you're saying).",
             "hasRanks": false,
             "costType": "flatPoints",
             "cost": 2
@@ -295,9 +343,57 @@
       {
         "name": "Area",
         "description": "Concealment with Affects Others or attack may have this extra, affecting everything in the area.",
-        "hasRanks": false,
-        "costType": "pointsOfMultiplier",
-        "cost": 1
+        "modifierOptions": [
+          {
+            "name": "Burst Area",
+            "description": "The effect fills a sphere with a 30-foot radius (distance rank 0) for rank 1 of the extra. Bursts on level surfaces (like the ground) create hemispheres 30 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cloud Area",
+            "description": "The effect fills a sphere with a 15-foot radius (distance rank –1) for rank 1 of the extra, that lingers in that area for one round after its duration expires (affecting any targets in the area normally during the additional round). Clouds on level surfaces (like the ground) create hemispheres 15 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cone Area",
+            "description": "The effect fills a cone with a length, width, and height of 60 feet (distance rank 1) for rank 1 of the extra, spreading out from the effect's starting point. Cones on a level surface halve their final height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cylinder Area",
+            "description": "The effect fills a cylinder 30 feet in radius and height (distance rank 0) for rank 1 of the extra.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Line Area",
+            "description": "The effect fills a path 6 feet wide and 30 feet long (distance ranks -2 and 0, respectively) in a straight line. Additional ranks of area increases the length. To increase the width, purchase additional ranks for that.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Perception Area",
+            "description": "The effect works on anyone able to perceive the target point with a particular sense, chosen when you apply this extra, like a Sense-Dependent effect (see the Sense-Dependent modifier). Targets get a Dodge resistance check, as usual, but if the check is successful suffer no effect (rather than half). Concealment that prevents a target from perceiving the effect also blocks it. This modifier includes the Sense-Dependent flaw (see Flaws) so it cannot be applied again.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Shapeable Area",
+            "description": "The effect fills a volume of 30 cubic feet (volume rank 5) for rank 1 of the extra, and you may shape the volume as you wish, so long as it all remains contiguous. Affecting an average-sized human requires 4 cubic feet (volume rank 2).",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          }
+        ]
       },
       {
         "name": "Attack",
@@ -317,7 +413,7 @@
     "flaws": [
       {
         "name": "Blending",
-        "description": "You \"blend\" into the background. Your Concealment only functions as long as you move no faster than your (ground speed rank –1), since your blending can’t adapt faster than that.",
+        "description": "You \"blend\" into the background. Your Concealment only functions as long as you move no faster than your (ground speed rank –1), since your blending can't adapt faster than that.",
         "hasRanks": false,
         "costType": "pointsOfMultiplier",
         "cost": -1
@@ -966,8 +1062,11 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
+    "extras": [],
+    "flaws": [],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/feature-general"
   },
   "Flight": {
     "name": "Flight",
@@ -981,8 +1080,89 @@
     "specialExtras": "Continuous (+1)",
     "specialFlaws": "Concentration (-1), Distracting (-1), Gliding, (-1), Levitation (-1), Platform (-1), Wings (-1)",
     "specialFlats": "Aquatic (+1), Subtle (+1 or +2)",
+    "extras": [
+      {
+        "name": "Aquatic",
+        "description": "You can move underwater as easily as in the air. You have a water speed equal to your Flight rank, minus 2, subject to the usual rules for swimming (see Athletics for details). You can make Athletics checks to swim as routine checks.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Continuous",
+        "description": "Continuous Flight operates even when the user is incapacitated or otherwise unable to sustain it. The user remains hanging in the air, maintaining relative position to the ground, if necessary. Alternately, the user might float safely down to the ground when unable to maintain Flight as a kind of “safety net,” your choice when you apply the modifier.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Subtle",
+        "description": "The default Flight effect is noticeable, whether from the rush of air, the roar of jets, or a glowing contrail or aurora, for example. This modifier reduces, and then eliminates, these traces.",
+        "modifierOptions": [
+          {
+            "name": "Mostly Subtle",
+            "description": "Your flight lacks a glowing contrail, rushing jets, or other obvious features.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 1
+          },
+          {
+            "name": "Completely Subtle",
+            "description": "Your flight is completely unremarkable and you do not need to make Stealth checks to move silently while flying.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 2
+          }
+        ]
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Concentration",
+        "description": "Flight requiring concentration means you can fly, but can't do much else at the same time.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Distracting",
+        "description": "You are not very maneuverable and therefore vulnerable while flying.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Gliding",
+        "description": "You fly by gliding on wind currents. Your maximum gliding distance is limited to the vertical distance rank of your starting height, plus your flight speed rank.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Levitation",
+        "description": "You can only move vertically, straight up and down, and not side to side, although you can allow yourself to be carried along in the direction of the wind horizontally.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Platform",
+        "description": "Your Flight is reliant on some sort of platform on which you stand or sit. If you fail a resistance check while flying, or you are grabbed by someone standing on the ground, you're knocked or pulled off your platform and cannot fly.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Wings",
+        "description": "You have wings that allow you to fly, but they run the risk of being fouled or restrained, which prevents you from flying. If you are immobilized, restrained, or bound, you cannot fly.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/flight-movement"
   },
   "Force Field": {
     "name": "Force Field",
@@ -997,7 +1177,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/force-field"
   },
   "Growth": {
     "name": "Growth",
@@ -1011,8 +1192,19 @@
     "specialExtras": "Permanent (+0)",
     "specialFlaws": "-",
     "specialFlats": "-",
+    "extras": [
+      {
+        "name": "Permanent",
+        "description": "Permanent Growth, typically with innate, suits giant-sized characters and creatures that are a fixed larger size.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      }
+    ],
+    "flaws": [],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/growth-general"
   },
   "Healing": {
     "name": "Healing",
@@ -1026,8 +1218,159 @@
     "specialExtras": "Action (+1), Affects Objects (+1), Area (+1), Energizing (+1), Perception (+1), Ranged (+1), Restorative (+1), Resurrection (+1), Selective (+1)",
     "specialFlaws": "Empathic (-1), Limited (-1), Temporary (-1)",
     "specialFlats": "Persistent (+1), Stabilize (+1)",
+    "extras": [
+      {
+        "name": "Action",
+        "description": "This extra reduces the action required for you to use Healing. You cannot use Healing more than once per turn regardless.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Affects Objects",
+        "description": "Your Healing can also \"heal\" damage to non-living subjects.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Area",
+        "description": "Healing with this extra grants the same benefit to all subjects in the affected area.",
+        "modifierOptions": [
+          {
+            "name": "Burst Area",
+            "description": "The effect fills a sphere with a 30-foot radius (distance rank 0) for rank 1 of the extra. Bursts on level surfaces (like the ground) create hemispheres 30 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cloud Area",
+            "description": "The effect fills a sphere with a 15-foot radius (distance rank –1) for rank 1 of the extra, that lingers in that area for one round after its duration expires (affecting any targets in the area normally during the additional round). Clouds on level surfaces (like the ground) create hemispheres 15 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cone Area",
+            "description": "The effect fills a cone with a length, width, and height of 60 feet (distance rank 1) for rank 1 of the extra, spreading out from the effect's starting point. Cones on a level surface halve their final height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cylinder Area",
+            "description": "The effect fills a cylinder 30 feet in radius and height (distance rank 0) for rank 1 of the extra.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Line Area",
+            "description": "The effect fills a path 6 feet wide and 30 feet long (distance ranks -2 and 0, respectively) in a straight line. Additional ranks of area increases the length. To increase the width, purchase additional ranks for that.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Perception Area",
+            "description": "The effect works on anyone able to perceive the target point with a particular sense, chosen when you apply this extra, like a Sense-Dependent effect (see the Sense-Dependent modifier). Targets get a Dodge resistance check, as usual, but if the check is successful suffer no effect (rather than half). Concealment that prevents a target from perceiving the effect also blocks it. This modifier includes the Sense-Dependent flaw (see Flaws) so it cannot be applied again.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Shapeable Area",
+            "description": "The effect fills a volume of 30 cubic feet (volume rank 5) for rank 1 of the extra, and you may shape the volume as you wish, so long as it all remains contiguous. Affecting an average-sized human requires 4 cubic feet (volume rank 2).",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          }
+        ]
+      },
+      {
+        "name": "Energizing",
+        "description": "You can heal the fatigued and exhausted conditions as well as damage conditions: DC 10, one degree of success for fatigued, two degrees of success for exhausted. However, you take on the removed conditions and cannot use Healing to eliminate your own fatigue.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Perception",
+        "description": "Applied to Ranged Healing, perception Ranged Healing does not require an attack check to “touch” the subject.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Persistent",
+        "description": "Your Healing can remove even Incurable effects.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Ranged",
+        "description": "Ranged Healing requires an attack check to \"touch\" the subject with the Healing effect. The GM may waive the check for a willing subject holding completely still, but the subject is defenseless that round, making it an unwise decision in the midst of combat.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Restorative",
+        "description": "Your Healing effect can restore character points removed by Weaken effects with the appropriate descriptors, such as injury, disease, or poison.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Resurrection",
+        "description": "If the subject has been dead for fewer minutes than your Healing rank, makes a DC 20 Healing check. If successful, the patient's condition becomes incapacitated, as if just stabilized. If the check fails, you can only try again using extra effort.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Selective",
+        "description": "Area Healing may have this extra, allowing you to choose who in the area does and does not gain the benefits.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Stabilize",
+        "description": "You don't need to make a Healing check to stabilize a dying character, your Healing effect does so automatically, although it still requires the normal standard action.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Empathic",
+        "description": "When you successfully cure someone else of a condition, you acquire the condition yourself and must recover from it normally.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited",
+        "description": "Examples of ways in which Healing may be Limited include: One Type of Damage (such as energy or bludgeoning damage), Objects (in conjunction with Affects Objects), Others (you can't use Healing on yourself), or Self (you can only use Healing on yourself).",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Temporary",
+        "description": "The benefits of your Healing are temporary, lasting for one hour. The subject then regains any damage conditions you healed.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/healing-general"
   },
   "Illusion": {
     "name": "Illusion",
