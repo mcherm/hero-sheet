@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list">
+      <li>2020-03-27: Show warning when an attack exceeds the campaign power level limits.</li>
       <li>2020-03-26: Specialized extras and flaws for powers up through "insubstantial".</li>
       <li>2020-03-25: Specialized extras and flaws for powers up through "healing".</li>
       <li>2020-03-23: Major improvements to the appearance of extras and flaws during creation.</li>

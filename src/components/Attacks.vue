@@ -14,8 +14,17 @@
           class="display-contents"
       >
         <div class="attack-name">{{attack.name}}</div>
-        <number-display class="to-hit" :value="attack.attackCheck"/>
-        <number-display v-if="attack.resistanceDC !== null" class="resistance-dc" :value="attack.resistanceDC"/>
+        <number-display
+            class="to-hit"
+            :value="attack.attackCheck"
+            :isOutOfSpec="isOutOfSpec(attack)"
+        />
+        <number-display
+            v-if="attack.resistanceDC !== null"
+            class="resistance-dc"
+            :value="attack.resistanceDC"
+            :isOutOfSpec="isOutOfSpec(attack)"
+        />
         <div v-else class="inapplicable"></div>
         <div>{{attack.effectType}}</div>
       </div>
@@ -33,6 +42,15 @@
     },
     props: {
       charsheet: { type: Object, required: true }
+    },
+    methods: {
+      isOutOfSpec: function(attack) {
+        if (attack.attackCheck === null || attack.resistanceDC === null) {
+          return false; // Because it isn't defined
+        } else {
+          return attack.attackCheck + attack.resistanceDC > 2 * this.charsheet.campaign.powerLevel;
+        }
+      }
     }
   }
 </script>

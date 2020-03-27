@@ -1,0 +1,381 @@
+{
+  "version": 8,
+  "campaign": {
+    "powerLevel": 8,
+    "xpAwarded": 0,
+    "setting": "Heros High"
+  },
+  "naming": {
+    "name": "Teen Inventor",
+    "player": "Michael Chermside",
+    "identityType": "public",
+    "identity": "",
+    "gender": "Female",
+    "age": "17",
+    "heightWeight": "",
+    "eyesHair": "",
+    "costume": "Baggy cloths",
+    "groupAffiliation": "",
+    "baseOfOperations": ""
+  },
+  "effortPoints": 1,
+  "abilities": {
+    "strength": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    },
+    "stamina": {
+      "entered": 3,
+      "cost": 6,
+      "ranks": 3
+    },
+    "agility": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    },
+    "dexterity": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    },
+    "fighting": {
+      "entered": 4,
+      "cost": 8,
+      "ranks": 4
+    },
+    "intellect": {
+      "entered": 2,
+      "cost": 4,
+      "ranks": 2
+    },
+    "awareness": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "presence": {
+      "entered": 1,
+      "cost": 2,
+      "ranks": 1
+    }
+  },
+  "defenses": {
+    "dodge": {
+      "purchased": 3,
+      "cost": 3,
+      "ranks": 5
+    },
+    "fortitude": {
+      "purchased": 1,
+      "cost": 1,
+      "ranks": 4
+    },
+    "parry": {
+      "purchased": 3,
+      "cost": 3,
+      "ranks": 7
+    },
+    "toughness": {
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 3
+    },
+    "will": {
+      "purchased": 3,
+      "cost": 3,
+      "ranks": 3
+    }
+  },
+  "initiative": 2,
+  "advantages": [
+    {
+      "name": "Accurate Attack",
+      "ranks": null,
+      "description": "",
+      "hsid": "HIA2EF9T3"
+    },
+    {
+      "name": "Evasion",
+      "ranks": 2,
+      "description": "",
+      "hsid": "HI6YTKP9W"
+    },
+    {
+      "name": "Favored Foe",
+      "ranks": null,
+      "description": "",
+      "hsid": "HI8YRDVDV"
+    },
+    {
+      "name": "Improvised Tools",
+      "ranks": null,
+      "description": "Trained with master mechanic.",
+      "hsid": "HI3RE5JPG"
+    },
+    {
+      "name": "Luck",
+      "ranks": 3,
+      "description": "",
+      "hsid": "HI11QLUDD"
+    },
+    {
+      "name": "Taunt",
+      "ranks": null,
+      "description": "",
+      "hsid": "HIP3VDNTQ"
+    }
+  ],
+  "skills": {
+    "skillList": [
+      {
+        "name": "acrobatics",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HI7L4A1ZF"
+      },
+      {
+        "name": "athletics",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HI3N6BT9R"
+      },
+      {
+        "name": "close combat",
+        "ranks": 11,
+        "isTemplate": true,
+        "specialization": "Unarmed",
+        "hsid": "HIN1QFSED"
+      },
+      {
+        "name": "deception",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HIBWDYU3T"
+      },
+      {
+        "name": "expertise",
+        "ranks": 2,
+        "isTemplate": true,
+        "specialization": "Building Things",
+        "hsid": "HIDL4BERT"
+      },
+      {
+        "name": "expertise",
+        "ranks": 2,
+        "isTemplate": true,
+        "specialization": "Science",
+        "hsid": "HIN37APGY"
+      },
+      {
+        "name": "insight",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HIR9ZJBWG"
+      },
+      {
+        "name": "intimidation",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HIVU69SKG"
+      },
+      {
+        "name": "investigation",
+        "ranks": 3,
+        "isTemplate": false,
+        "hsid": "HI3MVV4FE"
+      },
+      {
+        "name": "perception",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HID6W2BDK"
+      },
+      {
+        "name": "persuasion",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HIDW2QU4L"
+      },
+      {
+        "name": "slight of hand",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HINQ4AKYT"
+      },
+      {
+        "name": "stealth",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HIDLQRD43"
+      },
+      {
+        "name": "technology",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HIDB6E5VT"
+      },
+      {
+        "name": "treatment",
+        "ranks": 3,
+        "isTemplate": false,
+        "hsid": "HI3P9WY5F"
+      },
+      {
+        "name": "vehicles",
+        "ranks": 0,
+        "isTemplate": false,
+        "hsid": "HIVQLLLF7"
+      }
+    ],
+    "cost": 11
+  },
+  "powers": [
+    {
+      "name": "Iron Armor",
+      "effect": "Protection",
+      "effectDescription": "Protection shields you against damage, giving you +1 Toughness defense per rank.",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "flats": [],
+      "baseCost": 1,
+      "ranks": 10,
+      "cost": 10,
+      "subpowers": [],
+      "hsid": "HIB67QPD8"
+    },
+    {
+      "name": "Fury Fists",
+      "effect": "Damage",
+      "effectDescription": "You can inflict damage by making a close attack.",
+      "description": "Punch real hard",
+      "extras": [
+        {
+          "modifierName": "Affects Objects",
+          "optionName": "Affects Objects",
+          "costType": "pointsOfMultiplier",
+          "cost": 1,
+          "displayText": "Affects Objects (+1)"
+        }
+      ],
+      "flaws": [],
+      "flats": [],
+      "baseCost": 1,
+      "ranks": 5,
+      "cost": 10,
+      "subpowers": [],
+      "hsid": "HIZ2811LX"
+    },
+    {
+      "name": "Super Speed",
+      "effect": "Linked",
+      "description": "She can move at incredible speeds.",
+      "extras": [],
+      "flaws": [],
+      "flats": [],
+      "ranks": 1,
+      "cost": 31,
+      "subpowers": [
+        {
+          "name": "Run extremely fast",
+          "effect": "Movement",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "flats": [],
+          "ranks": 7,
+          "cost": 14,
+          "subpowers": [],
+          "effectDescription": "You have a special form of movement.",
+          "baseCost": 2,
+          "hsid": "HIBX44EJS"
+        },
+        {
+          "name": "Rapidly complete tasks",
+          "effect": "Quickness",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "flats": [],
+          "ranks": 8,
+          "cost": 8,
+          "subpowers": [],
+          "effectDescription": "You can perform routine tasks fast.",
+          "baseCost": 1,
+          "hsid": "HI7F5G9RQ"
+        },
+        {
+          "name": "Speed-enhanced Dodge",
+          "effect": "Enhanced Trait",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "flats": [],
+          "ranks": 6,
+          "cost": 6,
+          "subpowers": [],
+          "effectDescription": "You can temporarily improve one of your existing traits.",
+          "baseCost": 1,
+          "option": "Enhanced Dodge",
+          "hsid": "HIMQZVWDZ"
+        },
+        {
+          "name": "Punch Fase",
+          "hsid": "HIVURUC1Y",
+          "effect": "Damage",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 3,
+          "cost": 3,
+          "subpowers": [],
+          "effectDescription": "You can inflict damage by making a close attack.",
+          "baseCost": 1
+        }
+      ],
+      "effectDescription": "Several different effects together.",
+      "hsid": "HIWBXSE3B"
+    }
+  ],
+  "complications": [
+    {
+      "complicationType": "motivation",
+      "description": "Patriotism drives her -- her desire to serve her country.",
+      "hsid": "HITN6VFY3"
+    },
+    {
+      "complicationType": "addiction",
+      "description": "She is addicted to the super-soldier drug.",
+      "hsid": "HIMV5R65A"
+    }
+  ],
+  "attacks": {
+    "attackList": [
+      {
+        "type": "UnarmedAttackUpdater",
+        "name": "Unarmed",
+        "attackCheck": 4,
+        "effectType": "damage",
+        "resistanceDC": 2
+      },
+      {
+        "type": "DamagePowerAttackUpdater",
+        "hsid": "HIZ2811LX",
+        "name": "Fury Fists",
+        "attackCheck": 4,
+        "effectType": "damage",
+        "resistanceDC": 5
+      },
+      {
+        "type": "DamagePowerAttackUpdater",
+        "hsid": "HIVURUC1Y",
+        "name": "Punch Fase",
+        "attackCheck": 4,
+        "effectType": "damage",
+        "resistanceDC": 3
+      }
+    ]
+  }
+}
