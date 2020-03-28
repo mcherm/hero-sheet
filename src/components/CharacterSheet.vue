@@ -165,12 +165,12 @@
       installUpdaters: function() {
         for (const attack of this.charsheet.attacks.attackList) {
           // FIXME: With a better design maybe I wouldn't need a special case here
-          const updaterType = attack.type;
+          const updaterType = attack.updater;
           if (updaterType === "UnarmedAttackUpdater") {
             const updater = new updaterClasses["UnarmedAttackUpdater"](this, this.charsheet);
             updaters.push(updater);
           } else {
-            const power = findPowerByHisd(this.charsheet, attack.hsid);
+            const power = findPowerByHisd(this.charsheet, attack.powerHsid);
             const updateEvent = { updater: updaterType, power: power };
             const updater = this.createPowerUpdater(updateEvent);
             updaters.push(updater);

@@ -3,8 +3,8 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 8; // Up to this version can be saved
-const latestVersion = 8; // Might be an experimental version
+const currentVersion = 9; // Up to this version can be saved
+const latestVersion = 9; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
@@ -117,7 +117,8 @@ const newBlankCharacter = function() {
   const attacks = {
     attackList: [
       {
-        type: "UnarmedAttackUpdater",
+        hsid: newHsid(),
+        updater: "UnarmedAttackUpdater",
         name: "Unarmed",
         attackCheck: 0,
         effectType: "damage",
@@ -334,14 +335,17 @@ class AttackUpdater extends Updater {
    * override it because most attack types aren't unique.
    */
   matchAttack(attack) {
-    return attack.type === this.constructor.name;
+    return attack.updater === this.constructor.name;
   }
 
   /*
-   * Subclasses should override this to return a new attack JSON object.
+   * Subclasses should override this to add new fields to the object being returned.
    */
   makeNewAttack() {
-    throw Error("Subclasses must override this.");
+    const result = {};
+    result.hsid = newHsid();
+    result.updater = this.constructor.name;
+    return result;
   }
 
   /*
@@ -388,13 +392,12 @@ class UnarmedAttackUpdater extends AttackUpdater {
   }
 
   makeNewAttack() {
-    return {
-      type: this.constructor.name,
-      name: "Unarmed",
-      attackCheck: 0,
-      effectType: "damage",
-      resistanceDC: 0
-    };
+    const result = super.makeNewAttack();
+    result.name = "Unarmed";
+    result.attackCheck = this.charsheet.abilities.fighting.ranks;
+    result.effectType = "damage";
+    result.resistanceDC = this.charsheet.abilities.strength.ranks;
+    return result;
   }
 
   watchForChange() {
@@ -430,9 +433,15 @@ class PowerAttackUpdater extends AttackUpdater {
   }
 
   matchAttack(attack) {
-    return super.matchAttack(attack) && attack.hsid === this.power.hsid;
+    return super.matchAttack(attack) && attack.powerHsid === this.power.hsid;
   }
 
+  makeNewAttack() {
+    const result = super.makeNewAttack();
+    result.powerHsid = this.power.hsid;
+    result.name = this.power.name;
+    return result;
+  }
 }
 
 
@@ -442,14 +451,11 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
   }
 
   makeNewAttack() {
-    return {
-      type: this.constructor.name,
-      hsid: this.power.hsid,
-      name: this.power.name,
-      attackCheck: this.charsheet.abilities.fighting.ranks,
-      effectType: "damage",
-      resistanceDC: this.power.ranks
-    }
+    const result = super.makeNewAttack();
+    result.attackCheck = this.charsheet.abilities.fighting.ranks;
+    result.effectType = "damage";
+    result.resistanceDC = this.power.ranks;
+    return result;
   }
 
   watchForChange() {
@@ -484,14 +490,11 @@ class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
   }
 
   makeNewAttack() {
-    return {
-      type: this.constructor.name,
-      hsid: this.power.hsid,
-      name: this.power.name,
-      attackCheck: this.charsheet.abilities.fighting.ranks,
-      effectType: "affliction",
-      resistanceDC: this.power.ranks
-    }
+    const result = super.makeNewAttack();
+    result.attackCheck = this.charsheet.abilities.fighting.ranks;
+    result.effectType = "affliction";
+    result.resistanceDC = this.power.ranks;
+    return result;
   }
 
   watchForChange() {
@@ -526,15 +529,12 @@ class NullifyPowerAttackUpdater extends PowerAttackUpdater {
   }
 
   makeNewAttack() {
-    return {
-      type: this.constructor.name,
-      hsid: this.power.hsid,
-      name: this.power.name,
-      attackCheck: this.charsheet.abilities.dexterity.ranks,
-      effectType: "nullify",
-      resistanceDC: null,
-      nullifyRanks: this.power.updateRanks
-    }
+    const result = super.makeNewAttack();
+    result.attackCheck = this.charsheet.abilities.dexterity.ranks;
+    result.effectType = "nullify";
+    result.resistanceDC = null;
+    result.nullifyRanks = this.power.updateRanks;
+    return result;
   }
 
   watchForChange() {
@@ -569,14 +569,11 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
   }
 
   makeNewAttack() {
-    return {
-      type: this.constructor.name,
-      hsid: this.power.hsid,
-      name: this.power.name,
-      attackCheck: this.charsheet.abilities.fighting.ranks,
-      effectType: "weaken",
-      resistanceDC: 10 + this.power.ranks
-    }
+    const result = super.makeNewAttack();
+    result.attackCheck = this.charsheet.abilities.fighting.ranks;
+    result.effectType = "weaken";
+    result.resistanceDC = 10 + this.power.ranks;
+    return result;
   }
 
   watchForChange() {
@@ -683,6 +680,19 @@ const upgradeFuncs = {
       }
     }
     charsheet.version = 8;
+  },
+
+  upgradeFrom8: function(charsheet) {
+    for (const attack of charsheet.attacks.attackList) {
+      attack.updater = attack.type;
+      delete attack.type;
+      if (attack.hsid) {
+        attack.powerHsid = attack.hsid;
+        delete attack.hsid;
+      }
+      attack.hsid = newHsid();
+    }
+    charsheet.version = 9;
   }
 
 };
