@@ -823,7 +823,7 @@ const upgradeFrom = function(charsheet) {
  * the most current version.
  */
 const upgradeVersion = function(charsheet) {
-  if (charsheet.version < latestVersion) {
+  while (charsheet.version < latestVersion) {
     upgradeFrom(charsheet)
   }
   sortFields(charsheet);
