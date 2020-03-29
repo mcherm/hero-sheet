@@ -55,7 +55,8 @@
 
   const statsData = require("../data/statsData.json");
 
-  import {currentVersion, findAdvantageByHsid, findPowerByHsid, updaterClasses, upgradeVersion} from "../js/heroSheetVersioning";
+  import {currentVersion, findAdvantageByHsid, findPowerByHsid, upgradeVersion} from "../js/heroSheetVersioning";
+  import {updaterClasses} from "../js/updaters";
 
   export default {
     name: "CharacterSheet",
