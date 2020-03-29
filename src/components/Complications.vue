@@ -1,5 +1,8 @@
 <template>
   <boxed-section title="Complications">
+    <template v-slot:exhibit>
+      <local-cost-display :charsheet="charsheet"/>
+    </template>
     <div
         class="complications-list grid-with-lines"
         :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}"
@@ -9,7 +12,7 @@
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
 
       <div class="display-contents"
-           v-for="(complication, index) in complications"
+           v-for="(complication, index) in charsheet.complications"
            :key="index"
       >
         <div class="complication-type" :class="{'isOutOfSpec': isOutOfSpec(complication)}">
@@ -26,7 +29,7 @@
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="$delete(complications, complications.indexOf(complication))"
+            v-on:click="$delete(charsheet.complications, charsheet.complications.indexOf(complication))"
         >
           <trash-icon/>
         </button>
@@ -43,14 +46,17 @@
 </template>
 
 <script>
+  import LocalCostDisplay from "./LocalCostDisplay.vue";
   import {newBlankComplication} from "../js/heroSheetVersioning.js";
-
   const complicationsData = require("../data/complicationsData.json");
 
   export default {
     name: "Complications",
+    components: {
+      LocalCostDisplay
+    },
     props: {
-      "complications": { type: Array, required: true }
+      "charsheet": { type: Object, required: true }
     },
     data: function() {
       return {
@@ -60,7 +66,7 @@
     },
     methods: {
       addComplication: function() {
-        this.complications.push(newBlankComplication());
+        this.charsheet.complications.push(newBlankComplication());
       },
       isOutOfSpec: function(complication) {
         return !Object.keys(complicationsData.complicationTypes).includes(complication.complicationType);

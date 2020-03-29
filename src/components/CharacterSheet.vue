@@ -28,7 +28,7 @@
         <power-list-top-level :charsheet="charsheet" v-on:newUpdater="createPowerUpdater($event)" />
       </template>
       <template slot="complications">
-        <complications :complications="charsheet.complications"/>
+        <complications :charsheet="charsheet"/>
       </template>
       <template slot="attacks">
         <attacks :charsheet="charsheet"/>

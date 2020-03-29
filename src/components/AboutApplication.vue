@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list">
+      <li>2020-03-29: Improve the display of costs on every tab.</li>
       <li>2020-03-29: The Enhanced Trait power applies to the ranks for defenses (but not yet skills).</li>
       <li>2020-03-28: The Enhanced Trait power applies to the ranks for all abilities (but not yet other traits).</li>
       <li>2020-03-28: Support Active Effects. The test use is that "Improved Initiative" improves initiative.</li>

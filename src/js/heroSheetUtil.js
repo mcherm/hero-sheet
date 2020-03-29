@@ -112,37 +112,37 @@ const advantageIsRanked = function(advantage) {
 };
 
 
-const abilityCost = function(character) {
-  return Object.values(character.abilities).reduce((x,y) => x + y.cost, 0);
+const abilityCost = function(charsheet) {
+  return Object.values(charsheet.abilities).reduce((x,y) => x + y.cost, 0);
 };
 
-const defenseCost = function(character) {
-  return Object.values(character.defenses).reduce((x,y) => x + y.cost, 0);
+const defenseCost = function(charsheet) {
+  return Object.values(charsheet.defenses).reduce((x,y) => x + y.cost, 0);
 };
 
-const skillCost = function(character) {
-  return character.skills.cost
+const skillCost = function(charsheet) {
+  return charsheet.skills.cost
 };
 
-const advantageCost = function(character) {
-  return character.advantages.reduce((x,y) => x + (advantageIsRanked(y) ? y.ranks : 1), 0);
+const advantageCost = function(charsheet) {
+  return charsheet.advantages.reduce((x,y) => x + (advantageIsRanked(y) ? y.ranks : 1), 0);
 };
 
-const powerCost = function(character) {
-  return Object.values(character.powers).reduce((x,y) => x + y.cost, 0);
+const powerCost = function(charsheet) {
+  return Object.values(charsheet.powers).reduce((x,y) => x + y.cost, 0);
 };
 
-const totalCost = function(character) {
-  return abilityCost(character) + defenseCost(character) + skillCost(character) +
-    advantageCost(character) + powerCost(character);
+const totalCost = function(charsheet) {
+  return abilityCost(charsheet) + defenseCost(charsheet) + skillCost(charsheet) +
+    advantageCost(charsheet) + powerCost(charsheet);
 };
 
-const availablePoints = function(character) {
-  return character.campaign.powerLevel * 15 + character.campaign.xpAwarded;
+const availablePoints = function(charsheet) {
+  return charsheet.campaign.powerLevel * 15 + charsheet.campaign.xpAwarded;
 };
 
-const costOutOfSpec = function(character) {
-  return totalCost(character) > availablePoints(character);
+const costOutOfSpec = function(charsheet) {
+  return totalCost(charsheet) > availablePoints(charsheet);
 };
 
 

@@ -6,13 +6,17 @@
     </div>
     <div class="cost-display grid-with-lines">
       <label class="row-label">character</label>
-      <number-display :value="totalCost(charsheet)" :isOutOfSpec="costOutOfSpec(charsheet)"/>
+      <div class="horizontal">
+        <number-display :value="totalCost(charsheet)" :isOutOfSpec="costOutOfSpec(charsheet)"/>
+        <span class="spacerWord">of</span>
+        <number-display :value="availablePoints(charsheet)" :isOutOfSpec="costOutOfSpec(charsheet)"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {advantageCost, costOutOfSpec, totalCost} from "../js/heroSheetUtil";
+  import {advantageCost, costOutOfSpec, totalCost, availablePoints} from "../js/heroSheetUtil";
 
   export default {
     name: "LocalCostDisplay",
@@ -24,6 +28,7 @@
     methods: {
       advantageCost,
       totalCost,
+      availablePoints,
       costOutOfSpec
     }
   }
@@ -31,13 +36,17 @@
 
 <style scoped>
   .cost-display {
-    grid-template-columns: max-content max-content;
+    grid-template-columns: max-content max-content max-content;
     margin: 0 2px;
   }
   .cost-display > .row-label {
     background-color: var(--paper-color);
   }
+  .spacerWord {
+    background-color: var(--paper-color);
+  }
   .horizontal {
     display: flex;
+    align-items: baseline;
   }
 </style>
