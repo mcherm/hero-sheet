@@ -15,11 +15,7 @@
         <label class="row-label">{{defenseName}}</label>
         <number-display :value="base(defenseName)"/>
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
-        <number-entry
-            v-else
-            :value="obj(defenseName).purchased"
-            @input="updatePurchased(defenseName, $event)"
-        />
+        <number-entry v-else v-model="obj(defenseName).purchased"/>
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
         <number-display v-else :value="obj(defenseName).cost"/>
         <number-display :value="obj(defenseName).ranks" :isOutOfSpec="isOutOfSpec(defenseName)"/>
@@ -49,13 +45,6 @@
       charsheet: { type: Object, required: true }
     },
     created: function() {
-      const recalculate = this.recalculate;
-      for (const defenseName in baseValueMap) {
-        this.$watch(`charsheet.abilities.${baseValueMap[defenseName]}.ranks`, function() {
-          recalculate(defenseName);
-        }, {immediate: true});
-      }
-
       const calcInitiative = () => {
         const agility = this.charsheet.abilities.agility.ranks;
         const activeInitiativeEffects = this.charsheet.activeEffects['initiative'] || [];
@@ -73,17 +62,8 @@
       isImmutable: function(defenseName) {
         return defenseName === 'toughness';
       },
-      updatePurchased: function(defenseName, newValue) {
-        this.obj(defenseName).purchased = newValue;
-        this.recalculate(defenseName);
-      },
       base: function(defenseName) {
         return this.charsheet.abilities[baseValueMap[defenseName]].ranks;
-      },
-      recalculate: function(defenseName) {
-        const dob = this.obj(defenseName);
-        dob.cost = dob.purchased;
-        dob.ranks = this.base(defenseName) + dob.purchased;
       },
       isOutOfSpec: function(defenseName) {
         // -- values --

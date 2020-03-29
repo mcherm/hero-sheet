@@ -162,6 +162,11 @@
         for (const stat in statsData) {
           new updaterClasses["StatRankUpdater"](this, this.charsheet, stat);
         }
+        new updaterClasses["DefenseUpdater"](this, this.charsheet, "dodge");
+        new updaterClasses["DefenseUpdater"](this, this.charsheet, "fortitude");
+        new updaterClasses["DefenseUpdater"](this, this.charsheet, "parry");
+        new updaterClasses["ToughnessUpdater"](this, this.charsheet);
+        new updaterClasses["DefenseUpdater"](this, this.charsheet, "will");
         for (const attack of this.charsheet.attacks.attackList) {
           // FIXME: With a better design maybe I wouldn't need a special case here
           const updaterType = attack.updater;

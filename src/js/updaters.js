@@ -111,6 +111,69 @@ class StatRankUpdater extends Updater {
 }
 
 
+const _baseStatForDefenseMap = {
+  dodge: "agility",
+  fortitude: "stamina",
+  parry: "fighting",
+  toughness: "stamina",
+  will: "awareness"
+};
+
+/* Updater of rank and cost for any defense EXCEPT toughness. */
+class DefenseUpdater extends Updater {
+  setMoreFieldsInConstructor(vm, charsheet, defenseName, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, defenseName, ...otherArgs);
+    this.defenseName = defenseName;
+    if (!["dodge", "fortitude", "parry", "will"].includes(defenseName)) {
+      throw new Error(`Invalid defense name "${defenseName}".`);
+    }
+  }
+
+  watchForChange() {
+    const purchased = this.charsheet.defenses[this.defenseName].purchased;
+    const cost = purchased;
+    const baseStat = _baseStatForDefenseMap[this.defenseName];
+    const baseRanks = this.charsheet.abilities[baseStat].ranks + purchased;
+    const activeEffectKey = `defenses.${this.defenseName}.ranks`;
+    const pertinentActiveEffects = this.charsheet.activeEffects[activeEffectKey] || [];
+    const ranks = pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, baseRanks);
+    return {
+      identity: {}, // This updater never goes away.
+      calculations: {
+        cost: cost,
+        ranks: ranks
+      }
+    };
+  }
+
+  applyChanges(newCalculations) {
+    this.charsheet.defenses[this.defenseName].cost = newCalculations.cost;
+    this.charsheet.defenses[this.defenseName].ranks = newCalculations.ranks;
+  }
+}
+
+
+class ToughnessUpdater extends Updater {
+  watchForChange() {
+    const baseStat = _baseStatForDefenseMap["toughness"];
+    const baseRanks = this.charsheet.abilities[baseStat].ranks;
+    const activeEffectKey = "defenses.toughness.ranks";
+    const pertinentActiveEffects = this.charsheet.activeEffects[activeEffectKey] || [];
+    const ranks = pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, baseRanks);
+    return {
+      identity: {}, // This updater never goes away.
+      calculations: {
+        ranks: ranks
+      }
+    };
+  }
+
+  applyChanges(newCalculations) {
+    this.charsheet.defenses.toughness.ranks = newCalculations.ranks;
+  }
+}
+
+
 class AttackUpdater extends Updater {
   constructor(vm, charsheet, ...otherArgs) {
     super(vm, charsheet, ...otherArgs);
@@ -507,10 +570,10 @@ class EnhancedTraitUpdater extends Updater {
       "Enhanced Intellect": "abilities.intellect.ranks",
       "Enhanced Awareness": "abilities.awareness.ranks",
       "Enhanced Presence": "abilities.presence.ranks",
-      "Enhanced Dodge": null,
-      "Enhanced Fortitude": null,
-      "Enhanced Parry": null,
-      "Enhanced Will": null,
+      "Enhanced Dodge": "defenses.dodge.ranks",
+      "Enhanced Fortitude": "defenses.fortitude.ranks",
+      "Enhanced Parry": "defenses.parry.ranks",
+      "Enhanced Will": "defenses.will.ranks",
       "Enhanced Acrobatics": null,
       "Enhanced Athletics": null,
       "Enhanced Deception": null,
@@ -605,6 +668,8 @@ class EnhancedTraitUpdater extends Updater {
 const updaterClasses = {
   UnarmedAttackUpdater,
   StatRankUpdater,
+  DefenseUpdater,
+  ToughnessUpdater,
   DamagePowerAttackUpdater,
   AfflictionPowerAttackUpdater,
   NullifyPowerAttackUpdater,
