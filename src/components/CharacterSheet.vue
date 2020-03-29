@@ -13,7 +13,7 @@
       </template>
       <template slot="abilities">
         <div class="h-box">
-          <basic-stats :abilities="charsheet.abilities"/>
+          <basic-stats :charsheet="charsheet"/>
           <defenses :charsheet="charsheet"/>
           <overall-costs :charsheet="charsheet"/>
         </div>
@@ -173,7 +173,14 @@
             // FIXME: With a better design maybe I wouldn't need a special case here
             if (updaterType === "ImprovedInitiativeUpdater") {
               const advantage = findAdvantageByHsid(this.charsheet, activeEffect.advantageHsid);
-              const updateEvent = { updater: updaterType, advantage: advantage };
+              const updateEvent = {updater: updaterType, advantage: advantage};
+              const updater = new updaterClasses[updaterType](this, this.charsheet, updateEvent);
+            } else if (updaterType === "EnhancedStrengthUpdater") {
+              const power = findPowerByHsid(this.charsheet, activeEffect.powerHsid);
+              if (power === null) {
+                throw new Error("Updater references hsid that isn't found.");
+              }
+              const updateEvent = {updater: updaterType, power: power};
               const updater = new updaterClasses[updaterType](this, this.charsheet, updateEvent);
             } else {
               throw new Error(`Unsupported updater type '${updaterType}'.`);

@@ -109,6 +109,12 @@
       "hsid": "HI8YRDVDV"
     },
     {
+      "name": "Improved Initiative",
+      "hsid": "HIQWXB4ZA",
+      "ranks": 1,
+      "description": ""
+    },
+    {
       "name": "Improvised Tools",
       "ranks": null,
       "description": "Trained with master mechanic.",
@@ -322,7 +328,7 @@
           "hsid": "HIMQZVWDZ"
         },
         {
-          "name": "Punch Fase",
+          "name": "Punch Face",
           "hsid": "HIVURUC1Y",
           "effect": "Damage",
           "description": "",
@@ -354,27 +360,61 @@
   "attacks": {
     "attackList": [
       {
-        "type": "UnarmedAttackUpdater",
+        "updater": "UnarmedAttackUpdater",
         "name": "Unarmed",
         "attackCheck": 4,
         "effectType": "damage",
-        "resistanceDC": 2
+        "resistanceDC": 2,
+        "hsid": "HIUYF58E1"
       },
       {
-        "type": "DamagePowerAttackUpdater",
-        "hsid": "HIZ2811LX",
+        "updater": "DamagePowerAttackUpdater",
+        "powerHsid": "HIZ2811LX",
         "name": "Fury Fists",
         "attackCheck": 4,
         "effectType": "damage",
-        "resistanceDC": 5
+        "resistanceDC": 5,
+        "hsid": "HIUYF58E5"
       },
       {
-        "type": "DamagePowerAttackUpdater",
-        "hsid": "HIVURUC1Y",
-        "name": "Punch Fase",
+        "updater": "DamagePowerAttackUpdater",
+        "powerHsid": "HIVURUC1Y",
+        "name": "Punch Face",
         "attackCheck": 4,
         "effectType": "damage",
-        "resistanceDC": 3
+        "resistanceDC": 3,
+        "hsid": "HIUYF58E2"
+      }
+    ]
+  },
+  "activeEffects": {
+    "abilities.strength.ranks": [
+      {
+        "hsid": "HIS2NV5EC",
+        "value": 4,
+        "updater": "FooUpdater",
+        "powerHsid": "HIWBXSE3B"
+      },
+      {
+        "hsid": "HIZ2TYWA4",
+        "value": 4,
+        "updater": "FooUpdater"
+      }
+    ],
+    "initiative": [
+      {
+        "hsid": "HILSNQ85F",
+        "value": 4,
+        "updater": "ImprovedInitiativeUpdater",
+        "advantageHsid": "HIQWXB4ZA"
+      }
+    ],
+    "attacks.attackList#HIUYF58E2": [
+      {
+        "hsid": "HI9TMVE6T",
+        "value": 2,
+        "updater": "CloseCombatUpdater",
+        "skillHsid": "HIS9NSSZR"
       }
     ]
   }

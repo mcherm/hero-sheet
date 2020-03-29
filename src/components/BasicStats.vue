@@ -17,8 +17,9 @@
             is="basic-stats-row"
             :key="statName"
             :statName="statName"
-            :statObj="abilities[statName]"
+            :statObj="charsheet.abilities[statName]"
             :docsURL="statData.docsURL"
+            :activeEffects="charsheet.activeEffects"
           />
         </tbody>
       </table>
@@ -34,7 +35,7 @@
   export default {
     name: "BasicStats",
     props: {
-      abilities: { type: Object, required: true }
+      charsheet: { type: Object, required: true }
     },
     data: function() {
       return {

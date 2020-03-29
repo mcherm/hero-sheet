@@ -638,7 +638,7 @@ class ImprovedInitiativeUpdater extends Updater {
   findOrCreateActiveEffect() {
     const updaterName = this.constructor.name;
     if (this.charsheet.activeEffects.initiative === undefined) {
-      this.charsheet.activeEffects.initiative = [];
+      this.vm.$set(this.charsheet.activeEffects, "initiative", []);
     }
     const possibleActiveEffects = this.charsheet.activeEffects.initiative;
     const matchingActiveEffects = possibleActiveEffects.filter(
@@ -701,13 +701,111 @@ class ImprovedInitiativeUpdater extends Updater {
 }
 
 
+class EnhancedTraitUpdater extends Updater {
+  constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super(vm, charsheet, newUpdaterEvent, ...otherArgs);
+  }
+
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
+    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
+    this.power = newUpdaterEvent.power;
+    this.activeEffect = this.findOrCreateActiveEffect();
+  }
+
+  /*
+   * Subclasses should override this to return the key their active effect is stored under.
+   */
+  getActiveEffectKey() {
+    throw Error("Subclasses must override this.");
+  }
+
+  /*
+   * This is run once during the constructor to obtain or create the specific
+   * attack.
+   *
+   * FIXME: Some duplicated code here. Figure out how to share it.
+   */
+  findOrCreateActiveEffect() {
+    const updaterName = this.constructor.name;
+    const activeEffectKey = this.getActiveEffectKey();
+    if (this.charsheet.activeEffects[activeEffectKey] === undefined) {
+      this.vm.$set(this.charsheet.activeEffects, activeEffectKey, []);
+    }
+    const possibleActiveEffects = this.charsheet.activeEffects[activeEffectKey];
+    const matchingActiveEffects = possibleActiveEffects.filter(
+      x => x.updater === updaterName && x.powerHsid === this.power.hsid
+    );
+    if (matchingActiveEffects.length > 1) {
+      throw Error(`Multiple active effects of type ${updaterName} and power ${this.power.hsid} that matched.`);
+    } else if (matchingActiveEffects.length === 1) {
+      return matchingActiveEffects[0];
+    } else {
+      const newActiveEffect = this.makeNewActiveEffect();
+      possibleActiveEffects.push(newActiveEffect);
+      return newActiveEffect;
+    }
+  }
+
+  makeNewActiveEffect() {
+    const result = {};
+    result.hsid = newHsid();
+    result.value = this.power.ranks;
+    result.updater = this.constructor.name;
+    result.powerHsid = this.power.hsid;
+    return result;
+  }
+
+  watchForChange() {
+    return {
+      identity: {
+        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
+        powerHsid: this.power.hsid,
+        powerEffect: this.power.effect,
+        powerOption: this.power.option
+      },
+      calculations: {
+        powerRanks: this.power.ranks
+      }
+    }
+  }
+
+  applyChanges(newCalculations) {
+    this.activeEffect.value = newCalculations.powerRanks;
+  }
+
+  destroy() {
+    const effectKey = this.getActiveEffectKey();
+    const possibleActiveEffects = this.charsheet.activeEffects[effectKey];
+    if (possibleActiveEffects) {
+      const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
+      if (currentPosition !== -1) {
+        possibleActiveEffects.splice(currentPosition, 1);
+      }
+      if (possibleActiveEffects.length === 0) {
+        this.vm.$delete(this.charsheet.activeEffects, effectKey);
+      }
+    }
+    super.destroy();
+  }
+}
+
+
+class EnhancedStrengthUpdater extends EnhancedTraitUpdater {
+  getActiveEffectKey() {
+    return "abilities.strength.ranks";
+  }
+}
+
+
 const updaterClasses = {
   UnarmedAttackUpdater,
   DamagePowerAttackUpdater,
   AfflictionPowerAttackUpdater,
   NullifyPowerAttackUpdater,
   WeakenPowerAttackUpdater,
-  ImprovedInitiativeUpdater
+  ImprovedInitiativeUpdater,
+  EnhancedStrengthUpdater
 };
 
 
