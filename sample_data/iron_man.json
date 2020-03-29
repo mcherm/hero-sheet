@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 10,
   "campaign": {
     "powerLevel": 14,
     "xpAwarded": 158,
@@ -508,12 +508,14 @@
   "attacks": {
     "attackList": [
       {
-        "type": "UnarmedAttackUpdater",
         "name": "Unarmed",
         "attackCheck": 10,
         "effectType": "damage",
-        "resistanceDC": 2
+        "resistanceDC": 2,
+        "updater": "UnarmedAttackUpdater",
+        "hsid": "HIJV81R4W"
       }
     ]
-  }
+  },
+  "activeEffects": {}
 }

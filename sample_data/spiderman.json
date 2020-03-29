@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 10,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 71,
@@ -88,7 +88,7 @@
       "ranks": 15
     }
   },
-  "initiative": 12,
+  "initiative": 20,
   "advantages": [
     {
       "name": "Accurate Attack",
@@ -375,11 +375,22 @@
   "attacks": {
     "attackList": [
       {
-        "type": "UnarmedAttackUpdater",
         "name": "Unarmed",
         "attackCheck": 9,
         "effectType": "damage",
-        "resistanceDC": 9
+        "resistanceDC": 9,
+        "updater": "UnarmedAttackUpdater",
+        "hsid": "HI2KJVBLR"
+      }
+    ]
+  },
+  "activeEffects": {
+    "initiative": [
+      {
+        "hsid": "HIM5W5BYB",
+        "value": 8,
+        "updater": "ImprovedInitiativeUpdater",
+        "advantageHsid": "HID48D3TJ"
       }
     ]
   }
