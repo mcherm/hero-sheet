@@ -331,6 +331,30 @@ class Updater {
 
 }
 
+class StatRankUpdater extends Updater {
+  setMoreFieldsInConstructor(vm, charsheet, statName, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, statName, ...otherArgs);
+    this.statName = statName;
+  }
+
+  watchForChange() {
+    const baseRanks = this.charsheet.abilities[this.statName].entered;
+    const activeEffectKey = `abilities.${this.statName}.ranks`;
+    const pertinentActiveEffects = this.charsheet.activeEffects[activeEffectKey] || [];
+    const ranks = pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, baseRanks);
+    return {
+      identity: {}, // This updater never goes away.
+      calculations: {
+        ranks: ranks
+      }
+    };
+  }
+
+  applyChanges(newCalculations) {
+    this.charsheet.abilities[this.statName].ranks = newCalculations.ranks;
+  }
+}
+
 
 class AttackUpdater extends Updater {
   constructor(vm, charsheet, ...otherArgs) {
@@ -825,6 +849,7 @@ class EnhancedTraitUpdater extends Updater {
 
 const updaterClasses = {
   UnarmedAttackUpdater,
+  StatRankUpdater,
   DamagePowerAttackUpdater,
   AfflictionPowerAttackUpdater,
   NullifyPowerAttackUpdater,

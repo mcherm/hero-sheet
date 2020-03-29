@@ -24,24 +24,11 @@
     },
     created: function() {
       this.updateEntered(this.statObj.entered);
-      // FIXME: There HAS to be a better way to watch these. Maybe an updater? Something not tied to the display.
-      const calcRanks = () => {
-        const baseRanks = this.statObj.entered;
-        const activeEffectKey = `abilities.${this.statName}.ranks`;
-        const activeInitiativeEffects = this.activeEffects[activeEffectKey] || [];
-        const ranks = activeInitiativeEffects.reduce((sum, activeEffect) => sum + activeEffect.value, baseRanks);
-        console.log(`calculated ranks for ${this.statName}: ${ranks}`); // FIXME: Remove
-        return ranks;
-      };
-      this.$watch(calcRanks, function() {
-        this.statObj.ranks = calcRanks();
-      }, {immediate: true});
     },
     methods: {
       updateEntered: function(newValue) {
         this.statObj.entered = Number(newValue);
         this.statObj.cost = this.statObj.entered * 2;
-        this.statObj.ranks = this.statObj.entered;
       }
     }
   }

@@ -53,6 +53,8 @@
   import Complications from "./Complications.vue";
   import Attacks from "./Attacks.vue"
 
+  const statsData = require("../data/statsData.json");
+
   import {currentVersion, findAdvantageByHsid, findPowerByHsid, updaterClasses, upgradeVersion} from "../js/heroSheetVersioning";
 
   export default {
@@ -156,6 +158,9 @@
         }, SAVE_FREQUENCY_MILLIS);
       },
       installUpdaters: function() {
+        for (const stat in statsData) {
+          new updaterClasses["StatRankUpdater"](this, this.charsheet, stat);
+        }
         for (const attack of this.charsheet.attacks.attackList) {
           // FIXME: With a better design maybe I wouldn't need a special case here
           const updaterType = attack.updater;
