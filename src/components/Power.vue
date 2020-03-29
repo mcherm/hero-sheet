@@ -190,9 +190,13 @@
           this.$emit("newUpdater", { updater: "NullifyPowerAttackUpdater", power: this.power });
         } else if (this.power.effect === "Weaken") {
           this.$emit("newUpdater", { updater: "WeakenPowerAttackUpdater", power: this.power });
-        } else if (this.power.effect === "Enhanced Trait" && this.power.option === "Enhanced Strength") {
-          console.log(`Dude has enhanced strength.`); // FIXME: Remove
-          this.$emit("newUpdater", { updater: "EnhancedStrengthUpdater", power: this.power });
+        } else if (this.power.effect === "Enhanced Trait") {
+          const enhancedAbilityOptions = ["Enhanced Strength", "Enhanced Stamina", "Enhanced Agility",
+            "Enhanced Dexterity", "Enhanced Fighting", "Enhanced Intellect", "Enhanced Awareness",
+            "Enhanced Presence"];
+          if (enhancedAbilityOptions.includes(this.power.option)) {
+            this.$emit("newUpdater", { updater: "EnhancedTraitUpdater", power: this.power });
+          }
         }
       }
     }

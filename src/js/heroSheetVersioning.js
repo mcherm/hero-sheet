@@ -710,6 +710,7 @@ class EnhancedTraitUpdater extends Updater {
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
     this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.power = newUpdaterEvent.power;
+    this.activeEffectKey = this.getActiveEffectKey();
     this.activeEffect = this.findOrCreateActiveEffect();
   }
 
@@ -717,7 +718,40 @@ class EnhancedTraitUpdater extends Updater {
    * Subclasses should override this to return the key their active effect is stored under.
    */
   getActiveEffectKey() {
-    throw Error("Subclasses must override this.");
+    // FIXME: Works for abilities; but not yet for other traits
+    const LOOKUP_TABLE = {
+      "Enhanced Strength": "abilities.strength.ranks",
+      "Enhanced Stamina": "abilities.stamina.ranks",
+      "Enhanced Agility": "abilities.agility.ranks",
+      "Enhanced Dexterity": "abilities.dexterity.ranks",
+      "Enhanced Fighting": "abilities.fighting.ranks",
+      "Enhanced Intellect": "abilities.intellect.ranks",
+      "Enhanced Awareness": "abilities.awareness.ranks",
+      "Enhanced Presence": "abilities.presence.ranks",
+      "Enhanced Dodge": null,
+      "Enhanced Fortitude": null,
+      "Enhanced Parry": null,
+      "Enhanced Will": null,
+      "Enhanced Acrobatics": null,
+      "Enhanced Athletics": null,
+      "Enhanced Deception": null,
+      "Enhanced Insight": null,
+      "Enhanced Intimidation": null,
+      "Enhanced Investigation": null,
+      "Enhanced Perception": null,
+      "Enhanced Persuasion": null,
+      "Enhanced Slightofhand": null,
+      "Enhanced Stealth": null,
+      "Enhanced Technology": null,
+      "Enhanced Treatment": null,
+      "Enhanced Vehicles": null
+    };
+    const result = LOOKUP_TABLE[this.power.option];
+    if (result) {
+      return result;
+    } else {
+      throw new Error(`The option ${this.power.option} is not yet supported by EnhancedTraitUpdater.`)
+    }
   }
 
   /*
@@ -728,11 +762,10 @@ class EnhancedTraitUpdater extends Updater {
    */
   findOrCreateActiveEffect() {
     const updaterName = this.constructor.name;
-    const activeEffectKey = this.getActiveEffectKey();
-    if (this.charsheet.activeEffects[activeEffectKey] === undefined) {
-      this.vm.$set(this.charsheet.activeEffects, activeEffectKey, []);
+    if (this.charsheet.activeEffects[(this.activeEffectKey)] === undefined) {
+      this.vm.$set(this.charsheet.activeEffects, this.activeEffectKey, []);
     }
-    const possibleActiveEffects = this.charsheet.activeEffects[activeEffectKey];
+    const possibleActiveEffects = this.charsheet.activeEffects[(this.activeEffectKey)];
     const matchingActiveEffects = possibleActiveEffects.filter(
       x => x.updater === updaterName && x.powerHsid === this.power.hsid
     );
@@ -767,7 +800,7 @@ class EnhancedTraitUpdater extends Updater {
       calculations: {
         powerRanks: this.power.ranks
       }
-    }
+    };
   }
 
   applyChanges(newCalculations) {
@@ -775,25 +808,17 @@ class EnhancedTraitUpdater extends Updater {
   }
 
   destroy() {
-    const effectKey = this.getActiveEffectKey();
-    const possibleActiveEffects = this.charsheet.activeEffects[effectKey];
+    const possibleActiveEffects = this.charsheet.activeEffects[this.activeEffectKey];
     if (possibleActiveEffects) {
       const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
       if (currentPosition !== -1) {
         possibleActiveEffects.splice(currentPosition, 1);
       }
       if (possibleActiveEffects.length === 0) {
-        this.vm.$delete(this.charsheet.activeEffects, effectKey);
+        this.vm.$delete(this.charsheet.activeEffects, this.activeEffectKey);
       }
     }
     super.destroy();
-  }
-}
-
-
-class EnhancedStrengthUpdater extends EnhancedTraitUpdater {
-  getActiveEffectKey() {
-    return "abilities.strength.ranks";
   }
 }
 
@@ -805,7 +830,7 @@ const updaterClasses = {
   NullifyPowerAttackUpdater,
   WeakenPowerAttackUpdater,
   ImprovedInitiativeUpdater,
-  EnhancedStrengthUpdater
+  EnhancedTraitUpdater
 };
 
 

@@ -175,7 +175,7 @@
               const advantage = findAdvantageByHsid(this.charsheet, activeEffect.advantageHsid);
               const updateEvent = {updater: updaterType, advantage: advantage};
               const updater = new updaterClasses[updaterType](this, this.charsheet, updateEvent);
-            } else if (updaterType === "EnhancedStrengthUpdater") {
+            } else if (updaterType === "EnhancedTraitUpdater") {
               const power = findPowerByHsid(this.charsheet, activeEffect.powerHsid);
               if (power === null) {
                 throw new Error("Updater references hsid that isn't found.");
