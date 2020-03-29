@@ -55,8 +55,16 @@
           recalculate(defenseName);
         }, {immediate: true});
       }
-      this.$watch("charsheet.abilities.agility.ranks", function () {
-        this.charsheet.initiative = this.charsheet.abilities.agility.ranks;
+
+      const calcInitiative = () => {
+        const agility = this.charsheet.abilities.agility.ranks;
+        const activeInitiativeEffects = this.charsheet.activeEffects['initiative'] || [];
+        const result = activeInitiativeEffects.reduce((sum, activeEffect) => sum + activeEffect.value, agility);
+        console.log(`in calcInitiative, result = ${result}`); // FIXME: Remove
+        return result;
+      };
+      this.$watch(calcInitiative, function() {
+        this.charsheet.initiative = calcInitiative();
       }, {immediate: true});
     },
     methods: {

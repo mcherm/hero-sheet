@@ -3,12 +3,12 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 9; // Up to this version can be saved
-const latestVersion = 9; // Might be an experimental version
+const currentVersion = 10; // Up to this version can be saved
+const latestVersion = 10; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
-  "initiative", "advantages", "skills", "powers", "complications", "attacks"];
+  "initiative", "advantages", "skills", "powers", "complications", "attacks", "activeEffects"];
 
 /*
  * Given a charsheet, this re-orders the fields so they are in the preferred order.
@@ -126,6 +126,7 @@ const newBlankCharacter = function() {
       }
     ]
   };
+  const activeEffects = {};
   return {
     version,
     campaign,
@@ -138,7 +139,8 @@ const newBlankCharacter = function() {
     skills,
     powers,
     complications,
-    attacks
+    attacks,
+    activeEffects
   }
 };
 
@@ -196,7 +198,7 @@ const newBlankComplication = function() {
  *  2. it might need some smart caching
  *  3. this will do for now while I clean up other stuff
  */
-const findPowerByHisd = function(charsheet, hsid) {
+const findPowerByHsid = function(charsheet, hsid) {
   function findByHsidRecursive(powerList) {
     for (const power of powerList) {
       if (power.hsid === hsid) {
@@ -212,6 +214,18 @@ const findPowerByHisd = function(charsheet, hsid) {
     return null;
   }
   return findByHsidRecursive(charsheet.powers);
+};
+
+/*
+ * Design Notes: see findPowerByHsid. We should build "findByHsid".
+ */
+const findAdvantageByHsid = function(charsheet, hsid) {
+  for (const advantage of charsheet.advantages) {
+    if (advantage.hsid === hsid) {
+      return advantage;
+    }
+  }
+  return null;
 };
 
 
@@ -280,6 +294,7 @@ class Updater {
    * created should be eliminated.
    */
   destroy() {
+    console.log(`destroying ${this.constructor.name}`); // FIXME: Remove
     // -- cancel all watches --
     for (const cancelFunction of this.activeWatches) {
       cancelFunction();
@@ -304,9 +319,8 @@ class Updater {
   }
 
   /*
-   * Initiates the watch that drives this updater. In the future I will figure out
-   * how to generalize this; right now it is all specific to DamagePowerAttackUpdater.
-   * It returns the cancel function for the watch.
+   * Initiates the watch that drives this updater. It returns the cancel function for
+   * the watch.
    */
   createWatch(vm) {
     const cancelFunction = vm.$watch(
@@ -602,12 +616,98 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
 }
 
 
+class ImprovedInitiativeUpdater extends Updater {
+  constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super(vm, charsheet, newUpdaterEvent, ...otherArgs);
+  }
+
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
+    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
+    this.advantage = newUpdaterEvent.advantage;
+    this.activeEffect = this.findOrCreateActiveEffect();
+  }
+
+  /*
+   * This is run once during the constructor to obtain or create the specific
+   * attack.
+   */
+  findOrCreateActiveEffect() {
+    const updaterName = this.constructor.name;
+    if (this.charsheet.activeEffects.initiative === undefined) {
+      this.charsheet.activeEffects.initiative = [];
+    }
+    const possibleActiveEffects = this.charsheet.activeEffects.initiative;
+    const matchingActiveEffects = possibleActiveEffects.filter(
+      x => x.updater === updaterName && x.advantageHsid === this.advantage.hsid
+    );
+    if (matchingActiveEffects.length > 1) {
+      throw Error(`Multiple active effects of type ${updaterName} that matched.`);
+    } else if (matchingActiveEffects.length === 1) {
+      return matchingActiveEffects[0];
+    } else {
+      const newActiveEffect = this.makeNewActiveEffect();
+      possibleActiveEffects.push(newActiveEffect);
+      return newActiveEffect;
+    }
+  }
+
+  /*
+   * Subclasses must override this to add at least the value field to the object being returned.
+   */
+  makeNewActiveEffect() {
+    const result = {};
+    result.hsid = newHsid();
+    result.value = 4 * this.advantage.ranks;
+    result.updater = this.constructor.name;
+    result.advantageHsid = this.advantage.hsid;
+    console.log(`Will return newActiveEffect: ${JSON.stringify(result)} given ${this.constructor.name} and ${JSON.stringify(this.advantage)}`); // FIXME: Remove
+    return result;
+  }
+
+  watchForChange() {
+    console.log(`running watchForChange() on an ImprovedInitiativeUpdater`); // FIXME: Remove
+    return {
+      identity: {
+        advantageName: this.advantage.name,
+        advantageHsid: this.advantage.hsid
+      },
+      calculations: {
+        advantageRanks: this.advantage.ranks
+      }
+    }
+  }
+
+  applyChanges(newCalculations) {
+    this.activeEffect.value = 4 * newCalculations.advantageRanks;
+    console.log(`have applied change and activeEffect. value is now ${this.activeEffect.value}`); // FIXME: Remove
+  }
+
+  destroy() {
+    const effectKey = "initiative";
+    const possibleActiveEffects = this.charsheet.activeEffects[effectKey];
+    if (possibleActiveEffects) {
+      const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
+      if (currentPosition !== -1) {
+        possibleActiveEffects.splice(currentPosition, 1);
+      }
+      if (possibleActiveEffects.length === 0) {
+        this.charsheet.activeEffects[effectKey] = undefined;
+      }
+      this.vm.$delete(this.charsheet.activeEffects, effectKey);
+    }
+    super.destroy();
+  }
+}
+
+
 const updaterClasses = {
   UnarmedAttackUpdater,
   DamagePowerAttackUpdater,
   AfflictionPowerAttackUpdater,
   NullifyPowerAttackUpdater,
-  WeakenPowerAttackUpdater
+  WeakenPowerAttackUpdater,
+  ImprovedInitiativeUpdater
 };
 
 
@@ -693,6 +793,11 @@ const upgradeFuncs = {
       attack.hsid = newHsid();
     }
     charsheet.version = 9;
+  },
+
+  upgradeFrom9: function(charsheet) {
+    charsheet.activeEffects = {};
+    charsheet.version = 10;
   }
 
 };
@@ -731,7 +836,8 @@ export {
   newBlankSkill,
   newBlankPower,
   newBlankComplication,
-  findPowerByHisd,
+  findPowerByHsid,
+  findAdvantageByHsid,
   newHsid,
   upgradeVersion,
   updaterClasses

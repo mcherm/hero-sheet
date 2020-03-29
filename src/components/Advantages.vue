@@ -36,7 +36,7 @@
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="$delete(charsheet.advantages, charsheet.advantages.indexOf(advantage))"
+            v-on:click="deleteAdvantage(advantage)"
         >
           <trash-icon/>
         </button>
@@ -103,7 +103,9 @@
         }
       },
       setAdvantageName: function(advantage, newAdvantageName) {
+        // -- Change the name --
         advantage.name = newAdvantageName;
+        // -- Create (or remove) the ranks entry --
         if (advantageIsRanked(advantage)) {
           if (advantage.ranks === null) {
             advantage.ranks = 1;
@@ -111,7 +113,11 @@
         } else {
           advantage.ranks = null;
         }
-        // Sort, but with empty strings at the end
+        // -- Create an updater if appropriate --
+        if (advantage.name === "Improved Initiative") {
+          this.$emit("newUpdater", {updater: "ImprovedInitiativeUpdater", advantage: advantage});
+        }
+        // -- Sort, but with empty strings at the end --
         const sortFunc = (x, y) => {
           if (x.name === "" && y.name !== "") {
             return 1;
@@ -128,7 +134,16 @@
       addAdvantage: function() {
         const newAdvantage = newBlankAdvantage();
         this.charsheet.advantages.push(newAdvantage);
-        // FIXME: I should sort the advantages at some point, right?
+      },
+      deleteAdvantage: function(advantage) {
+        // -- Delete it --
+        const advantages = this.charsheet.advantages;
+        this.$delete(advantages, advantages.indexOf(advantage));
+        // -- If there's an updater, delete that --
+        if (advantage.name === "Improved Initiative") {
+          console.log(`need to delete an ImprovedInitiativeUpdater`); // FIXME: Remove
+          this.$emit("deleteUpdater", {updater: "ImprovedInitiativeUpdater", advantageHsid: advantage.hsid});
+        }
       }
     }
   }

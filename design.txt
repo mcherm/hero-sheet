@@ -100,3 +100,7 @@ TODO: [Adran06] Some advantages should impact other things
 
 TODO: The Affliction power should select which kind of effect it applies and
   what resists it.
+
+TODO: Bug - multiple UnarmedAttackUpdater's get created. They shouldn't.
+
+TODO: Can the updaters please delete themselves without the need for a delete event?
