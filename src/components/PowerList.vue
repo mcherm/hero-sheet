@@ -8,7 +8,6 @@
             :standardPowers="filteredStandardPowers"
             v-on:update:name="renamePower(power, $event)"
             v-on:newUpdater="$emit('newUpdater', $event)"
-            v-on:deleteUpdater="$emit('deleteUpdater', $event)"
           />
           <button class="trash-button" v-if="deleteIsVisible" v-on:click="deletePower(powerIndex)">
             <trash-icon/>
@@ -110,17 +109,6 @@
       deletePower: function(powerIndex) {
         if (powerIndex < 0 || powerIndex >= this.powers.length) {
           throw Error("Attempting to delete a power beyond the list size.")
-        }
-        const power = this.powers[powerIndex];
-        // FIXME: Should combine this with code in Power and pull it out somewhere
-        if (power.effect === "Damage") {
-          this.$emit('deleteUpdater', { updater: "DamagePowerAttackUpdater", powerHsid: power.hsid });
-        } else if (power.effect === "Affliction") {
-          this.$emit('deleteUpdater', { updater: "AfflictionPowerAttackUpdater", powerHsid: power.hsid });
-        } else if (power.effect === "Nullify") {
-          this.$emit('deleteUpdater', { updater: "NullifyPowerAttackUpdater", powerHsid: power.hsid });
-        } else if (power.effect === "Weaken") {
-          this.$emit('deleteUpdater', { updater: "WeakenPowerAttackUpdater", powerHsid: power.hsid });
         }
         this.$delete(this.powers, powerIndex);
       }

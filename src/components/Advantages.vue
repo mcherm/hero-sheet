@@ -36,7 +36,7 @@
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="deleteAdvantage(advantage)"
+            v-on:click="$delete(charsheet.advantages, charsheet.advantages.indexOf(advantage))"
         >
           <trash-icon/>
         </button>
@@ -57,7 +57,7 @@
   import LocalCostDisplay from "./LocalCostDisplay";
 
   import {newBlankAdvantage} from "../js/heroSheetVersioning.js";
-  import {advantageIsRanked, advantageCost} from "../js/heroSheetUtil";
+  import {advantageCost, advantageIsRanked} from "../js/heroSheetUtil";
 
   const standardAdvantages = require("../data/standardAdvantages.json");
 
@@ -134,16 +134,6 @@
       addAdvantage: function() {
         const newAdvantage = newBlankAdvantage();
         this.charsheet.advantages.push(newAdvantage);
-      },
-      deleteAdvantage: function(advantage) {
-        // -- Delete it --
-        const advantages = this.charsheet.advantages;
-        this.$delete(advantages, advantages.indexOf(advantage));
-        // -- If there's an updater, delete that --
-        if (advantage.name === "Improved Initiative") {
-          console.log(`need to delete an ImprovedInitiativeUpdater`); // FIXME: Remove
-          this.$emit("deleteUpdater", {updater: "ImprovedInitiativeUpdater", advantageHsid: advantage.hsid});
-        }
       }
     }
   }

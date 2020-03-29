@@ -59,9 +59,7 @@
       const calcInitiative = () => {
         const agility = this.charsheet.abilities.agility.ranks;
         const activeInitiativeEffects = this.charsheet.activeEffects['initiative'] || [];
-        const result = activeInitiativeEffects.reduce((sum, activeEffect) => sum + activeEffect.value, agility);
-        console.log(`in calcInitiative, result = ${result}`); // FIXME: Remove
-        return result;
+        return activeInitiativeEffects.reduce((sum, activeEffect) => sum + activeEffect.value, agility);
       };
       this.$watch(calcInitiative, function() {
         this.charsheet.initiative = calcInitiative();

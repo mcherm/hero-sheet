@@ -294,7 +294,6 @@ class Updater {
    * created should be eliminated.
    */
   destroy() {
-    console.log(`destroying ${this.constructor.name}`); // FIXME: Remove
     // -- cancel all watches --
     for (const cancelFunction of this.activeWatches) {
       cancelFunction();
@@ -476,6 +475,7 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
     // -- Test Function for Watch --
     return {
       identity: {
+        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect
       },
@@ -515,6 +515,7 @@ class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
     // -- Test Function for Watch --
     return {
       identity: {
+        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect
       },
@@ -555,6 +556,7 @@ class NullifyPowerAttackUpdater extends PowerAttackUpdater {
     // -- Test Function for Watch --
     return {
       identity: {
+        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect
       },
@@ -594,6 +596,7 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
     // -- Test Function for Watch --
     return {
       identity: {
+        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect
       },
@@ -661,14 +664,13 @@ class ImprovedInitiativeUpdater extends Updater {
     result.value = 4 * this.advantage.ranks;
     result.updater = this.constructor.name;
     result.advantageHsid = this.advantage.hsid;
-    console.log(`Will return newActiveEffect: ${JSON.stringify(result)} given ${this.constructor.name} and ${JSON.stringify(this.advantage)}`); // FIXME: Remove
     return result;
   }
 
   watchForChange() {
-    console.log(`running watchForChange() on an ImprovedInitiativeUpdater`); // FIXME: Remove
     return {
       identity: {
+        advantageExists: this.charsheet.advantages.indexOf(this.advantage) !== -1,
         advantageName: this.advantage.name,
         advantageHsid: this.advantage.hsid
       },
@@ -680,7 +682,6 @@ class ImprovedInitiativeUpdater extends Updater {
 
   applyChanges(newCalculations) {
     this.activeEffect.value = 4 * newCalculations.advantageRanks;
-    console.log(`have applied change and activeEffect. value is now ${this.activeEffect.value}`); // FIXME: Remove
   }
 
   destroy() {
@@ -692,9 +693,8 @@ class ImprovedInitiativeUpdater extends Updater {
         possibleActiveEffects.splice(currentPosition, 1);
       }
       if (possibleActiveEffects.length === 0) {
-        this.charsheet.activeEffects[effectKey] = undefined;
+        this.vm.$delete(this.charsheet.activeEffects, effectKey);
       }
-      this.vm.$delete(this.charsheet.activeEffects, effectKey);
     }
     super.destroy();
   }

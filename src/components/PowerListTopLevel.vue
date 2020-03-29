@@ -3,11 +3,7 @@
     <template v-slot:exhibit>
       <local-cost-display :charsheet="charsheet" extra-label="powers" :extra-value-function="powerCost"/>
     </template>
-    <power-list
-        :powers="charsheet.powers"
-        v-on:newUpdater="$emit('newUpdater', $event)"
-        v-on:deleteUpdater="$emit('deleteUpdater', $event)"
-    />
+    <power-list :powers="charsheet.powers" v-on:newUpdater="$emit('newUpdater', $event)" />
   </boxed-section>
 </template>
 

@@ -61,11 +61,7 @@
     </div>
     <div v-if="isArray" class="subpower-list">
       <div class="scrolling-list-header">Array Powers</div>
-      <power-list
-          :powers="power.subpowers"
-          v-on:newUpdater="$emit('newUpdater', $event)"
-          v-on:deleteUpdater="$emit('deleteUpdater', $event)"
-      />
+      <power-list :powers="power.subpowers" v-on:newUpdater="$emit('newUpdater', $event)" />
     </div>
   </div>
 </template>

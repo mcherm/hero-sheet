@@ -22,18 +22,10 @@
         <skills :charsheet="charsheet"/>
       </template>
       <template slot="advantages">
-        <advantages
-            :charsheet="charsheet"
-            v-on:newUpdater="createAdvantageUpdater($event)"
-            v-on:deleteUpdater="deleteAdvantageUpdater($event)"
-        />
+        <advantages :charsheet="charsheet" v-on:newUpdater="createAdvantageUpdater($event)" />
       </template>
       <template slot="powers">
-        <power-list-top-level
-            :charsheet="charsheet"
-            v-on:newUpdater="createPowerUpdater($event)"
-            v-on:deleteUpdater="deletePowerUpdater($event)"
-        />
+        <power-list-top-level :charsheet="charsheet" v-on:newUpdater="createPowerUpdater($event)" />
       </template>
       <template slot="complications">
         <complications :complications="charsheet.complications"/>
@@ -61,10 +53,7 @@
   import Complications from "./Complications.vue";
   import Attacks from "./Attacks.vue"
 
-  import {currentVersion, findAdvantageByHsid, findPowerByHisd, updaterClasses, upgradeVersion} from "../js/heroSheetVersioning";
-
-  // Maintain the list OUTSIDE of the vue object to avoid cyclic object values
-  const updaters = [];
+  import {currentVersion, findAdvantageByHsid, findPowerByHsid, updaterClasses, upgradeVersion} from "../js/heroSheetVersioning";
 
   export default {
     name: "CharacterSheet",
@@ -172,29 +161,20 @@
           const updaterType = attack.updater;
           if (updaterType === "UnarmedAttackUpdater") {
             const updater = new updaterClasses[updaterType](this, this.charsheet);
-            console.log(`about to push ${updater.constructor.name}`); // FIXME: Remove
-            updaters.push(updater);
           } else {
-            const power = findPowerByHisd(this.charsheet, attack.powerHsid);
+            const power = findPowerByHsid(this.charsheet, attack.powerHsid);
             const updateEvent = { updater: updaterType, power: power };
             const updater = this.createPowerUpdater(updateEvent);
-            console.log(`about to push ${updater.constructor.name}`); // FIXME: Remove
-            updaters.push(updater);
           }
         }
         for (const activeEffectKey in this.charsheet.activeEffects) {
-          console.log(`installingUpdaters for ${activeEffectKey}`); // FIXME: Remove
           for (const activeEffect of this.charsheet.activeEffects[activeEffectKey]) {
-            console.log(`... installingUpdater for ${JSON.stringify(activeEffect)}`);
             const updaterType = activeEffect.updater;
             // FIXME: With a better design maybe I wouldn't need a special case here
             if (updaterType === "ImprovedInitiativeUpdater") {
               const advantage = findAdvantageByHsid(this.charsheet, activeEffect.advantageHsid);
               const updateEvent = { updater: updaterType, advantage: advantage };
-              console.log(`...about to install ${updaterType}. updateEvent = ${JSON.stringify(updateEvent)}`)
               const updater = new updaterClasses[updaterType](this, this.charsheet, updateEvent);
-              console.log(`about to push ${updater.constructor.name}`); // FIXME: Remove
-              updaters.push(updater);
             } else {
               throw new Error(`Unsupported updater type '${updaterType}'.`);
             }
@@ -207,39 +187,12 @@
         const charsheet = this.charsheet;
         const updaterClass = updaterClasses[updaterName];
         const updaterInstance = new updaterClass(this, charsheet, newUpdaterEvent);
-        console.log(`about to push ${updaterInstance.constructor.name}`); // FIXME: Remove
-        updaters.push(updaterInstance);
       },
       createPowerUpdater: function(newUpdaterEvent) {
         const updaterName = newUpdaterEvent.updater;
         const charsheet = this.charsheet;
         const updaterClass = updaterClasses[updaterName];
         const updaterInstance = new updaterClass(this, charsheet, newUpdaterEvent);
-        console.log(`about to push ${updaterInstance.constructor.name}`); // FIXME: Remove
-        updaters.push(updaterInstance);
-      },
-      // FIXME: Try to avoid having separate deletePowerUpdater and deleteAdvantageUpdater
-      deletePowerUpdater: function(deleteUpdaterEvent) {
-        for (const updater of updaters) {
-          const rightUpdaterType = updater.constructor.name === deleteUpdaterEvent.updater;
-          const rightHsid = updater.power.hsid === deleteUpdaterEvent.powerHsid;
-          if (rightUpdaterType && rightHsid) {
-            updater.destroy();
-          }
-        }
-      },
-      deleteAdvantageUpdater: function(deleteUpdaterEvent) {
-        console.log(`in deleteAdvantageUpdater and the list is ${updaters.length} long`); // FIXME: Remove
-        for (const updater of updaters) {
-          console.log(`.. ${updater.constructor.name}, deleteUpdaterEvent: ${JSON.stringify(deleteUpdaterEvent)}`, updater); // FIXME: Remove
-          if (
-            updater.constructor.name === deleteUpdaterEvent.updater &&
-            updater.advantage.hsid === deleteUpdaterEvent.advantageHsid
-          ) {
-            console.log(`about to call destroy()`); // FIXME: Remove
-            updater.destroy();
-          }
-        }
       }
     },
     computed: {

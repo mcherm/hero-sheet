@@ -47,10 +47,6 @@ Proposed Design Policy:
 
 Bug List:
 
-TODO: [Adran06] Expertise should be able to depend on other abilities besides "Intellect".
-  - NO: the manual says that individual CHECKS may depend on other stats, but that
-    the skill still depends on Intellect.
-
 TODO: Some powers (like Invisiblity or Concealment) don't have ranks. I should
   probably categorize those and hide the rank selector for them.
 
@@ -64,9 +60,6 @@ TODO: I said that the Impervious advantage used "flatPointsPerRankOfModifier".
 TODO: The ability "Ultimate Effort" should be specific to a particular skill
   (and can be taken multiple times). Also Improved Critical should apply
   to a particular attack.
-
-TODO: The skill "Expertise" can alter the ability it is based on (with GM
-  permission). That isn't supported at the moment.
 
 TODO: For the power "Communication", the extra "Sense-Dependent" isn't really
   a flaw of the power, it is a flaw of any other power
@@ -92,15 +85,8 @@ TODO: There are power-specific modifiers. I need to:
 
 TODO: The way I display modifiers right now could really use some improvement.
 
-TODO: I need to record (and display) attacks.
-
 TODO: [Adran06] Some advantages should impact other things
-  * Improved Initiative should increase initiative
   * Jack-Of-All-Trades should changes skills from N/A to proper numbers
 
 TODO: The Affliction power should select which kind of effect it applies and
   what resists it.
-
-TODO: Bug - multiple UnarmedAttackUpdater's get created. They shouldn't.
-
-TODO: Can the updaters please delete themselves without the need for a delete event?
