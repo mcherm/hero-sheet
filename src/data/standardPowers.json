@@ -865,10 +865,10 @@
         "baseCost": 0.5,
         "description": "You enhance your Persuasion skill."
       },
-      "Enhanced Slightofhand": {
-        "name": "Enhanced Slightofhand",
+      "Enhanced Slight of Hand": {
+        "name": "Enhanced Slight of Hand",
         "baseCost": 0.5,
-        "description": "You enhance your Slightofhand skill."
+        "description": "You enhance your Slight of Hand skill."
       },
       "Enhanced Stealth": {
         "name": "Enhanced Stealth",

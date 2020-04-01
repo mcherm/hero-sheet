@@ -125,9 +125,17 @@
         const totalRanks = this.charsheet.skills.skillList.reduce((x, y) => x + y.ranks, 0);
         this.charsheet.skills.cost = Math.ceil(totalRanks / 2);
       },
+      ranksFromActiveEffects: function(skill) {
+        const activeEffectKey = skill.isTemplate
+          ? `skills.skillList#${skill.hsid}` // the template skills aren't supported yet
+          : `skills.skillList@${skill.name}`;
+        const pertinentActiveEffects = this.charsheet.activeEffects[activeEffectKey] || [];
+        return pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, 0);
+      },
       skillRoll: function(skill) {
-        if (this.skillData(skill).useUntrained || skill.ranks > 0) {
-          return this.baseValue(skill) + skill.ranks;
+        const ranksFromActiveEffects = this.ranksFromActiveEffects(skill);
+        if (this.skillData(skill).useUntrained || skill.ranks > 0 || ranksFromActiveEffects > 0) {
+          return this.baseValue(skill) + skill.ranks + ranksFromActiveEffects;
         } else {
           return null;
         }

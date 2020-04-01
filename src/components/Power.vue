@@ -191,14 +191,7 @@
         } else if (this.power.effect === "Weaken") {
           this.$emit("newUpdater", { updater: "WeakenPowerAttackUpdater", power: this.power });
         } else if (this.power.effect === "Enhanced Trait") {
-          const workingEnhancedTraitOptions = ["Enhanced Strength", "Enhanced Stamina", "Enhanced Agility",
-            "Enhanced Dexterity", "Enhanced Fighting", "Enhanced Intellect", "Enhanced Awareness",
-            "Enhanced Presence", "Enhanced Dodge", "Enhanced Fortitude", "Enhanced Parry", "Enhanced Will"];
-          if (workingEnhancedTraitOptions.includes(this.power.option)) {
-            this.$emit("newUpdater", { updater: "EnhancedTraitUpdater", power: this.power });
-          } else {
-            console.log(`Enhanced trait ${this.power.effect} is not supported yet.`);
-          }
+          this.$emit("newUpdater", { updater: "EnhancedTraitUpdater", power: this.power });
         }
       }
     }

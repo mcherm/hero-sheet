@@ -560,7 +560,6 @@ class EnhancedTraitUpdater extends Updater {
    * Subclasses should override this to return the key their active effect is stored under.
    */
   getActiveEffectKey() {
-    // FIXME: Works for abilities; but not yet for other traits
     const LOOKUP_TABLE = {
       "Enhanced Strength": "abilities.strength.ranks",
       "Enhanced Stamina": "abilities.stamina.ranks",
@@ -574,19 +573,19 @@ class EnhancedTraitUpdater extends Updater {
       "Enhanced Fortitude": "defenses.fortitude.ranks",
       "Enhanced Parry": "defenses.parry.ranks",
       "Enhanced Will": "defenses.will.ranks",
-      "Enhanced Acrobatics": null,
-      "Enhanced Athletics": null,
-      "Enhanced Deception": null,
-      "Enhanced Insight": null,
-      "Enhanced Intimidation": null,
-      "Enhanced Investigation": null,
-      "Enhanced Perception": null,
-      "Enhanced Persuasion": null,
-      "Enhanced Slightofhand": null,
-      "Enhanced Stealth": null,
-      "Enhanced Technology": null,
-      "Enhanced Treatment": null,
-      "Enhanced Vehicles": null
+      "Enhanced Acrobatics": "skills.skillList@acrobatics",
+      "Enhanced Athletics": "skills.skillList@athletics",
+      "Enhanced Deception": "skills.skillList@deception",
+      "Enhanced Insight": "skills.skillList@insight",
+      "Enhanced Intimidation": "skills.skillList@intimidation",
+      "Enhanced Investigation": "skills.skillList@investigation",
+      "Enhanced Perception": "skills.skillList@perception",
+      "Enhanced Persuasion": "skills.skillList@persuasion",
+      "Enhanced Slightofhand": "skills.skillList@slight of hand",
+      "Enhanced Stealth": "skills.skillList@stealth",
+      "Enhanced Technology": "skills.skillList@technology",
+      "Enhanced Treatment": "skills.skillList@treatment",
+      "Enhanced Vehicles": "skills.skillList@vehicles"
     };
     const result = LOOKUP_TABLE[this.power.option];
     if (result) {
