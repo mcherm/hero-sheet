@@ -22,10 +22,10 @@
         <skills :charsheet="charsheet"/>
       </template>
       <template slot="advantages">
-        <advantages :charsheet="charsheet" v-on:newUpdater="createAdvantageUpdater($event)" />
+        <advantages :charsheet="charsheet" v-on:newUpdater="createUpdater($event)" />
       </template>
       <template slot="powers">
-        <power-list-top-level :charsheet="charsheet" v-on:newUpdater="createPowerUpdater($event)" />
+        <power-list-top-level :charsheet="charsheet" v-on:newUpdater="createUpdater($event)" />
       </template>
       <template slot="complications">
         <complications :charsheet="charsheet"/>
@@ -182,35 +182,31 @@
           for (const activeEffect of this.charsheet.activeEffects[activeEffectKey]) {
             const updaterType = activeEffect.updater;
             // FIXME: With a better design maybe I wouldn't need a special case here
-            if (updaterType === "ImprovedInitiativeUpdater") {
+            if (["ImprovedInitiativeUpdater", "JackOfAllTradesUpdater"].includes(updaterType)) {
               const advantage = findAdvantageByHsid(this.charsheet, activeEffect.advantageHsid);
+              if (advantage === null) {
+                throw new Error("Updater references hsid that isn't found.");
+              }
               const updateEvent = {updater: updaterType, advantage: advantage};
-              const updater = new updaterClasses[updaterType](this, this.charsheet, updateEvent);
+              new updaterClasses[updaterType](this, this.charsheet, updateEvent);
             } else if (updaterType === "EnhancedTraitUpdater") {
               const power = findPowerByHsid(this.charsheet, activeEffect.powerHsid);
               if (power === null) {
                 throw new Error("Updater references hsid that isn't found.");
               }
               const updateEvent = {updater: updaterType, power: power};
-              const updater = new updaterClasses[updaterType](this, this.charsheet, updateEvent);
+              new updaterClasses[updaterType](this, this.charsheet, updateEvent);
             } else {
               throw new Error(`Unsupported updater type '${updaterType}'.`);
             }
           }
         }
       },
-      // FIXME: Definitely create a common newUpdater()
-      createAdvantageUpdater: function(newUpdaterEvent) {
+      createUpdater: function(newUpdaterEvent) {
         const updaterName = newUpdaterEvent.updater;
         const charsheet = this.charsheet;
         const updaterClass = updaterClasses[updaterName];
-        const updaterInstance = new updaterClass(this, charsheet, newUpdaterEvent);
-      },
-      createPowerUpdater: function(newUpdaterEvent) {
-        const updaterName = newUpdaterEvent.updater;
-        const charsheet = this.charsheet;
-        const updaterClass = updaterClasses[updaterName];
-        const updaterInstance = new updaterClass(this, charsheet, newUpdaterEvent);
+        new updaterClass(this, charsheet, newUpdaterEvent);
       }
     },
     computed: {

@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list">
+      <li>2020-04-01: Jack Of All Trades advantage now affects skill rolls.</li>
       <li>2020-04-01: Enhanced Trait power now applies to everything, including skills.</li>
       <li>2020-03-29: Improve the display of costs on every tab.</li>
       <li>2020-03-29: The Enhanced Trait power applies to the ranks for defenses (but not yet skills).</li>
@@ -30,10 +31,10 @@
     </ul>
     <h2>Major Features Needed</h2>
     <ul>
-      <li>Functioning list of attacks</li>
+      <li>Functioning list of attacks (making progress)</li>
+      <li>Numerous powers and abilities should impact other fields (making progress)</li>
       <li>Logins for users</li>
       <li>Support for Equipment</li>
-      <li>Numerous powers and abilities should impact other fields</li>
       <li>Ability to control which powers are applied</li>
       <li>Manage custom adjustments to various fields</li>
       <li>Support for sidekicks, summons, and morphs</li>

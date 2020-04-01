@@ -461,7 +461,7 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
 }
 
 
-class ImprovedInitiativeUpdater extends Updater {
+class ActiveEffectFromAdvantageUpdater extends Updater {
   constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super(vm, charsheet, newUpdaterEvent, ...otherArgs);
   }
@@ -474,15 +474,31 @@ class ImprovedInitiativeUpdater extends Updater {
   }
 
   /*
+   * Subclasses must override this to provide the activeEffect key where their
+   * effect is stored.
+   */
+  activeEffectKey() {
+    throw new Error("Subclasses must override this.");
+  }
+
+  /*
+   * Subclasses must override this to calculate the active effect value.
+   */
+  activeEffectValue() {
+    throw new Error("Subclasses must override this.");
+  }
+
+  /*
    * This is run once during the constructor to obtain or create the specific
    * attack.
    */
   findOrCreateActiveEffect() {
     const updaterName = this.constructor.name;
-    if (this.charsheet.activeEffects.initiative === undefined) {
-      this.vm.$set(this.charsheet.activeEffects, "initiative", []);
+    const activeEffectKey = this.activeEffectKey();
+    if (this.charsheet.activeEffects[activeEffectKey] === undefined) {
+      this.vm.$set(this.charsheet.activeEffects, activeEffectKey, []);
     }
-    const possibleActiveEffects = this.charsheet.activeEffects.initiative;
+    const possibleActiveEffects = this.charsheet.activeEffects[activeEffectKey];
     const matchingActiveEffects = possibleActiveEffects.filter(
       x => x.updater === updaterName && x.advantageHsid === this.advantage.hsid
     );
@@ -497,18 +513,6 @@ class ImprovedInitiativeUpdater extends Updater {
     }
   }
 
-  /*
-   * Subclasses must override this to add at least the value field to the object being returned.
-   */
-  makeNewActiveEffect() {
-    const result = {};
-    result.hsid = newHsid();
-    result.value = 4 * this.advantage.ranks;
-    result.updater = this.constructor.name;
-    result.advantageHsid = this.advantage.hsid;
-    return result;
-  }
-
   watchForChange() {
     return {
       identity: {
@@ -517,17 +521,26 @@ class ImprovedInitiativeUpdater extends Updater {
         advantageHsid: this.advantage.hsid
       },
       calculations: {
-        advantageRanks: this.advantage.ranks
+        activeEffectValue: this.activeEffectValue()
       }
-    }
+    };
+  }
+
+  makeNewActiveEffect() {
+    const result = {};
+    result.hsid = newHsid();
+    result.value = this.activeEffectValue();
+    result.updater = this.constructor.name;
+    result.advantageHsid = this.advantage.hsid;
+    return result;
   }
 
   applyChanges(newCalculations) {
-    this.activeEffect.value = 4 * newCalculations.advantageRanks;
+    this.activeEffect.value = newCalculations.activeEffectValue;
   }
 
   destroy() {
-    const effectKey = "initiative";
+    const effectKey = this.activeEffectKey();
     const possibleActiveEffects = this.charsheet.activeEffects[effectKey];
     if (possibleActiveEffects) {
       const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
@@ -539,6 +552,28 @@ class ImprovedInitiativeUpdater extends Updater {
       }
     }
     super.destroy();
+  }
+}
+
+
+class ImprovedInitiativeUpdater extends ActiveEffectFromAdvantageUpdater {
+  activeEffectKey() {
+    return "initiative";
+  }
+
+  activeEffectValue() {
+    return 4 * this.advantage.ranks;
+  }
+}
+
+
+class JackOfAllTradesUpdater extends ActiveEffectFromAdvantageUpdater {
+  activeEffectKey() {
+    return "jackOfAllTrades";
+  }
+
+  activeEffectValue() {
+    return 1;
   }
 }
 
@@ -674,6 +709,7 @@ const updaterClasses = {
   NullifyPowerAttackUpdater,
   WeakenPowerAttackUpdater,
   ImprovedInitiativeUpdater,
+  JackOfAllTradesUpdater,
   EnhancedTraitUpdater
 };
 

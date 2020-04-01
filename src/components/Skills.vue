@@ -134,7 +134,11 @@
       },
       skillRoll: function(skill) {
         const ranksFromActiveEffects = this.ranksFromActiveEffects(skill);
-        if (this.skillData(skill).useUntrained || skill.ranks > 0 || ranksFromActiveEffects > 0) {
+        const pertinentActiveEffects = this.charsheet.activeEffects["jackOfAllTrades"] || [];
+        const jackOfAllTradesSum = pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, 0);
+        const isJackOfAllTrades = jackOfAllTradesSum > 0;
+        const rollAllowed = this.skillData(skill).useUntrained || isJackOfAllTrades || skill.ranks > 0 || ranksFromActiveEffects > 0
+        if (rollAllowed) {
           return this.baseValue(skill) + skill.ranks + ranksFromActiveEffects;
         } else {
           return null;

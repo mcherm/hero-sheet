@@ -116,6 +116,8 @@
         // -- Create an updater if appropriate --
         if (advantage.name === "Improved Initiative") {
           this.$emit("newUpdater", {updater: "ImprovedInitiativeUpdater", advantage: advantage});
+        } else if (advantage.name === "Jack-of-All-Trades") {
+          this.$emit("newUpdater", {updater: "JackOfAllTradesUpdater", advantage: advantage});
         }
         // -- Sort, but with empty strings at the end --
         const sortFunc = (x, y) => {
