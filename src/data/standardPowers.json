@@ -1734,7 +1734,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/invisibility/"
   },
   "Leaping": {
     "name": "Leaping",
@@ -1748,8 +1749,47 @@
     "specialExtras": "Affects Others (+0 or +1)",
     "specialFlaws": "Acrobatics Check Required (-1)",
     "specialFlats": "Full Power (-1)",
+    "extras": [
+      {
+        "name": "Affects Others",
+        "description": "You can give someone you are touching the ability to leap.",
+        "modifierOptions": [
+          {
+            "name": "Affects Only Others",
+            "description": "You can give someone you are touching the ability to leap, but not yourself.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 0
+          },
+          {
+            "name": "Affects Others",
+            "description": "Both you and the person you touch can leap.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 1
+          }
+        ]
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Acrobatics Check Required",
+        "description": "In order to use Leaping, you must make an Acrobatics skill check (DC 10). Each point your check total exceeds the DC allows you to use 1 rank of Leaping, up to your total rank.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Full Power",
+        "description": "With this flaw, you can only leap your maximum distance; you can make shorter leaps only by not using your Leaping effect at all, just the normal jumping distance for your Strength.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/leaping-movement"
   },
   "Luck Control": {
     "name": "Luck Control",
@@ -1763,8 +1803,123 @@
     "specialExtras": "Area (+1), Selective (+1)",
     "specialFlaws": "Action (-1), Ranged (-1), Resistible (-1), Side Effect (-1)",
     "specialFlats": "Luck (+1 per rank)",
+    "extras": [
+      {
+        "name": "Area",
+        "description": "Your Luck Control effect works equally on all targets in the affected area. You spend only one victory point, but the subjects are each affected individually.",
+        "modifierOptions": [
+          {
+            "name": "Burst Area",
+            "description": "Your Luck Control effect fills a sphere with a 30-foot radius (distance rank 0) for rank 1 of the extra. Bursts on level surfaces (like the ground) create hemispheres 30 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cloud Area",
+            "description": "Your Luck Control effect fills a sphere with a 15-foot radius (distance rank –1) for rank 1 of the extra, that lingers in that area for one round after its duration expires (affecting any targets in the area normally during the additional round). Clouds on level surfaces (like the ground) create hemispheres 15 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cone Area",
+            "description": "Your Luck Control effect fills a cone with a length, width, and height of 60 feet (distance rank 1) for rank 1 of the extra, spreading out from the effect’s starting point. Cones on a level surface halve their final height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cylinder Area",
+            "description": "Your Luck Control effect fills a cylinder 30 feet in radius and height (distance rank 0) for rank 1 of the extra.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Line Area",
+            "description": "Your Luck Control effect fills a path 6 feet wide and 30 feet long (distance ranks -2 and 0, respectively) in a straight line. Additional ranks of area increases the length. To increase the width, purchase additional ranks for that.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Perception Area",
+            "description": "Your Luck Control effect works on anyone able to perceive the target point with a particular sense, chosen when you apply this extra, like a Sense-Dependent effect (see the Sense-Dependent modifier). Targets get a Dodge resistance check, as usual, but if the check is successful suffer no effect (rather than half). Concealment that prevents a target from perceiving the effect also blocks it. This modifier includes the Sense-Dependent flaw (see Flaws) so it cannot be applied again.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Shapeable Area",
+            "description": "Your Luck Control effect fills a volume of 30 cubic feet (volume rank 5) for rank 1 of the extra, and you may shape the volume as you wish, so long as it all remains contiguous. Affecting an average-sized human requires 4 cubic feet (volume rank 2).",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          }
+        ]
+      },
+      {
+        "name": "Luck",
+        "description": "Each rank in this extra gives you the benefit of a rank in the Luck advantage.",
+        "hasRanks": true,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Selective",
+        "description": "This extra, applied to Area Luck Control, allows you to choose who in the area is or is not affected by it.",
+        "hasRanks": true,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Increased Action",
+        "description": "Increases action required to use effect from reaction->free->move->standard for each rank. If the action required for Luck Control is increased beyond a reaction, it is only usable during your turn each round, which limits its usefulness in responding to the actions of others.",
+        "hasRanks": true,
+        "costType": "pointsOfMultiplierPerRankOfModifier",
+        "cost": -1
+      },
+      {
+        "name": "Ranged",
+        "description": "Luck Control normally requires no attack check; if Ranged, it does.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Resistible",
+        "description": "Targets of your Luck Control get a resistance check -- usually Dodge or Will—to avoid its effects.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Side Effect",
+        "description": "As a particular side effect of Luck Control, you may suffer a setback without earning a victory point.",
+        "modifierOptions": [
+          {
+            "name": "Side effect on failure",
+            "description": "If your effort to alter luck fails, you suffer a setback without earning a victory point.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -1
+          },
+          {
+            "name": "Side effect on use",
+            "description": "You suffer a setback without earning a victory point every time you attempt to use Luck Control.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -2
+          }
+        ]
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/luck-control-control"
   },
   "Magic": {
     "name": "Magic",
@@ -1779,7 +1934,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/magic/"
   },
   "Mental Blast": {
     "name": "Mental Blast",
@@ -1794,7 +1950,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/mental-blast/"
   },
   "Mimic": {
     "name": "Mimic",
@@ -1809,7 +1966,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/mimic/"
   },
   "Mind Control": {
     "name": "Mind Control",
@@ -1819,12 +1977,13 @@
     "duration": "Sustained",
     "resistance": "Will",
     "baseCost": 4,
-    "description": "You can impose your will on others.  Created Power: Perception Ranged, Cumulative Affliction, Resisted by Will",
+    "description": "You can impose your will on others.  Created Power: Perception Ranged, Cumulative Affliction, Resisted by Will.",
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/mind-control/"
   },
   "Mind Reading": {
     "name": "Mind Reading",
