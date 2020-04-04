@@ -100,7 +100,7 @@
     methods: {
       loadCharacter: function() {
         const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
-        fetch(url)
+        fetch(url, { credentials: "include" })
           .then((response) => {
             return response.json()
           })
@@ -129,6 +129,7 @@
             const response = await fetch(url, {
               method: "PUT",
               headers: { 'Content-Type': 'application/json' },
+              credentials: "include",
               mode: "cors",
               body: body
             });

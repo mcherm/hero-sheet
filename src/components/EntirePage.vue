@@ -14,6 +14,10 @@
         :user="user"
         v-on:change-user="setUser($event)"
     />
+    <user-login
+        v-if="!userSelected && user === 'mcherm'"
+        :user="user"
+    />
     <character-picker
         v-if="userSelected && !characterSelected"
         :user="user"
@@ -34,10 +38,12 @@
   import UserPicker from "./UserPicker.vue";
   import CharacterPicker from "./CharacterPicker.vue";
   import CharacterSheet from "./CharacterSheet.vue";
+  import UserLogin from "./UserLogin";
 
   export default {
     name: "EntirePage",
     components: {
+      UserLogin,
       AboutApplication,
       UserPicker,
       CharacterPicker,
@@ -51,6 +57,22 @@
         characterId: "",
         characterName: "",
         showingAbout: false
+      }
+    },
+    created: async function() {
+      const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/restore-session`;
+      const response = await fetch(url, {credentials: "include"});
+      if (response.status === 200) {
+        const restoreSessionResponse = await response.json();
+        console.log(`called restore-session, got ${JSON.stringify(restoreSessionResponse)}`); // FIXME: Remove
+        if (restoreSessionResponse.isValid) {
+          this.setUser(restoreSessionResponse.user);
+        } else {
+          // Not value, but we can still use the user to prefill the login screen
+          this.user = restoreSessionResponse.user;
+        }
+      } else {
+        // The attempt to restore session failed; proceed without a live session
       }
     },
     methods: {

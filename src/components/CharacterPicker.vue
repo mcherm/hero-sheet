@@ -48,7 +48,7 @@
     },
     created: async function() {
       const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters`;
-      const response = await fetch(url);
+      const response = await fetch(url, {credentials: "include"});
       const json = await response.json();
       const characterList = json.characters;
       characterList.sort((a,b) => {
@@ -74,6 +74,7 @@
         const response = await fetch(url, {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
+          credentials: "include",
           body: JSON.stringify(character)
         });
         if (response.status === 200) {
@@ -93,6 +94,7 @@
         const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${characterId}`;
         const response = await fetch(url, {
           method: "DELETE",
+          credentials: "include",
           mode: "cors"
         });
         if (response.status !== 200) {
