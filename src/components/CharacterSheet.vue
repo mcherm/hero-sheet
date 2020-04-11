@@ -56,7 +56,8 @@
   const statsData = require("../data/statsData.json");
 
   import {currentVersion, findAdvantageByHsid, findPowerByHsid, upgradeVersion} from "../js/heroSheetVersioning";
-  import {updaterClasses} from "../js/updaters";
+  import {updaterClasses} from "../js/updaters.js";
+  import {getCharacter, saveCharacter} from "../js/api.js";
 
   export default {
     name: "CharacterSheet",
@@ -98,23 +99,17 @@
       };
     },
     methods: {
-      loadCharacter: function() {
-        const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
-        fetch(url, { credentials: "include" })
-          .then((response) => {
-            return response.json()
-          })
-          .then((json) => {
-            const initialVersion = json.version;
-            upgradeVersion(json);
-            this.charsheet = json;
-            if (json.version !== initialVersion) {
-              console.log(`Version has been upgraded from ${initialVersion} to ${json.version}.`);
-              this.hasUnsavedChanges = true;
-              this.scheduleSave();
-            }
-            this.installUpdaters();
-          });
+      loadCharacter: async function() {
+        const json = await getCharacter(this.user, this.characterId);
+        const initialVersion = json.version;
+        upgradeVersion(json);
+        this.charsheet = json;
+        if (json.version !== initialVersion) {
+          console.log(`Version has been upgraded from ${initialVersion} to ${json.version}.`);
+          this.hasUnsavedChanges = true;
+          this.scheduleSave();
+        }
+        this.installUpdaters();
       },
       saveCharacter: async function() {
         this.activeSaveTimeout = null; // It has triggered so it is no longer active
@@ -122,26 +117,12 @@
         if (isExperimentalVersion) {
           console.log(`Not saving as ${this.charsheet.version} is an experimental version of the charsheet.`);
         } else {
-          const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${this.characterId}`;
-          const body = this.character_json;
           this.hasUnsavedChanges = false; // Assume the request will save the changes. If it fails, we'll handle that below.
           try {
-            const response = await fetch(url, {
-              method: "PUT",
-              headers: { 'Content-Type': 'application/json' },
-              credentials: "include",
-              mode: "cors",
-              body: body
-            });
-            if (response.status !== 200) {
-              // FIXME: Need to display the error to the user
-              console.log("Failed to save character", response);
-              throw Error(`Save failed with status ${response.status}.`);
-            } else {
-              console.log("Save was successful.");
-            }
+            await saveCharacter(this.user, this.characterId, this.charsheet);
+            console.log("Save was successful.");
           } catch(err) {
-            console.log(`Error attempting to save:`, err);
+            console.log(`Failed to save character: ${err}`);
             if (!this.hasUnsavedChanges) {
               // We marked it as saved but it wasn't done; better schedule a re-try
               this.hasUnsavedChanges = true;

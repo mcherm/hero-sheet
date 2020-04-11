@@ -33,6 +33,7 @@
 
 <script>
   import {newBlankCharacter} from "../js/heroSheetVersioning.js";
+  import {listCharacters, createCharacter, deleteCharacter} from "../js/api.js";
 
   export default {
     name: "CharacterPicker",
@@ -47,10 +48,9 @@
       }
     },
     created: async function() {
-      const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters`;
-      const response = await fetch(url, {credentials: "include"});
-      const json = await response.json();
-      const characterList = json.characters;
+      const response = await listCharacters(this.user);
+      const characterList = response.characters;
+      // FIXME: Move the sorting onto the server side!
       characterList.sort((a,b) => {
         const campaignDelta = a.campaign.localeCompare(b.campaign);
         return campaignDelta ? campaignDelta : a.name.localeCompare(b.name);
@@ -70,36 +70,25 @@
       },
       createNewCharacter: async function() {
         const character = newBlankCharacter();
-        const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters`;
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { 'Content-Type': 'application/json' },
-          credentials: "include",
-          body: JSON.stringify(character)
-        });
-        if (response.status === 200) {
-          const json = await response.json();
+        try {
+          const createResponse = await createCharacter(this.user, character);
           this.selectCharacter({
-            characterId: json.characterId,
+            characterId: createResponse.characterId,
             name: ""
           });
-        } else {
+        } catch(err) {
           // FIXME: Need to display the error to the user
-          console.log("Failed to create character", response);
+          console.log("Failed to create character", err);
         }
       },
       deleteCharacter: async function(character) {
         this.$delete(this.characters, this.characters.indexOf(character));
         const characterId = this.idFromKey(character.key);
-        const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/characters/${characterId}`;
-        const response = await fetch(url, {
-          method: "DELETE",
-          credentials: "include",
-          mode: "cors"
-        });
-        if (response.status !== 200) {
+        try {
+          await deleteCharacter(this.user, characterId);
+        } catch(err) {
           // FIXME: Need to display the error to the user
-          console.log("Failed to delete character", JSON.stringify(response));
+          console.log(`Failed to delete character ${characterId}`);
         }
       }
     }

@@ -23,53 +23,50 @@ async function optionsEndpoint(event) {
 
 
 /*
- * Used a couple of places where we want to refresh (or set) the browser cookies.
- * Returns a value for multiValueHeaders.
+ * Finds the muffin value returns it as an object, or {} if it wasn't present.
  */
-function sessionCookieHeaders(user, sessionid) {
-  return {
-    "Set-Cookie": [  // FIXME: Also consider setting Expires, Max-Age, Secure, HttpOnly, and SameSite.
-      `${"user"}=${user} Path=/`,
-      `${"sessionid"}=${sessionid} Path=/`]
-  };
+function parseMuffinHeader(event) {
+  const muffin = event.headers.muffin;
+  if (!muffin) {
+    return {};
+  } else {
+    try {
+      return JSON.parse(muffin);
+    } catch(err) {
+      console.log(`The muffin header was invalid. Value was "${muffin}".`);
+      return {};
+    }
+  }
 }
 
 
-function parseCookieHeader(cookieHeaders) {
-  const headerStr = cookieHeaders.join("; ");
-  const cookies = headerStr.split(";");
-  const keyValueParts = cookies.map(x => x.trim().split(" ")[0]);
-  const cookieFields = {};
-  for (const keyValuePart of keyValueParts) {
-    const keyAndValue = keyValuePart.split("=");
-    if (keyAndValue.length !== 2) {
-      throw Error(`Cookie headers not parseable: ${JSON.stringify(cookieHeaders)}`);
-    }
-    cookieFields[keyAndValue[0]] = keyAndValue[1];
-  }
-  // At this point it should be parsed. Just to be SURE let's print it out
-  console.log(`the parsed cookieFields are ${JSON.stringify(cookieFields)}`); // FIXME: Remove
-  return cookieFields;
+/*
+ * Used a couple of places where we want to refresh (or set) the browser cookies.
+ * Returns a value for multiValueHeaders.
+ */
+function sessionSetMuffinHeaders(user, sessionid) {
+  return {
+    "Set-Muffin": [ JSON.stringify({user: user, sessionid: sessionid})]
+  };
 }
 
 
 async function restoreSessionEndpoint(event) {
   console.log("invoked restoreSessionEndpoint");
 
-  // --- TEMPORARY CODE HERE ---
-  console.log(`Cookie: ${JSON.stringify(event.multiValueHeaders.cookie)}`); // FIXME: Remove
-  const cookieHeaders = event.multiValueHeaders.cookie ? event.multiValueHeaders.cookie : [];
-  const cookieFields = parseCookieHeader(cookieHeaders);
+  const muffinFields = parseMuffinHeader(event);
+  const user = muffinFields.user;
+  const sessionid = muffinFields.sessionid;
+  // FIXME: Here we should VERIFY that it is a valid sessionid.
+  const isValid = Boolean(user && sessionid);
+  console.log(`isValid = ${isValid} which comes from '${user}' and '${sessionid}'`); // FIXME: Remove
 
-  const user = cookieFields.user;
-  const sessionid = "s-8374844"; // FIXME: Don't hard-code this
   const responseBody = {
-    "isValid": true,
-    "user": "mcherm" // FIXME: Do not hard-code this
+    "isValid": isValid,
+    "user": user
   };
   return {
     statusCode: 200,
-    multiValueHeaders: sessionCookieHeaders(user, sessionid),
     body: JSON.stringify(responseBody)
   }
 }
@@ -77,12 +74,12 @@ async function restoreSessionEndpoint(event) {
 
 async function loginEndpoint(event) {
   console.log("invoked loginEndpoint");
-  console.log(`body = ${JSON.stringify(body)}`); // FIXME: Remove
+  // FIXME: Here we should VERIFY the password, then generate and STORE the sessionid.
   const user = event.pathParameters.user;
-  const sessionid = "s-8374844"; // FIXME: Don't hard-code this
+  const sessionid = "s-8374855"; // FIXME: Don't hard-code this
   return {
     statusCode: 200,
-    multiValueHeaders: sessionCookieHeaders(user, sessionid),
+    multiValueHeaders: sessionSetMuffinHeaders(user, sessionid),
     body: JSON.stringify("Success")
   }
 }
@@ -97,9 +94,32 @@ async function createUserEndpoint(event) {
 }
 
 
+/*
+ * Endpoints that require the user to be logged in should call this. It will raise
+ * a NotLoggedInError if the user is not correctly logged in; if they ARE correctly
+ * logged in then it will return the user. It expects the claimed user to be in a
+ * path parameter named "user".
+ */
+async function getLoggedInUser(event) {
+  const claimedUser = event.pathParameters.user;
+  const muffinFields = parseMuffinHeader(event);
+  const muffinUser = muffinFields.user;
+  const muffinSessionid = muffinFields.sessionid;
+  console.log(`in getLoggedInUser have '${claimedUser}', '${muffinUser}' and '${muffinSessionid}'.`); // FIXME: Remove
+  if (claimedUser === muffinUser) {
+    // FIXME: Here we should VERIFY the sessionid is valid for that user
+    if (muffinSessionid === "s-8374855") {
+      return claimedUser;
+    }
+  }
+  throw new Error(`Not Logged In - the user ${claimedUser} is not properly logged in.`);
+}
+
+
+// FIXME: This function isn't actually in use for anything
 async function getUserEndpoint(event) {
   console.log("invoked getUserEndpoint");
-  const user = event.pathParameters.user;
+  const user = await getLoggedInUser(event);
   const result = {
     username: user
   };
@@ -110,9 +130,10 @@ async function getUserEndpoint(event) {
 }
 
 
+// FIXME: Right now if any character is invalid this crashes. Instead, it should log the problem and return the rest of them.
 async function listCharactersEndpoint(event) {
   console.log("invoked listCharactersEndpoint");
-  const user = event.pathParameters.user;
+  const user = await getLoggedInUser(event);
   try {
     const params = {
       Bucket: "hero-sheet-storage",
@@ -193,7 +214,7 @@ function createCharacterId() {
 
 async function createCharacterEndpoint(event) {
   console.log("invoked createCharacterEndpoint");
-  const user = event.pathParameters.user;
+  const user = await getLoggedInUser(event);
   const characterId = createCharacterId();
   const filename = `mutants/users/${user}/characters/${characterId}.json`;
   try {
@@ -221,7 +242,7 @@ async function createCharacterEndpoint(event) {
 
 async function getCharacterEndpoint(event) {
   console.log("invoked getCharacterEndpoint");
-  const user = event.pathParameters.user;
+  const user = await getLoggedInUser(event);
   const characterId = event.pathParameters.characterId;
   const filename = `mutants/users/${user}/characters/${characterId}.json`;
   const file = await s3.getObject({
@@ -238,7 +259,7 @@ async function getCharacterEndpoint(event) {
 
 async function putCharacterEndpoint(event) {
   console.log("invoked putCharacterEndpoint");
-  const user = event.pathParameters.user;
+  const user = await getLoggedInUser(event);
   const characterId = event.pathParameters.characterId;
   const filename = `mutants/users/${user}/characters/${characterId}.json`;
   // FIXME: I should verify that the user and character exist before writing!
@@ -264,7 +285,7 @@ async function putCharacterEndpoint(event) {
 
 async function deleteCharacterEndpoint(event) {
   console.log("invoked deleteCharacterEndpoint");
-  const user = event.pathParameters.user;
+  const user = await getLoggedInUser(event);
   const characterId = event.pathParameters.characterId;
   const filename = `mutants/users/${user}/characters/${characterId}.json`;
   try {
@@ -360,9 +381,11 @@ exports.handler = async (event) => {
     response.headers = {};
   }
   response.headers["Access-Control-Allow-Origin"] = allowedOrigin;
-  response.headers["Access-Control-Allow-Headers"] = "Cookie,Content-Type,Authorization";
+  response.headers["Access-Control-Allow-Headers"] = "muffin,content-type";
+  response.headers["Access-Control-Expose-Headers"] = "set-muffin";
   response.headers["Access-Control-Allow-Methods"] = "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH";
-  response.headers["Access-Control-Allow-Credentials"] = true;
+  // FIXME: Can I restore this? Later, after the code has settled down?
+  //response.headers["Access-Control-Max-Age"] = 3600; // no pre-flight needed for 1 hour
 
   // --- Return Response ---
   console.log("Response", response);

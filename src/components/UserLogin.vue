@@ -20,6 +20,8 @@
 </template>
 
 <script>
+  import {login} from "../js/api.js";
+
   export default {
     name: "UserLogin",
     props: {
@@ -40,24 +42,20 @@
     methods: {
       attemptLogin: async function() {
         console.log(`performing attemptLogin()`); // FIXME: Remove
-        const body = {password: "pass"}; // FIXME: Real value here
-
-        const url = `https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet/users/${this.user}/login`;
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { 'Content-Type': 'application/json' },
-          credentials: "include", // Needed NOT because we are SENDING them, but in order to RECEIVE them. Several hours of debugging there.
-          body: JSON.stringify(body)
-        });
-        if (response.status === 200) {
-          const json = await response.json();
-          console.log(`Login call returned this body: ${JSON.stringify(json)}`); // FIXME: Remove
-        } else {
+        try {
+          const loginResponse = await login(this.loginUser, this.loginPassword);
+          if (loginResponse === "Success") {
+            console.log(`Login successful. Will change user to ${this.loginUser}.`);
+            // FIXME: Right now the following line isn't working
+            this.$emit('change-user', this.loginUser);
+          } else {
+            // FIXME: Need to have actual UI response to this failure!
+            console.log("Login was not successful. NEED TO TELL THE USER IT WAS WRONG.");
+          }
+        } catch(err) {
           // FIXME: Need to display the error to the user
-          console.log("Failed to login", response);
+          console.log("Failure when attempting to login.", response);
         }
-
-        this.$emit('change-user', this.loginUser);
       }
     }
   }
