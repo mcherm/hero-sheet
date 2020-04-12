@@ -9,12 +9,6 @@
     <modal-lightbox v-if="showingAbout" v-on:exit="showingAbout = false">
       <about-application/>
     </modal-lightbox>
-<!-- FIXME: Delete this once I'm sure -->
-<!--    <user-picker-->
-<!--        v-if="!userSelected"-->
-<!--        :user="user"-->
-<!--        v-on:change-user="setUser($event)"-->
-<!--    />-->
     <user-login
         v-if="!userSelected"
         :user="user"
@@ -39,7 +33,6 @@
 
 <script>
   import AboutApplication from "./AboutApplication";
-  import UserPicker from "./UserPicker.vue";
   import CharacterPicker from "./CharacterPicker.vue";
   import CharacterSheet from "./CharacterSheet.vue";
   import UserLogin from "./UserLogin";
@@ -51,7 +44,6 @@
     components: {
       UserLogin,
       AboutApplication,
-      UserPicker,
       CharacterPicker,
       CharacterSheet
     },
