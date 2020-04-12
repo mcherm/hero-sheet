@@ -4,11 +4,9 @@
 
 const FIXED_URL_PREFIX = "https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet";
 
-// FIXME: Needs to handle expiration
 function getMuffin() {
   const muffin = localStorage.getItem("muffin");
   if (muffin) {
-    console.log(`getMuffin returning ${muffin}`);
     return muffin;
   } else {
     return null;
@@ -44,7 +42,6 @@ async function performAPICall(path, verb, taskDescription, bodyObj=null, prettyP
         : JSON.stringify(bodyObj);
       settings.body = bodyStr;
     }
-    console.log(` before call, settings = ${JSON.stringify(settings)}`); // FIXME: Remove
     const response = await fetch(url, settings);
     if (response.status !== 200) {
       throw new APIError(`API call failed with error code ${response.status}`);
@@ -62,25 +59,31 @@ async function performAPICall(path, verb, taskDescription, bodyObj=null, prettyP
 
 async function restoreSession() {
   const path = `/restore-session`;
-  return await performAPICall(path, "GET");
+  return await performAPICall(path, "GET", "restore session");
+}
+
+
+// FIXME: Write code that calls this
+async function endSession() {
+  localStorage.removeItem("muffin");
 }
 
 
 async function listCharacters(user) {
   const path = `/users/${user}/characters`;
-  return await performAPICall(path, "GET");
+  return await performAPICall(path, "GET", "list characters");
 }
 
 
 async function getCharacter(user, characterId) {
   const path = `/users/${user}/characters/${characterId}`;
-  return await performAPICall(path, "GET");
+  return await performAPICall(path, "GET", "load character");
 }
 
 
 async function saveCharacter(user, characterId, charsheet) {
   const path = `/users/${user}/characters/${characterId}`;
-  await performAPICall(path, "PUT", "save", charsheet, true);
+  await performAPICall(path, "PUT", "save character", charsheet, true);
 }
 
 
@@ -90,7 +93,6 @@ async function createCharacter(user, character) {
 }
 
 
-// FIXME: Maybe move the try-catch inside of performAPICall
 async function deleteCharacter(user, characterId) {
   const path = `/users/${user}/characters/${characterId}`;
   await performAPICall(path, "DELETE", "delete character");
@@ -107,6 +109,7 @@ async function login(user, password) {
 export {
   APIError,
   restoreSession,
+  endSession,
   listCharacters,
   getCharacter,
   saveCharacter,

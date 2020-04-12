@@ -17,6 +17,7 @@
     <user-login
         v-if="!userSelected"
         :user="user"
+        v-on:change-user="setUser($event)"
     />
     <character-picker
         v-if="userSelected && !characterSelected"
@@ -40,7 +41,7 @@
   import CharacterSheet from "./CharacterSheet.vue";
   import UserLogin from "./UserLogin";
 
-  import {restoreSession} from "../js/api.js";
+  import {restoreSession, endSession} from "../js/api.js";
 
   export default {
     name: "EntirePage",
@@ -64,8 +65,7 @@
     created: async function() {
       try {
         const restoreSessionResponse = await restoreSession();
-        console.log(`called restore-session, got ${JSON.stringify(restoreSessionResponse)}`); // FIXME: Remove
-        if (restoreSessionResponse.isValid && false) { // FIXME: Decide what to do here
+        if (restoreSessionResponse.isValid) {
           this.setUser(restoreSessionResponse.user);
         } else {
           // Not value, but we can still use the user to prefill the login screen
@@ -87,6 +87,7 @@
         this.characterSelected = true;
       },
       resetUser: function() {
+        endSession();
         this.userSelected = false;
         this.characterSelected = false;
         this.characterId = "";

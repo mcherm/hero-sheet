@@ -94,6 +94,10 @@ async function createUserEndpoint(event) {
 }
 
 
+class NotLoggedInError extends Error {
+}
+
+
 /*
  * Endpoints that require the user to be logged in should call this. It will raise
  * a NotLoggedInError if the user is not correctly logged in; if they ARE correctly
@@ -112,7 +116,7 @@ async function getLoggedInUser(event) {
       return claimedUser;
     }
   }
-  throw new Error(`Not Logged In - the user ${claimedUser} is not properly logged in.`);
+  throw new NotLoggedInError(`Not Logged In - the user ${claimedUser} is not properly logged in.`);
 }
 
 
@@ -352,10 +356,10 @@ exports.handler = async (event) => {
     const endpointFunction =
       invoked.resourcePath in ROUTING
         ? invoked.httpMethod in ROUTING[invoked.resourcePath]
-          ? ROUTING[invoked.resourcePath][invoked.httpMethod]
-          : invoked.httpMethod === "OPTIONS"
-            ? optionsEndpoint
-            : invalidEndpoint
+        ? ROUTING[invoked.resourcePath][invoked.httpMethod]
+        : invoked.httpMethod === "OPTIONS"
+          ? optionsEndpoint
+          : invalidEndpoint
         : invalidEndpoint;
 
     // --- Call endpoint function ---
@@ -363,11 +367,21 @@ exports.handler = async (event) => {
 
   } catch(err) {
     // --- Return error response ---
-    console.log("Had error", err);
-    response = {
-      statusCode: 500,
-      body: JSON.stringify(err.toString())
-    };
+    if (err instanceof NotLoggedInError) {
+      // --- Permissions Error ---
+      console.log("Returning 401 error (Not Logged In).");
+      response = {
+        statusCode: 401,
+        body: JSON.stringify("Not Logged In")
+      };
+    } else {
+      // --- Unexpected Error ---
+      console.log("Returning 500 error due to:", err);
+      response = {
+        statusCode: 500,
+        body: JSON.stringify(err.toString())
+      };
+    }
   }
 
   // --- Add CORS headers ---
