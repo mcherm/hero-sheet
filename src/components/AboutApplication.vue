@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list">
+      <li>2020-04-12: Maintains a user session (for now ANY password works).</li>
       <li>2020-04-02: Specialized extras and flaws for powers up through "Luck Control".</li>
       <li>2020-04-01: Jack Of All Trades advantage now affects skill rolls.</li>
       <li>2020-04-01: Enhanced Trait power now applies to everything, including skills.</li>
