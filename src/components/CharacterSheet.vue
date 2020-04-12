@@ -57,7 +57,7 @@
 
   import {currentVersion, findAdvantageByHsid, findPowerByHsid, upgradeVersion} from "../js/heroSheetVersioning";
   import {updaterClasses} from "../js/updaters.js";
-  import {getCharacter, saveCharacter} from "../js/api.js";
+  import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
 
   export default {
     name: "CharacterSheet",
@@ -100,16 +100,24 @@
     },
     methods: {
       loadCharacter: async function() {
-        const json = await getCharacter(this.user, this.characterId);
-        const initialVersion = json.version;
-        upgradeVersion(json);
-        this.charsheet = json;
-        if (json.version !== initialVersion) {
-          console.log(`Version has been upgraded from ${initialVersion} to ${json.version}.`);
-          this.hasUnsavedChanges = true;
-          this.scheduleSave();
+        try {
+          const json = await getCharacter(this.user, this.characterId);
+          const initialVersion = json.version;
+          upgradeVersion(json);
+          this.charsheet = json;
+          if (json.version !== initialVersion) {
+            console.log(`Version has been upgraded from ${initialVersion} to ${json.version}.`);
+            this.hasUnsavedChanges = true;
+            this.scheduleSave();
+          }
+          this.installUpdaters();
+        } catch(err) {
+          if (err instanceof NotLoggedInError) {
+            this.$emit("not-logged-in");
+          } else {
+            throw err;
+          }
         }
-        this.installUpdaters();
       },
       saveCharacter: async function() {
         this.activeSaveTimeout = null; // It has triggered so it is no longer active
@@ -122,11 +130,15 @@
             await saveCharacter(this.user, this.characterId, this.charsheet);
             console.log("Save was successful.");
           } catch(err) {
-            console.log(`Failed to save character: ${err}`);
-            if (!this.hasUnsavedChanges) {
-              // We marked it as saved but it wasn't done; better schedule a re-try
-              this.hasUnsavedChanges = true;
-              this.scheduleSave();
+            if (err instanceof NotLoggedInError) {
+              this.$emit("not-logged-in");
+            } else {
+              console.log(`Failed to save character: ${err}`);
+              if (!this.hasUnsavedChanges) {
+                // We marked it as saved but it wasn't done; better schedule a re-try
+                this.hasUnsavedChanges = true;
+                this.scheduleSave();
+              }
             }
           }
         }

@@ -33,7 +33,7 @@
 
 <script>
   import {newBlankCharacter} from "../js/heroSheetVersioning.js";
-  import {listCharacters, createCharacter, deleteCharacter} from "../js/api.js";
+  import {NotLoggedInError, listCharacters, createCharacter, deleteCharacter} from "../js/api.js";
 
   export default {
     name: "CharacterPicker",
@@ -48,14 +48,24 @@
       }
     },
     created: async function() {
-      const response = await listCharacters(this.user);
-      const characterList = response.characters;
-      // FIXME: Move the sorting onto the server side!
-      characterList.sort((a,b) => {
-        const campaignDelta = a.campaign.localeCompare(b.campaign);
-        return campaignDelta ? campaignDelta : a.name.localeCompare(b.name);
-      });
-      this.characters = characterList;
+      try {
+        const response = await listCharacters(this.user);
+        const characterList = response.characters;
+        // FIXME: Move the sorting onto the server side!
+        characterList.sort((a,b) => {
+          const campaignDelta = a.campaign.localeCompare(b.campaign);
+          return campaignDelta ? campaignDelta : a.name.localeCompare(b.name);
+        });
+        this.characters = characterList;
+      } catch(err) {
+        if (err instanceof NotLoggedInError) {
+          this.$emit("not-logged-in");
+        } else {
+          // FIXME: Need to display the error to the user
+          console.log("Failed to list characters", err);
+          throw err;
+        }
+      }
     },
     methods: {
       idFromKey: function(key) {
@@ -77,8 +87,12 @@
             name: ""
           });
         } catch(err) {
-          // FIXME: Need to display the error to the user
-          console.log("Failed to create character", err);
+          if (err instanceof NotLoggedInError) {
+            this.$emit("not-logged-in");
+          } else {
+            // FIXME: Need to display the error to the user
+            console.log("Failed to create character", err);
+          }
         }
       },
       deleteCharacter: async function(character) {
@@ -87,8 +101,12 @@
         try {
           await deleteCharacter(this.user, characterId);
         } catch(err) {
-          // FIXME: Need to display the error to the user
-          console.log(`Failed to delete character ${characterId}`);
+          if (err instanceof NotLoggedInError) {
+            this.$emit("not-logged-in");
+          } else {
+            // FIXME: Need to display the error to the user
+            console.log(`Failed to delete character ${characterId}`);
+          }
         }
       }
     }

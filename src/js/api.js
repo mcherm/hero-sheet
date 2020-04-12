@@ -13,8 +13,13 @@ function getMuffin() {
   }
 }
 
+
 class APIError extends Error {
 }
+
+class NotLoggedInError extends Error {
+}
+
 
 /*
  * Common code for performing the API call. It
@@ -43,15 +48,23 @@ async function performAPICall(path, verb, taskDescription, bodyObj=null, prettyP
       settings.body = bodyStr;
     }
     const response = await fetch(url, settings);
-    if (response.status !== 200) {
-      throw new APIError(`API call failed with error code ${response.status}`);
+    if (response.status === 401) {
+      throw new NotLoggedInError(`Not logged in when attempting to ${taskDescription}.`);
+    } else  if (response.status !== 200) {
+      throw new APIError(`API call failed with error code ${response.status} when attempting to ${taskDescription}.`);
     }
     if (response.headers.has("set-muffin")) {
       localStorage.setItem("muffin", response.headers.get("set-muffin"));
     }
     return await response.json();
   } catch(err) {
-    throw new APIError(`Error attempting to ${taskDescription}: ${err}`);
+    if (err instanceof NotLoggedInError) {
+      throw err;
+    } else if (err instanceof APIError) {
+      throw err;
+    } else {
+      throw new APIError(`Error attempting to ${taskDescription}: ${err}`);
+    }
   }
 }
 
@@ -108,6 +121,7 @@ async function login(user, password) {
 
 export {
   APIError,
+  NotLoggedInError,
   restoreSession,
   endSession,
   listCharacters,

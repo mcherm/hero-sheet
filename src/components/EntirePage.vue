@@ -9,11 +9,12 @@
     <modal-lightbox v-if="showingAbout" v-on:exit="showingAbout = false">
       <about-application/>
     </modal-lightbox>
-    <user-picker
-        v-if="!userSelected"
-        :user="user"
-        v-on:change-user="setUser($event)"
-    />
+<!-- FIXME: Delete this once I'm sure -->
+<!--    <user-picker-->
+<!--        v-if="!userSelected"-->
+<!--        :user="user"-->
+<!--        v-on:change-user="setUser($event)"-->
+<!--    />-->
     <user-login
         v-if="!userSelected"
         :user="user"
@@ -24,12 +25,14 @@
         :user="user"
         :characterId="characterId"
         v-on:change-character="setCharacterId($event)"
+        v-on:not-logged-in="resetUser()"
     />
     <character-sheet
         v-if="userSelected && characterSelected"
         :user="user"
         :characterId="characterId"
         v-on:change-character-name="characterName = $event"
+        v-on:not-logged-in="resetUser()"
     />
   </div>
 </template>

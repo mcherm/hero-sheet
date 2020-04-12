@@ -41,7 +41,6 @@
     },
     methods: {
       attemptLogin: async function() {
-        console.log(`performing attemptLogin()`); // FIXME: Remove
         try {
           const loginResponse = await login(this.loginUser, this.loginPassword);
           if (loginResponse === "Success") {
@@ -54,7 +53,7 @@
           }
         } catch(err) {
           // FIXME: Need to display the error to the user
-          console.log("Failure when attempting to login.", response);
+          console.log("Failure when attempting to login.", err);
         }
       }
     }
