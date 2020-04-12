@@ -1,7 +1,8 @@
 const LOG_REQUESTS = true;
 const DEVELOPER_MODE = true;
 
-const AWS = require('aws-sdk');
+const crypto = require("crypto");
+const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 
 async function invalidEndpoint(event) {
@@ -19,6 +20,60 @@ async function optionsEndpoint(event) {
     statusCode: 200,
     body: ""
   }
+}
+
+
+/*
+ * Reads and returns the user sessions for this user. It is a list of
+ * entries, each of which has a sessionId and an expirationDate. In
+ * case of any errors reading this file it just assumes that there
+ * are NOT valid sessions, which is safe because the harm is simply to
+ * force the user to log in.
+ *
+ * FIXME: this requires an extra read for nearly every operation. For
+ *  efficiency's sake, we should probably maintain a bounded LRU cache
+ *  of values in memory (across invocations by storing it in a global).
+ *  If so, the cache should NOT be used for login. It should be used
+ *  for validating session if the sessionId is found, but if the
+ *  sessionId is NOT found then we should read the file anyway just
+ *  in case it was updated by a different lambda VM.
+ */
+async function readUserSessions(user) {
+  const userSessionsFilename = `mutants/users/${user}/userSessions.json`;
+  try {
+    const response = await s3.getObject({
+      Bucket: "hero-sheet-storage",
+      Key: userSessionsFilename
+    }).promise();
+    return JSON.parse(response.Body);
+  } catch(err) {
+    console.log(`Error reading user sessions for ${user}: ${err}. Will assume no valid sessions.`);
+    return [];
+  }
+}
+
+
+async function writeUserSessions(user, userSessions) {
+  const userSessionsFilename = `mutants/users/${user}/userSessions.json`;
+  await s3.putObject({
+    Bucket: "hero-sheet-storage",
+    Key: userSessionsFilename,
+    Body: JSON.stringify(userSessions)
+  }).promise();
+}
+
+
+/*
+ * This returns true if the sessionId is current and valid for that user; false
+ * if it is not.
+ *
+ * FIXME: Testing if it is current is not yet implemented.
+ * FIXME: See notes on readUserSession for caching that is needed
+ */
+async function evaluateSessionId(user, sessionId) {
+  const userSessions = await readUserSessions(user);
+  console.log(`in restoreSessionEndpoint, got userSessions and it is ${JSON.stringify(userSessions)}`); // FIXME: Remove
+  return userSessions.some(x => x.sessionId === sessionId);
 }
 
 
@@ -44,9 +99,9 @@ function parseMuffinHeader(event) {
  * Used a couple of places where we want to refresh (or set) the browser cookies.
  * Returns a value for multiValueHeaders.
  */
-function sessionSetMuffinHeaders(user, sessionid) {
+function sessionSetMuffinHeaders(user, sessionId) {
   return {
-    "Set-Muffin": [ JSON.stringify({user: user, sessionid: sessionid})]
+    "Set-Muffin": [ JSON.stringify({user: user, sessionId: sessionId})]
   };
 }
 
@@ -54,16 +109,18 @@ function sessionSetMuffinHeaders(user, sessionid) {
 async function restoreSessionEndpoint(event) {
   console.log("invoked restoreSessionEndpoint");
 
+  // --- Get values from request ---
   const muffinFields = parseMuffinHeader(event);
-  const user = muffinFields.user;
-  const sessionid = muffinFields.sessionid;
-  // FIXME: Here we should VERIFY that it is a valid sessionid.
-  const isValid = Boolean(user && sessionid);
-  console.log(`isValid = ${isValid} which comes from '${user}' and '${sessionid}'`); // FIXME: Remove
+  const muffinUser = muffinFields.user;
+  const muffinSessionId = muffinFields.sessionId;
+
+  // --- Verify sessionId is valid ---
+  const sessionFound = await evaluateSessionId(muffinUser, muffinSessionId);
+  const isValid = Boolean(muffinUser) && Boolean(muffinSessionId) && sessionFound;
 
   const responseBody = {
     "isValid": isValid,
-    "user": user
+    "user": muffinUser
   };
   return {
     statusCode: 200,
@@ -72,14 +129,49 @@ async function restoreSessionEndpoint(event) {
 }
 
 
+/*
+ * Generate a random session ID.
+ */
+function newSessionId() {
+  const number = crypto.randomBytes(2).readUInt16BE(0);
+  return `s-${number}`;
+}
+
+
 async function loginEndpoint(event) {
   console.log("invoked loginEndpoint");
-  // FIXME: Here we should VERIFY the password, then generate and STORE the sessionid.
+
+  // --- Verify login ---
   const user = event.pathParameters.user;
-  const sessionid = "s-8374855"; // FIXME: Don't hard-code this
+  const passwordIsValid = true; // FIXME: Here we should VERIFY the password AND that the user exists
+  // FIXME: read, then write session file: HEREAMI
+
+  if (!passwordIsValid) {
+    // --- Send response ---
+    return {
+      statusCode: 401,
+      body: JSON.stringify("Login Failed")
+    }
+  }
+
+  // --- Read file of user sessions ---
+  const userSessions = await readUserSessions(user);
+
+  // --- Add new sessionId ---
+  const sessionId = newSessionId();
+  const dateTime = new Date();
+  dateTime.setDate(dateTime.getDate() + 14); // Exactly 2 weeks in the future
+  userSessions.push(
+    {"sessionId": sessionId, "expireDate": dateTime.toISOString()}
+  );
+
+  // --- Write file of user sessions ---
+  await writeUserSessions(user, userSessions);
+
+  // --- Send response ---
   return {
     statusCode: 200,
-    multiValueHeaders: sessionSetMuffinHeaders(user, sessionid),
+    multiValueHeaders: sessionSetMuffinHeaders(user, sessionId),
     body: JSON.stringify("Success")
   }
 }
@@ -108,11 +200,12 @@ async function getLoggedInUser(event) {
   const claimedUser = event.pathParameters.user;
   const muffinFields = parseMuffinHeader(event);
   const muffinUser = muffinFields.user;
-  const muffinSessionid = muffinFields.sessionid;
+  const muffinSessionid = muffinFields.sessionId;
   console.log(`in getLoggedInUser have '${claimedUser}', '${muffinUser}' and '${muffinSessionid}'.`); // FIXME: Remove
   if (claimedUser === muffinUser) {
-    // FIXME: Here we should VERIFY the sessionid is valid for that user
-    if (muffinSessionid === "s-8374855") {
+    const sessionIsValid = await evaluateSessionId(claimedUser, muffinSessionid);
+    // FIXME: Here we should VERIFY the sessionId is valid for that user
+    if (sessionIsValid) {
       return claimedUser;
     }
   }
@@ -210,6 +303,7 @@ function createCharacterId() {
   const length = 8;
   let id = 'CH';
   for (let i = 0; i < length; i++) {
+    // FIXME: Maybe use better random numbers even though it is not required
     id += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return id;

@@ -64,6 +64,7 @@
           this.setUser(restoreSessionResponse.user);
         } else {
           // Not value, but we can still use the user to prefill the login screen
+          console.log("Existing session not valid; will request a login.");
           this.user = restoreSessionResponse.user || "";
         }
       } catch(err) {
