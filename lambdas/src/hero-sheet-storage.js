@@ -64,16 +64,37 @@ async function writeUserSessions(user, userSessions) {
 
 
 /*
+ * Returns an expiration date for a sessionId which is generated or
+ * refreshed now.
+ */
+function sessionExpirationDate() {
+  const dateTime = new Date();
+  dateTime.setDate(dateTime.getDate() + 14); // Exactly 2 weeks in the future
+  return dateTime;
+}
+
+
+/*
  * This returns true if the sessionId is current and valid for that user; false
  * if it is not.
  *
- * FIXME: Testing if it is current is not yet implemented.
  * FIXME: See notes on readUserSession for caching that is needed
  */
-async function evaluateSessionId(user, sessionId) {
+async function evaluateSessionId(user, sessionId, updateExpireDate=false) {
   const userSessions = await readUserSessions(user);
-  console.log(`in restoreSessionEndpoint, got userSessions and it is ${JSON.stringify(userSessions)}`); // FIXME: Remove
-  return userSessions.some(x => x.sessionId === sessionId);
+  const now = Date.now();
+  const isValid = userSessions.some(x => x.sessionId === sessionId && new Date(x.expireDate) > now);
+  if (updateExpireDate) {
+    // --- Clear out expired sessions ---
+    const currentUserSessions = userSessions.filter(
+      x => x.expireDate <= now && x.sessionId !== sessionId
+    );
+    // --- Refresh the current one ---
+    currentUserSessions.push({sessionId: sessionId, expireDate: sessionExpirationDate()});
+    // --- Write it out ---
+    await writeUserSessions(user, currentUserSessions);
+  }
+  return isValid;
 }
 
 
@@ -115,7 +136,7 @@ async function restoreSessionEndpoint(event) {
   const muffinSessionId = muffinFields.sessionId;
 
   // --- Verify sessionId is valid ---
-  const sessionFound = await evaluateSessionId(muffinUser, muffinSessionId);
+  const sessionFound = await evaluateSessionId(muffinUser, muffinSessionId, true);
   const isValid = Boolean(muffinUser) && Boolean(muffinSessionId) && sessionFound;
 
   const responseBody = {
@@ -159,10 +180,9 @@ async function loginEndpoint(event) {
 
   // --- Add new sessionId ---
   const sessionId = newSessionId();
-  const dateTime = new Date();
-  dateTime.setDate(dateTime.getDate() + 14); // Exactly 2 weeks in the future
+  const expireDate = sessionExpirationDate();
   userSessions.push(
-    {"sessionId": sessionId, "expireDate": dateTime.toISOString()}
+    {"sessionId": sessionId, "expireDate": expireDate.toISOString()}
   );
 
   // --- Write file of user sessions ---
