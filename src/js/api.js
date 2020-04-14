@@ -119,6 +119,13 @@ async function login(user, password) {
 }
 
 
+async function createUser(user, email, password) {
+  const path = `/users`;
+  const bodyObj = {user: user, email: email, password: password};
+  return await performAPICall(path, "POST", "create user", bodyObj);
+}
+
+
 export {
   APIError,
   NotLoggedInError,
@@ -130,4 +137,5 @@ export {
   createCharacter,
   deleteCharacter,
   login,
+  createUser,
 };

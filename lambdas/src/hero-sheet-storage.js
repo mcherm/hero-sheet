@@ -164,8 +164,8 @@ async function loginEndpoint(event) {
 
   // --- Verify login ---
   const user = event.pathParameters.user;
+  // FIXME: Need to read the user & password from the body and make sure the user matches
   const passwordIsValid = true; // FIXME: Here we should VERIFY the password AND that the user exists
-  // FIXME: read, then write session file: HEREAMI
 
   if (!passwordIsValid) {
     // --- Send response ---
@@ -197,12 +197,52 @@ async function loginEndpoint(event) {
 }
 
 
+function validateUserCreateFields(user, email, password) {
+  const fieldsValid = (
+    new RegExp("^|[a-zA-Z0-9$@._+-]+$").test(user) &&
+    new RegExp("^|[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$").test(email) &&
+    new RegExp("^.{4,}$").test(password)
+  );
+  const hasUserOrEmail = user !== "" || email !== "";
+  const onlyEmailsHaveAt = user === email || !user.includes("@");
+  return fieldsValid && hasUserOrEmail && onlyEmailsHaveAt;
+}
+
+
 async function createUserEndpoint(event) {
   console.log("invoked createUserEndpoint");
-  return {
-    statusCode: 200,
-    body: JSON.stringify("Success")
-  };
+  let user, email, password;
+  try {
+    const requestBody = JSON.parse(event.body);
+    user = requestBody.user;
+    email = requestBody.email;
+    password = requestBody.password;
+  } catch(err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Request Format Error")
+    };
+  }
+  if (!validateUserCreateFields(user, email, password)) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Request Not Valid")
+    };
+  }
+  // FIXME: Here I should do the work of creating a new user
+
+  const success = false; // FIXME: Just a placeholder for now
+  if (success) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify("Success")
+    };
+  } else {
+    return {
+      statusCode: 409,
+      body: JSON.stringify("Username Taken")
+    };
+  }
 }
 
 
