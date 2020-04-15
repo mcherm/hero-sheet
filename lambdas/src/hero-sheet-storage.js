@@ -64,6 +64,45 @@ async function writeUserSessions(user, userSessions) {
 
 
 /*
+ * Call this to retrieve the data about a user. Returns null if the
+ * given user does not exist. See writeUserInfo() for the structure of
+ * a userInfo object.
+ */
+async function readUserInfo(user) {
+  const userInfoFilename = `mutants/users/${user}/userInfo.json`;
+  try {
+    const response = await s3.getObject({
+      Bucket: "hero-sheet-storage",
+      Key: userInfoFilename
+    }).promise();
+    const result = JSON.parse(response.Body);
+    return result;
+  } catch(err) {
+    return null;
+  }
+}
+
+
+/*
+ * Call this to re-write the data about a user.
+ */
+async function writeUserInfo(user, email, passwordSalt, passwordHash) {
+  const dataObj = {
+    user: user,
+    email: email,
+    passwordSalt: passwordSalt,
+    passwordHash: passwordHash
+  };
+  const userInfoFilename = `mutants/users/${user}/userInfo.json`;
+  const response = await s3.putObject({
+    Bucket: "hero-sheet-storage",
+    Key: userInfoFilename,
+    Body: JSON.stringify(dataObj)
+  }).promise();
+}
+
+
+/*
  * Returns an expiration date for a sessionId which is generated or
  * refreshed now.
  */
@@ -159,22 +198,51 @@ function newSessionId() {
 }
 
 
-async function loginEndpoint(event) {
-  console.log("invoked loginEndpoint");
-
-  // --- Verify login ---
-  const user = event.pathParameters.user;
-  // FIXME: Need to read the user & password from the body and make sure the user matches
-  const passwordIsValid = true; // FIXME: Here we should VERIFY the password AND that the user exists
-
-  if (!passwordIsValid) {
-    // --- Send response ---
+/*
+ * Given a password as a string, this returns a randomly-chosen salt and a hash. Both
+ * the salt and hash are base-64 encoded strings and are in a structure like this:
+ *  {passwordSalt:"xxx", passwordHash:"xxx"}
+ *
+ * See https://ciphertrick.com/salt-hash-passwords-using-nodejs-crypto/ for notes on
+ * the source of this code.
+ */
+function encryptPassword(password) {
+  const genRandomString = function(length) {
+    return crypto.randomBytes(Math.ceil(length/2))
+      .toString("hex")
+      .slice(0,length);
+  };
+  const sha512 = function(password, salt) {
+    var hash = crypto.createHmac("sha512", salt);
+    hash.update(password);
+    var value = hash.digest('hex');
     return {
-      statusCode: 401,
-      body: JSON.stringify("Login Failed")
-    }
+      salt:salt,
+      passwordHash:value
+    };
+  };
+  // FIXME: Write this for real
+  return {
+    passwordSalt: "xxxxx",
+    passwordHash: `HASH(${password})`
   }
+}
 
+/*
+ * Given a password, a passwordSalt, and a passwordHash, this returns true if the
+ * password matches that hashed password and false if it does not.
+ */
+function verifyPassword(password, passwordSalt, passwordHash) {
+  return true; // FIXME: Write this for real
+}
+
+
+/*
+ * Do the things needed for a login and return the appropriate response
+ * object. Pulled into a separate method because we need to share it
+ * between loginEndpoint() and createUserEndpoint()
+ */
+async function performLogin(user) {
   // --- Read file of user sessions ---
   const userSessions = await readUserSessions(user);
 
@@ -197,6 +265,26 @@ async function loginEndpoint(event) {
 }
 
 
+async function loginEndpoint(event) {
+  console.log("invoked loginEndpoint");
+
+  // --- Verify login ---
+  const user = event.pathParameters.user;
+  // FIXME: Need to read the user & password from the body and make sure the user matches
+  const passwordIsValid = true; // FIXME: Here we should VERIFY the password AND that the user exists
+
+  if (!passwordIsValid) {
+    // --- Send response ---
+    return {
+      statusCode: 401,
+      body: JSON.stringify("Login Failed")
+    }
+  }
+
+  return await performLogin(user);
+}
+
+
 function validateUserCreateFields(user, email, password) {
   const fieldsValid = (
     new RegExp("^|[a-zA-Z0-9$@._+-]+$").test(user) &&
@@ -211,6 +299,8 @@ function validateUserCreateFields(user, email, password) {
 
 async function createUserEndpoint(event) {
   console.log("invoked createUserEndpoint");
+
+  // --- Read values ---
   let user, email, password;
   try {
     const requestBody = JSON.parse(event.body);
@@ -223,26 +313,40 @@ async function createUserEndpoint(event) {
       body: JSON.stringify("Request Format Error")
     };
   }
+
+  // --- Perform server-side validation ---
   if (!validateUserCreateFields(user, email, password)) {
     return {
       statusCode: 400,
       body: JSON.stringify("Request Not Valid")
     };
   }
-  // FIXME: Here I should do the work of creating a new user
 
-  const success = false; // FIXME: Just a placeholder for now
-  if (success) {
-    return {
-      statusCode: 200,
-      body: JSON.stringify("Success")
-    };
-  } else {
+  // --- Determine values to be stored ---
+  if (user === "") {
+    user = email;
+  }
+  if (email === "") {
+    email = null;
+  }
+  const encrypted = encryptPassword(password);
+  const passwordSalt = encrypted.passwordSalt;
+  const passwordHash = encrypted.passwordHash;
+
+  // --- Verify user does not exist ---
+  const existingUserInfo = await readUserInfo(user);
+  if (existingUserInfo !== null) {
     return {
       statusCode: 409,
       body: JSON.stringify("Username Taken")
     };
   }
+
+  // --- Create user ---
+  await writeUserInfo(user, email, passwordSalt, passwordHash);
+
+  // --- Do whatever loginEndpoint() would do ---
+  return await performLogin(user);
 }
 
 
@@ -420,7 +524,6 @@ async function putCharacterEndpoint(event) {
   const user = await getLoggedInUser(event);
   const characterId = event.pathParameters.characterId;
   const filename = `mutants/users/${user}/characters/${characterId}.json`;
-  // FIXME: I should verify that the user and character exist before writing!
   try {
     const writeTo = {
       Bucket: "hero-sheet-storage",

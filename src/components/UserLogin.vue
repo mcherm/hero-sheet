@@ -21,8 +21,8 @@
         </div>
         <div class="explanation">An email address. Optional, but if you do not provide an email
         address then you will be completely anonymous -- there will be no way to restore access
-        if you lose your password and you will definitely not be warned if accounts need to be
-        deleted. We will NOT sell or send spam to your email.</div>
+        if you lose your password and you will definitely not be warned if action is needed to
+        preserve your data. We will NOT sell your email or send spam to it.</div>
         <div>
           <label>Password</label>
           <input v-model="newPassword" :pattern="allowedRegEx.password" @keyup.enter="attemptLogin()"/>
