@@ -13,8 +13,8 @@
           <label>Username</label>
           <input v-model="newUser" :pattern="allowedRegEx.user" class="user-entry"/>
         </div>
-        <div class="explanation">A name you want to use for logging in. This is optional if
-        you provide an email address instead.</div>
+        <div class="explanation">A name you want to use for logging in. <del>This is optional if
+          you provide an email address instead.</del> <em>Login with just email not supported yet.</em></div>
         <div>
           <label>Email</label>
           <input v-model="newEmail" :pattern="allowedRegEx.email"/>
@@ -36,6 +36,7 @@
 
 <script>
   import {login, createUser} from "../js/api.js";
+  import {NotLoggedInError} from "../js/api";
 
   export default {
     name: "UserLogin",
@@ -71,8 +72,13 @@
             console.log("Login was not successful. NEED TO TELL THE USER IT WAS WRONG.");
           }
         } catch(err) {
-          // FIXME: Need to display the error to the user
-          console.log("Failure when attempting to login.", err);
+          if (err instanceof NotLoggedInError) {
+            // FIXME: Need to display the error to the user
+            console.log("Login Failed.");
+          } else {
+            // FIXME: Need to display the error to the user
+            console.log("Failure when attempting to login.", err);
+          }
         }
       },
       validateUserCreateFields: function() {
@@ -87,6 +93,10 @@
         return fieldsValid && hasUserOrEmail && onlyEmailsHaveAt;
       },
       attemptCreateUser: async function() {
+        if (this.newUser === "") {
+          console.log("Login with email is not yet supported.");
+          return;
+        }
         if (!this.validateUserCreateFields()) {
           // FIXME: Need to display the error to the user
           console.log("Fields are invalid.");

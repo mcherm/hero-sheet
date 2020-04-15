@@ -76,7 +76,6 @@ async function restoreSession() {
 }
 
 
-// FIXME: Write code that calls this
 async function endSession() {
   localStorage.removeItem("muffin");
 }

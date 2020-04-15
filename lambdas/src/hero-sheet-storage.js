@@ -2,7 +2,10 @@ const LOG_REQUESTS = true;
 const DEVELOPER_MODE = true;
 
 const crypto = require("crypto");
+const util = require("util");
 const AWS = require("aws-sdk");
+
+
 const s3 = new AWS.S3();
 
 async function invalidEndpoint(event) {
@@ -198,43 +201,36 @@ function newSessionId() {
 }
 
 
-/*
- * Given a password as a string, this returns a randomly-chosen salt and a hash. Both
- * the salt and hash are base-64 encoded strings and are in a structure like this:
- *  {passwordSalt:"xxx", passwordHash:"xxx"}
- *
- * See https://ciphertrick.com/salt-hash-passwords-using-nodejs-crypto/ for notes on
- * the source of this code.
- */
-function encryptPassword(password) {
-  const genRandomString = function(length) {
-    return crypto.randomBytes(Math.ceil(length/2))
-      .toString("hex")
-      .slice(0,length);
-  };
-  const sha512 = function(password, salt) {
-    var hash = crypto.createHmac("sha512", salt);
-    hash.update(password);
-    var value = hash.digest('hex');
-    return {
-      salt:salt,
-      passwordHash:value
-    };
-  };
-  // FIXME: Write this for real
-  return {
-    passwordSalt: "xxxxx",
-    passwordHash: `HASH(${password})`
-  }
-}
+const SALT_LEN = 64;
+const KEY_LEN = 64;
+const asyncScrypt = util.promisify(crypto.scrypt);
 
 /*
- * Given a password, a passwordSalt, and a passwordHash, this returns true if the
- * password matches that hashed password and false if it does not.
+ * Given a new password, this generates a random salt and the hash from
+ * scrypt, both of which should be stored for this user. It returns an
+ * object with keys "salt" and "hash", each of which is an 8-character-long
+ * base-64-encoded string.
  */
-function verifyPassword(password, passwordSalt, passwordHash) {
-  return true; // FIXME: Write this for real
-}
+const encodePassword = async function(newPassword) {
+  const salt = crypto.randomBytes(SALT_LEN);
+  const hash = await asyncScrypt(newPassword, salt, KEY_LEN);
+  const result = {
+    salt: salt.toString("base64"),
+    hash: hash.toString("base64")
+  };
+  return result;
+};
+
+/*
+ * Given a password used to log in and the salt and hash that were encoded
+ * when the user created or updated their password, this returns true if
+ * the password is correct and false if it is not.
+ */
+const testPassword = async function(loginPassword, salt, hash) {
+  const saltBuffer = new Buffer(salt, "base64");
+  const computedHash = await asyncScrypt(loginPassword, saltBuffer, KEY_LEN);
+  return computedHash.toString("base64") === hash;
+};
 
 
 /*
@@ -268,11 +264,47 @@ async function performLogin(user) {
 async function loginEndpoint(event) {
   console.log("invoked loginEndpoint");
 
-  // --- Verify login ---
-  const user = event.pathParameters.user;
-  // FIXME: Need to read the user & password from the body and make sure the user matches
-  const passwordIsValid = true; // FIXME: Here we should VERIFY the password AND that the user exists
+  // --- Read parameters ---
+  const userOnPath = event.pathParameters.user;
+  let userInBody, passwordInBody;
+  try {
+    const requestBody = JSON.parse(event.body);
+    userInBody = requestBody.user;
+    passwordInBody = requestBody.password;
+  } catch(err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Request Format Error")
+    };
+  }
+  // FIXME: Logging in by email from someone with a username is not supported
+  if (userOnPath !== userInBody) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Request Format Error")
+    };
+  }
+  if (!(typeof passwordInBody === 'string' || passwordInBody instanceof String)) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Request Format Error")
+    };
+  }
+  const user = userOnPath;
+  const password = passwordInBody;
 
+  // --- Get user info ---
+  const userInfo = await readUserInfo(user);
+  if (userInfo === null) {
+    console.log(`Login failed: "${user}" is not a valid user.`);
+    return {
+      statusCode: 401,
+      body: JSON.stringify("Login Failed") // don't tell the caller WHY it failed
+    }
+  }
+
+  // --- Verify password --
+  const passwordIsValid = await testPassword(password, userInfo.passwordSalt, userInfo.passwordHash);
   if (!passwordIsValid) {
     // --- Send response ---
     return {
@@ -281,6 +313,7 @@ async function loginEndpoint(event) {
     }
   }
 
+  // --- Do whatever a successful login would do ---
   return await performLogin(user);
 }
 
@@ -329,9 +362,9 @@ async function createUserEndpoint(event) {
   if (email === "") {
     email = null;
   }
-  const encrypted = encryptPassword(password);
-  const passwordSalt = encrypted.passwordSalt;
-  const passwordHash = encrypted.passwordHash;
+  const encoded = await encodePassword(password);
+  const passwordSalt = encoded.salt;
+  const passwordHash = encoded.hash;
 
   // --- Verify user does not exist ---
   const existingUserInfo = await readUserInfo(user);
@@ -365,10 +398,8 @@ async function getLoggedInUser(event) {
   const muffinFields = parseMuffinHeader(event);
   const muffinUser = muffinFields.user;
   const muffinSessionid = muffinFields.sessionId;
-  console.log(`in getLoggedInUser have '${claimedUser}', '${muffinUser}' and '${muffinSessionid}'.`); // FIXME: Remove
   if (claimedUser === muffinUser) {
     const sessionIsValid = await evaluateSessionId(claimedUser, muffinSessionid);
-    // FIXME: Here we should VERIFY the sessionId is valid for that user
     if (sessionIsValid) {
       return claimedUser;
     }
