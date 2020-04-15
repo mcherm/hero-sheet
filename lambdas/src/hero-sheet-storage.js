@@ -2,7 +2,6 @@ const LOG_REQUESTS = true;
 const DEVELOPER_MODE = true;
 
 const crypto = require("crypto");
-const util = require("util");
 const AWS = require("aws-sdk");
 
 
@@ -203,17 +202,20 @@ function newSessionId() {
 
 const SALT_LEN = 64;
 const KEY_LEN = 64;
-const asyncScrypt = util.promisify(crypto.scrypt);
 
 /*
  * Given a new password, this generates a random salt and the hash from
  * scrypt, both of which should be stored for this user. It returns an
- * object with keys "salt" and "hash", each of which is an 8-character-long
+ * object with keys "salt" and "hash", each of which is an 88-character-long
  * base-64-encoded string.
  */
 const encodePassword = async function(newPassword) {
   const salt = crypto.randomBytes(SALT_LEN);
-  const hash = await asyncScrypt(newPassword, salt, KEY_LEN);
+  const hash = await new Promise((resolve, reject) =>
+    crypto.scrypt(newPassword, salt, KEY_LEN, (err, hash) =>
+      err ? reject(err) : resolve(hash)
+    )
+  );
   const result = {
     salt: salt.toString("base64"),
     hash: hash.toString("base64")
@@ -228,7 +230,11 @@ const encodePassword = async function(newPassword) {
  */
 const testPassword = async function(loginPassword, salt, hash) {
   const saltBuffer = new Buffer(salt, "base64");
-  const computedHash = await asyncScrypt(loginPassword, saltBuffer, KEY_LEN);
+  const computedHash = await new Promise((resolve, reject) =>
+    crypto.scrypt(loginPassword, saltBuffer, KEY_LEN, (err, hash) =>
+      err ? reject(err) : resolve(hash)
+    )
+  );
   return computedHash.toString("base64") === hash;
 };
 
