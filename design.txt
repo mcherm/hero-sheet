@@ -45,6 +45,15 @@ Proposed Design Policy:
   the individual powers/abilities/whatever that create these and always list them by
   those IDs.
 
+User and Email:
+  Every user has 3 fields: "user", "email" and "password". Password is salted, hashed,
+  and the salt and hash are saved. Email is optional, and "" is used if it is not
+  present. User can EITHER be the same as a non-empty email OR it can be a different
+  value which must not have any @ signs. The way we implement this is to write the
+  user info file under the user if there is a user and no email, under the email
+  if the user and email are the same, and under BOTH places if the email exists and
+  is different from the user.
+
 Bug List:
 
 TODO: Some powers (like Invisiblity or Concealment) don't have ranks. I should

@@ -2,7 +2,7 @@
   <div>
     <boxed-section title="Returning Users" class="user-picker">
       <label>Username or Email</label>
-      <input v-model="loginUser"/>
+      <input v-model="loginUserOrEmail"/>
       <label>Password</label>
       <input v-model="loginPassword" @keyup.enter="attemptLogin()"/>
       <button v-on:click="attemptLogin()">Log In</button>
@@ -13,8 +13,8 @@
           <label>Username</label>
           <input v-model="newUser" :pattern="allowedRegEx.user" class="user-entry"/>
         </div>
-        <div class="explanation">A name you want to use for logging in. <del>This is optional if
-          you provide an email address instead.</del> <em>Login with just email not supported yet.</em></div>
+        <div class="explanation">A name you want to use for logging in. This is optional if
+        you provide an email address.</div>
         <div>
           <label>Email</label>
           <input v-model="newEmail" :pattern="allowedRegEx.email"/>
@@ -41,11 +41,11 @@
   export default {
     name: "UserLogin",
     props: {
-      user: { type: String, required: true }
+      prefillUser: { type: String, required: true }
     },
     data: function() {
       return {
-        loginUser: "",
+        loginUserOrEmail: "",
         loginPassword: "",
         newUser: "",
         newEmail: "",
@@ -58,15 +58,16 @@
       }
     },
     created: function() {
-      this.loginUser = this.user;
+      this.loginUserOrEmail = this.prefillUser;
     },
     methods: {
       attemptLogin: async function() {
         try {
-          const loginResponse = await login(this.loginUser, this.loginPassword);
-          if (loginResponse === "Success") {
-            console.log(`Login successful. Will change user to ${this.loginUser}.`); // FIXME: Remove
-            this.$emit('change-user', this.loginUser);
+          const loginResponse = await login(this.loginUserOrEmail, this.loginPassword);
+          if (loginResponse.loggedIn === true) {
+            const user = loginResponse.user;
+            console.log(`Login successful. Will change user to ${user}.`); // FIXME: Remove
+            this.$emit('change-user', user);
           } else {
             // FIXME: Need to have actual UI response to this failure!
             console.log("Login was not successful. NEED TO TELL THE USER IT WAS WRONG.");
@@ -82,7 +83,6 @@
         }
       },
       validateUserCreateFields: function() {
-        if(true) return true; // FIXME: Remove this
         const fieldsValid = (
           new RegExp(this.allowedRegEx.user).test(this.newUser) &&
           new RegExp(this.allowedRegEx.email).test(this.newEmail) &&
@@ -93,10 +93,6 @@
         return fieldsValid && hasUserOrEmail && onlyEmailsHaveAt;
       },
       attemptCreateUser: async function() {
-        if (this.newUser === "") {
-          console.log("Login with email is not yet supported.");
-          return;
-        }
         if (!this.validateUserCreateFields()) {
           // FIXME: Need to display the error to the user
           console.log("Fields are invalid.");
@@ -104,9 +100,11 @@
         }
         try {
           const createUserResponse = await createUser(this.newUser, this.newEmail, this.newPassword);
-          if (createUserResponse === "Success") {
-            console.log(`create user successful. Will change user to ${this.newUser}.`); // FIXME: Remove
-            this.$emit('change-user', this.newUser);
+
+          if (createUserResponse.loggedIn === true) {
+            const user = createUserResponse.user;
+            console.log(`create user successful. Will change user to ${user}.`); // FIXME: Remove
+            this.$emit('change-user', user);
           } else {
             // FIXME: Need to have actual UI response to this failure!
             console.log("Create User was not successful. NEED TO TELL THE USER IT FAILED.");

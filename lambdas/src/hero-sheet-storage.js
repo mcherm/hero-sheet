@@ -68,17 +68,17 @@ async function writeUserSessions(user, userSessions) {
 /*
  * Call this to retrieve the data about a user. Returns null if the
  * given user does not exist. See writeUserInfo() for the structure of
- * a userInfo object.
+ * a userInfo object. The input can be a user or an email -- if the
+ * two are different then the files was stored under both names.
  */
-async function readUserInfo(user) {
-  const userInfoFilename = `mutants/users/${user}/userInfo.json`;
+async function readUserInfo(userOrEmail) {
+  const userInfoFilename = `mutants/users/${userOrEmail}/userInfo.json`;
   try {
     const response = await s3.getObject({
       Bucket: "hero-sheet-storage",
       Key: userInfoFilename
     }).promise();
-    const result = JSON.parse(response.Body);
-    return result;
+    return JSON.parse(response.Body);
   } catch(err) {
     return null;
   }
@@ -86,7 +86,10 @@ async function readUserInfo(user) {
 
 
 /*
- * Call this to re-write the data about a user.
+ * Call this to re-write the data about a user. User will either equal
+ * email or have no "@" in it; email will either be a valid email or
+ * will be null. If they are both strings and are different then we
+ * will store the user info under BOTH.
  */
 async function writeUserInfo(user, email, passwordSalt, passwordHash) {
   const dataObj = {
@@ -101,6 +104,14 @@ async function writeUserInfo(user, email, passwordSalt, passwordHash) {
     Key: userInfoFilename,
     Body: JSON.stringify(dataObj)
   }).promise();
+  if (email !== null) {
+    const userInfoFilename2 = `mutants/users/${email}/userInfo.json`;
+    const response = await s3.putObject({
+      Bucket: "hero-sheet-storage",
+      Key: userInfoFilename2,
+      Body: JSON.stringify(dataObj)
+    }).promise();
+  }
 }
 
 
@@ -187,7 +198,7 @@ async function restoreSessionEndpoint(event) {
   return {
     statusCode: 200,
     body: JSON.stringify(responseBody)
-  }
+  };
 }
 
 
@@ -244,7 +255,7 @@ const testPassword = async function(loginPassword, salt, hash) {
  * object. Pulled into a separate method because we need to share it
  * between loginEndpoint() and createUserEndpoint()
  */
-async function performLogin(user) {
+async function createAndReturnSession(user) {
   // --- Read file of user sessions ---
   const userSessions = await readUserSessions(user);
 
@@ -259,11 +270,12 @@ async function performLogin(user) {
   await writeUserSessions(user, userSessions);
 
   // --- Send response ---
+  const responseObj = {loggedIn: true, user: user};
   return {
     statusCode: 200,
     multiValueHeaders: sessionSetMuffinHeaders(user, sessionId),
-    body: JSON.stringify("Success")
-  }
+    body: JSON.stringify(responseObj)
+  };
 }
 
 
@@ -271,11 +283,11 @@ async function loginEndpoint(event) {
   console.log("invoked loginEndpoint");
 
   // --- Read parameters ---
-  const userOnPath = event.pathParameters.user;
-  let userInBody, passwordInBody;
+  const userOrEmailOnPath = event.pathParameters.user;
+  let userOrEmailInBody, passwordInBody;
   try {
     const requestBody = JSON.parse(event.body);
-    userInBody = requestBody.user;
+    userOrEmailInBody = requestBody.userOrEmail;
     passwordInBody = requestBody.password;
   } catch(err) {
     return {
@@ -283,8 +295,7 @@ async function loginEndpoint(event) {
       body: JSON.stringify("Request Format Error")
     };
   }
-  // FIXME: Logging in by email from someone with a username is not supported
-  if (userOnPath !== userInBody) {
+  if (userOrEmailOnPath !== userOrEmailInBody) {
     return {
       statusCode: 400,
       body: JSON.stringify("Request Format Error")
@@ -296,17 +307,17 @@ async function loginEndpoint(event) {
       body: JSON.stringify("Request Format Error")
     };
   }
-  const user = userOnPath;
+  const userOrEmail = userOrEmailOnPath;
   const password = passwordInBody;
 
   // --- Get user info ---
-  const userInfo = await readUserInfo(user);
+  const userInfo = await readUserInfo(userOrEmail);
   if (userInfo === null) {
-    console.log(`Login failed: "${user}" is not a valid user.`);
+    console.log(`Login failed: "${userOrEmail}" is not a valid user or email.`);
     return {
       statusCode: 401,
       body: JSON.stringify("Login Failed") // don't tell the caller WHY it failed
-    }
+    };
   }
 
   // --- Verify password --
@@ -316,11 +327,14 @@ async function loginEndpoint(event) {
     return {
       statusCode: 401,
       body: JSON.stringify("Login Failed")
-    }
+    };
   }
 
-  // --- Do whatever a successful login would do ---
-  return await performLogin(user);
+  // --- If that password was right then we know the user ---
+  const user = userInfo.user;
+
+  // --- Create the session and return it ---
+  return await createAndReturnSession(user);
 }
 
 
@@ -336,6 +350,13 @@ function validateUserCreateFields(user, email, password) {
 }
 
 
+/*
+ * Create a user. Three cases are allowed: a user, an email, or both. If
+ * there is just an email, the user will be the same as the email or will
+ * be blank and we will use the email. If there is just a user we use that
+ * to store it. But if both are defined (and are different) then we store
+ * TWO records - one under the email and one under the user.
+ */
 async function createUserEndpoint(event) {
   console.log("invoked createUserEndpoint");
 
@@ -372,20 +393,29 @@ async function createUserEndpoint(event) {
   const passwordSalt = encoded.salt;
   const passwordHash = encoded.hash;
 
-  // --- Verify user does not exist ---
-  const existingUserInfo = await readUserInfo(user);
-  if (existingUserInfo !== null) {
+  // --- Verify user AND email both do not exist ---
+  const existingUserInfoForUser = await readUserInfo(user);
+  if (existingUserInfoForUser !== null) {
     return {
       statusCode: 409,
       body: JSON.stringify("Username Taken")
     };
+  }
+  if (email !== null) {
+    const existingUserInfoForEmail = await readUserInfo(email);
+    if (existingUserInfoForEmail !== null) {
+      return {
+        statusCode: 409,
+        body: JSON.stringify("Email Taken")
+      };
+    }
   }
 
   // --- Create user ---
   await writeUserInfo(user, email, passwordSalt, passwordHash);
 
   // --- Do whatever loginEndpoint() would do ---
-  return await performLogin(user);
+  return await createAndReturnSession(user);
 }
 
 
@@ -411,20 +441,6 @@ async function getLoggedInUser(event) {
     }
   }
   throw new NotLoggedInError(`Not Logged In - the user ${claimedUser} is not properly logged in.`);
-}
-
-
-// FIXME: This function isn't actually in use for anything
-async function getUserEndpoint(event) {
-  console.log("invoked getUserEndpoint");
-  const user = await getLoggedInUser(event);
-  const result = {
-    username: user
-  };
-  return {
-    statusCode: 200,
-    body: JSON.stringify(result)
-  };
 }
 
 
@@ -587,7 +603,7 @@ async function deleteCharacterEndpoint(event) {
   const characterId = event.pathParameters.characterId;
   const filename = `mutants/users/${user}/characters/${characterId}.json`;
   try {
-    const file = await s3.deleteObject({
+    const file = await s3.deleteObject({ // FIXME: Should I be checking the return code?
       Bucket: "hero-sheet-storage",
       Key: filename
     }).promise();
@@ -615,9 +631,6 @@ const ROUTING = {
   },
   "/hero-sheet/users": {
     "POST": createUserEndpoint,
-  },
-  "/hero-sheet/users/{user}": {
-    "GET": getUserEndpoint
   },
   "/hero-sheet/users/{user}/characters": {
     "GET": listCharactersEndpoint,

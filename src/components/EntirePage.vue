@@ -11,7 +11,7 @@
     </modal-lightbox>
     <user-login
         v-if="!userSelected"
-        :user="user"
+        :prefillUser="user"
         v-on:change-user="setUser($event)"
     />
     <character-picker

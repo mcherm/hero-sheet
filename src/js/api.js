@@ -111,9 +111,9 @@ async function deleteCharacter(user, characterId) {
 }
 
 
-async function login(user, password) {
-  const path = `/users/${user}/login`;
-  const bodyObj = {user: user, password: password};
+async function login(userOrEmail, password) {
+  const path = `/users/${userOrEmail}/login`;
+  const bodyObj = {userOrEmail: userOrEmail, password: password};
   return await performAPICall(path, "POST", "log in", bodyObj);
 }
 
