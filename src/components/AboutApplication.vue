@@ -37,7 +37,6 @@
     <ul>
       <li>Functioning list of attacks (making progress)</li>
       <li>Numerous powers and abilities should impact other fields (making progress)</li>
-      <li>Logins for users</li>
       <li>Support for Equipment</li>
       <li>Ability to control which powers are applied</li>
       <li>Manage custom adjustments to various fields</li>
