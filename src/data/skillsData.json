@@ -70,16 +70,19 @@
     "close combat": {
       "ability": "fighting",
       "useUntrained": true,
+      "customization": "selectAttack",
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-CLOSE-COMBAT"
     },
     "expertise": {
       "ability": "intellect",
       "useUntrained": false,
+      "customization": "description",
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-EXPERTISE"
     },
     "ranged combat": {
       "ability": "dexterity",
       "useUntrained": true,
+      "customization": "selectAttack",
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-RANGED-COMBAT"
     }
   }

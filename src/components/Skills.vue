@@ -13,7 +13,7 @@
         <label class="col-label">Ability</label>
         <label class="col-label">Base Value</label>
         <label class="col-label">Ranks</label>
-        <label class="col-label">Specialization</label>
+        <label class="col-label">Customization</label>
         <label class="col-label">Skill Roll</label>
         <label class="col-label">Docs</label>
         <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
@@ -40,8 +40,7 @@
               :value="skill.ranks"
               @input="updateRanks(skill, $event)"
           />
-          <string-entry v-if="skill.isTemplate" v-model="skill.specialization"/>
-          <div v-else class="inapplicable"></div>
+          <skills-customization :skill="skill" :skillData="skillData(skill)" :charsheet="charsheet" v-on:newUpdater="$emit('newUpdater', $event)"/>
           <div v-if="skillRoll(skill) === null" class="skill-roll roll-not-applicable">N/A</div>
           <number-display v-else :value="skillRoll(skill)" :isOutOfSpec="skillOutOfSpec(skillRoll)" class="skill-roll"/>
           <docs-lookup :docsURL="skillData(skill).docsURL"/>
@@ -68,14 +67,16 @@
 
 <script>
   import LocalCostDisplay from "./LocalCostDisplay";
+  import SkillsCustomization from "./SkillsCustomization";
   import {newBlankSkill} from "../js/heroSheetVersioning.js";
-  import {skillCost} from "../js/heroSheetUtil";
+  import {skillCost} from "../js/heroSheetUtil.js";
   const skillsData = require("../data/skillsData.json");
 
   export default {
     name: "Skills",
     components: {
-      LocalCostDisplay
+      LocalCostDisplay,
+      SkillsCustomization
     },
     props: {
       charsheet: { type: Object, required: true }
@@ -150,6 +151,15 @@
       },
       setSkillName: function(skill, skillName) {
         skill.name = skillName;
+        // NOTE: there's probably a better place for this code to live, but for now it's here
+        // We create the fields needed for a given customization. Note that we MUST create
+        // them using $set or else they won't be reactive.
+        const customization = this.skillData(skill).customization;
+        if (customization === "description") {
+          this.$set(skill, "specialization", "");
+        } else if (customization === "selectAttack") {
+          this.$set(skill, "attackHsid", "");
+        }
         this.sortSkills();
       },
       sortSkills: function() {
@@ -197,9 +207,6 @@
   }
   .skills-list > .display-contents > .skill-roll {
     margin-left: 0;
-  }
-  .inapplicable {
-    background-color: var(--inapplicable-color);
   }
   .roll-not-applicable {
     text-align: center;

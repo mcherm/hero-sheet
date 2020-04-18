@@ -7,7 +7,7 @@
  * which monitors certain fields and updates other fields in the charsheet.
  * An example would be an updater for creating an attack.
  */
-import {findPowerByHsid, newHsid} from "./heroSheetVersioning";
+import {findPowerByHsid, findSkillByHsid, newHsid} from "./heroSheetVersioning";
 
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
@@ -75,12 +75,27 @@ class Updater {
   /*
    * Initiates the watch that drives this updater. It returns the cancel function for
    * the watch.
+   *
+   * FIXME: Right now I have 2 versions of this: the short version and the version
+   *  that helps me to do debugging. There's probably a better way.
    */
   createWatch(vm) {
     const cancelFunction = vm.$watch(
       () => this.watchForChange.call(this),
       (newValue, oldValue) => this.processChange.call(this, newValue, oldValue)
     );
+    // FIXME: replace with the below for debugging.
+    // const myThis = this;
+    // const cancelFunction = vm.$watch(
+    //   () => {
+    //     console.log(`Will perform the test of this watch in a ${myThis.constructor.name}.`);
+    //     return myThis.watchForChange.call(myThis);
+    //   },
+    //   (newValue, oldValue) => {
+    //     console.log(`in the watch, got ${JSON.stringify(newValue)} from ${JSON.stringify(oldValue)}`);
+    //     return myThis.processChange.call(myThis, newValue, oldValue)
+    //   }
+    // );
     return cancelFunction;
   }
 
@@ -461,6 +476,10 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
 }
 
 
+// FIXME - BUG: activeEffectKey will return different values if the underlying data is
+//  changed. Which is fine EXCEPT that we use it in the destroy() method to remove the
+//  old activeEffect. We'll need to store the original key and use that in the destroy()
+//  method instead, like we do with CombatSkillUpdater.
 class ActiveEffectFromAdvantageUpdater extends Updater {
   constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super(vm, charsheet, newUpdaterEvent, ...otherArgs);
@@ -490,7 +509,7 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
 
   /*
    * This is run once during the constructor to obtain or create the specific
-   * attack.
+   * active effect.
    */
   findOrCreateActiveEffect() {
     const updaterName = this.constructor.name;
@@ -546,6 +565,8 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
       const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
       if (currentPosition !== -1) {
         possibleActiveEffects.splice(currentPosition, 1);
+      } else {
+        console.log(`Attempted to delete a ${this.constructor.name} but it wasn't there.`);
       }
       if (possibleActiveEffects.length === 0) {
         this.vm.$delete(this.charsheet.activeEffects, effectKey);
@@ -689,9 +710,97 @@ class EnhancedTraitUpdater extends Updater {
       const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
       if (currentPosition !== -1) {
         possibleActiveEffects.splice(currentPosition, 1);
+      } else {
+        console.log(`Attempted to delete a ${this.constructor.name} but it wasn't there.`);
       }
       if (possibleActiveEffects.length === 0) {
         this.vm.$delete(this.charsheet.activeEffects, this.activeEffectKey);
+      }
+    }
+    super.destroy();
+  }
+}
+
+
+class CombatSkillUpdater extends Updater {
+  constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super(vm, charsheet, newUpdaterEvent, ...otherArgs);
+  }
+
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
+    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
+    this.skill = newUpdaterEvent.skill;
+    this.activeEffectKey = `attacks.${this.skill.attackHsid}.check`;
+    this.activeEffect = this.findOrCreateActiveEffect();
+  }
+
+  makeNewActiveEffect() {
+    return {
+      hsid: newHsid(),
+      value: this.skill.ranks,
+      updater: this.constructor.name,
+      skillHsid: this.skill.hsid,
+    };
+  }
+
+  /*
+   * This is run once during the constructor to obtain or create the specific
+   * active effect.
+   *
+   * FIXME: Mostly duplicated code here - see ActiveEffectFromAdvantageUpdater
+   */
+  findOrCreateActiveEffect() {
+    const updaterName = this.constructor.name;
+    const activeEffectKey = this.activeEffectKey;
+    if (this.charsheet.activeEffects[activeEffectKey] === undefined) {
+      this.vm.$set(this.charsheet.activeEffects, activeEffectKey, []);
+    }
+    const possibleActiveEffects = this.charsheet.activeEffects[activeEffectKey];
+    const matchingActiveEffects = possibleActiveEffects.filter(
+      x => x.updater === updaterName && x.skillHsid === this.skill.hsid
+    );
+    if (matchingActiveEffects.length > 1) {
+      throw Error(`Multiple active effects of type ${updaterName} that matched.`);
+    } else if (matchingActiveEffects.length === 1) {
+      return matchingActiveEffects[0];
+    } else {
+      const newActiveEffect = this.makeNewActiveEffect();
+      possibleActiveEffects.push(newActiveEffect);
+      return newActiveEffect;
+    }
+  }
+
+  watchForChange() {
+    const result = {
+      identity: {
+        skillExists: this.charsheet.skills.skillList.indexOf(this.skill) !== -1,
+        attackHsid: this.skill.attackHsid
+      },
+      calculations: {
+        activeEffectValue: this.skill.ranks
+      }
+    };
+    return result;
+  }
+
+  applyChanges(newCalculations) {
+    this.activeEffect.value = newCalculations.activeEffectValue;
+  }
+
+  // FIXME: Some duplicated code here - see ActiveEffectFromAdvantageUpdater
+  destroy() {
+    const effectKey = this.activeEffectKey;
+    const possibleActiveEffects = this.charsheet.activeEffects[effectKey];
+    if (possibleActiveEffects) {
+      const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
+      if (currentPosition !== -1) {
+        possibleActiveEffects.splice(currentPosition, 1);
+      } else {
+        console.log(`Attempted to delete a ${this.constructor.name} but it wasn't there.`);
+      }
+      if (possibleActiveEffects.length === 0) {
+        this.vm.$delete(this.charsheet.activeEffects, effectKey);
       }
     }
     super.destroy();
@@ -710,7 +819,8 @@ const updaterClasses = {
   WeakenPowerAttackUpdater,
   ImprovedInitiativeUpdater,
   JackOfAllTradesUpdater,
-  EnhancedTraitUpdater
+  EnhancedTraitUpdater,
+  CombatSkillUpdater,
 };
 
 

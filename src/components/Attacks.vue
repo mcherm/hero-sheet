@@ -16,7 +16,7 @@
         <div class="attack-name">{{attack.name}}</div>
         <number-display
             class="to-hit"
-            :value="attack.attackCheck"
+            :value="adjustedAttackCheck(attack)"
             :isOutOfSpec="isOutOfSpec(attack)"
         />
         <number-display
@@ -48,7 +48,17 @@
         if (attack.attackCheck === null || attack.resistanceDC === null) {
           return false; // Because it isn't defined
         } else {
-          return attack.attackCheck + attack.resistanceDC > 2 * this.charsheet.campaign.powerLevel;
+          return this.adjustedAttackCheck(attack) + attack.resistanceDC > 2 * this.charsheet.campaign.powerLevel;
+        }
+      },
+      // FIXME: Not a good design because it isn't accessible to other components. Better to store the adjusted one
+      adjustedAttackCheck: function(attack) {
+        const activeEffects = this.charsheet.activeEffects[`attacks.${attack.hsid}.check`];
+        if (activeEffects) {
+          const totalAdjustment = activeEffects.reduce((sum, activeEffect) => sum + activeEffect.value, 0);
+          return attack.attackCheck + totalAdjustment;
+        } else {
+          return attack.attackCheck;
         }
       }
     }

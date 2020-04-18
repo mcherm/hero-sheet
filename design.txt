@@ -94,8 +94,9 @@ TODO: There are power-specific modifiers. I need to:
 
 TODO: The way I display modifiers right now could really use some improvement.
 
-TODO: [Adran06] Some advantages should impact other things
-  * Jack-Of-All-Trades should changes skills from N/A to proper numbers
-
 TODO: The Affliction power should select which kind of effect it applies and
   what resists it.
+
+URGENT BUGS:
+
+TODO: At launch of a charsheet I get an error about power updaters!!

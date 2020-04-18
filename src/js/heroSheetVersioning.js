@@ -159,8 +159,7 @@ const newBlankSkill = function() {
     name: "",
     hsid: newHsid(),
     ranks: 0,
-    isTemplate: true,
-    specialization: ""
+    isTemplate: true
   };
 };
 
@@ -217,12 +216,24 @@ const findPowerByHsid = function(charsheet, hsid) {
 };
 
 /*
- * Design Notes: see findPowerByHsid. We should build "findByHsid".
+ * Design Notes: see findPowerByHsid. Maybe we should build "findByHsid".
  */
 const findAdvantageByHsid = function(charsheet, hsid) {
   for (const advantage of charsheet.advantages) {
     if (advantage.hsid === hsid) {
       return advantage;
+    }
+  }
+  return null;
+};
+
+/*
+ * Design Notes: see findPowerByHsid. Maybe we should build "findByHsid".
+ */
+const findSkillByHsid = function(charsheet, hsid) {
+  for (const skill of charsheet.skills.skillList) {
+    if (skill.isTemplate && skill.hsid === hsid) {
+      return skill;
     }
   }
   return null;
@@ -376,6 +387,7 @@ export {
   newBlankComplication,
   findPowerByHsid,
   findAdvantageByHsid,
+  findSkillByHsid,
   newHsid,
   upgradeVersion
 };

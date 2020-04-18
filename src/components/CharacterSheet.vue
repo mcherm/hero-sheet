@@ -19,13 +19,13 @@
         </div>
       </template>
       <template slot="skills">
-        <skills :charsheet="charsheet"/>
+        <skills :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
       </template>
       <template slot="advantages">
-        <advantages :charsheet="charsheet" v-on:newUpdater="createUpdater($event)" />
+        <advantages :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
       </template>
       <template slot="powers">
-        <power-list-top-level :charsheet="charsheet" v-on:newUpdater="createUpdater($event)" />
+        <power-list-top-level :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
       </template>
       <template slot="complications">
         <complications :charsheet="charsheet"/>
