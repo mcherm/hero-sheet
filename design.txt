@@ -92,8 +92,6 @@ TODO: There are power-specific modifiers. I need to:
   * Enter the information into my data files.
   * Write code that displays them.
 
-TODO: The way I display modifiers right now could really use some improvement.
-
 TODO: The Affliction power should select which kind of effect it applies and
   what resists it.
 

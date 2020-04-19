@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list">
+      <li>2020-04-18: Indicate flats (and fifths) when displaying extras and flaws; also docs.</li>
       <li>2020-04-18: Close and Ranged Combat skills can select an attack that they apply to.</li>
       <li>2020-04-17: Support login via email as well as user.</li>
       <li>2020-04-14: Proper support for passwords and logins!</li>

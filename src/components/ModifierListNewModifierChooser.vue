@@ -47,6 +47,7 @@
       <button v-on:click="cancelCreateModifier()">Cancel</button>
     </div>
     <div class="description">{{selectedDescription}}</div>
+    <docs-lookup :docsURL="isItemSelected ? selectedItem.docsURL : null" />
   </div>
 </template>
 
@@ -129,8 +130,15 @@
       displaySign: function() {
         if (this.selectedItem) {
           const costShown = this.selectedItem.cost * (this.selectedItem.hasRanks ? this.ranks : 1);
-          const sign = costShown > 0 ? "+" : "";
-          return `(${sign}${costShown})`;
+          const sign = costShown > 0 ? "+" : ""; // negatives have the sign built in
+          const text = {
+            flatPoints: " flat",
+            flatPointsPerRankOfModifier: " flat",
+            flatPointsPer5PointsOfFinalCost: " fifths",
+            pointsOfMultiplier: "",
+            pointsOfMultiplierPerRankOfModifier: ""
+          }[this.selectedItem.costType];
+          return `(${sign}${costShown}${text})`;
         } else {
           return "";
         }
@@ -187,11 +195,11 @@
     border: 1px solid var(--grid-line-color);
     padding: 1px;
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto auto auto;
     grid-column-gap: 5px;
     align-items: center;
   }
   .add-modifier-chooser.ranks-col {
-    grid-template-columns: auto auto 1fr auto auto;
+    grid-template-columns: auto auto 1fr auto auto auto;
   }
 </style>
