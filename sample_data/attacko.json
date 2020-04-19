@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 10,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
@@ -94,7 +94,14 @@
     }
   },
   "initiative": 0,
-  "advantages": [],
+  "advantages": [
+    {
+      "name": "Improved Initiative",
+      "hsid": "HIBXGPTWE",
+      "ranks": 1,
+      "description": ""
+    }
+  ],
   "skills": {
     "skillList": [
       {
@@ -106,6 +113,13 @@
         "name": "athletics",
         "ranks": 0,
         "isTemplate": false
+      },
+      {
+        "name": "close combat",
+        "hsid": "HIG1S3ZED",
+        "ranks": 4,
+        "isTemplate": true,
+        "attackHsid": "HIJFN66WZ"
       },
       {
         "name": "deception",
@@ -138,6 +152,13 @@
         "isTemplate": false
       },
       {
+        "name": "ranged combat",
+        "hsid": "HINQYXPS3",
+        "ranks": 4,
+        "isTemplate": true,
+        "attackHsid": "HIGWECGNG"
+      },
+      {
         "name": "slight of hand",
         "ranks": 0,
         "isTemplate": false
@@ -163,7 +184,7 @@
         "isTemplate": false
       }
     ],
-    "cost": 0
+    "cost": 4
   },
   "powers": [
     {
@@ -228,45 +249,68 @@
   "attacks": {
     "attackList": [
       {
-        "type": "UnarmedAttackUpdater",
         "name": "Unarmed",
-        "attackCheck": 2,
+        "attackCheck": 6,
         "effectType": "damage",
-        "resistanceDC": 0
+        "resistanceDC": 0,
+        "updater": "UnarmedAttackUpdater",
+        "hsid": "HIJFN66WZ"
       },
       {
-        "type": "DamagePowerAttackUpdater",
-        "hsid": "HI3BN17LC",
         "name": "Bite",
         "attackCheck": 2,
         "effectType": "damage",
-        "resistanceDC": 5
+        "resistanceDC": 5,
+        "updater": "DamagePowerAttackUpdater",
+        "powerHsid": "HI3BN17LC",
+        "hsid": "HI4SJS3NZ"
       },
       {
-        "type": "AfflictionPowerAttackUpdater",
-        "hsid": "HIMQE65RC",
         "name": "Disease",
-        "attackCheck": 2,
+        "attackCheck": 6,
         "effectType": "affliction",
-        "resistanceDC": 8
+        "resistanceDC": 8,
+        "updater": "AfflictionPowerAttackUpdater",
+        "powerHsid": "HIMQE65RC",
+        "hsid": "HIGWECGNG"
       },
       {
-        "type": "NullifyPowerAttackUpdater",
-        "hsid": "HIS11YCB8",
         "name": "Cancellation",
         "attackCheck": 3,
         "effectType": "nullify",
         "resistanceDC": null,
-        "nullifyRanks": 3
+        "nullifyRanks": 3,
+        "updater": "NullifyPowerAttackUpdater",
+        "powerHsid": "HIS11YCB8",
+        "hsid": "HI22F7BMW"
       },
       {
-        "type": "WeakenPowerAttackUpdater",
-        "hsid": "HINV3TUB4",
         "name": "DrainO",
         "attackCheck": 2,
         "effectType": "weaken",
         "resistanceDC": 25,
-        "nullifyRanks": 26
+        "nullifyRanks": 26,
+        "updater": "WeakenPowerAttackUpdater",
+        "powerHsid": "HINV3TUB4",
+        "hsid": "HIR85A8BK"
+      }
+    ]
+  },
+  "activeEffects": {
+    "attacks.HIJFN66WZ.check": [
+      {
+        "hsid": "HIYNSPVNA",
+        "value": 4,
+        "updater": "CombatSkillUpdater",
+        "skillHsid": "HIG1S3ZED"
+      }
+    ],
+    "attacks.HIGWECGNG.check": [
+      {
+        "hsid": "HIF4Q4D74",
+        "value": 4,
+        "updater": "CombatSkillUpdater",
+        "skillHsid": "HINQYXPS3"
       }
     ]
   }

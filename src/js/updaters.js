@@ -240,6 +240,19 @@ class AttackUpdater extends Updater {
   }
 
   /*
+   * Returns the total adjustment due to activeEffects on the check for
+   * this attack.
+   */
+  attackCheckAdjustment() {
+    const activeEffects = this.charsheet.activeEffects[`attacks.${this.theAttack.hsid}.check`];
+    if (activeEffects) {
+      return activeEffects.reduce((sum, activeEffect) => sum + activeEffect.value, 0);
+    } else {
+      return 0;
+    }
+  }
+
+  /*
    * Gets called when the updater is no longer needed. Everything it
    * created should be eliminated.
    */
@@ -276,13 +289,14 @@ class UnarmedAttackUpdater extends AttackUpdater {
       },
       calculations: {
         strength: this.charsheet.abilities.strength.ranks,
-        fighting: this.charsheet.abilities.fighting.ranks
+        fighting: this.charsheet.abilities.fighting.ranks,
+        attackCheckAdjustment: this.attackCheckAdjustment()
       }
     }
   }
 
   applyChanges(newCalculations) {
-    this.theAttack.attackCheck = newCalculations.fighting;
+    this.theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
     this.theAttack.resistanceDC = newCalculations.strength;
   }
 }
@@ -339,7 +353,8 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
       calculations: {
         fighting: this.charsheet.abilities.fighting.ranks,
         powerRanks: this.power.ranks,
-        powerName: this.power.name
+        powerName: this.power.name,
+        attackCheckAdjustment: this.attackCheckAdjustment()
       }
     }
   }
@@ -348,7 +363,7 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
     // -- Update the Values --
     const theAttack = this.theAttack;
     theAttack.name = newCalculations.powerName;
-    theAttack.attackCheck = newCalculations.fighting;
+    theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
     theAttack.resistanceDC = newCalculations.powerRanks;
   }
 
@@ -379,7 +394,8 @@ class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
       calculations: {
         fighting: this.charsheet.abilities.fighting.ranks,
         powerRanks: this.power.ranks,
-        powerName: this.power.name
+        powerName: this.power.name,
+        attackCheckAdjustment: this.attackCheckAdjustment()
       }
     }
   }
@@ -388,7 +404,7 @@ class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
     // -- Update the Values --
     const theAttack = this.theAttack;
     theAttack.name = newCalculations.powerName;
-    theAttack.attackCheck = newCalculations.fighting;
+    theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
     theAttack.resistanceDC = newCalculations.powerRanks;
   }
 
@@ -420,7 +436,8 @@ class NullifyPowerAttackUpdater extends PowerAttackUpdater {
       calculations: {
         dexterity: this.charsheet.abilities.dexterity.ranks,
         powerRanks: this.power.ranks,
-        powerName: this.power.name
+        powerName: this.power.name,
+        attackCheckAdjustment: this.attackCheckAdjustment()
       }
     }
   }
@@ -429,7 +446,7 @@ class NullifyPowerAttackUpdater extends PowerAttackUpdater {
     // -- Update the Values --
     const theAttack = this.theAttack;
     theAttack.name = newCalculations.powerName;
-    theAttack.attackCheck = newCalculations.dexterity;
+    theAttack.attackCheck = newCalculations.dexterity + newCalculations.attackCheckAdjustment;
     theAttack.nullifyRanks = newCalculations.powerRanks;
   }
 
@@ -460,7 +477,8 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
       calculations: {
         fighting: this.charsheet.abilities.fighting.ranks,
         powerRanks: this.power.ranks,
-        powerName: this.power.name
+        powerName: this.power.name,
+        attackCheckAdjustment: this.attackCheckAdjustment()
       }
     }
   }
@@ -469,7 +487,7 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
     // -- Update the Values --
     const theAttack = this.theAttack;
     theAttack.name = newCalculations.powerName;
-    theAttack.attackCheck = newCalculations.fighting;
+    theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
     theAttack.resistanceDC = 10 + newCalculations.powerRanks;
   }
 
