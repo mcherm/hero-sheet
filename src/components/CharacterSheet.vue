@@ -55,7 +55,7 @@
 
   const statsData = require("../data/statsData.json");
 
-  import {currentVersion, findAdvantageByHsid, findPowerByHsid, upgradeVersion} from "../js/heroSheetVersioning";
+  import {currentVersion, findAdvantageByHsid, findPowerByHsid, findSkillByHsid, upgradeVersion} from "../js/heroSheetVersioning.js";
   import {updaterClasses} from "../js/updaters.js";
   import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
 
@@ -169,7 +169,7 @@
           } else {
             const power = findPowerByHsid(this.charsheet, attack.powerHsid);
             const updateEvent = { updater: updaterType, power: power };
-            const updater = this.createPowerUpdater(updateEvent);
+            const updater = this.createUpdater(updateEvent);
           }
         }
         for (const activeEffectKey in this.charsheet.activeEffects) {
@@ -189,6 +189,10 @@
                 throw new Error("Updater references hsid that isn't found.");
               }
               const updateEvent = {updater: updaterType, power: power};
+              new updaterClasses[updaterType](this, this.charsheet, updateEvent);
+            } else if (updaterType === "CombatSkillUpdater") {
+              const skill = findSkillByHsid(this.charsheet, activeEffect.skillHsid);
+              const updateEvent = {updater: updaterType, skill: skill};
               new updaterClasses[updaterType](this, this.charsheet, updateEvent);
             } else {
               throw new Error(`Unsupported updater type '${updaterType}'.`);
