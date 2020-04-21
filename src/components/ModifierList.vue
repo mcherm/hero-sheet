@@ -18,7 +18,7 @@
     <modifier-list-new-modifier-chooser
         v-if="isAdding"
         :modifier-type="modifierType"
-        :special-extras="specialExtras"
+        :special-extras="specialExtras || []"
         v-on:choose-modifier="finishChoosingNewModifier($event)"
     />
     <button
