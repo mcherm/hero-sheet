@@ -56,8 +56,8 @@ User and Email:
 
 Bug List:
 
-TODO: Some powers (like Invisiblity or Concealment) don't have ranks. I should
-  probably categorize those and hide the rank selector for them.
+TODO: Some powers (like Invisiblity or Concealment and maybe Morph) don't have
+  ranks. I should probably categorize those and hide the rank selector for them.
 
 TODO: I can't enter the modifiers for the extra "Area" because it depends on
   two dimensions (shape and ranks) and I don't have support for that (yet).

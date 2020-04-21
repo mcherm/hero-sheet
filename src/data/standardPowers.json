@@ -1997,8 +1997,110 @@
     "specialExtras": "Cumulative (+1), Effortless (+1), Sensory Link (+1)",
     "specialFlaws": "Close (-1), Feedback (-1), Limited by Language (-1), Limited to Emotions (-1), Limited to Sensory Link (-1), Ranged (-1), Sense-Dependent (-1)",
     "specialFlats": "Subtle (+1 or +2)",
+    "extras": [
+      {
+        "name": "Cumulative",
+        "description": "Your Mind Reading adds any further degrees of success to the existing degree on the target, rather than using just the result of the new opposed check.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Effortless",
+        "description": "Trying again after two or more degrees of failure does not require extra effort for you.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Sensory Link",
+        "description": "You can \"tap into\" the senses of your subjects, perceiving what they perceive like a Remote Sensing effect so long as you have at least one degree of contact.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Subtle",
+        "description": "Mind Reading is only noticeable to the subject or to characters with an appropriate mental sense. Subtle Mind Reading is less detectable.",
+        "modifierOptions": [
+          {
+            "name": "Subtle",
+            "description": "Requires a DC 20 Perception check for the subject or characters with an appropriate mental sense to detect it.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 1
+          },
+          {
+            "name": "Undetectable",
+            "description": "Cannot be detected.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 2
+          }
+        ]
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Close",
+        "description": "Applied to Ranged Mind Reading, Close Mind Reading requires a close attack check to touch an unwilling target and physical contact throughout the effect's duration.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Feedback",
+        "description": "You suffer Feedback if a subject you are reading is harmed, using your Mind Reading rank as the resistance check bonus against the damage. Additionally, you may suffer Feedback from reading or experiencing particularly traumatic or emotionally-charged thoughts or memories from the subject.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited by Language",
+        "description": "You can only understand the subject's thoughts or memories if you share a common language.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited to Emotions",
+        "description": "You can only read or probe for emotions and emotional associations, not coherent thoughts or memories.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited to Sensory Link",
+        "description": "If you have the Sensory Link extra and this flaw, you can only tap into a subject's senses, you cannot read their thoughts or memories.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited to Surface Thoughts",
+        "description": "You can only read surface thoughts and cannot achieve higher degrees of contact.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Ranged",
+        "description": "Ranged Mind Reading requires a ranged attack check in addition to the effect's normal resistance check.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Sense-Dependent",
+        "description": "Your Mind Reading is dependent on a sense other than just having to accurately sense the target, such as needing to see his expressions (Sight-Dependent), hear him speak (Hearing-Dependent), smell his changes in biochemistry (Scent-Dependent), and so forth. Alternately, it may be dependent on first being in Mental Communication with the target.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/mind-reading-sensory"
   },
   "Morph": {
     "name": "Morph",
@@ -2012,8 +2114,34 @@
     "specialExtras": "Attack (+0)",
     "specialFlaws": "Resistible (-1)",
     "specialFlats": "Metamorph (+1 per rank)",
+    "extras": [
+      {
+        "name": "Attack",
+        "description": "A Morph Attack imposes a different appearance on the target creature.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      },
+      {
+        "name": "Metamorph",
+        "description": "This modifier allows you to have an alternate set of traits, essentially a complete alternate character you change into, one set of traits per rank in Metamorph.",
+        "hasRanks": true,
+        "costType": "flatPointsPerRankOfModifier",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Resistible",
+        "description": "Observers who succeed on the Will resistance check see you as you truly are rather than in your Morph guise. This is in addition to the usual Perception check to penetrate your disguise.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/morph-general"
   },
   "Move Object": {
     "name": "Move Object",
@@ -2027,8 +2155,103 @@
     "specialExtras": "Continuous (+2), Damaging (+1), Perception (+1), Sustained (+1)",
     "specialFlaws": "Close (-1), Limited Direction (-1), Limited Material (-1)",
     "specialFlats": "Improvised Weapon or Throwing Mastery (+1 per rank), Precise (+1), Subtle (+1)",
+    "extras": [
+      {
+        "name": "Continuous",
+        "description": "The GM may allow Continuous Move Object as a variation that is not disrupted when you are unable to maintain it, but that still requires your conscious attention to do anything other than have the affected object hang in midair. You must make Move Object's duration Sustained before you can make it Continuous.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Damaging",
+        "description": "Your effect can inflict damage, like an application of normal Strength with damage equal to its rank.",
+        "hasRanks": true,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Improvised Weapon Mastery",
+        "description": "Each rank of Improvised Weapon Mastery increases by 1 the damage of objects wielded using Move Object.",
+        "hasRanks": true,
+        "costType": "flatPointsPerRankOfModifier",
+        "cost": 1
+      },
+      {
+        "name": "Throwing Mastery",
+        "description": "Each rank of Throwing Mastery increases by 1 the damage of objects thrown using Move Object.",
+        "hasRanks": true,
+        "costType": "flatPointsPerRankOfModifier",
+        "cost": 1
+      },
+      {
+        "name": "Perception",
+        "description": "Perception Ranged Move Object can affect any object you can accurately perceive, with no need for an attack check.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Precise",
+        "description": "Move Object with this modifier can be used for tasks involving fine manipulation.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Subtle",
+        "description": "Apply the Subtle modifier for a less noticeable Move Object effect, such as invisible \"psychokinesis\".",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Close",
+        "description": "At the GM's discretion, a Close Ranged Move Object effect may represent \"tactile telekinesis\" or a supernatural influence over objects you are able to touch, but such things are usually better represented by the Enhanced Strength effect.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Concentration",
+        "description": "Concentration Move Object requires more attention to maintain. You cannot concentrate to increase your lifting capacity or to grab or move another object while you are still \"holding\" your first.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited Direction",
+        "description": "You can only move objects in a particular direction or path, such as only up and down (towards and away from the ground), only directly towards or away from you (attraction and repulsion), and so forth.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited Material",
+        "description": "You can only move a particular type of object or material.",
+        "modifierOptions": [
+          {
+            "name": "Limited Material",
+            "description": "You can only move a particular type of object or material, such as only metals, plants, rock, water, and so forth.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -1
+          },
+          {
+            "name": "Very Limited Material",
+            "description": "The GM may allow a flaw where you can only move a very limited type of material, such as only precious metals, leaves, sand, or petroleum.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -2
+          }
+        ]
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/move-object-control"
   },
   "Movement": {
     "name": "Movement",
