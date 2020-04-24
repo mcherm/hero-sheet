@@ -2493,7 +2493,8 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/power-lifting/"
   },
   "Protection": {
     "name": "Protection",
@@ -2507,8 +2508,20 @@
     "specialExtras": "-",
     "specialFlaws": "Sustained (0)",
     "specialFlats": "-",
+    "extras": [
+    ],
+    "flaws": [
+      {
+        "name": "Sustained",
+        "description": "Your Protection is a sustained effect, rather than permanent.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/protection-defense"
   },
   "Quickness": {
     "name": "Quickness",
@@ -2522,38 +2535,27 @@
     "specialExtras": "-",
     "specialFlaws": "Limited to One Type (-1), Limited to One Task (-2)",
     "specialFlats": "-",
+    "extras": [
+    ],
+    "flaws": [
+      {
+        "name": "Limited to One Type",
+        "description": "Your Quickness applies to only physical or mental tasks, not both.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Limited to One Task",
+        "description": "Your Quickness applies to only one particular task, such as reading, mathematical calculations, and so forth.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -2
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
-  },
-  "Ranged Affliction": {
-    "name": "Ranged Affliction",
-    "type": "Attack",
-    "action": "Standard",
-    "range": "Ranged",
-    "duration": "Instant",
-    "resistance": "Fort or Will",
-    "baseCost": 2,
-    "description": "Impose some debilitating condition(s) on a target.",
-    "specialExtras": "Alternate Resistance (+0), Concentration (+1), Cumulative (+1), Extra Condition (+1), Progressive (+2)",
-    "specialFlaws": "Instant Recovery (-1), Limited Degree (-1)",
-    "specialFlats": "-",
-    "isPrimitiveEffect": false,
-    "isArray": false
-  },
-  "Ranged Damage": {
-    "name": "Ranged Damage",
-    "type": "Attack",
-    "action": "Standard",
-    "range": "Ranged",
-    "duration": "Instant",
-    "resistance": "Toughness",
-    "baseCost": 2,
-    "description": "Ranged damaging attack.",
-    "specialExtras": "-",
-    "specialFlaws": "-",
-    "specialFlats": "-",
-    "isPrimitiveEffect": false,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/quickness-general"
   },
   "Regeneration": {
     "name": "Regeneration",
@@ -2567,8 +2569,27 @@
     "specialExtras": "Persistent (+1)",
     "specialFlaws": "Source (-1)",
     "specialFlats": "-",
+    "extras": [
+      {
+        "name": "Persistent",
+        "description": "You can regenerate even Incurable damage conditions.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Source",
+        "description": "Your Regeneration only works when you have access to a particular source to replenish yourself, such as blood, electricity, sand, scrap metal, sunlight, and so forth.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/regeneration-defense"
   },
   "Remote Sensing": {
     "name": "Remote Sensing",

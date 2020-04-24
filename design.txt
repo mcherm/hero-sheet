@@ -90,11 +90,8 @@ TODO: [Adran06] Maybe an "extra sheet" for variable powers? Listing some options
 
 TODO: There are power-specific modifiers. I need to:
   * Enter the information into my data files.
-  * Write code that displays them.
 
 TODO: The Affliction power should select which kind of effect it applies and
   what resists it.
 
-URGENT BUGS:
-
-TODO: At launch of a charsheet I get an error about power updaters!!
+TODO: The Protection power ought to influence toughness.

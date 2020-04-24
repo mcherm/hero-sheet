@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list">
+      <li>2020-04-22: Specialized extras and flaws for powers up through "Regeneration".</li>
       <li>2020-04-22: Specialized extras and flaws for powers up through "Nullify".</li>
       <li>2020-04-20: Specialized extras and flaws for powers up through "Move Object".</li>
       <li>2020-04-18: Indicate flats (and fifths) when displaying extras and flaws; also docs.</li>
