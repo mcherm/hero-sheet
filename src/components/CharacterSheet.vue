@@ -33,6 +33,9 @@
       <template slot="attacks">
         <attacks :charsheet="charsheet"/>
       </template>
+      <template slot="adjustments">
+        <adjustments :charsheet="charsheet"/>
+      </template>
     </tab-display>
     <div id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
@@ -52,6 +55,7 @@
   import PowerListTopLevel from "./PowerListTopLevel.vue"
   import Complications from "./Complications.vue";
   import Attacks from "./Attacks.vue"
+  import Adjustments from "./Adjustments.vue";
 
   const statsData = require("../data/statsData.json");
 
@@ -72,7 +76,8 @@
       OverallCosts,
       PowerListTopLevel,
       Complications,
-      Attacks
+      Attacks,
+      Adjustments
     },
     props: {
       user: { type: String, required: true },

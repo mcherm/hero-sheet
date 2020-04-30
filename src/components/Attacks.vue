@@ -3,7 +3,7 @@
     <template v-slot:exhibit>
       <local-cost-display :charsheet="charsheet"/>
     </template>
-    <div class="attacks-list grid-with-lines">
+    <div class="attack-list grid-with-lines">
       <div class="col-label">Attack</div>
       <div class="col-label">To Hit</div>
       <div class="col-label">Resist DC</div>
@@ -56,18 +56,18 @@
 </script>
 
 <style scoped>
-  .attacks-list {
+  .attack-list {
     display: inline grid;
     grid-template-columns: max-content max-content max-content max-content;
     justify-items: stretch;
   }
-  .attacks-list .attack-name {
+  .attack-list .attack-name {
     padding: 2px 6px;
   }
-  .attacks-list .to-hit {
+  .attack-list .to-hit {
     margin-left: 0;
   }
-  .attacks-list .resistance-dc {
+  .attack-list .resistance-dc {
     margin-left: 0;
   }
   .inapplicable {
