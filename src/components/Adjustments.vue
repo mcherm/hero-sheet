@@ -19,8 +19,13 @@
 </template>
 
 <script>
+  import LocalCostDisplay from "./LocalCostDisplay.vue";
+
   export default {
     name: "Adjustments",
+    components: {
+      LocalCostDisplay
+    },
     props: {
       charsheet: { type: Object, required: true }
     }
