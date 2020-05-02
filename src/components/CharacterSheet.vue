@@ -166,15 +166,25 @@
         new updaterClasses["DefenseUpdater"](this, this.charsheet, "parry");
         new updaterClasses["ToughnessUpdater"](this, this.charsheet);
         new updaterClasses["DefenseUpdater"](this, this.charsheet, "will");
-        for (const attack of this.charsheet.attacks.attackList) {
+        const attackList = this.charsheet.attacks.attackList;
+        for (const attack of attackList) {
           // FIXME: With a better design maybe I wouldn't need a special case here
           const updaterType = attack.updater;
           if (updaterType === "UnarmedAttackUpdater") {
             const updater = new updaterClasses[updaterType](this, this.charsheet);
           } else {
             const power = findPowerByHsid(this.charsheet, attack.powerHsid);
+            if (power === null) {
+              this.$delete(attackList, attackList.indexOf(attack));
+              throw new Error(`Invalid power '${attack.powerHsid}' in attack. Will delete the attack.`)
+            }
             const updateEvent = { updater: updaterType, power: power };
-            const updater = this.createUpdater(updateEvent);
+            const updaterClass = updaterClasses[updaterType];
+            if (updaterClass === undefined) {
+              this.$delete(attackList, attackList.indexOf(attack));
+              throw new Error(`Invalid updater type '${updaterType}' in attack. Will delete the attack.`)
+            }
+            new updaterClass(this, this.charsheet, updateEvent);
           }
         }
         for (const activeEffectKey in this.charsheet.activeEffects) {
@@ -200,17 +210,20 @@
               const updateEvent = {updater: updaterType, skill: skill};
               new updaterClasses[updaterType](this, this.charsheet, updateEvent);
             } else {
-              this.$delete(this.charsheet.activeEffects, activeEffectKey);
-              throw new Error(`Unsupported updater type '${updaterType}'. Will delete the activeEffect.`);
+              const existingList = this.charsheet.activeEffects[activeEffectKey];
+              this.$delete(existingList, existingList.indexOf(activeEffect));
+              throw new Error(`Unsupported updater type '${updaterType}' in activeEffect. Will delete the activeEffect.`);
             }
           }
         }
       },
       createUpdater: function(newUpdaterEvent) {
         const updaterName = newUpdaterEvent.updater;
-        const charsheet = this.charsheet;
         const updaterClass = updaterClasses[updaterName];
-        new updaterClass(this, charsheet, newUpdaterEvent);
+        if (updaterClass === undefined) {
+          throw new Error(`Updater class '${updaterName}' not supported.`);
+        }
+        new updaterClass(this, this.charsheet, newUpdaterEvent);
       }
     },
     computed: {
