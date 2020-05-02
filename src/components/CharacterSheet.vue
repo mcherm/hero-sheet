@@ -200,7 +200,8 @@
               const updateEvent = {updater: updaterType, skill: skill};
               new updaterClasses[updaterType](this, this.charsheet, updateEvent);
             } else {
-              throw new Error(`Unsupported updater type '${updaterType}'.`);
+              this.$delete(this.charsheet.activeEffects, activeEffectKey);
+              throw new Error(`Unsupported updater type '${updaterType}'. Will delete the activeEffect.`);
             }
           }
         }
