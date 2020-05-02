@@ -66,7 +66,7 @@
 </template>
 
 <script>
-  import LocalCostDisplay from "./LocalCostDisplay";
+  import LocalCostDisplay from "./LocalCostDisplay.vue";
   import SkillsCustomization from "./SkillsCustomization";
   import {newBlankSkill} from "../js/heroSheetVersioning.js";
   import {skillCost} from "../js/heroSheetUtil.js";

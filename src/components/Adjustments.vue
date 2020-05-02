@@ -10,7 +10,7 @@
       <div class="display-contents" v-for="(data, affectedTrait) in charsheet.activeEffects">
         <div class="display-contents" v-for="entry of data">
           <div class="grid-with-lines-cell">{{affectedTrait}}</div>
-          <div class="grid-with-lines-cell">{{entry.updater}}</div>
+          <div class="grid-with-lines-cell">{{entry.description}}</div>
           <number-display class="value-display grid-with-lines-cell" :value="entry.value"/>
         </div>
       </div>

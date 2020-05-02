@@ -7,7 +7,7 @@
  * which monitors certain fields and updates other fields in the charsheet.
  * An example would be an updater for creating an attack.
  */
-import {findPowerByHsid, findSkillByHsid, newHsid} from "./heroSheetVersioning";
+import {findPowerByHsid, newHsid} from "./heroSheetVersioning";
 
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
@@ -494,10 +494,44 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
 }
 
 
-// FIXME - BUG: activeEffectKey will return different values if the underlying data is
-//  changed. Which is fine EXCEPT that we use it in the destroy() method to remove the
-//  old activeEffect. We'll need to store the original key and use that in the destroy()
-//  method instead, like we do with CombatSkillUpdater.
+/*
+ * For Updaters that create an ActiveEffect, this is designed to run once during
+ * the constructor to create (if an edit has been performed, creating the Updater)
+ * or find (if the charsheet was just loaded) the specific active effect within
+ * the charsheet.
+ *
+ * It expects the updater to support the following
+ *  * this.constructor.name (all Updaters support this)
+ *  * this.vm (all Updater support this)
+ *  * this.charsheet (all Updaters support this)
+ *  * this.activeEffectKey
+ *  * this.isMyActiveEffect()
+ *  * this.makeNewActiveEffect()
+ */
+function findOrCreateActiveEffect(updater) {
+  const updaterName = updater.constructor.name;
+  if (updater.charsheet.activeEffects[(updater.activeEffectKey)] === undefined) {
+    updater.vm.$set(updater.charsheet.activeEffects, updater.activeEffectKey, []);
+  }
+  const possibleActiveEffects = updater.charsheet.activeEffects[(updater.activeEffectKey)];
+  const matchingActiveEffects = possibleActiveEffects.filter(
+    x => x.updater === updaterName && updater.isMyActiveEffect(x)
+  );
+  if (matchingActiveEffects.length > 1) {
+    throw Error(`Multiple active effects of type ${updaterName} that matched.`);
+  } else if (matchingActiveEffects.length === 1) {
+    // The activeEffect entry exists. Return it.
+    return matchingActiveEffects[0];
+  } else {
+    // The activeEffect entry does not exist. Create it (and return it).
+    const newActiveEffect = updater.makeNewActiveEffect();
+    possibleActiveEffects.push(newActiveEffect);
+    return newActiveEffect;
+  }
+}
+
+
+
 class ActiveEffectFromAdvantageUpdater extends Updater {
   constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super(vm, charsheet, newUpdaterEvent, ...otherArgs);
@@ -507,15 +541,24 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
     this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.advantage = newUpdaterEvent.advantage;
-    this.activeEffect = this.findOrCreateActiveEffect();
+    this.activeEffectKey = this.getActiveEffectKey();
+    this.activeEffect = findOrCreateActiveEffect(this);
   }
 
   /*
    * Subclasses must override this to provide the activeEffect key where their
    * effect is stored.
    */
-  activeEffectKey() {
+  getActiveEffectKey() {
     throw new Error("Subclasses must override this.");
+  }
+
+  /*
+   * Given an ActiveEffect entry for an updater of this class, this returns
+   * a boolean indicating whether it is the one belonging to this updater.
+   */
+  isMyActiveEffect(activeEffect) {
+    return activeEffect.advantageHsid === this.advantage.hsid
   }
 
   /*
@@ -526,28 +569,11 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
   }
 
   /*
-   * This is run once during the constructor to obtain or create the specific
-   * active effect.
+   * Subclasses must override this to provide a description to be displayed
+   * (or null for "don't show this one").
    */
-  findOrCreateActiveEffect() {
-    const updaterName = this.constructor.name;
-    const activeEffectKey = this.activeEffectKey();
-    if (this.charsheet.activeEffects[activeEffectKey] === undefined) {
-      this.vm.$set(this.charsheet.activeEffects, activeEffectKey, []);
-    }
-    const possibleActiveEffects = this.charsheet.activeEffects[activeEffectKey];
-    const matchingActiveEffects = possibleActiveEffects.filter(
-      x => x.updater === updaterName && x.advantageHsid === this.advantage.hsid
-    );
-    if (matchingActiveEffects.length > 1) {
-      throw Error(`Multiple active effects of type ${updaterName} that matched.`);
-    } else if (matchingActiveEffects.length === 1) {
-      return matchingActiveEffects[0];
-    } else {
-      const newActiveEffect = this.makeNewActiveEffect();
-      possibleActiveEffects.push(newActiveEffect);
-      return newActiveEffect;
-    }
+  getDescription() {
+    throw new Error("Subclasses must override this.");
   }
 
   watchForChange() {
@@ -569,6 +595,7 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
     result.value = this.activeEffectValue();
     result.updater = this.constructor.name;
     result.advantageHsid = this.advantage.hsid;
+    result.description = this.getDescription();
     return result;
   }
 
@@ -577,7 +604,7 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
   }
 
   destroy() {
-    const effectKey = this.activeEffectKey();
+    const effectKey = this.activeEffectKey;
     const possibleActiveEffects = this.charsheet.activeEffects[effectKey];
     if (possibleActiveEffects) {
       const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
@@ -596,23 +623,31 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
 
 
 class ImprovedInitiativeUpdater extends ActiveEffectFromAdvantageUpdater {
-  activeEffectKey() {
+  getActiveEffectKey() {
     return "initiative";
   }
 
   activeEffectValue() {
     return 4 * this.advantage.ranks;
   }
+
+  getDescription() {
+    return "Improved Initiative Advantage";
+  }
 }
 
 
 class JackOfAllTradesUpdater extends ActiveEffectFromAdvantageUpdater {
-  activeEffectKey() {
+  getActiveEffectKey() {
     return "jackOfAllTrades";
   }
 
   activeEffectValue() {
     return 1;
+  }
+
+  getDescription() {
+    return "Jack of All Trades Advantage";
   }
 }
 
@@ -627,7 +662,7 @@ class EnhancedTraitUpdater extends Updater {
     this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.power = newUpdaterEvent.power;
     this.activeEffectKey = this.getActiveEffectKey();
-    this.activeEffect = this.findOrCreateActiveEffect();
+    this.activeEffect = findOrCreateActiveEffect(this);
   }
 
   /*
@@ -670,38 +705,21 @@ class EnhancedTraitUpdater extends Updater {
   }
 
   /*
-   * This is run once during the constructor to obtain or create the specific
-   * attack.
-   *
-   * FIXME: Some duplicated code here. Figure out how to share it.
+   * Given an ActiveEffect entry for an updater of this class, this returns
+   * a boolean indicating whether it is the one belonging to this updater.
    */
-  findOrCreateActiveEffect() {
-    const updaterName = this.constructor.name;
-    if (this.charsheet.activeEffects[(this.activeEffectKey)] === undefined) {
-      this.vm.$set(this.charsheet.activeEffects, this.activeEffectKey, []);
-    }
-    const possibleActiveEffects = this.charsheet.activeEffects[(this.activeEffectKey)];
-    const matchingActiveEffects = possibleActiveEffects.filter(
-      x => x.updater === updaterName && x.powerHsid === this.power.hsid
-    );
-    if (matchingActiveEffects.length > 1) {
-      throw Error(`Multiple active effects of type ${updaterName} and power ${this.power.hsid} that matched.`);
-    } else if (matchingActiveEffects.length === 1) {
-      return matchingActiveEffects[0];
-    } else {
-      const newActiveEffect = this.makeNewActiveEffect();
-      possibleActiveEffects.push(newActiveEffect);
-      return newActiveEffect;
-    }
+  isMyActiveEffect(activeEffect) {
+    return activeEffect.powerHsid === this.power.hsid
   }
 
   makeNewActiveEffect() {
-    const result = {};
-    result.hsid = newHsid();
-    result.value = this.power.ranks;
-    result.updater = this.constructor.name;
-    result.powerHsid = this.power.hsid;
-    return result;
+    return {
+      hsid: newHsid(),
+      value: this.power.ranks,
+      updater: this.constructor.name,
+      powerHsid: this.power.hsid,
+      description: `${this.power.option} from Power`,
+    };
   }
 
   watchForChange() {
@@ -750,43 +768,29 @@ class CombatSkillUpdater extends Updater {
     this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.skill = newUpdaterEvent.skill;
     this.activeEffectKey = `attacks.${this.skill.attackHsid}.check`;
-    this.activeEffect = this.findOrCreateActiveEffect();
+    this.activeEffect = findOrCreateActiveEffect(this);
+  }
+
+  /*
+   * Given an ActiveEffect entry for an updater of this class, this returns
+   * a boolean indicating whether it is the one belonging to this updater.
+   */
+  isMyActiveEffect(activeEffect) {
+    return activeEffect.skillHsid === this.skill.hsid
   }
 
   makeNewActiveEffect() {
+    const capitalizedName = {
+      "close combat": "Close Combat",
+      "ranged combat": "Ranged Combat"
+    }[this.skill.name];
     return {
       hsid: newHsid(),
       value: this.skill.ranks,
       updater: this.constructor.name,
       skillHsid: this.skill.hsid,
+      description: `${capitalizedName} Skill`,
     };
-  }
-
-  /*
-   * This is run once during the constructor to obtain or create the specific
-   * active effect.
-   *
-   * FIXME: Mostly duplicated code here - see ActiveEffectFromAdvantageUpdater
-   */
-  findOrCreateActiveEffect() {
-    const updaterName = this.constructor.name;
-    const activeEffectKey = this.activeEffectKey;
-    if (this.charsheet.activeEffects[activeEffectKey] === undefined) {
-      this.vm.$set(this.charsheet.activeEffects, activeEffectKey, []);
-    }
-    const possibleActiveEffects = this.charsheet.activeEffects[activeEffectKey];
-    const matchingActiveEffects = possibleActiveEffects.filter(
-      x => x.updater === updaterName && x.skillHsid === this.skill.hsid
-    );
-    if (matchingActiveEffects.length > 1) {
-      throw Error(`Multiple active effects of type ${updaterName} that matched.`);
-    } else if (matchingActiveEffects.length === 1) {
-      return matchingActiveEffects[0];
-    } else {
-      const newActiveEffect = this.makeNewActiveEffect();
-      possibleActiveEffects.push(newActiveEffect);
-      return newActiveEffect;
-    }
   }
 
   watchForChange() {
@@ -808,8 +812,7 @@ class CombatSkillUpdater extends Updater {
 
   // FIXME: Some duplicated code here - see ActiveEffectFromAdvantageUpdater
   destroy() {
-    const effectKey = this.activeEffectKey;
-    const possibleActiveEffects = this.charsheet.activeEffects[effectKey];
+    const possibleActiveEffects = this.charsheet.activeEffects[(this.activeEffectKey)];
     if (possibleActiveEffects) {
       const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
       if (currentPosition !== -1) {
@@ -818,7 +821,7 @@ class CombatSkillUpdater extends Updater {
         console.log(`Attempted to delete a ${this.constructor.name} but it wasn't there.`);
       }
       if (possibleActiveEffects.length === 0) {
-        this.vm.$delete(this.charsheet.activeEffects, effectKey);
+        this.vm.$delete(this.charsheet.activeEffects, this.activeEffectKey);
       }
     }
     super.destroy();
