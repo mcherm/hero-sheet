@@ -31,6 +31,14 @@
     "features": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
   },
+  "Computer": {
+    "name": "Computer",
+    "description": "A computer includes keyboard, mouse, monitor, printer, modem, and other standard peripherals, and may include things like a scanner at the GM's discretion.",
+    "cost": 1,
+    "category": "Electronics",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
+  },
   "Audio Recorder": {
     "name": "Audio Recorder",
     "description": "These tiny digital recorders (about the size of a deck of playing cards) can record up to eight hours of audio and can be connected to a computer to download the digital recording.",
@@ -110,5 +118,77 @@
     "category": "Surveillance Gear",
     "features": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
+  },
+  "Camo Clothing": {
+    "name": "Camo Clothing",
+    "description": "Clothing in the right camouflage pattern for the environment grants a +5 equipment bonus on Stealth checks in that environment. Patterns include foliage, desert, urban, and arctic.",
+    "cost": 1,
+    "category": "Survival Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
+  },
+  "Flash Goggles": {
+    "name": "Flash Goggles",
+    "description": "These tinted eye-coverings provide protection against blinding light, granting a +5 equipment bonus to resistance checks against visual Dazzle attacks involving bright light.",
+    "cost": 1,
+    "category": "Survival Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
+  },
+  "Flashlight": {
+    "name": "Flashlight",
+    "description": "Flashlights negate penalties for darkness within their illuminated areas. The standard flashlight projects a beam 30 feet long and 15 feet across at its end.",
+    "cost": 1,
+    "category": "Survival Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
+  },
+  "Fire Extinguisher": {
+    "name": "Fire Extinguisher",
+    "description": "This portable apparatus uses a chemical spray to extinguish small fires. The typical fire extinguisher ejects enough extinguishing chemicals to put out a fire in a 10-by-10-foot area as a move action. It contains enough material for two such uses.",
+    "cost": 1,
+    "category": "Survival Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
+  },
+  "Gas Mask": {
+    "name": "Gas Mask",
+    "description": "This apparatus covers the face and connects to a chemical air filter canister to protect the lungs and eyes from toxic gases. It provides immunity to eye and lung irritants. The filter canister lasts for 12 hours of use.",
+    "cost": 1,
+    "category": "Survival Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
+  },
+  "GPS": {
+    "name": "GPS",
+    "description": "Global positioning system receivers use signals from GPS satellites to determine the receiver's location to within a few dozen feet. A GPS receiver grants its user a +5 equipment bonus on checks to navigate, but it generally only works outdoors.",
+    "cost": 1,
+    "category": "Survival Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
+  },
+  "Multi-tool": {
+    "name": "Multi-tool",
+    "description": "This device contains several different screwdrivers, a knife blade or two, can opener, bottle opener, file, short ruler, scissors, tweezers, and wire cutters. The whole thing unfolds into a handy pair of pliers. A multi-tool can lessen the penalty for making skill checks without appropriate tools to –2 instead of the normal –5. The tool is useful for certain tasks, as determined by the GM, but may not be useful in all situations.",
+    "cost": 1,
+    "category": "Survival Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
+  },
+  "Rebreather": {
+    "name": "Rebreather",
+    "description": "A small cylinder that fits over the mouth and provides two minutes (20 rounds) of oxygen, during which the character does not need to make suffocation checks.",
+    "cost": 1,
+    "category": "Survival Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
+  },
+  "SCUBA Gear": {
+    "name": "SCUBA Gear",
+    "description": "A back-mounted oxygen cylinder and face- mask, used for diving. SCUBA (Self-Contained Underwater Breathing Apparatus) gear provides two hours of oxygen, and characters using it do not need to make checks for suffocation unless the gear is damaged or disabled.",
+    "cost": 1,
+    "category": "Survival Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   }
 }
