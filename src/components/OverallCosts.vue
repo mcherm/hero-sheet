@@ -9,6 +9,8 @@
       <number-display :value="skillCost(charsheet)" class="values-column"/>
       <label class="row-label">Advantages</label>
       <number-display :value="advantageCost(charsheet)" class="values-column"/>
+      <label class="row-label">Equipment</label>
+      <number-display :value="equipmentCost(charsheet)" class="values-column"/>
       <label class="row-label">Powers</label>
       <number-display :value="powerCost(charsheet)" class="values-column"/>
       <label class="row-label">TOTAL</label>
@@ -22,7 +24,7 @@
 </template>
 
 <script>
-  import {abilityCost, defenseCost, skillCost, advantageCost, powerCost, totalCost, availablePoints, costOutOfSpec} from "../js/heroSheetUtil";
+  import {abilityCost, defenseCost, skillCost, advantageCost, equipmentCost, powerCost, totalCost, availablePoints, costOutOfSpec} from "../js/heroSheetUtil";
 
   export default {
     name: "OverallCosts",
@@ -34,6 +36,7 @@
       defenseCost,
       skillCost,
       advantageCost,
+      equipmentCost,
       powerCost,
       totalCost,
       availablePoints,

@@ -24,6 +24,9 @@
       <template slot="advantages">
         <advantages :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
       </template>
+      <template slot="equipment">
+        <equipment :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
+      </template>
       <template slot="powers">
         <power-list-top-level :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
       </template>
@@ -51,6 +54,7 @@
   import Defenses from "./Defenses.vue"
   import Skills from "./Skills.vue"
   import Advantages from "./Advantages.vue"
+  import Equipment from "./Equipment.vue";
   import OverallCosts from "./OverallCosts.vue"
   import PowerListTopLevel from "./PowerListTopLevel.vue"
   import Complications from "./Complications.vue";
@@ -73,6 +77,7 @@
       Defenses,
       Skills,
       Advantages,
+      Equipment,
       OverallCosts,
       PowerListTopLevel,
       Complications,

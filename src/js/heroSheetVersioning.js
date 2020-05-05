@@ -3,12 +3,12 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 10; // Up to this version can be saved
-const latestVersion = 10; // Might be an experimental version
+const currentVersion = 11; // Up to this version can be saved
+const latestVersion = 11; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
-  "initiative", "advantages", "skills", "powers", "complications", "attacks", "activeEffects"];
+  "initiative", "advantages", "equipment", "skills", "powers", "complications", "attacks", "activeEffects"];
 
 /*
  * Given a charsheet, this re-orders the fields so they are in the preferred order.
@@ -84,7 +84,6 @@ const newBlankCharacter = function() {
     };
   }
   const defenses = {};
-  const initiative = null;
   for (const defenseName of defenseNames) {
     // These will be populated by defenses
     defenses[defenseName] = {
@@ -94,6 +93,9 @@ const newBlankCharacter = function() {
       ranks: 0
     }
   }
+  const initiative = null;
+  const advantages = [];
+  const equipment = [];
   const skillList = [];
   for (const skillName in skillsData.normalSkills) {
     skillList.push({
@@ -106,7 +108,6 @@ const newBlankCharacter = function() {
     skillList,
     cost: 0
   };
-  const advantages = [];
   const powers = [];
   const complications = [
     {
@@ -136,6 +137,7 @@ const newBlankCharacter = function() {
     defenses,
     initiative,
     advantages,
+    equipment,
     skills,
     powers,
     complications,
@@ -152,6 +154,24 @@ const newBlankAdvantage = function() {
     description: ""
   };
 };
+
+/*
+  NOTE: The singular is "item"; the plural is "equipment".
+
+  Equipment.source takes on the following values:
+   * "unselected" -- means the user hasn't chosen and this item is invalid
+   * "standardEquipment" -- means it comes from standardEquipment.json
+   * "custom" -- to be added later; not allowed for now
+*/
+
+const newBlankEquipment = function() {
+  return {
+    hsid: newHsid(),
+    name: "",
+    cost: NaN,
+    source: "unselected"
+  };
+}
 
 // New blank skills are ALWAYS template skills since that's the only kind you can add
 const newBlankSkill = function() {
@@ -347,13 +367,17 @@ const upgradeFuncs = {
   upgradeFrom9: function(charsheet) {
     charsheet.activeEffects = {};
     charsheet.version = 10;
-  }
+  },
 
+  upgradeFrom10: function(charsheet) {
+    charsheet.equipment = [];
+    charsheet.version = 11;
+  }
 };
 
 
 /*
- * Modifies a charsheet in place to upgrade it one step.
+ * Modifies a charsheet in place to upgrade it one (or more) step(s).
  */
 const upgradeFrom = function(charsheet) {
   const oldVersion = charsheet.version;
@@ -382,6 +406,7 @@ export {
   currentVersion,
   newBlankCharacter,
   newBlankAdvantage,
+  newBlankEquipment,
   newBlankSkill,
   newBlankPower,
   newBlankComplication,

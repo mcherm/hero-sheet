@@ -128,13 +128,17 @@ const advantageCost = function(charsheet) {
   return charsheet.advantages.reduce((x,y) => x + (advantageIsRanked(y) ? y.ranks : 1), 0);
 };
 
+const equipmentCost = function(charsheet) {
+  return charsheet.equipment.reduce((x,y) => x + y.cost, 0);
+}
+
 const powerCost = function(charsheet) {
   return Object.values(charsheet.powers).reduce((x,y) => x + y.cost, 0);
 };
 
 const totalCost = function(charsheet) {
   return abilityCost(charsheet) + defenseCost(charsheet) + skillCost(charsheet) +
-    advantageCost(charsheet) + powerCost(charsheet);
+    advantageCost(charsheet) + equipmentCost(charsheet) + powerCost(charsheet);
 };
 
 const availablePoints = function(charsheet) {
@@ -153,6 +157,7 @@ export {
   defenseCost,
   skillCost,
   advantageCost,
+  equipmentCost,
   powerCost,
   totalCost,
   availablePoints,

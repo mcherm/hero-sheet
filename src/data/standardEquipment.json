@@ -1,0 +1,114 @@
+{
+  "Camera": {
+    "name": "Camera",
+    "description": "A digital or film camera for taking still images. Most cameras have a capacity of 24 or 36 images and you can use one in conjunction with appropriate Expertise skills, such as photography.",
+    "cost": 1,
+    "category": "Electronics",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
+  },
+  "Cell Phone": {
+    "name": "Cell Phone",
+    "description": "A small handheld or headset unit for communication. The battery lasts for approximately 24 hours before it needs to be recharged.",
+    "cost": 1,
+    "category": "Electronics",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
+  },
+  "Smart Phone": {
+    "name": "Smart Phone",
+    "description": "A small handheld or headset unit for communication and internet use. The battery lasts for approximately 24 hours before it needs to be recharged. A smart phone can have most of the capabilities of a computer, at least with regard to accessing the Internet and providing data.",
+    "cost": 2,
+    "category": "Electronics",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
+  },
+  "Comm-Link": {
+    "name": "Comm-Link",
+    "description": "A tiny button-sized device for radio communication with an effective range of about a mile (longer if patched into the cellular network or a similar network). Many hero (and villain) teams use comm-links.",
+    "cost": 1,
+    "category": "Electronics",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
+  },
+  "Audio Recorder": {
+    "name": "Audio Recorder",
+    "description": "These tiny digital recorders (about the size of a deck of playing cards) can record up to eight hours of audio and can be connected to a computer to download the digital recording.",
+    "cost": 1,
+    "category": "Electronics",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
+  },
+  "Video Camera": {
+    "name": "Video Camera",
+    "description": "A hand-held camera that records video and audio on tape or digitally, with a capacity of about 6 hours of footage.",
+    "cost": 2,
+    "category": "Electronics",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
+  },
+  "Handcuffs": {
+    "name": "Handcuffs",
+    "description": "Handcuffs are restraints designed to lock two limbs—normally the wrists—of a prisoner together. They fit any medium or small humanoid. Handcuffs can only be placed on a defenseless or unresisting target.",
+    "cost": 1,
+    "category": "Criminal Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-CRIMINAL-GEAR"
+  },
+  "Lock Release Gun": {
+    "name": "Lock Release Gun",
+    "description": "This small, pistol-like device automatically disables and opens cheap and average mechanical locks operated by standard keys as a routine check. It does not affect other locks.",
+    "cost": 1,
+    "category": "Criminal Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-CRIMINAL-GEAR"
+  },
+  "Restraints": {
+    "name": "Restraints",
+    "description": "Similar to handcuffs are plastic restraints, used in cases where authorities need to restrain a large number of people and cuffs are impractical.",
+    "cost": 1,
+    "category": "Criminal Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-CRIMINAL-GEAR"
+  },
+  "Binoculars": {
+    "name": "Binoculars",
+    "description": "Standard binoculars allow the user to make visual Perception checks at a greater distance, or with a reduced penalty for distance, effectively providing a +5 equipment bonus that overcomes some or all of the distance penalty.",
+    "cost": 1,
+    "category": "Surveillance Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
+  },
+  "Concealable Microphone": {
+    "name": "Concealable Microphone",
+    "description": "A tiny receiver usable as a listening device. It has a broadcast range of about a mile. It requires an Investigation or Perception check against the results of the Sleight of Hand check used to conceal the microphone to find it.",
+    "cost": 1,
+    "category": "Surveillance Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
+  },
+  "Mini-Tracer": {
+    "name": "Mini-Tracer",
+    "description": "A tiny radio transmitter with an adhesive backing. It requires a successful attack check to plant a tracer on a target (or a Sleight of Hand check to plant it outside of action time). Noticing the tracer is a DC 20 Perception check or the result of the character’s Sleight of Hand check, whichever is higher. The tracer has a transmission range of about 2 miles.",
+    "cost": 1,
+    "category": "Surveillance Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
+  },
+  "Night Vision Goggles": {
+    "name": "Night Vision Goggles",
+    "description": "Night vision goggles use passive light gathering to improve vision in near-dark conditions. They grant the user darkvision—but because of the restricted field of view and lack of depth perception these goggles provide, they impose a –2 circumstance penalty on Perception checks made while wearing them. Night vision goggles must have at least a little light to operate.",
+    "cost": 1,
+    "category": "Surveillance Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
+  },
+  "Parabolic Microphone": {
+    "name": "Parabolic Microphone",
+    "description": "This apparatus has a gunlike microphone with an attached set of headphones. A parabolic mike provides a +5 equipment bonus to listening perception checks that overcomes some or all of the penalty for listening to sounds at a distance, through walls, etc.",
+    "cost": 1,
+    "category": "Surveillance Gear",
+    "features": null,
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
+  }
+}

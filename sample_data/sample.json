@@ -102,6 +102,20 @@
       "description": ""
     }
   ],
+  "equipment": [
+    {
+      "hsid": "HI1P6B9LN",
+      "name": "Camera",
+      "cost": 1,
+      "source": "standardEquipment"
+    },
+    {
+      "hsid": "HIFFSKUEL",
+      "name": "Binoculars",
+      "cost": 1,
+      "source": "standardEquipment"
+    }
+  ],
   "skills": {
     "skillList": [
       {
