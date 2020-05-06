@@ -1,0 +1,131 @@
+{
+  "Blast": {
+    "feature": {
+      "name": "Blast",
+      "description": "You can make a damaging ranged attack. It might be a blast of energy, a projectile (arrow, bullet, throwing blade, etc.), or some similar effect.",
+      "effect": "Damage",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ],
+    },
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/affliction-attack/",
+    "EXAMPLE": {
+      "name": "Blast",
+      "hsid": "HIM3KVFQD",
+      "effect": "Damage",
+      "description": "You can make a damaging ranged attack. It might be a blast of energy, a projectile (arrow, bullet, throwing blade, etc.), or some similar effect.",
+      "extras": [
+        {
+          "modifierName": "Increased Range",
+          "ranks": 1,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1,
+          "displayText": "Increased Range (+1)"
+        }
+      ],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 2,
+      "effectDescription": "You can inflict damage by making a close attack.",
+      "baseCost": 1,
+      "subpowers": []
+    }
+  },
+  "Dazzle": {
+    "feature": {
+      "name": "Dazzle",
+      "description": "You can overwhelm one of the target's senses, chosen when you take this effect. The target makes a Fortitude or Will resistance check against your effect DC (choose one when you acquire the effect). One degree of failure leaves the sense impaired (–2 penalty). Two degrees leave it disabled (–5 penalty) while three degrees leave the sense unaware (the target automatically fails Perception checks involving the sense, and everything effectively has total concealment from that sense).",
+      "effect": "Affliction",
+      "extras": [
+        {
+          "modifierSource": "effect",
+          "modifierName": "Cumulative"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Limited"
+        }
+      ]
+    },
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/dazzle/",
+    "EXAMPLE": {
+      "name": "Dazzle",
+      "hsid": "HIUDM7E41",
+      "effect": "Affliction",
+      "description": "You can overwhelm one of the target's senses, chosen when you take this effect. The target makes a Fortitude or Will resistance check against your effect DC (choose one when you acquire the effect). One degree of failure leaves the sense impaired (–2 penalty). Two degrees leave it disabled (–5 penalty) while three degrees leave the sense unaware (the target automatically fails Perception checks involving the sense, and everything effectively has total concealment from that sense).",
+      "extras": [
+        {
+          "modifierName": "Cumulative",
+          "costType": "pointsOfMultiplier",
+          "cost": 1,
+          "displayText": "Cumulative (+1)"
+        },
+        {
+          "modifierName": "Increased Range",
+          "ranks": 1,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1,
+          "displayText": "Increased Range (+1)"
+        }
+      ],
+      "flaws": [
+        {
+          "modifierName": "Limited",
+          "costType": "pointsOfMultiplier",
+          "cost": -1,
+          "displayText": "Limited (-1)"
+        }
+      ],
+      "ranks": 1,
+      "cost": 2,
+      "effectDescription": "Impose some debilitating condition(s) on a target.",
+      "baseCost": 1,
+      "subpowers": []
+    }
+  },
+  "Duplication": {
+    "feature": {
+      "name": "Duplication",
+      "description": "You can create a duplicate of yourself. Your duplicate is a minion with the same traits as you, except for this power and any hero points.",
+      "effect": "Summon",
+      "extras": [
+        {
+          "modifierSource": "effect",
+          "modifierName": "Active"
+        }
+      ]
+    },
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/duplication/",
+    "EXAMPLE": {
+      "name": "Duplication",
+      "hsid": "HILC6VAAU",
+      "effect": "Summon",
+      "description": "You can create a duplicate of yourself. Your duplicate is a minion with the same traits as you, except for this power and any hero points.",
+      "extras": [
+        {
+          "modifierName": "Active",
+          "costType": "pointsOfMultiplier",
+          "cost": 1,
+          "displayText": "Active (+1)"
+        }
+      ],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 3,
+      "effectDescription": "You can call upon another creature to aid you.",
+      "baseCost": 2,
+      "subpowers": []
+    }
+  }
+}

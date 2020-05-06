@@ -581,6 +581,13 @@
     "specialFlaws": "-",
     "specialFlats": "-",
     "extras": [
+      {
+        "name": "Strength Based",
+        "description": "A Damage effect can be Strength-based -- something like a melee weapon -- allowing your Strength Damage to add to it. You add your Strength and Damage ranks together when determining the rank of the attack.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 0
+      }
     ],
     "flaws": [
     ],

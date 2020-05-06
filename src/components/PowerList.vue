@@ -5,7 +5,6 @@
         <div class="power-list-row">
           <power
             :power="power"
-            :standardPowers="filteredStandardPowers"
             v-on:update:name="renamePower(power, $event)"
             v-on:newUpdater="$emit('newUpdater', $event)"
           />
@@ -27,7 +26,6 @@
 
 <script>
   import {newBlankPower} from "../js/heroSheetVersioning.js";
-  const standardPowers = require("../data/standardPowers.json");
 
   export default {
     name: "PowerList",
@@ -37,28 +35,6 @@
     data: function() {
       return {
         deleteIsVisible: false
-      }
-    },
-    computed: {
-      /*
-       * Returns just some of the standard powers, filtered by whatever
-       * criteria we need at the moment while we develop them.
-       */
-      filteredStandardPowers: function() {
-        const result = {};
-        for (const key in standardPowers) {
-          const power = standardPowers[key];
-          if (
-            power.isArray ||
-            typeof(power.baseCost) === "number" ||
-            power.baseCost === "powerOptions"
-          ) {
-            result[key] = power;
-          } else {
-            console.log(`TODO: Power Not Supported: ${power.name}`);
-          }
-        }
-        return result;
       }
     },
     methods: {

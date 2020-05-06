@@ -114,6 +114,32 @@
       "name": "Binoculars",
       "cost": 1,
       "source": "standardEquipment"
+    },
+    {
+      "hsid": "HIBJMDXRL",
+      "name": "Brass Knuckles",
+      "cost": 1,
+      "source": "standard",
+      "feature": {
+        "name": "Brass Knuckles",
+        "hsid": "HIQ6Y4EE6",
+        "effect": "Damage",
+        "description": "",
+        "extras": [
+          {
+            "modifierName": "Strength Based",
+            "costType": "pointsOfMultiplier",
+            "cost": 0,
+            "displayText": "Strength Based (0)"
+          }
+        ],
+        "flaws": [],
+        "ranks": 1,
+        "cost": 1,
+        "effectDescription": "You can inflict damage by making a close attack.",
+        "baseCost": 1,
+        "subpowers": []
+      }
     }
   ],
   "skills": {

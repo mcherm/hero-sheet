@@ -53,7 +53,7 @@
 <script>
   import LocalCostDisplay from "./LocalCostDisplay.vue";
   import {newBlankEquipment} from "../js/heroSheetVersioning.js";
-  import {equipmentCost} from "../js/heroSheetUtil.js";
+  import {equipmentCost, buildFeature} from "../js/heroSheetUtil.js";
   const standardEquipment = require("../data/standardEquipment.json");
 
   export default {
@@ -77,12 +77,21 @@
         this.charsheet.equipment.push(newEquipment);
       },
       selectItem: function(item, selected) {
+        console.log(`Selected ${JSON.stringify(selected)}`); // FIXME: Remove
         const selectedFields = selected.split(":");
         const source = selectedFields[0];
         if (source === "standard") {
           item.source = source;
           item.name = selectedFields[1];
           item.cost = standardEquipment[item.name].cost;
+          const standardFeature = standardEquipment[item.name].feature;
+          console.log(`standardFeature = ${JSON.stringify(standardFeature)}`); // FIXME: Remove
+          if (standardFeature === null) {
+            item.feature = null;
+          } else {
+            item.feature = buildFeature(standardFeature);
+            console.log(`Built feature ${JSON.stringify(item.feature)}`); // FIXME: Remove
+          }
         } else {
           throw Error(`Unexpected source value of '${source}`);
         }

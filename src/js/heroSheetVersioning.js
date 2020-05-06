@@ -169,7 +169,8 @@ const newBlankEquipment = function() {
     hsid: newHsid(),
     name: "",
     cost: NaN,
-    source: "unselected"
+    source: "unselected",
+    feature: null
   };
 }
 

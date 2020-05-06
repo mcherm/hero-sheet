@@ -26,15 +26,16 @@
 </template>
 
 <script>
+  const standardPowers = require("../data/standardPowers.json");
+
   export default {
     name: "PowerEffectSelect",
     props: {
       value: { type: String, required: true },
-      standardPowers: { type: Object, required: true }
     },
     methods: {
       powersFilteredFor: function(filter) {
-        return Object.values(this.standardPowers).filter(filter);
+        return Object.values(standardPowers).filter(filter);
       }
     }
   }

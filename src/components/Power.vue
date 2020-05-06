@@ -10,21 +10,21 @@
 
         <label class="row-label">Effect</label>
         <div>
-          <power-effect-select v-model="power.effect" :standard-powers="standardPowers"/>
+          <power-effect-select :value="power.effect" @input="setPowerEffect($event)"/>
         </div>
 
         <label class="row-label">Basic Desc</label>
         <div>
           <span>{{power.effectDescription}}</span>
-          <docs-lookup v-if="standardPower" :docsURL="standardPower.docsURL"/>
+          <docs-lookup v-if="getStandardPower()" :docsURL="getStandardPower().docsURL"/>
         </div>
 
-        <div v-if="hasOptions" class="display-contents">
+        <div v-if="hasOptions()" class="display-contents">
           <label class="row-label">Option</label>
           <div>
-            <select v-model="power.option">
+            <select :value="power.option" v-on:change="setPowerOption($event.target.value)">
               <option
-                  v-for="powerOption in standardPower.powerOptions"
+                  v-for="powerOption in getStandardPower().powerOptions"
                   :key="powerOption.name"
                   :value="powerOption.name"
               >
@@ -34,32 +34,39 @@
           </div>
 
           <label class="row-label">Option Desc</label>
-          <div>{{theOption.description}}</div>
+          <div>{{theOption().description}}</div>
         </div>
 
         <label class="row-label">Extras</label>
-        <modifier-list modifierType="extras" :modifiers="power.extras" :standardPower="standardPower"/>
+        <modifier-list modifierType="extras" :modifiers="power.extras" :standardPower="getStandardPower()"/>
 
         <label class="row-label">Flaws</label>
-        <modifier-list modifierType="flaws" :modifiers="power.flaws" :standardPower="standardPower"/>
+        <modifier-list modifierType="flaws" :modifiers="power.flaws" :standardPower="getStandardPower()"/>
 
         <label class="row-label">Description</label>
         <string-entry v-model="power.description"/>
       </div>
       <div class="power-costs">
-        <label v-if="!isArray" class="row-label">Power</label><div v-if="!isArray">
-          <number-display :value="power.baseCost"/>
-        </div>
-        <label class="row-label">Extras</label><div><number-display :value="extrasMultiplier"/></div>
-        <label class="row-label">Flaws</label><div><number-display :value="flawsMultiplier" :show-err-for-negatives="false"/></div>
-        <label v-if="!isArray" class="row-label">Ranks</label><div v-if="!isArray">
-          <number-entry v-model="power.ranks"/>
-        </div>
-        <label class="row-label">Flats</label><div><number-display :value="flatAdder" :show-err-for-negatives="false"/></div>
-        <label class="row-label">Cost</label><div><number-display :value="power.cost"/></div>
+        <label v-if="!isArray()" class="row-label">Power</label>
+        <number-display v-if="!isArray()" :value="power.baseCost"/>
+
+        <label class="row-label">Extras</label>
+        <number-display :value="extrasMultiplier"/>
+
+        <label class="row-label">Flaws</label>
+        <number-display :value="flawsMultiplier" :show-err-for-negatives="false"/>
+
+        <label v-if="!isArray()" class="row-label">Ranks</label>
+        <number-entry v-if="!isArray()" :value="power.ranks" @input="setPowerRanks($event)"/>
+
+        <label class="row-label">Flats</label>
+        <number-display :value="flatAdder" :show-err-for-negatives="false"/>
+
+        <label class="row-label">Cost</label>
+        <number-display :value="power.cost"/>
       </div>
     </div>
-    <div v-if="isArray" class="subpower-list">
+    <div v-if="isArray()" class="subpower-list">
       <div class="scrolling-list-header">Array Powers</div>
       <power-list :powers="power.subpowers" v-on:newUpdater="$emit('newUpdater', $event)" />
     </div>
@@ -69,7 +76,7 @@
 <script>
   import ModifierList from "./ModifierList";
   import PowerEffectSelect from "./PowerEffectSelect";
-  import {powerCostCalculate} from "../js/heroSheetUtil.js";
+  import {powerCostCalculate, getStandardPower, getPowerOption, recalculatePowerBaseCost, setPowerEffect, setPowerOption} from "../js/heroSheetUtil.js";
 
   export default {
     name: "Power",
@@ -79,7 +86,6 @@
     },
     props: {
       power: { type: Object, required: true },
-      standardPowers: { type: Object, required: true }
     },
     data: function() {
       return {
@@ -89,89 +95,45 @@
       }
     },
     created: function() {
-      this.$watch("power.effect", function() {
-        this.recalculateEffectStuff();
-        this.potentiallyCreateNewUpdaters();
-      });
-      this.$watch("power.ranks", function() {
-        this.recalculateCost();
-      });
       this.$watch("power.subpowers", function() {
-        this.recalculateBaseCost();
-        this.recalculateCost();
+        recalculatePowerBaseCost(this.power);
+        this.recalculatePowerCost();
       }, { deep: true });
-      this.$watch("power.option", function() {
-        this.recalculateBaseCost();
-        this.recalculateCost();
-        this.potentiallyCreateNewUpdaters();
-      });
       this.$watch("power.extras", function() {
-        this.recalculateCost();
+        this.recalculatePowerCost();
       }, { deep: true });
       this.$watch("power.flaws", function() {
-        this.recalculateCost();
+        this.recalculatePowerCost();
       }, { deep: true });
     },
-    computed: {
-      standardPower: function() {
-        return this.standardPowers[this.power.effect] || null;
+    methods: {
+      getStandardPower: function() {
+        return getStandardPower(this.power);
       },
       isArray: function() {
-        return this.standardPower && this.standardPower.isArray;
+        return this.getStandardPower() && this.getStandardPower().isArray;
       },
       hasOptions: function() {
-        return Boolean(this.standardPower && this.standardPower.powerOptions);
+        return Boolean(this.getStandardPower() && this.getStandardPower().powerOptions);
       },
       theOption: function() {
-        if (this.standardPower && this.standardPower.powerOptions) {
-          return this.standardPower.powerOptions[this.power.option];
-        } else {
-          return null;
-        }
-      }
-    },
-    methods: {
-      recalculateEffectStuff: function() {
-        const standardPower = this.standardPower;
-        if (standardPower === null) {
-          this.power.effectDescription = "";
-          this.power.baseCost = NaN; // Default to a cost of NaN when the power is unknown
-        } else {
-          this.power.effectDescription = standardPower.description;
-          if (standardPower.powerOptions) {
-            if (!this.power.option || !(this.power.option in standardPower.powerOptions)) {
-              // Current option is invalid, so re-assign to the first option
-              let nameOfFirstPower = null;
-              for (let powerName in standardPower.powerOptions) {
-                nameOfFirstPower = powerName;
-                break;
-              }
-              this.$set(this.power, "option", nameOfFirstPower);
-            }
-          } else {
-            this.$delete(this.power, "option");
-          }
-          this.recalculateBaseCost();
-        }
-        this.recalculateCost();
+        return getPowerOption(this.power);
       },
-      // If it's an array, this will be called to find the base cost
-      recalculateBaseCost: function() {
-        if (this.isArray) {
-          if ("baseCost" in this.power) {
-            this.$delete(this.power, "baseCost");
-          }
-        } else if (this.hasOptions) {
-          if (this.power.baseCost !== this.theOption.baseCost) {
-            this.power.baseCost = this.theOption.baseCost;
-          }
-        } else {
-          if (this.power.baseCost !== this.standardPower.baseCost) {
-            this.power.baseCost = this.standardPower.baseCost;
-          }
-        }
+      setPowerEffect: function(effect) {
+        setPowerEffect(this.power, effect);
+        this.recalculatePowerCost();
+        this.potentiallyCreateNewUpdaters();
       },
-      recalculateCost: function() {
+      setPowerOption: function(option) {
+        setPowerOption(this.power, option);
+        this.recalculatePowerCost();
+        this.potentiallyCreateNewUpdaters();
+      },
+      setPowerRanks: function(ranks) {
+        this.power.ranks = ranks;
+        this.recalculatePowerCost();
+      },
+      recalculatePowerCost: function() {
         const costCalcs = powerCostCalculate(this.power);
         this.extrasMultiplier = costCalcs.extrasMultiplier;
         this.flawsMultiplier = costCalcs.flawsMultiplier;
