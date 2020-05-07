@@ -38,10 +38,20 @@
         </div>
 
         <label class="row-label">Extras</label>
-        <modifier-list modifierType="extras" :modifiers="power.extras" :standardPower="getStandardPower()"/>
+        <modifier-list
+            modifierType="extras"
+            :modifiers="power.extras"
+            :standardPower="getStandardPower()"
+            @modifiers-changed="onModifiersChanged()"
+        />
 
         <label class="row-label">Flaws</label>
-        <modifier-list modifierType="flaws" :modifiers="power.flaws" :standardPower="getStandardPower()"/>
+        <modifier-list
+            modifierType="flaws"
+            :modifiers="power.flaws"
+            :standardPower="getStandardPower()"
+            @modifiers-changed="onModifiersChanged()"
+        />
 
         <label class="row-label">Description</label>
         <string-entry v-model="power.description"/>
@@ -99,12 +109,6 @@
         recalculatePowerBaseCost(this.power);
         this.recalculatePowerCost();
       }, { deep: true });
-      this.$watch("power.extras", function() {
-        this.recalculatePowerCost();
-      }, { deep: true });
-      this.$watch("power.flaws", function() {
-        this.recalculatePowerCost();
-      }, { deep: true });
     },
     methods: {
       getStandardPower: function() {
@@ -155,6 +159,10 @@
         } else if (this.power.effect === "Enhanced Trait") {
           this.$emit("newUpdater", { updater: "EnhancedTraitUpdater", power: this.power });
         }
+      },
+      /* This gets called when the modifiers are altered. */
+      onModifiersChanged: function() {
+        this.recalculatePowerCost();
       }
     }
   }

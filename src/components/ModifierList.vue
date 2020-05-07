@@ -19,6 +19,7 @@
         v-if="isAdding"
         :modifier-type="modifierType"
         :special-extras="specialExtras || []"
+        :power-effect-name="standardPower.name"
         v-on:choose-modifier="finishChoosingNewModifier($event)"
     />
     <button
@@ -74,6 +75,7 @@
       finishChoosingNewModifier: function(event) {
         if (event !== null) {
           this.modifiers.push(event);
+          this.$emit("modifiers-changed");
         }
         this.isAdding = false;
       },
@@ -81,6 +83,7 @@
         const index = this.modifiers.indexOf(modifier);
         if (index !== -1) {
           this.$delete(this.modifiers, index);
+          this.$emit("modifiers-changed");
         }
         if (this.modifiers.length === 0) {
           this.isDeleting = false;

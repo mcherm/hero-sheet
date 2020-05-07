@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list">
+      <li>2020-05-04: Can now add equipment that is based on a power.</li>
       <li>2020-05-04: Create Equipment pane supporting standard equipment with no effects.</li>
       <li>2020-04-29: In Adjustments show helpful string for "Type of Effect".</li>
       <li>2020-04-29: Created an adjustments tab.</li>

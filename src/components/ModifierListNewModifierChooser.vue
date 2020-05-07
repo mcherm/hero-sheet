@@ -35,13 +35,11 @@
         </select>
       </div>
     </div>
-    <div
-        v-if="isItemSelected && selectedItem.hasRanks"
-    >
+    <div v-if="isItemSelected && selectedItem.hasRanks">
       <label>Ranks:</label>
       <number-entry v-model="ranks"/>
     </div>
-    <div>{{displaySign}}</div>
+    <div>{{modifierDisplaySign(selectedItem, ranks)}}</div>
     <div class="buttons">
       <button :disabled="!isFullySelected" v-on:click="emitSelection()">Create</button>
       <button v-on:click="cancelCreateModifier()">Cancel</button>
@@ -52,13 +50,15 @@
 </template>
 
 <script>
+  import {modifierDisplaySign, buildNewModifier} from "../js/heroSheetUtil.js";
   const modifiersData = require("../data/modifiersData.json");
 
   export default {
     name: "ModifierListNewModifierChooser",
     props: {
       modifierType: { type: String, required: true },
-      specialExtras: { type: Array, required: true }
+      specialExtras: { type: Array, required: true },
+      powerEffectName: { type: String, required: true }
     },
     data: function() {
       return {
@@ -69,6 +69,18 @@
       }
     },
     computed: {
+      selectedModifierSource: function() {
+        const key = this.selectedModifierKey;
+        if (key === "none") {
+          return null;
+        } else if (key.startsWith("special_")) {
+          return "special";
+        } else if (key.startsWith("standard_")) {
+          return "standard";
+        } else {
+          throw new Error("Invalid value for selectedModifierKey");
+        }
+      },
       selectedModifier: function() {
         const key = this.selectedModifierKey;
         if (key === "none") {
@@ -126,49 +138,21 @@
         } else {
           return "";
         }
-      },
-      displaySign: function() {
-        if (this.selectedItem) {
-          const costShown = this.selectedItem.cost * (this.selectedItem.hasRanks ? this.ranks : 1);
-          const sign = costShown > 0 ? "+" : ""; // negatives have the sign built in
-          const text = {
-            flatPoints: " flat",
-            flatPointsPerRankOfModifier: " flat",
-            flatPointsPer5PointsOfFinalCost: " fifths",
-            pointsOfMultiplier: "",
-            pointsOfMultiplierPerRankOfModifier: ""
-          }[this.selectedItem.costType];
-          return `(${sign}${costShown}${text})`;
-        } else {
-          return "";
-        }
-      },
-      displayText: function() {
-        if (this.selectedItem) {
-          const name = this.selectedItem.name;
-          return `${name} ${this.displaySign}`;
-        } else {
-          return "";
-        }
       }
     },
     methods: {
+      modifierDisplaySign,
       emitSelection: function() {
         let response = null;
         const selectedItem = this.selectedItem;
         if (selectedItem) {
-          response = {
-            "modifierName": this.selectedModifier.name,
-          };
-          if (this.selectedModifierHasOptions) {
-            response.optionName = selectedItem.name;
-          }
-          if (selectedItem.hasRanks) {
-            response.ranks = this.ranks;
-          }
-          response.costType = selectedItem.costType;
-          response.cost = selectedItem.cost;
-          response.displayText = this.displayText;
+          response = buildNewModifier({
+            modifierSource: this.selectedModifierSource,
+            modifierName: this.selectedModifier.name,
+            optionName: this.selectedModifierHasOptions ? selectedItem.name : null,
+            effect: this.selectedModifierSource === "special" ? this.powerEffectName : null,
+            ranks: this.ranks
+          });
         }
         this.$emit('choose-modifier', response);
       },

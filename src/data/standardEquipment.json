@@ -202,7 +202,7 @@
       "effect": "Damage",
       "extras": [
         {
-          "modifierSource": "effect",
+          "modifierSource": "special",
           "modifierName": "Strength Based"
         }
       ],

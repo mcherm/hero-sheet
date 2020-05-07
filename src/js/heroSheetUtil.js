@@ -2,6 +2,7 @@ import {newBlankPower} from "./heroSheetVersioning.js";
 
 const standardAdvantages = require("../data/standardAdvantages.json");
 const standardPowers = require("../data/standardPowers.json");
+const modifiersData = require("../data/modifiersData.json");
 
 
 function isArray(power) {
@@ -150,6 +151,58 @@ const costOutOfSpec = function(charsheet) {
   return totalCost(charsheet) > availablePoints(charsheet);
 };
 
+
+/*
+ * Just a subroutine of findModifierItemTemplate.
+ */
+const _findModifierItem = function(thingWithExtrasAndFlaws, modifierSource, modifierName, optionName) {
+  const allModifiers = thingWithExtrasAndFlaws.extras.concat(thingWithExtrasAndFlaws.flaws);
+  const possibleModifiers = allModifiers.filter(x => x.name === modifierName);
+  if (possibleModifiers.length === 1) {
+    const modifier = possibleModifiers[0];
+    if (optionName) {
+      if (modifier.modifierOptions) {
+        const possibleOptions = modifier.modifierOptions.filter(x => x.name === optionName);
+        if (possibleOptions.length === 1) {
+          const option = possibleOptions[0];
+          return option;
+        } else if (possibleOptions.length === 0) {
+          throw Error(`Standard modifier '${modifierName}' has no option named '${optionName}'.`);
+        } else {
+          throw Error(`Standard modifier '${modifierName}' has multiple options named '${optionName}'.`);
+        }
+      } else {
+        throw Error(`Standard modifier '${modifierName}' has no options.`);
+      }
+    } else {
+      return modifier;
+    }
+  } else if (possibleModifiers.length === 0) {
+    throw Error(`No standard modifier named '${modifierName}'.`);
+  } else {
+    throw Error(`Multiple standard modifiers named '${modifierName}'.`);
+  }
+}
+
+/*
+ * Given the fields that identify a modifier template, this locates it. The field
+ * effect is a power name; needed only if the modifierSource is "special".
+ */
+const findModifierItemTemplate = function(modifierSource, modifierName, optionName=null, effect=null) {
+  if (modifierSource === "standard") {
+    return _findModifierItem(modifiersData, modifierSource, modifierName, optionName);
+  } else if (modifierSource === "special") {
+    if (effect) {
+      const standardPower = standardPowers[effect];
+      return _findModifierItem(standardPower, modifierSource, modifierName, optionName);
+    } else {
+      throw Error(`Must specify an effect with a modifierSource of '${modifierSource}'.`);
+    }
+  } else {
+    throw Error(`Unsupported modifierSource of '${modifierSource}'.`);
+  }
+}
+
 /*
  * This is passed a template for a Feature and it creates a new
  * feature. A Feature is basically a power, but it might be
@@ -160,7 +213,24 @@ const buildFeature = function(template) {
   feature.name = template.name;
   feature.description = template.description;
   setPowerEffect(feature, template.effect);
-  // FIXME: Need to handle extras and flaws.
+  for (const modifierType of ["extras", "flaws"]) {
+    for (const modifierTemplate of template[modifierType]) {
+      const {
+        modifierSource,
+        modifierName,
+        optionName,
+        ranks
+      } = modifierTemplate;
+      const modifier = buildNewModifier({
+        modifierSource,
+        modifierName,
+        optionName,
+        effect: template.effect,
+        ranks
+      });
+      addPowerModifier(feature, modifierType, modifier)
+    }
+  }
   return feature;
 };
 
@@ -259,6 +329,99 @@ const setPowerOption = function(power, option) {
   recalculatePowerCost(power);
 }
 
+/*
+ * Given a power, a modifierType ("extras" or "flaws"), and the new
+ * modifier, this adds the modifier and updates costs accordingly
+ * on the power. The data for a modifier looks like this:
+ *
+ * {
+ *   modifierSource: xxx
+ *   modifierName: xxx,
+ *   optionName: xxx,   // if (this.selectedModifierHasOptions)
+ *   ranks: 2,          // if not selectedItem.hasRanks then this is null
+ *   costType: xxx,
+ *   cost: xxx,
+ *   displayText: xxx
+ * }
+ */ // FIXME: I should make sure this gets called from within ModifierList. And create deletePowerModifier also.
+const addPowerModifier = function(power, modifierType, modifier) {
+  power[modifierType].push(modifier);
+}
+
+/*
+ * Given a modifier template (without options) or modifier option template
+ * and the number of ranks to be purchased (defaults to null, which is
+ * appropriate if the modifier does not have ranks), this returns the text
+ * used to display the sign of the modifier. If null is provided for the
+ * modifierItemTemplate it returns "".
+ */
+const modifierDisplaySign = function(modifierItemTemplate, ranks=null) {
+  if (modifierItemTemplate) {
+    const costShown = modifierItemTemplate.cost * (modifierItemTemplate.hasRanks ? ranks : 1);
+    const sign = costShown > 0 ? "+" : ""; // negatives have the sign built in
+    const text = {
+      flatPoints: " flat",
+      flatPointsPerRankOfModifier: " flat",
+      flatPointsPer5PointsOfFinalCost: " fifths",
+      pointsOfMultiplier: "",
+      pointsOfMultiplierPerRankOfModifier: ""
+    }[modifierItemTemplate.costType];
+    return `(${sign}${costShown}${text})`;
+  } else {
+    return "";
+  }
+}
+
+/*
+ * Given a modifier template (without options) or modifier option template
+ * and the number of ranks to be purchased (defaults to null, which is
+ * appropriate if the modifier does not have ranks), this returns the text
+ * used to display the modifier. If null is provided for the
+ * modifierItemTemplate it returns "".
+ */
+const modifierDisplayText = function(modifierItemTemplate, ranks=null) {
+  if (modifierItemTemplate) {
+    const name = modifierItemTemplate.name;
+    return `${name} ${modifierDisplaySign(modifierItemTemplate, ranks)}`;
+  } else {
+    return "";
+  }
+};
+
+/*
+ * Construct a new modifier (object in a charsheet). Required fields are
+ * numerous: modifierSource is "standard" or "special", telling where the
+ * modifier came from, modifierName is the name of the extra or flaw, and
+ * optionName is null or is the name of the option. All of those are used
+ * only to find the modifier if it needs to be edited or have special
+ * properties -- which they don't have now.
+ *
+ * Also needed are modifierItemTemplate, which should be a modifier template that
+ * does not have options OR an option template, and ranks, which is the
+ * number of ranks of the modifier to purchase or null if the modifier
+ * does not have ranks.
+ */
+const buildNewModifier = function(inputFields) {
+  const {
+    modifierSource,          // Required. "standard" or "special"
+    modifierName,            // Required.
+    optionName,              // Required if the modifier has options
+    effect,                  // The power effect it is based on. Required if modifierSource is "special"
+    ranks                    // Required if the modifier has ranks
+  } = inputFields;
+  const modifierItemTemplate = findModifierItemTemplate(modifierSource, modifierName, optionName, effect);
+  return {
+    modifierSource: modifierSource,
+    modifierName: modifierName,
+    optionName: optionName,
+    ranks: ranks,
+    costType: modifierItemTemplate.costType,
+    cost: modifierItemTemplate.cost,
+    displayText: modifierDisplayText(modifierItemTemplate, ranks)
+  };
+}
+
+
 
 export {
   powerCostCalculate,
@@ -272,10 +435,14 @@ export {
   totalCost,
   availablePoints,
   costOutOfSpec,
+  findModifierItemTemplate,
   buildFeature,
   getStandardPower,
   getPowerOption,
   recalculatePowerBaseCost,
   setPowerEffect,
   setPowerOption,
+  modifierDisplaySign,
+  modifierDisplayText,
+  buildNewModifier,
 };
