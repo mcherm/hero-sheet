@@ -35,6 +35,7 @@
 </template>
 
 <script>
+  import {addPowerModifier, deletePowerModifier, getStandardPower} from "../js/heroSheetUtil.js";
   import ModifierListNewModifierChooser from "./ModifierListNewModifierChooser";
 
   export default {
@@ -44,8 +45,7 @@
     },
     props: {
       modifierType: { type: String, required: true },
-      modifiers: { type: Array, required: true },
-      standardPower: {type: Object, required: false, default: null }
+      power: { type: Object,  required: true },
     },
     data: function() {
       return {
@@ -54,6 +54,12 @@
       }
     },
     computed: {
+      modifiers: function() {
+        return this.power[this.modifierType];
+      },
+      standardPower: function() {
+        return getStandardPower(this.power);
+      },
       addButtonName: function() {
         if (this.modifierType === "extras") {
           return "Add Extra";
@@ -74,17 +80,12 @@
     methods: {
       finishChoosingNewModifier: function(event) {
         if (event !== null) {
-          this.modifiers.push(event);
-          this.$emit("modifiers-changed");
+          addPowerModifier(this.power, this.modifierType, event);
         }
         this.isAdding = false;
       },
       deleteModifier: function(modifier) {
-        const index = this.modifiers.indexOf(modifier);
-        if (index !== -1) {
-          this.$delete(this.modifiers, index);
-          this.$emit("modifiers-changed");
-        }
+        deletePowerModifier(this.power, this.modifierType, modifier);
         if (this.modifiers.length === 0) {
           this.isDeleting = false;
         }

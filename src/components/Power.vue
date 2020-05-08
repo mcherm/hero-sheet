@@ -38,20 +38,10 @@
         </div>
 
         <label class="row-label">Extras</label>
-        <modifier-list
-            modifierType="extras"
-            :modifiers="power.extras"
-            :standardPower="getStandardPower()"
-            @modifiers-changed="onModifiersChanged()"
-        />
+        <modifier-list :power="power" modifierType="extras"/>
 
         <label class="row-label">Flaws</label>
-        <modifier-list
-            modifierType="flaws"
-            :modifiers="power.flaws"
-            :standardPower="getStandardPower()"
-            @modifiers-changed="onModifiersChanged()"
-        />
+        <modifier-list :power="power" modifierType="flaws"/>
 
         <label class="row-label">Description</label>
         <string-entry v-model="power.description"/>
@@ -61,16 +51,16 @@
         <number-display v-if="!isArray()" :value="power.baseCost"/>
 
         <label class="row-label">Extras</label>
-        <number-display :value="extrasMultiplier"/>
+        <number-display :value="powerCostCalculations.extrasMultiplier"/>
 
         <label class="row-label">Flaws</label>
-        <number-display :value="flawsMultiplier" :show-err-for-negatives="false"/>
+        <number-display :value="powerCostCalculations.flawsMultiplier" :show-err-for-negatives="false"/>
 
         <label v-if="!isArray()" class="row-label">Ranks</label>
         <number-entry v-if="!isArray()" :value="power.ranks" @input="setPowerRanks($event)"/>
 
         <label class="row-label">Flats</label>
-        <number-display :value="flatAdder" :show-err-for-negatives="false"/>
+        <number-display :value="powerCostCalculations.flatAdder" :show-err-for-negatives="false"/>
 
         <label class="row-label">Cost</label>
         <number-display :value="power.cost"/>
@@ -97,18 +87,17 @@
     props: {
       power: { type: Object, required: true },
     },
-    data: function() {
-      return {
-        extrasMultiplier: 0,
-        flawsMultiplier: 0,
-        flatAdder: 0
-      }
-    },
     created: function() {
       this.$watch("power.subpowers", function() {
         recalculatePowerBaseCost(this.power);
         this.recalculatePowerCost();
       }, { deep: true });
+    },
+    computed: {
+      powerCostCalculations: function() {
+        console.log(`... inside calculated powerCostCalculations`); // FIXME: Remove
+        return powerCostCalculate(this.power);
+      }
     },
     methods: {
       getStandardPower: function() {
@@ -139,9 +128,6 @@
       },
       recalculatePowerCost: function() {
         const costCalcs = powerCostCalculate(this.power);
-        this.extrasMultiplier = costCalcs.extrasMultiplier;
-        this.flawsMultiplier = costCalcs.flawsMultiplier;
-        this.flatAdder = costCalcs.flatAdder;
         if (this.power.cost !== costCalcs.cost) {
           this.power.cost = costCalcs.cost;
         }
@@ -159,10 +145,6 @@
         } else if (this.power.effect === "Enhanced Trait") {
           this.$emit("newUpdater", { updater: "EnhancedTraitUpdater", power: this.power });
         }
-      },
-      /* This gets called when the modifiers are altered. */
-      onModifiersChanged: function() {
-        this.recalculatePowerCost();
       }
     }
   }

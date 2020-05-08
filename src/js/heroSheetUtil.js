@@ -21,9 +21,10 @@ function isArray(power) {
  * This contains the formulas to calculate the cost of a (non-array) power.
  *
  * As input, it takes a list of modifier lists (sometimes the modifiers come
- * from different places, like with an array) along with a base cost and
- * ranks. As output it returns an object -- one field is the cost, but there
- * are other fields for intermediate values that we might want to display.
+ * from different places, like when an array is calculating the costs of the
+ * by recalculating the child costs with modifiers attached) along with a base
+ * cost and ranks. As output it returns an object -- one field is the cost, but
+ * there are other fields for intermediate values that we might want to display.
  */
 const powerCostCalculate = function(power, extraModifierLists=[]) {
 
@@ -343,9 +344,22 @@ const setPowerOption = function(power, option) {
  *   cost: xxx,
  *   displayText: xxx
  * }
- */ // FIXME: I should make sure this gets called from within ModifierList. And create deletePowerModifier also.
+ */
 const addPowerModifier = function(power, modifierType, modifier) {
   power[modifierType].push(modifier);
+  power.cost = powerCostCalculate(power).cost
+}
+
+/*
+ * Delete a modifier from a particular power.
+ */
+const deletePowerModifier = function(power, modifierType, modifier) {
+  const modifierList = power[modifierType];
+  const index = modifierList.indexOf(modifier);
+  if (index !== -1) {
+    modifierList.splice(index, 1);
+    power.cost = powerCostCalculate(power).cost;
+  }
 }
 
 /*
@@ -442,6 +456,8 @@ export {
   recalculatePowerBaseCost,
   setPowerEffect,
   setPowerOption,
+  addPowerModifier,
+  deletePowerModifier,
   modifierDisplaySign,
   modifierDisplayText,
   buildNewModifier,
