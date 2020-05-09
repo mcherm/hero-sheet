@@ -213,6 +213,7 @@ const buildFeature = function(template) {
   const feature = newBlankPower();
   feature.name = template.name;
   feature.description = template.description;
+  feature.ranks = template.ranks;
   setPowerEffect(feature, template.effect);
   for (const modifierType of ["extras", "flaws"]) {
     for (const modifierTemplate of template[modifierType]) {

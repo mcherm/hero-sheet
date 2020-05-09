@@ -200,10 +200,261 @@
       "name": "Brass Knuckles",
       "description": "Adds 1 to your strength damage.",
       "effect": "Damage",
+      "ranks": 1,
       "extras": [
         {
           "modifierSource": "special",
           "modifierName": "Strength Based"
+        }
+      ],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Club": {
+    "name": "Club",
+    "description": "Any of a number of blunt weapons used to strike, including nightsticks, batons, light maces, quarterstaffs, and similar bludgeoning weapons. The attack adds +2 damage.",
+    "cost": 2,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Club",
+      "description": "Adds 2 to your strength damage.",
+      "effect": "Damage",
+      "ranks": 2,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based"
+        }
+      ],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Knife": {
+    "name": "Knife",
+    "description": "A bladed weapon with a length less than 18 inches or so. This includes daggers, stilettos, sais, switchblades, bowie knives, and hunting knives, among others. The attack adds +1 damage, is piercing, and crits on a 19-20.",
+    "cost": 1,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Knife",
+      "description": "Piercing and crits on a 19-20.",
+      "effect": "Damage",
+      "ranks": 1,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based"
+        }
+      ],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Pepper Spray": {
+    "name": "Pepper Spray",
+    "description": "A liquid sprayed in a target's face at close range to blind them.",
+    "cost": 2,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Pepper Spray",
+      "description": "A liquid sprayed in a target's face at close range to blind them.",
+      "effect": "Affliction",
+      "ranks": 4,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Cumulative"
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Limited"
+        }
+      ]
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Stun Gun": {
+    "name": "Stun Gun",
+    "description": "A stun gun hits its target with a surge of electricity, an Affliction that can daze, stun, and potentially incapacitate.",
+    "cost": 5,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Stun Gun",
+      "description": "A stun gun hits its target with a surge of electricity, an Affliction that can daze, stun, and potentially incapacitate.",
+      "effect": "Affliction",
+      "ranks": 5,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Cumulative"
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Limited"
+        }
+      ]
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Battleaxe": {
+    "name": "Battleaxe",
+    "description": "A heavy-bladed axe that can be wielded with one or two hands. Does +3 damage, slashing.",
+    "cost": 3,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Battleaxe",
+      "description": "A heavy-bladed axe that can be wielded with one or two hands. Does +3 damage, slashing.",
+      "effect": "Damage",
+      "ranks": 3,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based"
+        }
+      ],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Sword": {
+    "name": "Sword",
+    "description": "A blade between 18 and 30 or more inches in length, single or double-edged. It includes longswords, katanas, sabers, scimitars, and similar weapons. Does +3 damage, slashing and crits on a 19-20.",
+    "cost": 4,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Sword",
+      "description": "A blade between 18 and 30 or more inches in length, single or double-edged. It includes longswords, katanas, sabers, scimitars, and similar weapons. Does +3 damage, slashing and crits on a 19-20.",
+      "effect": "Damage",
+      "ranks": 3,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based"
+        }
+      ],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Spear": {
+    "name": "Spear",
+    "description": "A bladed pole-arm. Most spears can also be thrown as a ranged attack. Does +3 damage, piercing and crits on a 19-20.",
+    "cost": 4,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Spear",
+      "description": "A bladed pole-arm. Most spears can also be thrown as a ranged attack. Does +3 damage, piercing and crits on a 19-20.",
+      "effect": "Damage",
+      "ranks": 3,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based"
+        }
+      ],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Warhammer": {
+    "name": "Warhammer",
+    "description": "A heavy hammer or mace that can be wielded with one or two hands. Warhammers can also be thrown as a ranged attack. Does +3 damage, bludgeoning.",
+    "cost": 4,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Warhammer",
+      "description": "A heavy hammer or mace that can be wielded with one or two hands. Warhammers can also be thrown as a ranged attack. Does +3 damage, bludgeoning.",
+      "effect": "Damage",
+      "ranks": 3,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based"
+        }
+      ],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Chain": {
+    "name": "Chain",
+    "description": "A length of chain can strike targets up to 10 ft. away (Reach 2) and provides the benefits of the Improved Grab and Improved Trip advantages.",
+    "cost": 6,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Chain",
+      "description": "A length of chain can strike targets up to 10 ft. away (Reach 2) and provides the benefits of the Improved Grab and Improved Trip advantages.",
+      "effect": "Damage",
+      "ranks": 2,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Reach",
+          "ranks": 2
+        }
+      ],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Chainsaw": {
+    "name": "Chainsaw",
+    "description": "A tool that sometimes sees use as a weapon, particularly against zombies and other slasher-flick mon- sters. Unlike most melee weapons, chainsaw damage is not Strength-based. Does 6 damage, slashing.",
+    "cost": 6,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Chainsaw",
+      "description": "A tool that sometimes sees use as a weapon, particularly against zombies and other slasher-flick mon- sters. Unlike most melee weapons, chainsaw damage is not Strength-based. Does 6 damage, slashing.",
+      "effect": "Damage",
+      "ranks": 6,
+      "extras": [],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Nunchaku": {
+    "name": "Nunchaku",
+    "description": "A popular martial arts weapon, made of two wooden shafts connected by a short length or rope or chain. Does +2 damage, bludgeoning and crits on a 19-20.",
+    "cost": 3,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Nunchaku",
+      "description": "A popular martial arts weapon, made of two wooden shafts connected by a short length or rope or chain. Does +2 damage, bludgeoning and crits on a 19-20.",
+      "effect": "Damage",
+      "ranks": 2,
+      "extras": [],
+      "flaws": []
+    },
+    "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Whip": {
+    "name": "Whip",
+    "description": "A whip can strike targets up to 15 ft. away (Reach 3) and provides the benefits of the Improved Grab and Improved Trip advantages.",
+    "cost": 5,
+    "category": "Melee Weapons",
+    "feature": {
+      "name": "Whip",
+      "description": "A length of chain can strike targets up to 10 ft. away (Reach 2) and provides the benefits of the Improved Grab and Improved Trip advantages.",
+      "effect": "Damage",
+      "ranks": 0,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Reach",
+          "ranks": 2
         }
       ],
       "flaws": []
