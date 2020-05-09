@@ -340,10 +340,23 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
 
   makeNewAttack() {
     const result = super.makeNewAttack();
-    result.attackCheck = this.charsheet.abilities.fighting.ranks;
+    result.attackCheck = this._attackCheckFormula({
+      fighting: this.charsheet.abilities.fighting.ranks,
+      attackCheckAdjustment: 0
+    });
     result.effectType = "damage";
-    result.resistanceDC = this.power.ranks;
+    result.resistanceDC = this._resistanceDCFormula({
+      powerRanks: this.power.ranks,
+      isStrengthBased: this._isStrengthBased(this.power),
+      strength: this.charsheet.abilities.strength.ranks
+    });
     return result;
+  }
+
+  _isStrengthBased(power) {
+    return power.extras.filter(
+      x => x.modifierSource === "special" && x.modifierName === "Strength Based"
+    ).length > 0;
   }
 
   watchForChange() {
@@ -356,19 +369,33 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
       },
       calculations: {
         fighting: this.charsheet.abilities.fighting.ranks,
+        strength: this.charsheet.abilities.strength.ranks,
         powerRanks: this.power.ranks,
         powerName: this.power.name,
-        attackCheckAdjustment: this.attackCheckAdjustment()
+        attackCheckAdjustment: this.attackCheckAdjustment(),
+        isStrengthBased: this._isStrengthBased(this.power)
       }
     }
+  }
+
+  /* Calculate the attack check based on given inputs. Used for update and create. */
+  _attackCheckFormula(inputs) {
+    const {fighting, attackCheckAdjustment} = inputs;
+    return fighting + attackCheckAdjustment;
+  }
+
+  /* Calculate the resistanceDC based on given inputs. Used for update and create. */
+  _resistanceDCFormula(inputs) {
+    const {powerRanks, isStrengthBased, strength} = inputs;
+    return powerRanks + (isStrengthBased ? strength : 0);
   }
 
   applyChanges(newCalculations) {
     // -- Update the Values --
     const theAttack = this.theAttack;
     theAttack.name = newCalculations.powerName;
-    theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
-    theAttack.resistanceDC = newCalculations.powerRanks;
+    theAttack.attackCheck = this._attackCheckFormula(newCalculations);
+    theAttack.resistanceDC = this._resistanceDCFormula(newCalculations);
   }
 
 }
