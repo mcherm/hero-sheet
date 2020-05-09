@@ -14,6 +14,7 @@
           <number-display class="value-display grid-with-lines-cell" :value="entry.value"/>
         </div>
       </div>
+      <div class="empty-notice" v-if="Object.keys(charsheet.activeEffects).length === 0">No Adjustments</div>
     </div>
   </boxed-section>
 </template>

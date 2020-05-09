@@ -34,11 +34,12 @@
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="$delete(charsheet.equipment, charsheet.equipment.indexOf(item))"
+            v-on:click="onDelete(item)"
         >
           <trash-icon/>
         </button>
       </div>
+      <div class="empty-notice" v-if="charsheet.equipment.length === 0">No Equipment</div>
     </div>
     <div class="scrolling-list-footer">
       <button v-on:click="addEquipment()">Add Equipment</button>
@@ -98,6 +99,13 @@
       },
       itemsInCategory: function(category) {
         return Object.values(standardEquipment).filter(item => item.category === category);
+      },
+      onDelete: function(item) {
+        const equipment = this.charsheet.equipment;
+        this.$delete(equipment, equipment.indexOf(item));
+        if (equipment.length === 0) {
+          this.deleteIsVisible = false;
+        }
       }
     }
   }

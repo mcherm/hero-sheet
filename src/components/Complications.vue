@@ -29,11 +29,12 @@
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="$delete(charsheet.complications, charsheet.complications.indexOf(complication))"
+            v-on:click="onDelete(complication)"
         >
           <trash-icon/>
         </button>
       </div>
+      <div class="empty-notice" v-if="charsheet.complications.length === 0">No Complications</div>
     </div>
     <div class="scrolling-list-footer">
       <button v-on:click="addComplication()">Add Complication</button>
@@ -70,6 +71,13 @@
       },
       isOutOfSpec: function(complication) {
         return !Object.keys(complicationsData.complicationTypes).includes(complication.complicationType);
+      },
+      onDelete: function(complication) {
+        const complications = this.charsheet.complications;
+        this.$delete(complications, complications.indexOf(complication));
+        if (complications.length === 0) {
+          this.deleteIsVisible = false;
+        }
       }
     }
   }

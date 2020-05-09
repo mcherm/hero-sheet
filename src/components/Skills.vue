@@ -170,6 +170,9 @@
       deleteSkill: function(skill) {
         const skillList = this.charsheet.skills.skillList;
         this.$delete(skillList, skillList.indexOf(skill));
+        if (skillList.filter(x => x.isTemplate).length === 0) {
+          this.deleteIsVisible = false;
+        }
       },
       addSkill: function() {
         const newSkill = newBlankSkill();

@@ -95,7 +95,6 @@
     },
     computed: {
       powerCostCalculations: function() {
-        console.log(`... inside calculated powerCostCalculations`); // FIXME: Remove
         return powerCostCalculate(this.power);
       }
     },

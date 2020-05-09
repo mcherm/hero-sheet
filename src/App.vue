@@ -65,6 +65,12 @@
   .grid-with-lines .grid-with-lines-no-lines {
     border: 0px;
   }
+  .grid-with-lines .empty-notice {
+    grid-column: 1/-1;
+    border: 1px solid var(--grid-line-color);
+    font-style: italic;
+    text-align: center;
+  }
   .copyright-notice {
     border-top: 1px solid var(--box-border-color);
     margin-top: 5px;

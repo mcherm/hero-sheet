@@ -36,12 +36,13 @@
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="$delete(charsheet.advantages, charsheet.advantages.indexOf(advantage))"
+            v-on:click="onDelete(advantage)"
         >
           <trash-icon/>
         </button>
       </div>
 
+      <div class="empty-notice" v-if="charsheet.advantages.length === 0">No Advantages</div>
     </div>
     <div class="scrolling-list-footer">
       <button v-on:click="addAdvantage()">Add Advantage</button>
@@ -136,6 +137,13 @@
       addAdvantage: function() {
         const newAdvantage = newBlankAdvantage();
         this.charsheet.advantages.push(newAdvantage);
+      },
+      onDelete: function(advantage) {
+        const advantages = this.charsheet.advantages;
+        this.$delete(advantages, advantages.indexOf(advantage));
+        if (advantages.length === 0) {
+          this.deleteIsVisible = false;
+        }
       }
     }
   }
