@@ -87,6 +87,9 @@
           throw Error("Attempting to delete a power beyond the list size.")
         }
         this.$delete(this.powers, powerIndex);
+        if (this.powers.length === 0) {
+          this.deleteIsVisible = false;
+        }
       }
     }
   }
