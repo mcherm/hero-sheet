@@ -76,7 +76,7 @@
 <script>
   import ModifierList from "./ModifierList";
   import PowerEffectSelect from "./PowerEffectSelect";
-  import {powerCostCalculate, getStandardPower, getPowerOption, recalculatePowerBaseCost, setPowerEffect, setPowerOption} from "../js/heroSheetUtil.js";
+  import {powerCostCalculate, getStandardPower, getPowerOption, recalculatePowerBaseCost, setPowerEffect, setPowerOption, powerUpdaterEvent} from "../js/heroSheetUtil.js";
 
   export default {
     name: "Power",
@@ -132,17 +132,9 @@
         }
       },
       potentiallyCreateNewUpdaters: function() {
-        // FIXME: Should combine this with code in PowerList and pull it out somewhere
-        if (this.power.effect === "Damage") {
-          this.$emit("newUpdater", { updater: "DamagePowerAttackUpdater", power: this.power });
-        } else if (this.power.effect === "Affliction") {
-          this.$emit("newUpdater", { updater: "AfflictionPowerAttackUpdater", power: this.power });
-        } else if (this.power.effect === "Nullify") {
-          this.$emit("newUpdater", { updater: "NullifyPowerAttackUpdater", power: this.power });
-        } else if (this.power.effect === "Weaken") {
-          this.$emit("newUpdater", { updater: "WeakenPowerAttackUpdater", power: this.power });
-        } else if (this.power.effect === "Enhanced Trait") {
-          this.$emit("newUpdater", { updater: "EnhancedTraitUpdater", power: this.power });
+        const event = powerUpdaterEvent(this.power);
+        if (event !== null) {
+          this.$emit("newUpdater", event);
         }
       }
     }

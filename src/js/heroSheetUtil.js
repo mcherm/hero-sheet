@@ -435,6 +435,26 @@ const buildNewModifier = function(inputFields) {
   };
 }
 
+/*
+ * Given a power (or feature), this returns the event payload needed to create
+ * a new updater for that power, or returns null if this power does not require
+ * any updater.
+ */
+const powerUpdaterEvent = function(power) {
+  if (power.effect === "Damage") {
+    return { updater: "DamagePowerAttackUpdater", power: power };
+  } else if (power.effect === "Affliction") {
+    return { updater: "AfflictionPowerAttackUpdater", power: power };
+  } else if (power.effect === "Nullify") {
+    return { updater: "NullifyPowerAttackUpdater", power: power };
+  } else if (power.effect === "Weaken") {
+    return { updater: "WeakenPowerAttackUpdater", power: power };
+  } else if (power.effect === "Enhanced Trait") {
+    return { updater: "EnhancedTraitUpdater", power: power };
+  } else {
+    return null;
+  }
+}
 
 
 export {
@@ -461,4 +481,5 @@ export {
   modifierDisplaySign,
   modifierDisplayText,
   buildNewModifier,
+  powerUpdaterEvent,
 };

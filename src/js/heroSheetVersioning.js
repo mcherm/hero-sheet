@@ -210,34 +210,57 @@ const newBlankComplication = function() {
 
 
 /*
- * Given a charsheet and an hsid in it, returns the power with that hsid or
- * null if there isn't one.
+ * Given a charsheet and an hsid in it, returns the feature with that hsid or
+ * null if there isn't one. It searches everwhere that a feature might appear:
+ * in power but also other places like equipment.
  *
  * DESIGN NOTES:
- *  1. it probably shouldn't just be for powers
- *  2. it might need some smart caching
- *  3. this will do for now while I clean up other stuff
+ *  It might benefit from some smart caching, but I haven't bothered yet
  */
-const findPowerByHsid = function(charsheet, hsid) {
-  function findByHsidRecursive(powerList) {
-    for (const power of powerList) {
-      if (power.hsid === hsid) {
-        return power;
-      }
-      if (power.subpowers) {
-        const recursiveResult = findByHsidRecursive(power.subpowers);
-        if (recursiveResult !== null) {
-          return recursiveResult;
-        }
+const findFeatureByHsid = function(charsheet, hsid) {
+  // --- Define mutually recursive search helpers ---
+  function checkPowerAndSubpowers(power) {
+    if (power.hsid === hsid) {
+      return power;
+    }
+    if (power.subpowers) {
+      const recursiveResult = findByHsidInPowerList(power.subpowers);
+      if (recursiveResult !== null) {
+        return recursiveResult;
       }
     }
     return null;
   }
-  return findByHsidRecursive(charsheet.powers);
+  function findByHsidInPowerList(powerList) {
+    for (const power of powerList) {
+      const possibleResult = checkPowerAndSubpowers(power);
+      if (possibleResult !== null) {
+        return possibleResult;
+      }
+    }
+    return null;
+  }
+  // --- Search in powers ---
+  const featureInPowers = findByHsidInPowerList(charsheet.powers);
+  if (featureInPowers !== null) {
+    return featureInPowers;
+  }
+  // --- Search in equipment ---
+  for (const item of charsheet.equipment) {
+    const feature = item.feature;
+    if (feature) {
+      const possibleResult = checkPowerAndSubpowers(feature);
+      if (possibleResult !== null) {
+        return possibleResult;
+      }
+    }
+  }
+  // --- Not found ---
+  return null;
 };
 
 /*
- * Design Notes: see findPowerByHsid. Maybe we should build "findByHsid".
+ * Design Notes: see findFeatureByHsid. Maybe we should build "findByHsid".
  */
 const findAdvantageByHsid = function(charsheet, hsid) {
   for (const advantage of charsheet.advantages) {
@@ -249,7 +272,7 @@ const findAdvantageByHsid = function(charsheet, hsid) {
 };
 
 /*
- * Design Notes: see findPowerByHsid. Maybe we should build "findByHsid".
+ * Design Notes: see findFeatureByHsid. Maybe we should build "findByHsid".
  */
 const findSkillByHsid = function(charsheet, hsid) {
   for (const skill of charsheet.skills.skillList) {
@@ -411,7 +434,7 @@ export {
   newBlankSkill,
   newBlankPower,
   newBlankComplication,
-  findPowerByHsid,
+  findFeatureByHsid,
   findAdvantageByHsid,
   findSkillByHsid,
   newHsid,

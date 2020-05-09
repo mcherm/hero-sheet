@@ -7,7 +7,7 @@
  * which monitors certain fields and updates other fields in the charsheet.
  * An example would be an updater for creating an attack.
  */
-import {findPowerByHsid, newHsid} from "./heroSheetVersioning";
+import {findFeatureByHsid, newHsid} from "./heroSheetVersioning";
 
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
@@ -76,27 +76,31 @@ class Updater {
    * Initiates the watch that drives this updater. It returns the cancel function for
    * the watch.
    *
-   * FIXME: Right now I have 2 versions of this: the short version and the version
+   * NOTE: Right now I have 2 versions of this: the short version and the version
    *  that helps me to do debugging. There's probably a better way.
    */
   createWatch(vm) {
-    const cancelFunction = vm.$watch(
-      () => this.watchForChange.call(this),
-      (newValue, oldValue) => this.processChange.call(this, newValue, oldValue)
-    );
-    // FIXME: replace with the below for debugging.
-    // const myThis = this;
-    // const cancelFunction = vm.$watch(
-    //   () => {
-    //     console.log(`Will perform the test of this watch in a ${myThis.constructor.name}.`);
-    //     return myThis.watchForChange.call(myThis);
-    //   },
-    //   (newValue, oldValue) => {
-    //     console.log(`in the watch, got ${JSON.stringify(newValue)} from ${JSON.stringify(oldValue)}`);
-    //     return myThis.processChange.call(myThis, newValue, oldValue)
-    //   }
-    // );
-    return cancelFunction;
+    const DEBUGGING_ON = false;
+    if (!DEBUGGING_ON) {
+      const cancelFunction = vm.$watch(
+        () => this.watchForChange.call(this),
+        (newValue, oldValue) => this.processChange.call(this, newValue, oldValue)
+      );
+      return cancelFunction;
+    } else {
+      const myThis = this;
+      const cancelFunction = vm.$watch(
+        () => {
+          console.log(`Will perform the test of this watch in a ${myThis.constructor.name}.`);
+          return myThis.watchForChange.call(myThis);
+        },
+        (newValue, oldValue) => {
+          console.log(`in the watch, got ${JSON.stringify(newValue)} from ${JSON.stringify(oldValue)}`);
+          return myThis.processChange.call(myThis, newValue, oldValue)
+        }
+      );
+      return cancelFunction;
+    }
   }
 
 }
@@ -346,7 +350,7 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
     // -- Test Function for Watch --
     return {
       identity: {
-        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect
       },
@@ -387,7 +391,7 @@ class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
     // -- Test Function for Watch --
     return {
       identity: {
-        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect
       },
@@ -429,7 +433,7 @@ class NullifyPowerAttackUpdater extends PowerAttackUpdater {
     // -- Test Function for Watch --
     return {
       identity: {
-        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect
       },
@@ -470,7 +474,7 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
     // -- Test Function for Watch --
     return {
       identity: {
-        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect
       },
@@ -725,7 +729,7 @@ class EnhancedTraitUpdater extends Updater {
   watchForChange() {
     return {
       identity: {
-        powerExists: findPowerByHsid(this.charsheet, this.power.hsid) !== null,
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect,
         powerOption: this.power.option

@@ -54,7 +54,7 @@
 <script>
   import LocalCostDisplay from "./LocalCostDisplay.vue";
   import {newBlankEquipment} from "../js/heroSheetVersioning.js";
-  import {equipmentCost, buildFeature} from "../js/heroSheetUtil.js";
+  import {equipmentCost, buildFeature, powerUpdaterEvent} from "../js/heroSheetUtil.js";
   const standardEquipment = require("../data/standardEquipment.json");
 
   export default {
@@ -89,6 +89,10 @@
             item.feature = null;
           } else {
             item.feature = buildFeature(standardFeature);
+            const event = powerUpdaterEvent(item.feature);
+            if (event !== null) {
+              this.$emit("newUpdater", event);
+            }
           }
         } else {
           throw Error(`Unexpected source value of '${source}`);

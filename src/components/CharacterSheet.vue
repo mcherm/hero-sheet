@@ -63,7 +63,7 @@
 
   const statsData = require("../data/statsData.json");
 
-  import {currentVersion, findAdvantageByHsid, findPowerByHsid, findSkillByHsid, upgradeVersion} from "../js/heroSheetVersioning.js";
+  import {currentVersion, findAdvantageByHsid, findFeatureByHsid, findSkillByHsid, upgradeVersion} from "../js/heroSheetVersioning.js";
   import {updaterClasses} from "../js/updaters.js";
   import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
 
@@ -178,12 +178,12 @@
           if (updaterType === "UnarmedAttackUpdater") {
             const updater = new updaterClasses[updaterType](this, this.charsheet);
           } else {
-            const power = findPowerByHsid(this.charsheet, attack.powerHsid);
-            if (power === null) {
+            const feature = findFeatureByHsid(this.charsheet, attack.powerHsid);
+            if (feature === null) {
               this.$delete(attackList, attackList.indexOf(attack));
               throw new Error(`Invalid power '${attack.powerHsid}' in attack. Will delete the attack.`)
             }
-            const updateEvent = { updater: updaterType, power: power };
+            const updateEvent = { updater: updaterType, power: feature };
             const updaterClass = updaterClasses[updaterType];
             if (updaterClass === undefined) {
               this.$delete(attackList, attackList.indexOf(attack));
@@ -204,11 +204,11 @@
               const updateEvent = {updater: updaterType, advantage: advantage};
               new updaterClasses[updaterType](this, this.charsheet, updateEvent);
             } else if (updaterType === "EnhancedTraitUpdater") {
-              const power = findPowerByHsid(this.charsheet, activeEffect.powerHsid);
-              if (power === null) {
+              const feature = findFeatureByHsid(this.charsheet, activeEffect.powerHsid);
+              if (feature === null) {
                 throw new Error("Updater references hsid that isn't found.");
               }
-              const updateEvent = {updater: updaterType, power: power};
+              const updateEvent = {updater: updaterType, power: feature};
               new updaterClasses[updaterType](this, this.charsheet, updateEvent);
             } else if (updaterType === "CombatSkillUpdater") {
               const skill = findSkillByHsid(this.charsheet, activeEffect.skillHsid);
