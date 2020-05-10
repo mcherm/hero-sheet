@@ -5,12 +5,13 @@
         <label class="row-label">Name</label>
         <string-entry
             :value="power.name"
+            :mutable="mutable"
             @input="$emit('update:name', $event)"
         />
 
         <label class="row-label">Effect</label>
         <div>
-          <power-effect-select :value="power.effect" @input="setPowerEffect($event)"/>
+          <power-effect-select :value="power.effect" @input="setPowerEffect($event)" :mutable="mutable"/>
         </div>
 
         <label class="row-label">Basic Desc</label>
@@ -38,13 +39,13 @@
         </div>
 
         <label class="row-label">Extras</label>
-        <modifier-list :power="power" modifierType="extras"/>
+        <modifier-list :power="power" modifierType="extras" :mutable="mutable"/>
 
         <label class="row-label">Flaws</label>
-        <modifier-list :power="power" modifierType="flaws"/>
+        <modifier-list :power="power" modifierType="flaws" :mutable="mutable"/>
 
         <label class="row-label">Description</label>
-        <string-entry v-model="power.description"/>
+        <string-entry v-model="power.description" :mutable="mutable"/>
       </div>
       <div class="power-costs">
         <label v-if="!isArray()" class="row-label">Power</label>
@@ -57,7 +58,7 @@
         <number-display :value="powerCostCalculations.flawsMultiplier" :show-err-for-negatives="false"/>
 
         <label v-if="!isArray()" class="row-label">Ranks</label>
-        <number-entry v-if="!isArray()" :value="power.ranks" @input="setPowerRanks($event)"/>
+        <number-entry v-if="!isArray()" :value="power.ranks" @input="setPowerRanks($event)" :mutable="mutable"/>
 
         <label class="row-label">Flats</label>
         <number-display :value="powerCostCalculations.flatAdder" :show-err-for-negatives="false"/>
@@ -68,7 +69,7 @@
     </div>
     <div v-if="isArray()" class="subpower-list">
       <div class="scrolling-list-header">Array Powers</div>
-      <power-list :powers="power.subpowers" v-on:newUpdater="$emit('newUpdater', $event)" />
+      <power-list :powers="power.subpowers" v-on:newUpdater="$emit('newUpdater', $event)" :mutable="mutable" />
     </div>
   </div>
 </template>
@@ -86,6 +87,7 @@
     },
     props: {
       power: { type: Object, required: true },
+      mutable: { type: Boolean, required: false, default: true }
     },
     created: function() {
       this.$watch("power.subpowers", function() {

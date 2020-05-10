@@ -5,6 +5,7 @@
         <div class="power-list-row">
           <power
             :power="power"
+            :mutable="mutable"
             v-on:update:name="renamePower(power, $event)"
             v-on:newUpdater="$emit('newUpdater', $event)"
           />
@@ -15,8 +16,8 @@
       </li>
     </ul>
     <div class="scrolling-list-footer">
-      <button v-on:click="addPower()">Add Power</button>
-      <button v-on:click="deleteIsVisible = !deleteIsVisible">
+      <button v-on:click="addPower()" :disabled="!mutable">Add Power</button>
+      <button v-on:click="deleteIsVisible = !deleteIsVisible" :disabled="!mutable">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
       </button>
@@ -30,7 +31,8 @@
   export default {
     name: "PowerList",
     props: {
-      powers: { type: Array, required: true }
+      powers: { type: Array, required: true },
+      mutable: { type: Boolean, required: false, default: true }
     },
     data: function() {
       return {

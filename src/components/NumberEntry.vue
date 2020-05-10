@@ -12,6 +12,7 @@
     class="number-entry"
     :class="{ 'nan': isNaNValue, 'negative': isNegative }"
     type="number"
+    :disabled="!mutable"
   />
 </template>
 
@@ -22,6 +23,7 @@
     name: "NumberEntry",
     props: {
       value: { required: true, validator: x => x === undefined || x === null || typeof x === "number" },
+      mutable: { type: Boolean, required: false, default: true }
     },
     computed: {
       isNegative: function() {
@@ -57,5 +59,8 @@
   }
   .number-entry.nan {
     background-color: var(--error-color);
+  }
+  .number-entry:disabled {
+    background-color: inherit;
   }
 </style>

@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list">
+      <li>2020-05-10: The ability to view the powers that come packaged with equipment.</li>
       <li>2020-05-09: Support for melee weapons as well as strength-based attack powers.</li>
       <li>2020-05-08: Equipment can now have power effects!</li>
       <li>2020-05-08: All lists now look and work better when empty.</li>

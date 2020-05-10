@@ -11,7 +11,7 @@
       </div>
     </div>
     <button
-        v-if="!isAdding && !isDeleting"
+        v-if="mutable && !isAdding && !isDeleting"
         v-on:click="isAdding = true"
         class="plus-minus-button"
     >+</button>
@@ -23,7 +23,7 @@
         v-on:choose-modifier="finishChoosingNewModifier($event)"
     />
     <button
-        v-if="modifiers.length > 0 && !isAdding && !isDeleting"
+        v-if="mutable && modifiers.length > 0 && !isAdding && !isDeleting"
         v-on:click="isDeleting = true"
         class="plus-minus-button"
     >-</button>
@@ -46,6 +46,7 @@
     props: {
       modifierType: { type: String, required: true },
       power: { type: Object,  required: true },
+      mutable: { type: Boolean, required: false, default: true }
     },
     data: function() {
       return {

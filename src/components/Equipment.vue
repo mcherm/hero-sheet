@@ -42,7 +42,7 @@
           <trash-icon/>
         </button>
         <div v-if="showFeatureDetails[item.hsid]" class="feature-details">
-          <power :power="item.feature" />
+          <power :power="item.feature" :mutable="false" />
         </div>
       </div>
       <div class="empty-notice" v-if="charsheet.equipment.length === 0">No Equipment</div>

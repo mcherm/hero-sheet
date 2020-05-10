@@ -1,5 +1,5 @@
 <template>
-  <select :value="value" @input="$emit('input', $event.target.value)" class="effect-select">
+  <select :value="value" @input="$emit('input', $event.target.value)" class="effect-select" :disabled="!mutable">
     <option disabled value="">Select One</option>
     <optgroup label="Power Effects">
       <option
@@ -32,6 +32,7 @@
     name: "PowerEffectSelect",
     props: {
       value: { type: String, required: true },
+      mutable: { type: Boolean, required: false, default: true }
     },
     methods: {
       powersFilteredFor: function(filter) {
