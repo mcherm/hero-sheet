@@ -3,7 +3,8 @@
     <template v-slot:exhibit>
       <local-cost-display :charsheet="charsheet" extra-label="equipment" :extra-value-function="equipmentCost"/>
     </template>
-    <div class="equipment-list grid-with-lines" :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
+    <div class="equipment-list grid-with-lines" :class="{ 'deleteNotVisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
+      <div class="col-label"></div>
       <div class="col-label">Item</div>
       <div class="col-label">Description</div>
       <div class="col-label">Cost</div>
@@ -13,6 +14,7 @@
           :key="item.hsid"
           class="display-contents"
       >
+        <div :class="{'feature-control': true, 'open': showFeatureDetails[item.hsid]}"><button v-if="item.feature" class="invisible" @click="toggleMechanics(item)"><mechanics-icon/></button></div>
         <div v-if="item.source === 'unselected'">
           <select @change="selectItem(item, $event.target.value)">
             <option disabled selected value="">Select Item</option>
@@ -34,10 +36,14 @@
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
+            :class="{'open': showFeatureDetails[item.hsid]}"
             v-on:click="onDelete(item)"
         >
           <trash-icon/>
         </button>
+        <div v-if="showFeatureDetails[item.hsid]" class="feature-details">
+          <power :power="item.feature" />
+        </div>
       </div>
       <div class="empty-notice" v-if="charsheet.equipment.length === 0">No Equipment</div>
     </div>
@@ -53,6 +59,7 @@
 
 <script>
   import LocalCostDisplay from "./LocalCostDisplay.vue";
+  import MechanicsIcon from "./MechanicsIcon.vue";
   import {newBlankEquipment} from "../js/heroSheetVersioning.js";
   import {equipmentCost, buildFeature, powerUpdaterEvent} from "../js/heroSheetUtil.js";
   const standardEquipment = require("../data/standardEquipment.json");
@@ -60,7 +67,8 @@
   export default {
     name: "Equipment.vue",
     components: {
-      LocalCostDisplay
+      LocalCostDisplay,
+      MechanicsIcon
     },
     props: {
       charsheet: { type: Object, required: true }
@@ -68,7 +76,8 @@
     data: function() {
       return {
         standardEquipment,
-        deleteIsVisible: false
+        deleteIsVisible: false,
+        showFeatureDetails: {}
       }
     },
     methods: {
@@ -110,17 +119,21 @@
         if (equipment.length === 0) {
           this.deleteIsVisible = false;
         }
+      },
+      toggleMechanics: function (item) {
+        this.$set(this.showFeatureDetails, item.hsid, !this.showFeatureDetails[item.hsid]);
+        console.log("toggling"); // FIXME: Remove
       }
     }
   }
 </script>
 
 <style scoped>
-  .equipment-list.deleteInvisible {
-    grid-template-columns: max-content 1fr max-content;
+  .equipment-list.deleteNotVisible {
+    grid-template-columns: max-content max-content 1fr max-content;
   }
   .equipment-list.deleteVisible {
-    grid-template-columns: max-content 1fr max-content max-content;
+    grid-template-columns: max-content max-content 1fr max-content max-content;
   }
   div.scrolling-list-footer {
     background-color: var(--section-color);
@@ -145,5 +158,24 @@
   }
   .error {
     background-color: var(--error-color);
+  }
+  button.invisible {
+    background: transparent;
+    border: none;
+  }
+  .equipment-list.deleteNotVisible .feature-details {
+    grid-column: 2/-1;
+  }
+  .equipment-list.deleteVisible .feature-details {
+    grid-column: 2/-2;
+  }
+  .feature-control button {
+    align-self: end;
+  }
+  .feature-control.open {
+    grid-row-end: span 2;
+  }
+  .trash-button.open {
+    grid-row-end: span 2;
   }
 </style>
