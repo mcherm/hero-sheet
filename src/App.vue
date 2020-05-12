@@ -31,6 +31,7 @@
     --box-border-color: rgb(0, 0, 0);
     --inapplicable-color: rgb(144, 144, 144);
     --lightbox-shade-color: rgba(0, 0, 0, 0.5);
+    --under-development-color: rgb(255, 148, 77);
     font-family: sans-serif;
     font-size: small;
   }

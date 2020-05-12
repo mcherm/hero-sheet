@@ -48,9 +48,9 @@
     </ul>
     <h2>Major Features Needed</h2>
     <ul>
-      <li>Functioning list of attacks (making progress)</li>
-      <li>Numerous powers and abilities should impact other fields (making progress)</li>
-      <li>Support for Equipment</li>
+      <li>Functioning list of attacks <span class="making-progress">(making progress)</span></li>
+      <li>Numerous powers and abilities should impact other fields <span class="making-progress">(making progress)</span></li>
+      <li>Support for Equipment <span class="making-progress">(making progress)</span></li>
       <li>Ability to control which powers are applied</li>
       <li>Manage custom adjustments to various fields</li>
       <li>Support for sidekicks, summons, and morphs</li>
@@ -68,5 +68,8 @@
 <style scoped>
   .change-list > li {
     list-style-type: none;
+  }
+  .making-progress {
+    color: var(--under-development-color);
   }
 </style>

@@ -26,7 +26,7 @@
             :isOutOfSpec="isOutOfSpec(attack)"
         />
         <div v-else class="inapplicable"></div>
-        <div>{{attack.effectType}}</div>
+        <div class="attack-type">{{attack.effectType}}</div>
       </div>
     </div>
   </boxed-section>
@@ -72,5 +72,8 @@
   }
   .inapplicable {
     background-color: var(--inapplicable-color);
+  }
+  .attack-type {
+    color: var(--under-development-color);
   }
 </style>

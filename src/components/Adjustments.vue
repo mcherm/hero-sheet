@@ -9,7 +9,7 @@
       <div class="col-label">Value</div>
       <div class="display-contents" v-for="(data, affectedTrait) in charsheet.activeEffects">
         <div class="display-contents" v-for="entry of data">
-          <div class="grid-with-lines-cell">{{affectedTrait}}</div>
+          <div class="grid-with-lines-cell affected-trait">{{affectedTrait}}</div>
           <div class="grid-with-lines-cell">{{entry.description}}</div>
           <number-display class="value-display grid-with-lines-cell" :value="entry.value"/>
         </div>
@@ -45,5 +45,7 @@
   .adjustment-list .value-display {
     margin-left: 0;
   }
-
+  .affected-trait {
+    color: var(--under-development-color);
+  }
 </style>
