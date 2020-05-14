@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list">
+      <li>2020-05-13: Can create custom equipment.</li>
       <li>2020-05-10: The ability to view the powers that come packaged with equipment.</li>
       <li>2020-05-09: Support for melee weapons as well as strength-based attack powers.</li>
       <li>2020-05-08: Equipment can now have power effects!</li>
@@ -50,7 +51,6 @@
     <ul>
       <li>Functioning list of attacks <span class="making-progress">(making progress)</span></li>
       <li>Numerous powers and abilities should impact other fields <span class="making-progress">(making progress)</span></li>
-      <li>Support for Equipment <span class="making-progress">(making progress)</span></li>
       <li>Ability to control which powers are applied</li>
       <li>Manage custom adjustments to various fields</li>
       <li>Support for sidekicks, summons, and morphs</li>

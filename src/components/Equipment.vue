@@ -15,9 +15,14 @@
           class="display-contents"
       >
         <div :class="{'feature-control': true, 'open': showFeatureDetails[item.hsid]}"><button v-if="item.feature" class="invisible" @click="toggleMechanics(item)"><mechanics-icon/></button></div>
+
         <div v-if="item.source === 'unselected'">
           <select @change="selectItem(item, $event.target.value)">
             <option disabled selected value="">Select Item</option>
+            <optgroup label="Custom">
+              <option value="custom:simple">Simple Equipment</option>
+              <option value="custom:powered">Powered Equipment</option>
+            </optgroup>
             <optgroup v-for="category in standardEquipmentCategories()" :label="category">
               <option
                   v-for="standardItem in itemsInCategory(category)"
@@ -28,11 +33,22 @@
           </select>
         </div>
         <div v-else-if="item.source === 'standard'" class="name">{{item.name}}</div>
+        <string-entry v-else-if="item.source === 'custom'" v-model="item.name"/>
         <div v-else class="error">ERROR: '{{item.source}}' not supported</div>
+
         <div v-if="item.source === 'unselected'" class="inapplicable"/>
-        <div v-else-if="item.source === 'standard'" class="description">{{standardEquipment[item.name].description}}</div>
+        <div v-else-if="item.source === 'standard'" class="description">
+          {{standardEquipment[item.name].description}}
+          <docs-lookup :docsURL="standardEquipment[item.name].docsURL"/>
+        </div>
+        <string-entry v-else-if="item.source === 'custom'" class="description" v-model="item.description"/>
         <div v-else class="error">ERROR: '{{item.source}}' not supported</div>
-        <number-display class="equipment-cost" :value="item.cost"/>
+
+        <div v-if="item.source === 'unselected'" class="equipment-cost inapplicable"/>
+        <number-display v-else-if="item.source === 'standard'" class="equipment-cost" :value="item.cost"/>
+        <number-entry v-else-if="item.source === 'custom'" class="equipment-cost" v-model="item.cost"/>
+        <div v-else class="error">ERROR: '{{item.source}}' not supported</div>
+
         <button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
@@ -42,7 +58,7 @@
           <trash-icon/>
         </button>
         <div v-if="showFeatureDetails[item.hsid]" class="feature-details">
-          <power :power="item.feature" :mutable="false" />
+          <power :power="item.feature" :mutable="item.source === 'custom'" />
         </div>
       </div>
       <div class="empty-notice" v-if="charsheet.equipment.length === 0">No Equipment</div>
@@ -60,7 +76,7 @@
 <script>
   import LocalCostDisplay from "./LocalCostDisplay.vue";
   import MechanicsIcon from "./MechanicsIcon.vue";
-  import {newBlankEquipment} from "../js/heroSheetVersioning.js";
+  import {newBlankEquipment, newBlankPower} from "../js/heroSheetVersioning.js";
   import {equipmentCost, buildFeature, powerUpdaterEvent} from "../js/heroSheetUtil.js";
   const standardEquipment = require("../data/standardEquipment.json");
 
@@ -103,6 +119,18 @@
               this.$emit("newUpdater", event);
             }
           }
+        } else if (source === "custom") {
+          item.source = source;
+          this.$set(item, "description", "");
+          item.cost = 0;
+          if (selectedFields[1] === "powered") {
+            item.feature = newBlankPower();
+            const newUpdaterEvent = {
+              updater: "EquipmentFeatureUpdater",
+              item: item
+            };
+            this.$emit("newUpdater", newUpdaterEvent);
+          }
         } else {
           throw Error(`Unexpected source value of '${source}`);
         }
@@ -122,7 +150,6 @@
       },
       toggleMechanics: function (item) {
         this.$set(this.showFeatureDetails, item.hsid, !this.showFeatureDetails[item.hsid]);
-        console.log("toggling"); // FIXME: Remove
       }
     }
   }

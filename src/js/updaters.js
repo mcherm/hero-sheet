@@ -860,6 +860,29 @@ class CombatSkillUpdater extends Updater {
 }
 
 
+class EquipmentFeatureUpdater extends Updater {
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, ...otherArgs);
+    this.item = newUpdaterEvent.item;
+  }
+
+  watchForChange() {
+    return {
+      identity: {
+        equipmentExists: this.charsheet.equipment.includes(this.item)
+      },
+      calculations: {
+        featureCost: Math.round(this.item.feature.cost / 5)
+      }
+    }
+  }
+
+  applyChanges(newCalculations) {
+    this.item.cost = newCalculations.featureCost;
+  }
+}
+
+
 const updaterClasses = {
   UnarmedAttackUpdater,
   StatRankUpdater,
@@ -873,6 +896,7 @@ const updaterClasses = {
   JackOfAllTradesUpdater,
   EnhancedTraitUpdater,
   CombatSkillUpdater,
+  EquipmentFeatureUpdater,
 };
 
 

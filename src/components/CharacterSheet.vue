@@ -172,6 +172,13 @@
         new updaterClasses["ToughnessUpdater"](this, this.charsheet);
         new updaterClasses["DefenseUpdater"](this, this.charsheet, "will");
         const attackList = this.charsheet.attacks.attackList;
+        for (const item of this.charsheet.equipment) {
+          if (item.source === "custom" && item.feature) {
+            const updaterType = "EquipmentFeatureUpdater";
+            const updateEvent = { updater: updaterType, item: item }
+            const updater = new updaterClasses[updaterType](this, this.charsheet, updateEvent);
+          }
+        }
         for (const attack of attackList) {
           // FIXME: With a better design maybe I wouldn't need a special case here
           const updaterType = attack.updater;

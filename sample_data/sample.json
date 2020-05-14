@@ -107,13 +107,13 @@
       "hsid": "HI1P6B9LN",
       "name": "Camera",
       "cost": 1,
-      "source": "standardEquipment"
+      "source": "standard"
     },
     {
       "hsid": "HIFFSKUEL",
       "name": "Binoculars",
       "cost": 1,
-      "source": "standardEquipment"
+      "source": "standard"
     },
     {
       "hsid": "HIBJMDXRL",
@@ -139,6 +139,37 @@
         "effectDescription": "You can inflict damage by making a close attack.",
         "baseCost": 1,
         "subpowers": []
+      }
+    },
+    {
+      "hsid": "HI71JA8KV",
+      "name": "Shovel",
+      "cost": 1,
+      "source": "custom",
+      "description": "I dig. I dig real good.",
+      "feature": {
+        "name": "Dig",
+        "hsid": "HIDGQ67KV",
+        "effect": "Burrowing",
+        "description": "",
+        "extras": [
+          {
+            "modifierSource": "special",
+            "modifierName": "Penetrating",
+            "optionName": null,
+            "ranks": 1,
+            "costType": "pointsOfMultiplier",
+            "cost": 1,
+            "displayText": "Penetrating (+1)"
+          }
+        ],
+        "flaws": [],
+        "ranks": 4,
+        "cost": 8,
+        "effectDescription": "You can burrow through the ground, leaving a tunnel behind if you choose.",
+        "baseCost": 1,
+        "subpowers": [],
+        "option": null
       }
     }
   ],
