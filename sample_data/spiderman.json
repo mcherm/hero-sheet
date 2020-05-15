@@ -1,5 +1,5 @@
 {
-  "version": 10,
+  "version": 12,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 71,
@@ -217,6 +217,7 @@
       "hsid": "HIKUFU3RG"
     }
   ],
+  "equipment": [],
   "skills": {
     "skillList": [
       {
@@ -236,7 +237,8 @@
         "ranks": 3,
         "isTemplate": true,
         "specialization": "Unarmed",
-        "hsid": "HILZ41YR9"
+        "hsid": "HILZ41YR9",
+        "attackHsid": "HI2KJVBLR"
       },
       {
         "name": "deception",
@@ -372,11 +374,12 @@
       "hsid": "HIKM2WETR"
     }
   ],
+  "background": "Peter Parker is bitten by a radioactive spider at a science exhibit and acquires the agility and proportionate strength of an arachnid. Along with heightened athletic abilities, Parker gains the ability to adhere to walls and ceilings. Through his native knack for science, he develops a gadget that lets him fire adhesive webbing of his own design through small, wrist-mounted barrels. Initially seeking to capitalize on his new abilities, Parker dons a costume and, as \"Spider-Man\", becomes a novelty television star. However, he blithely ignores the chance to stop a fleeing thief, and his indifference ironically catches up with him when the same criminal later robs and kills his Uncle Ben. Spider-Man tracks and subdues the killer and learns, \"With great power there must also come—great responsibility!\"",
   "attacks": {
     "attackList": [
       {
         "name": "Unarmed",
-        "attackCheck": 9,
+        "attackCheck": 12,
         "effectType": "damage",
         "resistanceDC": 9,
         "updater": "UnarmedAttackUpdater",
@@ -391,6 +394,14 @@
         "value": 8,
         "updater": "ImprovedInitiativeUpdater",
         "advantageHsid": "HID48D3TJ"
+      }
+    ],
+    "attacks.HI2KJVBLR.check": [
+      {
+        "hsid": "HI6WLV2WQ",
+        "value": 3,
+        "updater": "CombatSkillUpdater",
+        "skillHsid": "HILZ41YR9"
       }
     ]
   }

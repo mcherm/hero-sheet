@@ -1,5 +1,5 @@
 {
-  "version": 10,
+  "version": 12,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
@@ -102,6 +102,7 @@
       "description": ""
     }
   ],
+  "equipment": [],
   "skills": {
     "skillList": [
       {
@@ -243,9 +244,10 @@
   "complications": [
     {
       "complicationType": "motivation",
-      "description": ""
+      "description": "Likes harming people."
     }
   ],
+  "background": "A hero with many ways to attack.",
   "attacks": {
     "attackList": [
       {

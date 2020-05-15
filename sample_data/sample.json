@@ -279,6 +279,7 @@
       "description": ""
     }
   ],
+  "background": "This is the story\nof this character.",
   "attacks": {
     "attackList": [
       {

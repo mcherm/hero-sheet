@@ -43,6 +43,10 @@
         <span v-else>Delete</span>
       </button>
     </div>
+    <div class="background">
+      <label>Background / Bio / Story</label>
+      <multiline-string-entry v-model="charsheet.background"/>
+    </div>
   </boxed-section>
 </template>
 
@@ -101,5 +105,19 @@
   .isOutOfSpec {
     outline: var(--error-color) solid 4px;
     outline-offset: -4px;
+  }
+  .background {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border: solid 2px var(--box-border-color);
+    padding: 2px;
+    min-height: 10em;
+  }
+  .background label {
+    font-weight: bold;
+  }
+  .background textarea {
+    flex-grow: 1;
   }
 </style>

@@ -3,12 +3,12 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 11; // Up to this version can be saved
-const latestVersion = 11; // Might be an experimental version
+const currentVersion = 12; // Up to this version can be saved
+const latestVersion = 12; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
-  "initiative", "advantages", "equipment", "skills", "powers", "complications", "attacks", "activeEffects"];
+  "initiative", "advantages", "equipment", "skills", "powers", "complications", "background", "attacks", "activeEffects"];
 
 /*
  * Given a charsheet, this re-orders the fields so they are in the preferred order.
@@ -115,6 +115,7 @@ const newBlankCharacter = function() {
       description: ""
     }
   ];
+  const background = "";
   const attacks = {
     attackList: [
       {
@@ -141,6 +142,7 @@ const newBlankCharacter = function() {
     skills,
     powers,
     complications,
+    background,
     attacks,
     activeEffects
   }
@@ -161,7 +163,7 @@ const newBlankAdvantage = function() {
   Equipment.source takes on the following values:
    * "unselected" -- means the user hasn't chosen and this item is invalid
    * "standardEquipment" -- means it comes from standardEquipment.json
-   * "custom" -- to be added later; not allowed for now
+   * "custom" -- means it was custom-designed by the user
 */
 
 const newBlankEquipment = function() {
@@ -396,6 +398,11 @@ const upgradeFuncs = {
   upgradeFrom10: function(charsheet) {
     charsheet.equipment = [];
     charsheet.version = 11;
+  },
+
+  upgradeFrom11: function(charsheet) {
+    charsheet.background = "";
+    charsheet.version = 12;
   }
 };
 
