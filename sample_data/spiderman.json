@@ -217,7 +217,15 @@
       "hsid": "HIKUFU3RG"
     }
   ],
-  "equipment": [],
+  "equipment": [
+    {
+      "hsid": "HIDK71XY6",
+      "name": "Camera",
+      "cost": 1,
+      "source": "standard",
+      "feature": null
+    }
+  ],
   "skills": {
     "skillList": [
       {
@@ -331,19 +339,6 @@
       "hsid": "HIBERQ2UT"
     },
     {
-      "name": "Superhuman Equilibrium",
-      "effect": "Movement",
-      "description": "",
-      "extras": [],
-      "flaws": [],
-      "ranks": 5,
-      "cost": 10,
-      "subpowers": [],
-      "effectDescription": "You have a special form of movement.",
-      "baseCost": 2,
-      "hsid": "HIPG27MXR"
-    },
-    {
       "name": "Spider Sense",
       "effect": "Senses",
       "description": "Danger Sense.",
@@ -355,6 +350,34 @@
       "effectDescription": "One or more of your senses are improved or you have additional sensory abilities beyond the normal five senses.",
       "baseCost": 1,
       "hsid": "HI61J1N9W"
+    },
+    {
+      "name": "Wall-Crawling",
+      "hsid": "HIGNQSDK9",
+      "effect": "Movement",
+      "description": "Can cling to walls (or ceilings or whatever) like a spider.",
+      "extras": [],
+      "flaws": [],
+      "ranks": 2,
+      "cost": 4,
+      "effectDescription": "You have a special form of movement.",
+      "baseCost": 2,
+      "subpowers": [],
+      "option": "Wall-Crawling"
+    },
+    {
+      "name": "Swinging",
+      "hsid": "HI1MYJVR4",
+      "effect": "Movement",
+      "description": "Can use his webs to swing through the city.",
+      "extras": [],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 2,
+      "effectDescription": "You have a special form of movement.",
+      "baseCost": 2,
+      "subpowers": [],
+      "option": "Swinging"
     }
   ],
   "complications": [
