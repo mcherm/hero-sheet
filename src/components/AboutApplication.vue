@@ -3,7 +3,7 @@
     <h1>About Hero-Sheet</h1>
     <p>Hero-Sheet is a web application for making character sheets in the game Mutants and Masterminds.</p>
     <h2>Feedback</h2>
-    <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
+    <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
       <li>2020-05-15: Specialized extras and flaws for powers up through "Senses".</li>
