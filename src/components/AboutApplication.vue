@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="about-box-contents">
     <h1>About Hero-Sheet</h1>
     <p>Hero-Sheet is a web application for making character sheets in the game Mutants and Masterminds.</p>
     <h2>Feedback</h2>
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:mcherm@mcherm.com">mcherm@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
-    <ul class="change-list">
+    <ul class="change-list scrolling-list">
+      <li>2020-05-15: Specialized extras and flaws for powers up through "Senses".</li>
       <li>2020-05-14: Add "Background" on the Complications tab.</li>
       <li>2020-05-13: Can create custom equipment.</li>
       <li>2020-05-10: The ability to view the powers that come packaged with equipment.</li>
@@ -49,7 +50,7 @@
       <li>2020-03-11: Added About page.</li>
     </ul>
     <h2>Major Features Needed</h2>
-    <ul>
+    <ul class="scrolling-list">
       <li>Functioning list of attacks <span class="making-progress">(making progress)</span></li>
       <li>Numerous powers and abilities should impact other fields <span class="making-progress">(making progress)</span></li>
       <li>Ability to control which powers are applied</li>
@@ -67,6 +68,11 @@
 </script>
 
 <style scoped>
+  .scrolling-list {
+    overflow: auto;
+    max-height: 100px;
+    border: solid 1px black;
+  }
   .change-list > li {
     list-style-type: none;
   }

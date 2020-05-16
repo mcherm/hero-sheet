@@ -2606,7 +2606,7 @@
     "duration": "Sustained",
     "resistance": "-",
     "baseCost": "powerOptions",
-    "description": "You can displace one or more of your senses over a distance.",
+    "description": "You can displace one or more of your senses over a distance of 60ft * 2 per rank above 1.",
     "powerOptions": {
       "One Sense Type": {
         "name": "One Sense Type",
@@ -2616,17 +2616,17 @@
       "Two Sense Types": {
         "name": "Two Sense Types",
         "baseCost": 2,
-        "description": "Sense remotely with two different senses."
+        "description": "Sense remotely with two different senses (or 1 visual sense)."
       },
       "Three Sense Types": {
         "name": "Three Sense Types",
         "baseCost": 3,
-        "description": "Sense remotely with three different senses."
+        "description": "Sense remotely with three different senses (or 1 visual and 1 other)."
       },
       "Four Sense Types": {
         "name": "Four Sense Types",
         "baseCost": 4,
-        "description": "Sense remotely with four different senses."
+        "description": "Sense remotely with four different senses (visual sense costs 2)."
       },
       "Five Sense Types": {
         "name": "Five Sense Types",
@@ -2637,8 +2637,102 @@
     "specialExtras": "No Conduit (+1), Simultaneous (+1)",
     "specialFlaws": "Feedback (-1), Medium (-1)",
     "specialFlats": "Dimensional (+1 per rank), Subtle (+1 per rank), Noticeable (-1)",
+    "extras": [
+      {
+        "name": "Dimensional",
+        "description": "You can extend your Remote Sensing into other dimensions with range proximate to your location in that dimension.",
+        "modifierOptions": [
+          {
+            "name": "Sense in one dimension",
+            "description": "Sense remotely in \"nearby\" areas in one dimension.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 1
+          },
+          {
+            "name": "Sense in related dimensions",
+            "description": "Sense remotely in \"nearby\" areas in a group of related dimensions.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 2
+          },
+          {
+            "name": "Sense in any dimension",
+            "description": "Sense remotely in \"nearby\" areas of any dimension.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 3
+          }
+        ]
+      },
+      {
+        "name": "No Conduit",
+        "description": "Sensory effects targeted where you have displaced your senses do not affect you (and you cannot use the sense for perception-ranged attacks).",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Simultaneous",
+        "description": "You can use both Remote Sensing and your normal senses at the same time, perceiving two locales like \"translucent\" overlays of each other. You are not vulnerable while using your Remote Sensing.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Subtle",
+        "description": "Your Remote Sensing is even more subtle than normal Remote Sensing.",
+        "modifierOptions": [
+          {
+            "name": "Difficult to Notice",
+            "description": "The DC to notice the effect to 20 + ranks in Remote Sense.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 1
+          },
+          {
+            "name": "Limited Detection",
+            "description": "The use of Remote Sense can only be detected by one particular sense.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 1
+          },
+          {
+            "name": "Completely Unnoticeable",
+            "description": "The Remote Sensing cannot be detected.",
+            "hasRanks": false,
+            "costType": "flatPoints",
+            "cost": 2
+          }
+        ]
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Feedback",
+        "description": "Damaging attacks directed at where you displaced your senses can affect you. Your sensory-point is considered to have partial cover from attacks and you use your Remote Sensing rank as your Toughness defense against any successful attack.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Medium",
+        "description": "You require a medium for your Remote Sensing, such as shadows, flames, mirrors, open water, television screens, and so forth. You can only perceive locations where your chosen medium exists.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Noticeable",
+        "description": "Remote Sensing with this flaw has an easily noticeable display, like a glowing set of eyes or a phantom image of your face, head, or body at the location you are observing.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/remote-sensing-sensory"
   },
   "Senses": {
     "name": "Senses",
@@ -2648,12 +2742,160 @@
     "duration": "Permanent",
     "resistance": "-",
     "baseCost": 1,
-    "description": "One or more of your senses are improved or you have additional sensory abilities beyond the normal five senses.",
+    "description": "One or more of your senses are improved or you have additional sensory abilities beyond the normal five senses. See documentation for the number of ranks required.",
     "specialExtras": "Affects Others (+1), Area (+1), Dimensional (+1), Ranged (+1 or +2)",
     "specialFlaws": "Limited (-1), Unreliable (-1)",
     "specialFlats": "Innate (+1), Noticeable (-1)",
+    "extras": [
+      {
+        "name": "Affects Others",
+        "description": "This modifier allows you to extend your Insubstantial effect to another character by touch, taking them Insubstantial with you.",
+        "modifierOptions": [
+          {
+            "name": "Affects Only Others",
+            "description": "The effect affects only others, and not you.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 0
+          },
+          {
+            "name": "Self and Others",
+            "description": "It can affect yourself and others.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 0
+          }
+        ]
+      },
+      {
+        "name": "Area",
+        "description": "For Senses, Area only applies if you have Affects Others, to control who is affected.",
+        "modifierOptions": [
+          {
+            "name": "Burst Area",
+            "description": "The effect fills a sphere with a 30-foot radius (distance rank 0) for rank 1 of the extra. Bursts on level surfaces (like the ground) create hemispheres 30 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cloud Area",
+            "description": "The effect fills a sphere with a 15-foot radius (distance rank –1) for rank 1 of the extra, that lingers in that area for one round after its duration expires (affecting any targets in the area normally during the additional round). Clouds on level surfaces (like the ground) create hemispheres 15 feet in radius and height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cone Area",
+            "description": "The effect fills a cone with a length, width, and height of 60 feet (distance rank 1) for rank 1 of the extra, spreading out from the effect's starting point. Cones on a level surface halve their final height.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Cylinder Area",
+            "description": "The effect fills a cylinder 30 feet in radius and height (distance rank 0) for rank 1 of the extra.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Line Area",
+            "description": "The effect fills a path 6 feet wide and 30 feet long (distance ranks -2 and 0, respectively) in a straight line. Additional ranks of area increases the length. To increase the width, purchase additional ranks for that.",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Perception Area",
+            "description": "The effect works on anyone able to perceive the target point with a particular sense, chosen when you apply this extra, like a Sense-Dependent effect (see the Sense-Dependent modifier). Targets get a Dodge resistance check, as usual, but if the check is successful suffer no effect (rather than half). Concealment that prevents a target from perceiving the effect also blocks it. This modifier includes the Sense-Dependent flaw (see Flaws) so it cannot be applied again.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          },
+          {
+            "name": "Shapeable Area",
+            "description": "The effect fills a volume of 30 cubic feet (volume rank 5) for rank 1 of the extra, and you may shape the volume as you wish, so long as it all remains contiguous. Affecting an average-sized human requires 4 cubic feet (volume rank 2).",
+            "hasRanks": true,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1
+          }
+        ]
+      },
+      {
+        "name": "Dimensional",
+        "description": "This modifier allows you to extend your senses into other dimensions. It's assumed to apply to all your senses, allowing you to sense your proximate location in the other dimension(s).",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Innate",
+        "description": "Senses, particularly those of aliens or constructs like robots, may be Innate, although this does not prevent sensory effects like Concealment or Dazzle from disabling them.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Ranged",
+        "description": "The Ranged extra only applies to Senses that Affect Others, extending the distance at which you can grant their benefits.",
+        "modifierOptions": [
+          {
+            "name": "Use Ranged",
+            "description": "Grant your Affects Others Sense to others from a distance.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 1
+          },
+          {
+            "name": "Use at Perception Range",
+            "description": "Grant your Affects Others Sense to anyone you can perceive.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 2
+          }
+        ]
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Limited",
+        "description": "Your Sense is Limited to only sensing certain things or only under certain circumstances. As usual, the sense must lose about half its utility to qualify for this flaw.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      },
+      {
+        "name": "Noticeable",
+        "description": "Senses with this flaw are particularly noticeable in some way: your eyes may glow, for example, or you may emit a noticeable sound, vibration, energy, or the like for use as a sensor.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": -1
+      },
+      {
+        "name": "Unreliable",
+        "description": "Remote Sensing with this flaw has an easily noticeable display, like a glowing set of eyes or a phantom image of your face, head, or body at the location you are observing.",
+        "modifierOptions": [
+          {
+            "name": "Sense Fails Sometimes",
+            "description": "Sense fails to function when the check is failed.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -1
+          },
+          {
+            "name": "Sense is Wrong Sometimes",
+            "description": "Sense appears to work but gives unreliable information.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -1
+          }
+        ]
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/senses-sensory"
   },
   "Shapeshift": {
     "name": "Shapeshift",
