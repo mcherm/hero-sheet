@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-05-16: Specialized extras and flaws for powers up through "Summon".</li>
       <li>2020-05-15: Specialized extras and flaws for powers up through "Senses".</li>
       <li>2020-05-14: Add "Background" on the Complications tab.</li>
       <li>2020-05-13: Can create custom equipment.</li>

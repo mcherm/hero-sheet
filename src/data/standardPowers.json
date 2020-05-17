@@ -2924,8 +2924,27 @@
     "specialExtras": "Normal Strength (+1)",
     "specialFlaws": "-",
     "specialFlats": "Atomic (+1)",
+    "extras": [
+      {
+        "name": "Atomic",
+        "description": "At Shrinking 20 (and size rank –7), you can shrink down to the molecular or even atomic level, allowing you to pass through solid objects by slipping between their atoms. You’re effectively immune to damage and many effects at this scale.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Normal Strength",
+        "description": "You retain your full Strength, Speed, and Intimidation while shrunk.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      }
+    ],
+    "flaws": [
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/shrinking-general"
   },
   "Sleep": {
     "name": "Sleep",
@@ -2969,8 +2988,11 @@
     "specialExtras": "-",
     "specialFlaws": "-",
     "specialFlats": "-",
+    "extras": [],
+    "flaws": [],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/speed-movement"
   },
   "Strike": {
     "name": "Strike",
@@ -3014,8 +3036,109 @@
     "specialExtras": "Active (+1), Controlled (+1), Heroic (+2), Horde (+1), Multiple Minions (+2), Variable Type (+1 or +2)",
     "specialFlaws": "Attitude (-1 or -2), Resistible (-1)",
     "specialFlats": "Mental Link (+1), Sacrifice (+1)",
+    "extras": [
+      {
+        "name": "Active",
+        "description": "Your minions are particularly independent and do not have the dazed condition, having a full set of actions each round.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Controlled",
+        "description": "Your minions all have the controlled condition. They have no free will of their own and are completely under your direction.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Heroic",
+        "description": "The creatures you summon are not subject to the minion rules, but treated like normal non-player characters. Additionally, they do not have the dazed condition and take a full set of actions each round.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 2
+      },
+      {
+        "name": "Horde",
+        "description": "If you have Multiple Minions you may take a standard action to summon any number of minions up to your maximum amount. You are vulnerable (see the Distracting flaw) until the start of your next turn when summoning a horde.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": 1
+      },
+      {
+        "name": "Mental Link",
+        "description": "You have a mental link with your minions, allowing you to communicate with them and issue orders telepathically like the Communication Link effect.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Multiple Minions",
+        "description": "Each rank of this extra doubles your total number of minions.",
+        "hasRanks": true,
+        "costType": "pointsOfMultiplierPerRankOfModifier",
+        "cost": 2
+      },
+      {
+        "name": "Sacrifice",
+        "description": "When you are hit with an effect requiring a resistance check, you can spend a hero point to shift it to one of your minions instead.",
+        "hasRanks": false,
+        "costType": "flatPoints",
+        "cost": 1
+      },
+      {
+        "name": "Variable Type",
+        "description": "Minions are normally identical in terms of traits, although they may differ cosmetically. With this modifier you can summon different types of minions.",
+        "modifierOptions": [
+          {
+            "name": "Variable Within a General Type",
+            "description": "You can summon different minions of a general type (like elementals, birds, fish, etc.).",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 1
+          },
+          {
+            "name": "Variable Within a Broad Type",
+            "description": "You can summon different minions of a broad type (like animals, demons, humanoids, etc.).",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 2
+          }
+        ]
+      }
+    ],
+    "flaws": [
+      {
+        "name": "Attitude",
+        "description": "Your summoned minions are less than cooperative.: indifferent or even unfriendly.",
+        "modifierOptions": [
+          {
+            "name": "Minions are Indifferent",
+            "description": "Your summoned minions are indifferent toward you.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -1
+          },
+          {
+            "name": "Minions are Unfriendly",
+            "description": "Your summoned minions are unfriendly toward you.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": -2
+          }
+        ]
+      },
+      {
+        "name": "Resistible",
+        "description": "Your minions get an appropriate resistance check (typically Will) against (DC 10 + Summon rank) to avoid being summoned. If they successfully resist, you cannot attempt to summon them again in that scene without using extra effort.",
+        "hasRanks": false,
+        "costType": "pointsOfMultiplier",
+        "cost": -1
+      }
+    ],
     "isPrimitiveEffect": true,
-    "isArray": false
+    "isArray": false,
+    "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/summon-control"
   },
   "Super-Speed": {
     "name": "Super-Speed",
