@@ -80,18 +80,20 @@ TODO: Campaign limits not implemented yet:
   * For all campaign limits, should make a list of them and be able to display
     it and even make exceptions for individual ones.
 
-TODO: Need to be able to purchase equipment.
-
-TODO: Generate a PDF.
+TODO: Generate a PDF. See http://raw.githack.com/MrRio/jsPDF/master/docs/index.html
+  or https://pdfkit.org/.
 
 TODO: [Adran06] Extra sheet for minions. And for Morph[Metamorph]. And for Summon.
 
 TODO: [Adran06] Maybe an "extra sheet" for variable powers? Listing some options (for free)?
 
-TODO: There are power-specific modifiers. I need to:
-  * Enter the information into my data files.
-
 TODO: The Affliction power should select which kind of effect it applies and
   what resists it.
 
 TODO: The Protection power ought to influence toughness.
+
+TODO: A few powers really should have their own custom way of being created.
+ * Variable - should be able to create the power options for it
+ * Summon - should be able to create the character for it
+ * Senses - should be able to select the sense itself and its features and
+   calcuate the cost
