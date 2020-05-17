@@ -186,9 +186,11 @@ const newBlankSkill = function() {
   };
 };
 
+const STARTING_POWER_NAME = "New Power";
+
 const newBlankPower = function() {
   return {
-    name: "New Power",
+    name: STARTING_POWER_NAME,
     hsid: newHsid(),
     effect: "",
     description: "",
@@ -434,6 +436,7 @@ const upgradeVersion = function(charsheet) {
 };
 
 export {
+  STARTING_POWER_NAME,
   currentVersion,
   newBlankCharacter,
   newBlankAdvantage,

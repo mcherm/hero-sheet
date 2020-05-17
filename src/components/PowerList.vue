@@ -17,7 +17,7 @@
     </ul>
     <div class="scrolling-list-footer">
       <button v-on:click="addPower()" :disabled="!mutable">Add Power</button>
-      <button v-on:click="deleteIsVisible = !deleteIsVisible" :disabled="!mutable">
+      <button v-if="powers.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible" :disabled="!mutable">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
       </button>

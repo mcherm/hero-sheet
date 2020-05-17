@@ -4,13 +4,14 @@
       "name": "Blast",
       "description": "You can make a damaging ranged attack. It might be a blast of energy, a projectile (arrow, bullet, throwing blade, etc.), or some similar effect.",
       "effect": "Damage",
+      "ranks": 1,
       "extras": [
         {
           "modifierSource": "standard",
           "modifierName": "Increased Range",
           "ranks": 1
         }
-      ],
+      ]
     },
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/affliction-attack/",
     "EXAMPLE": {
@@ -40,9 +41,10 @@
       "name": "Dazzle",
       "description": "You can overwhelm one of the target's senses, chosen when you take this effect. The target makes a Fortitude or Will resistance check against your effect DC (choose one when you acquire the effect). One degree of failure leaves the sense impaired (–2 penalty). Two degrees leave it disabled (–5 penalty) while three degrees leave the sense unaware (the target automatically fails Perception checks involving the sense, and everything effectively has total concealment from that sense).",
       "effect": "Affliction",
+      "ranks": 1,
       "extras": [
         {
-          "modifierSource": "effect",
+          "modifierSource": "special",
           "modifierName": "Cumulative"
         },
         {
@@ -99,9 +101,10 @@
       "name": "Duplication",
       "description": "You can create a duplicate of yourself. Your duplicate is a minion with the same traits as you, except for this power and any hero points.",
       "effect": "Summon",
+      "ranks": 1,
       "extras": [
         {
-          "modifierSource": "effect",
+          "modifierSource": "special",
           "modifierName": "Active"
         }
       ]

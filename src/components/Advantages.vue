@@ -46,7 +46,7 @@
     </div>
     <div class="scrolling-list-footer">
       <button v-on:click="addAdvantage()">Add Advantage</button>
-      <button v-on:click="deleteIsVisible = !deleteIsVisible">
+      <button v-if="charsheet.advantages.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
       </button>

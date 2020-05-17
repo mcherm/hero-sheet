@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import {newBlankPower} from "./heroSheetVersioning.js";
 
 const standardAdvantages = require("../data/standardAdvantages.json");
@@ -216,7 +217,7 @@ const buildFeature = function(template) {
   feature.ranks = template.ranks;
   setPowerEffect(feature, template.effect);
   for (const modifierType of ["extras", "flaws"]) {
-    for (const modifierTemplate of template[modifierType]) {
+    for (const modifierTemplate of template[modifierType] || []) {
       const {
         modifierSource,
         modifierName,
@@ -289,6 +290,22 @@ const recalculatePowerCost = function(power) {
 };
 
 /*
+ * Given a Power object from the charsheet and a feature, this copies
+ * the feature over into the power and replaces whatever it used to
+ * contain with the fields of the feature.
+ *
+ * FIXME: Need to confirm that this handles subpowers correctly
+ */
+const replacePower = function(power, feature) {
+  for (const [fieldName, fieldValue] of Object.entries(feature)) {
+    Vue.set(power, fieldName, fieldValue);
+  }
+  recalculatePowerBaseCost(power);
+  recalculatePowerCost(power);
+}
+
+
+/*
  * Given a Power object from the charsheet and a new effect string, this
  * alters the effect and then re-calculates all the fields of the Power
  * object that depend on the effect.
@@ -314,6 +331,9 @@ const setPowerEffect = function(power, effect) {
       }
     } else {
       power.option = null;
+    }
+    if (!standardPower.isArray) {
+      power.subpowers = [];
     }
     recalculatePowerBaseCost(power);
   }
@@ -475,6 +495,7 @@ export {
   getStandardPower,
   getPowerOption,
   recalculatePowerBaseCost,
+  replacePower,
   setPowerEffect,
   setPowerOption,
   addPowerModifier,

@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-05-17: Started to support "sample powers" so they are editable and affect the rest of the charsheet.</li>
       <li>2020-05-17: ALL specialized extras and flaws for powers are now created.</li>
       <li>2020-05-16: Specialized extras and flaws for powers up through "Summon".</li>
       <li>2020-05-15: Specialized extras and flaws for powers up through "Senses".</li>
@@ -53,11 +54,12 @@
     </ul>
     <h2>Major Features Needed</h2>
     <ul class="scrolling-list">
+      <li>Handle "sample powers" by creating them from the primitive powers.</li>
       <li>Functioning list of attacks <span class="making-progress">(making progress)</span></li>
       <li>Numerous powers and abilities should impact other fields <span class="making-progress">(making progress)</span></li>
       <li>Ability to control which powers are applied</li>
       <li>Manage custom adjustments to various fields</li>
-      <li>Support for sidekicks, summons, and morphs</li>
+      <li>Support for sidekicks, summons, morphs, and variable powers.</li>
       <li>Printable character sheet</li>
     </ul>
   </div>

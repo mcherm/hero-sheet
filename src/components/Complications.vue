@@ -38,7 +38,7 @@
     </div>
     <div class="scrolling-list-footer">
       <button v-on:click="addComplication()">Add Complication</button>
-      <button v-on:click="deleteIsVisible = !deleteIsVisible">
+      <button v-if="charsheet.complications.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
       </button>

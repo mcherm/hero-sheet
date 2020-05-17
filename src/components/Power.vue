@@ -75,9 +75,11 @@
 </template>
 
 <script>
-  import ModifierList from "./ModifierList";
-  import PowerEffectSelect from "./PowerEffectSelect";
-  import {powerCostCalculate, getStandardPower, getPowerOption, recalculatePowerBaseCost, setPowerEffect, setPowerOption, powerUpdaterEvent} from "../js/heroSheetUtil.js";
+  import ModifierList from "./ModifierList.vue";
+  import PowerEffectSelect from "./PowerEffectSelect.vue";
+  import {STARTING_POWER_NAME} from "../js/heroSheetVersioning.js";
+  import {powerCostCalculate, getStandardPower, getPowerOption, recalculatePowerBaseCost, setPowerEffect, setPowerOption, powerUpdaterEvent, buildFeature, replacePower} from "../js/heroSheetUtil.js";
+  const samplePowers = require("../data/samplePowers.json");
 
   export default {
     name: "Power",
@@ -113,8 +115,26 @@
       theOption: function() {
         return getPowerOption(this.power);
       },
-      setPowerEffect: function(effect) {
-        setPowerEffect(this.power, effect);
+      setPowerEffect: function(effectSelection) {
+        const [selectType, effect] = effectSelection.split(":");
+        if (selectType === "standard") {
+          setPowerEffect(this.power, effect);
+        } else if (selectType === "sample") {
+          const samplePower = samplePowers[effect];
+          const newFeature = buildFeature(samplePower.feature);
+          // Keep the existing name if it looks like it has been edited
+          if (!this.power.name.startsWith(STARTING_POWER_NAME)) {
+            newFeature.name = this.power.name;
+          }
+          // Keep the existing number of ranks except for arrays which are hard
+          if (newFeature.subpowers.length === 0) {
+            newFeature.ranks = this.power.ranks;
+          }
+          replacePower(this.power, newFeature);
+          // FIXME: Need to verify that everything gets set up properly if I do the replacement like this
+        } else {
+          throw new Error(`Invalid selectType of '${selectType}'.`);
+        }
         this.recalculatePowerCost();
         this.potentiallyCreateNewUpdaters();
       },
