@@ -1,32 +1,32 @@
 <template>
-  <select :value="`standard:${value}`" @input="$emit('input', $event.target.value)" class="effect-select" :disabled="!mutable">
+  <select :value="`standard|${value}`" @input="$emit('input', $event.target.value)" class="effect-select" :disabled="!mutable">
     <option disabled value="standard:">Select One</option>
     <optgroup label="Power Effects">
       <option
           v-for="standardPower of powersFilteredFor(x => x.isPrimitiveEffect && !x.isArray)"
           :key="standardPower.name"
-          :value="`standard:${standardPower.name}`"
+          :value="`standard|${standardPower.name}`"
       >{{standardPower.name}}</option>
     </optgroup>
     <optgroup label="Sample Powers 1">
       <option
           v-for="standardPower in powersFilteredFor(x => !x.isPrimitiveEffect)"
           :key="standardPower.name"
-          :value="`standard:${standardPower.name}`"
+          :value="`standard|${standardPower.name}`"
       >{{standardPower.name}}</option>
     </optgroup>
     <optgroup label="Sample Powers 2">
       <option
           v-for="(samplePower, samplePowerName) in samplePowers()"
           :key="samplePowerName"
-          :value="`sample:${samplePowerName}`"
+          :value="`sample|${samplePowerName}`"
       >{{samplePowerName}}</option>
     </optgroup>
     <optgroup label="Arrays">
       <option
           v-for="standardPower in powersFilteredFor(x => x.isArray)"
           :key="standardPower.name"
-          :value="`standard:${standardPower.name}`"
+          :value="`standard|${standardPower.name}`"
       >{{standardPower.name}}</option>
     </optgroup>
   </select>

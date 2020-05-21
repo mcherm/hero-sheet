@@ -212,9 +212,9 @@ const findModifierItemTemplate = function(modifierSource, modifierName, optionNa
  */
 const buildFeature = function(template) {
   const feature = newBlankPower();
-  feature.name = template.name;
-  feature.description = template.description;
-  feature.ranks = template.ranks;
+  feature.name = template.name || template.effect;
+  feature.description = template.description || "";
+  feature.ranks = template.ranks || 1;
   setPowerEffect(feature, template.effect);
   for (const modifierType of ["extras", "flaws"]) {
     for (const modifierTemplate of template[modifierType] || []) {
@@ -232,6 +232,12 @@ const buildFeature = function(template) {
         ranks
       });
       addPowerModifier(feature, modifierType, modifier)
+    }
+  }
+  if (template.subpowers) {
+    for (const subpowerTemplate of template.subpowers) {
+      const subpower = buildFeature(subpowerTemplate);
+      feature.subpowers.push(subpower);
     }
   }
   return feature;

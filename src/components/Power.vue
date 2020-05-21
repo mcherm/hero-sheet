@@ -116,7 +116,7 @@
         return getPowerOption(this.power);
       },
       setPowerEffect: function(effectSelection) {
-        const [selectType, effect] = effectSelection.split(":");
+        const [selectType, effect] = effectSelection.split("|");
         if (selectType === "standard") {
           setPowerEffect(this.power, effect);
         } else if (selectType === "sample") {
@@ -131,12 +131,24 @@
             newFeature.ranks = this.power.ranks;
           }
           replacePower(this.power, newFeature);
-          // FIXME: Need to verify that everything gets set up properly if I do the replacement like this
+          const recursivelyCreateNewUpdaters = powerList => {
+            for (const power of powerList) {
+              const event = powerUpdaterEvent(power);
+              if (event !== null) {
+                this.$emit("newUpdater", event);
+              }
+              if (power.subpowers.length > 0) {
+                recursivelyCreateNewUpdaters(power.subpowers);
+              }
+            }
+          }
+          recursivelyCreateNewUpdaters(newFeature.subpowers);
         } else {
           throw new Error(`Invalid selectType of '${selectType}'.`);
         }
         this.recalculatePowerCost();
         this.potentiallyCreateNewUpdaters();
+        this.$emit('update:name', this.power.name); // Allow the containing list to rename for uniqueness
       },
       setPowerOption: function(option) {
         setPowerOption(this.power, option);

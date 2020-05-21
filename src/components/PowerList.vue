@@ -52,9 +52,11 @@
        * changing the name if needed to make it unique. Changing it
        * is done by appending ":2", EXCEPT that if it already ends in
        * ":" and a number, then it finds the lowest unused number
-       * (eg: ":3") and uses that.
+       * (eg: ":3") and uses that. It also removes any "|" characters
+       * because "|" is reserved in names.
        */
       renamePower: function(power, newName) {
+        newName = newName.replace(/\|/g, ""); // replace all "|"s with "".
         const otherPowerNames = {};
         for (let p of this.powers) {
           if (p !== power) {
