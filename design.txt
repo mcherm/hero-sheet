@@ -97,7 +97,3 @@ TODO: A few powers really should have their own custom way of being created.
  * Summon - should be able to create the character for it
  * Senses - should be able to select the sense itself and its features and
    calcuate the cost
-
-BUG: Cost calculations are wrong when an array has a flat modifier. The flat
-  modifier is applied to every element of the array instead of to the whole
-  array.
