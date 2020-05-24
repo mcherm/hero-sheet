@@ -330,5 +330,89 @@
         }
       ]
     }
+  },
+  "Energy Control: Cold": {
+    "feature": {
+      "name": "Energy Control: Cold",
+      "description": "You can generate and project cold in a damaging blast.",
+      "effect": "Linked",
+      "subpowers": [
+        {
+          "name": "Freezing Damage",
+          "description": "The frigid cold of the blast does some damage.",
+          "effect": "Damage",
+          "ranks": 4,
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Increased Range",
+              "ranks": 1
+            }
+          ]
+        },
+        {
+          "name": "Trap in Ice",
+          "description": "Target gets trapped in a shell of ice, preventing them from moving.",
+          "effect": "Affliction",
+          "ranks": 2,
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Increased Range",
+              "ranks": 1
+            },
+            {
+              "modifierSource": "special",
+              "modifierName": "Cumulative"
+            },
+            {
+              "modifierSource": "special",
+              "modifierName": "Alternate Resistance"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Energy Control: Magnetism": {
+    "feature": {
+      "name": "Energy Control: Magnetism",
+      "description": "You can damage people with magnetic blasts, and can also use them to move metalic objects.",
+      "effect": "Linked",
+      "subpowers": [
+        {
+          "name": "Magnetic Force Blast",
+          "description": "Magnetic force does some damage to living creatures due to the iron in their blood.",
+          "effect": "Damage",
+          "ranks": 2,
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Increased Range",
+              "ranks": 1
+            }
+          ]
+        },
+        {
+          "name": "Move with Magnetic Force",
+          "description": "Metal objects can be moved around and potentially damaged with powerful magnetic forces.",
+          "effect": "Move Object",
+          "ranks": 6,
+          "extras": [
+            {
+              "modifierSource": "special",
+              "modifierName": "Damaging"
+            }
+          ],
+          "flaws": [
+            {
+              "modifierSource": "special",
+              "modifierName": "Limited Material",
+              "optionName": "Limited Material"
+            }
+          ]
+        }
+      ]
+    }
   }
 }

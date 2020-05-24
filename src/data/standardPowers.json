@@ -2173,7 +2173,7 @@
       {
         "name": "Damaging",
         "description": "Your effect can inflict damage, like an application of normal Strength with damage equal to its rank.",
-        "hasRanks": true,
+        "hasRanks": false,
         "costType": "pointsOfMultiplier",
         "cost": 1
       },
