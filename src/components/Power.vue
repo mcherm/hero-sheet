@@ -126,8 +126,9 @@
           if (!this.power.name.startsWith(STARTING_POWER_NAME)) {
             newFeature.name = this.power.name;
           }
-          // Keep the existing number of ranks except for arrays which are hard
-          if (newFeature.subpowers.length === 0) {
+          // Keep the existing number of ranks if ranks were not explicitly listed
+          // in the template (except for subpowers which are just too hard to deal with).
+          if (!(samplePower.ranks) && newFeature.subpowers.length === 0) {
             newFeature.ranks = this.power.ranks;
           }
           replacePower(this.power, newFeature);

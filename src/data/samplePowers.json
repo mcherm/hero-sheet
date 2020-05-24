@@ -119,12 +119,142 @@
       "option": null
     }
   },
+  "Alternate Form: Gaseous": {
+    "feature": {
+      "name": "Alternate Form: Gaseous",
+      "description": "Spend a standard action to turn into a cloud of gas, like fog or mist.",
+      "effect": "Linked",
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Activation",
+          "optionName": "Standard Action to Activate",
+          "ranks": 1
+        }
+      ],
+      "subpowers": [
+        {
+          "name": "Suffocate",
+          "description": "By surrounding your foe, you can cut off their breath.",
+          "effect": "Affliction",
+          "ranks": 6
+        },
+        {
+          "name": "Difficult to See",
+          "description": "As a semi-transparent gas, your form is difficult to see. You have partial concealment from all visual senses.",
+          "effect": "Concealment",
+          "ranks": 4,
+          "flaws": [
+            {
+              "modifierSource": "special",
+              "modifierName": "Partial"
+            }
+          ]
+        },
+        {
+          "name": "Inaudible",
+          "description": "As a gas, you do not make any noise at all.",
+          "effect": "Concealment",
+          "ranks": 1
+        },
+        {
+          "name": "Lighter than Air",
+          "description": "Being made of gas, you can fly.",
+          "effect": "Flight",
+          "ranks": 3
+        },
+        {
+          "name": "Made of Gas",
+          "description": "Being made of gas, immune to physical damage, except for area attacks. You can also flow through any opening that is not airtight.",
+          "effect": "Insubstantial",
+          "ranks": 2
+        }
+      ]
+    },
+    "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/alternate-form/",
+    "EXAMPLE": {
+      "name": "Alternate Form: Flames",
+      "hsid": "HIG2JKM32",
+      "effect": "Linked",
+      "description": "Spend a standard action to take on a body of pure flame",
+      "extras": [],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Activation",
+          "optionName": "Standard Action to Activate",
+          "ranks": 1,
+          "costType": "flatPoints",
+          "cost": -2,
+          "displayText": "Standard Action to Activate (-2 flat)"
+        }
+      ],
+      "ranks": 1,
+      "cost": 25,
+      "effectDescription": "Several different effects together.",
+      "baseCost": null,
+      "subpowers": [
+        {
+          "name": "Burn with a Touch",
+          "hsid": "HI8YZAQQ7",
+          "effect": "Damage",
+          "description": "",
+          "extras": [
+            {
+              "modifierSource": "special",
+              "modifierName": "Strength Based",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "pointsOfMultiplier",
+              "cost": 0,
+              "displayText": "Strength Based (0)"
+            }
+          ],
+          "flaws": [],
+          "ranks": 8,
+          "cost": 8,
+          "effectDescription": "You can inflict damage by making a close attack.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Flying",
+          "hsid": "HIKNCU848",
+          "effect": "Flight",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 4,
+          "cost": 8,
+          "effectDescription": "You can fly through the air, including hovering.",
+          "baseCost": 2,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Made of Energy",
+          "hsid": "HIJ38LER4",
+          "effect": "Insubstantial",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 3,
+          "cost": 15,
+          "effectDescription": "You can assume a less solid form, with each rank becoming progressively less solid.",
+          "baseCost": 5,
+          "subpowers": [],
+          "option": null
+        }
+      ],
+      "option": null
+    }
+  },
   "Blast": {
     "feature": {
       "name": "Blast",
       "description": "You can make a damaging ranged attack. It might be a blast of energy, a projectile (arrow, bullet, throwing blade, etc.), or some similar effect.",
       "effect": "Damage",
-      "ranks": 1,
       "extras": [
         {
           "modifierSource": "standard",
@@ -140,7 +270,6 @@
       "name": "Dazzle",
       "description": "You can overwhelm one of the target's senses, chosen when you take this effect. The target makes a Fortitude or Will resistance check against your effect DC (choose one when you acquire the effect). One degree of failure leaves the sense impaired (–2 penalty). Two degrees leave it disabled (–5 penalty) while three degrees leave the sense unaware (the target automatically fails Perception checks involving the sense, and everything effectively has total concealment from that sense).",
       "effect": "Affliction",
-      "ranks": 1,
       "extras": [
         {
           "modifierSource": "special",
@@ -166,7 +295,6 @@
       "name": "Duplication",
       "description": "You can create a duplicate of yourself. Your duplicate is a minion with the same traits as you, except for this power and any hero points.",
       "effect": "Summon",
-      "ranks": 1,
       "extras": [
         {
           "modifierSource": "special",
@@ -175,5 +303,32 @@
       ]
     },
     "docsURL": "https://www.d20herosrd.com/6-powers/sample-powers/duplication/"
+  },
+  "Element Control": {
+    "feature": {
+      "name": "Element Control",
+      "description": "You have the ability to move around some specific element (earth, air, water, etc).",
+      "effect": "Move Object",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Perception"
+        }
+      ]
+    }
+  },
+  "Energy Aura": {
+    "feature": {
+      "name": "Energy Aura",
+      "description": "You can surround your body with an aura of damaging energy or some similar effect. Anyone you touch or that touches you must make a Toughness resistance check against your aura’s Damage rank. You can turn your aura on and off at will as a free action.",
+      "effect": "Damage",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Reaction",
+          "optionName": "Standard action becomes Reaction"
+        }
+      ]
+    }
   }
 }
