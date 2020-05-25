@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/samplePowers.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "description": "The root schema is the schema that comprises the entire JSON document.",
+  "patternProperties": {
+    "^[A-Za-z0-9: -]+$": { "$ref": "#/definitions/PowerDefinition" },
+    "additionalProperties": false
+  },
+  "definitions": {
+    "Name": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9: -]+$"
+    },
+    "PowerDefinition": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "#/definitions/Name" },
+        "type": {},
+        "action": {},
+        "range": {},
+        "duration": {},
+        "resistance": {},
+        "baseCost": {
+          "anyOf": [
+            { "type": "integer" },
+            {
+              "type": "string",
+              "enum": [
+                "powerOptions",
+                "sum of components",
+                "most expensive + 1 + 2 per other component",
+                "most expensive + 1 per other component"
+              ]
+            }
+          ]
+        },
+        "description": { "type": "string" },
+        "powerOptions": { "$ref": "#/definitions/PowerOptionDefinitionMap" },
+        "specialExtras": {},
+        "specialFlaws": {},
+        "specialFlats": {},
+        "extras": { "$ref": "#/definitions/ModifierDefinitionList" },
+        "flaws": { "$ref": "#/definitions/ModifierDefinitionList" },
+        "isPrimitiveEffect": { "type":  "boolean" },
+        "isArray": { "type":  "boolean" },
+        "docsURL": { "type": "string" }
+      },
+      "required": [ "name", "baseCost", "description", "isPrimitiveEffect", "isArray" ],
+      "additionalProperties": false
+    },
+    "PowerOptionDefinitionMap": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z0-9: ]+$": { "$ref": "#/definitions/PowerOptionDefinition" },
+        "additionalProperties": false
+      }
+    },
+    "PowerOptionDefinition": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "#/definitions/Name" },
+        "baseCost": {
+          "oneOf": [
+            { "type": "integer" },
+            { "type": "number", "enum": [0.5] }
+          ]
+        },
+        "description": { "type": "string" }
+      },
+      "required": [ "name", "baseCost", "description" ],
+      "additionalProperties": false
+    },
+    "ModifierDefinitionList": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/ModifierDefinition" }
+    },
+    "ModifierDefinition": {
+      "oneOf": [
+        { "$ref": "#/definitions/ModifierDefinitionNoOptions"},
+        { "$ref": "#/definitions/ModifierDefinitionWithOptions"}
+      ]
+    },
+    "ModifierDefinitionNoOptions": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "#/definitions/Name" },
+        "description": { "type": "string" },
+        "hasRanks": { "type": "boolean" },
+        "costType": { "$ref": "#/definitions/CostType" },
+        "cost": { "type": "integer" }
+      },
+      "required": ["name", "description", "hasRanks", "costType", "cost"],
+      "additionalProperties": false
+    },
+    "ModifierDefinitionWithOptions": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "#/definitions/Name" },
+        "description": { "type": "string" },
+        "modifierOptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "$ref": "#/definitions/Name" },
+              "description": { "type": "string" },
+              "hasRanks": { "type": "boolean" },
+              "costType": { "$ref": "#/definitions/CostType" },
+              "cost": { "type": "integer" }
+            },
+            "required": ["name", "description", "hasRanks", "costType", "cost"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["name", "description", "modifierOptions"],
+      "additionalProperties": false
+    },
+    "CostType": {
+      "type": "string",
+      "enum": [
+        "flatPoints",
+        "flatPointsPerRankOfModifier",
+        "flatPointsPer5PointsOfFinalCost",
+        "pointsOfMultiplier",
+        "pointsOfMultiplierPerRankOfModifier"
+      ]
+    }
+  }
+}

@@ -1,11 +1,11 @@
 {
   "name": "hero-sheet",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "validate": "npx ajv -s src/schema/samplePowers.schema.json -d src/data/samplePowers.json",
+    "validate": "npx ajv -s src/schema/samplePowers.schema.json -d src/data/samplePowers.json && npx ajv -s src/schema/standardPowers.schema.json -d src/data/standardPowers.json",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "deploy": "s3-easy-deploy --public-root ./dist --bucket hero-sheet.com"

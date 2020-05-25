@@ -1625,7 +1625,7 @@
         "description": "Applied to Insubstantial, this extra makes it into a close range effect able to turn targets Insubstantial.",
         "modifierOptions": [
           {
-            "name": "Insubstantial Attack Only,",
+            "name": "Insubstantial Attack Only",
             "description": "The effect affects only others, and not you.",
             "hasRanks": false,
             "costType": "pointsOfMultiplier",
