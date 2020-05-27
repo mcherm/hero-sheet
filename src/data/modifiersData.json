@@ -651,7 +651,7 @@
           "cost": -1
         },
         {
-          "name": "Side effect when used.",
+          "name": "Side effect when used",
           "description": "The side effect always occurs when you use the effect, whether you succeed or fail.",
           "hasRanks": false,
           "costType": "pointsOfMultiplier",
