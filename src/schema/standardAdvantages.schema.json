@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/standardAdvantages.schema.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "description": "The root schema is the schema that comprises the entire JSON document.",
+  "patternProperties": {
+    "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/StandardAdvantage" }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "StandardAdvantage": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "common.schema.json#/definitions/Name" },
+        "description": { "$ref": "common.schema.json#/definitions/Description" },
+        "isRanked": { "type": "boolean" },
+        "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL"}
+      },
+      "required": [ "name", "description", "isRanked", "docsURL" ],
+      "additionalProperties": false
+    }
+  }
+}

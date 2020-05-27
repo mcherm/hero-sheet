@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "http://hero-sheet.com/schemas/standardPowers.schema.json",
+  "$id": "http://hero-sheet.com/schemas/standardEquipment.schema.json",
   "type": "object",
   "title": "The Root Schema",
   "description": "The root schema is the schema that comprises the entire JSON document.",
   "patternProperties": {
-    "^[A-Za-z0-9: '-]+$": { "$ref": "common.schema.json#/definitions/PowerDefinition" }
+    "^[A-Za-z0-9: '-]+$": { "$ref": "common.schema.json#/definitions/StandardEquipment" }
   },
   "additionalProperties": false
 }

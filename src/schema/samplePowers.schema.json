@@ -5,7 +5,7 @@
   "title": "The Root Schema",
   "description": "The root schema is the schema that comprises the entire JSON document.",
   "patternProperties": {
-    "^[A-Za-z0-9: -]+$": { "$ref": "#/definitions/SamplePower" }
+    "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/SamplePower" }
   },
   "additionalProperties": false,
   "definitions": {
@@ -13,7 +13,7 @@
       "type": "object",
       "properties": {
         "feature": { "$ref": "common.schema.json#/definitions/PowerTemplate" },
-        "docsURL": { "type": "string" },
+        "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL" },
         "EXAMPLE": { }
       },
       "required": [ "feature" ],
