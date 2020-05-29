@@ -414,5 +414,46 @@
         }
       ]
     }
+  },
+  "Energy Absorption to Strength": {
+    "feature": {
+      "name": "Energy Absorption to Strength",
+      "description": "When hit with any kinetic force, gain +ranks of strength which then fades at one rank per turn. You still take damage normally.",
+      "effect": "Enhanced Trait",
+      "option": "Enhanced Strength",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Reaction",
+          "optionName": "Free action becomes Reaction"
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Fades"
+        }
+      ]
+    }
+  },
+  "Force Field": {
+    "feature": {
+      "name": "Force Field",
+      "description": "You can surround your body with a protective field of energy or force, providing you with a Toughness increase equal to your rank.",
+      "effect": "Protection",
+      "flaws": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Sustained"
+        }
+      ]
+    }
+  },
+  "Invisibility": {
+    "feature": {
+      "name": "Invisibility",
+      "description": "For two ranks, you can vanish from sight at will, gaining total visual concealment, although other senses can still detect you.",
+      "effect": "Concealment"
+    }
   }
 }
