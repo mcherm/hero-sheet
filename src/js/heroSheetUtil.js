@@ -216,6 +216,9 @@ const buildFeature = function(template) {
   feature.description = template.description || "";
   feature.ranks = template.ranks || 1;
   setPowerEffect(feature, template.effect);
+  if (template.option) {
+    setPowerOption(feature, template.option);
+  }
   for (const modifierType of ["extras", "flaws"]) {
     for (const modifierTemplate of template[modifierType] || []) {
       const {

@@ -710,6 +710,7 @@ class EnhancedTraitUpdater extends Updater {
       "Enhanced Awareness": "abilities.awareness.ranks",
       "Enhanced Presence": "abilities.presence.ranks",
       "Enhanced Dodge": "defenses.dodge.ranks",
+      "Enhanced Initiative": "initiative",
       "Enhanced Fortitude": "defenses.fortitude.ranks",
       "Enhanced Parry": "defenses.parry.ranks",
       "Enhanced Will": "defenses.will.ranks",

@@ -832,6 +832,11 @@
         "baseCost": 1,
         "description": "You enhance your Will defense."
       },
+      "Enhanced Initiative": {
+        "name": "Enhanced Initiative",
+        "baseCost": 1,
+        "description": "You enhance your Initiative."
+      },
       "Enhanced Acrobatics": {
         "name": "Enhanced Acrobatics",
         "baseCost": 0.5,

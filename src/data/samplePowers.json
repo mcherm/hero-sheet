@@ -544,5 +544,121 @@
         }
       ]
     }
+  },
+  "Shapeshift": {
+    "feature": {
+      "name": "Shapeshift",
+      "description": "You can transform into different forms, gaining the physical traits (abilities, skills, advantages, and powers) of the assumed form. You gain (Shapeshift rank x 5) power points worth of traits. You can also redistribute points spent on your own physical traits (lowering your Strength to apply those points elsewhere, for example). You are limited to the inherent traits of the forms you assume and do not gain new mental traits, even if that form possesses them.",
+      "effect": "Variable",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Action",
+          "optionName": "Change as a Move Action"
+        }
+      ]
+    }
+  },
+  "Sleep": {
+    "feature": {
+      "name": "Sleep",
+      "description": "You cause the target to feel tremendous weariness. Targets failing the Fortitude resistance check against your effect DC become fatigued, then exhausted, and finally asleep as they succumb.",
+      "effect": "Affliction"
+    }
+  },
+  "Snare": {
+    "feature": {
+      "name": "Snare",
+      "description": "You can restrain a target with bonds of ice, glue, webbing, bands of energy, and so forth (whatever suits your descriptors). The target makes a Dodge resistance check against your effect DC. One degree of failure leaves the target hindered and vulnerable, while two results in the target becoming defenseless and immobilized. The resistance check to break out of a Snare is based on Damage (including Strength Damage) or Sleight of Hand, either breaking the effect or slipping out of it.",
+      "effect": "Affliction",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Cumulative"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "special",
+          "modifierName": "Extra Condition"
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Limited Degree",
+          "optionName": "Limited to two degrees of effect"
+        }
+      ]
+    }
+  },
+  "Strike: Strength-Based": {
+    "feature": {
+      "name": "Strike: Strength-Based",
+      "description": "You inflict additional damage in close combat. Your Strike adds to your Strength damage. It might be claws, focused striking strength, or something similar, depending on your descriptors.",
+      "effect": "Damage",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based"
+        }
+      ]
+    }
+  },
+  "Strike: Powered": {
+    "feature": {
+      "name": "Strike: Powered",
+      "description": "You inflict damage in close combat. Your Strike adds to your Strength damage. It might be energy fields, a powerful taser, or something similar, depending on your descriptors.",
+      "effect": "Damage"
+    }
+  },
+  "Suffocation": {
+    "feature": {
+      "name": "Suffocation",
+      "description": "You render the target unable to breathe. Targets failing the Fortitude resistance check against your effect DC become dazed, stunned, and finally incapacitated, passing out from the lack of oxygen. A failed attempt to resist the ongoing effect of Suffocation causes the target's condition to worsen by one degree. It is resisted by Fortitude.",
+      "effect": "Affliction",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Progressive"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Super-Speed": {
+    "feature": {
+      "name": "Super-Speed",
+      "description": "You are fast! Each rank of Super-Speed gives you the effects of Improved Initiative as an Enhanced Trait, Quickness, and Speed, with a ground speed rank equal to your power rank.",
+      "effect": "Linked",
+      "subpowers": [
+        {
+          "name": "Quick Reactions",
+          "effect": "Enhanced Trait",
+          "description": "Your super-speed reactions let you get the jump on others.",
+          "option": "Enhanced Initiative",
+          "ranks": 6
+        },
+        {
+          "name": "Quick Actions",
+          "effect": "Quickness",
+          "description": "You can apply your super-speed to complete routine tasks rapidly.",
+          "ranks": 6
+        },
+        {
+          "name": "Quick Movement",
+          "effect": "Speed",
+          "description": "You can run at super-speeds.",
+          "ranks": 6
+        }
+      ]
+    }
   }
 }
