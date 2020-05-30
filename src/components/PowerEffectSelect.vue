@@ -3,7 +3,7 @@
     <option disabled value="standard:">Select One</option>
     <optgroup label="Power Effects">
       <option
-          v-for="standardPower of powersFilteredFor(x => x.isPrimitiveEffect && !x.isArray)"
+          v-for="standardPower of powersFilteredFor(x => !x.isArray)"
           :key="standardPower.name"
           :value="`standard|${standardPower.name}`"
       >{{standardPower.name}}</option>
@@ -15,14 +15,7 @@
           :value="`standard|${standardPower.name}`"
       >{{standardPower.name}}</option>
     </optgroup>
-    <optgroup label="Sample Powers 1">
-      <option
-          v-for="standardPower in powersFilteredFor(x => !x.isPrimitiveEffect)"
-          :key="standardPower.name"
-          :value="`standard|${standardPower.name}`"
-      >{{standardPower.name}}</option>
-    </optgroup>
-    <optgroup label="Sample Powers 2">
+    <optgroup label="Sample Powers">
       <option
           v-for="(samplePower, samplePowerName) in samplePowers()"
           :key="samplePowerName"

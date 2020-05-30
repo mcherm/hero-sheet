@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-05-24: Complete the process of adding sample powers and remove the previous way that was done.</li>
       <li>2020-05-24: Add several new sample powers.</li>
       <li>2020-05-20: Support complex sample powers with subpowers.</li>
       <li>2020-05-17: Started to support "sample powers" so they are editable and affect the rest of the charsheet.</li>
@@ -56,7 +57,6 @@
     </ul>
     <h2>Major Features Needed</h2>
     <ul class="scrolling-list">
-      <li>Handle "sample powers" by creating them from the primitive powers.</li>
       <li>Functioning list of attacks <span class="making-progress">(making progress)</span></li>
       <li>Numerous powers and abilities should impact other fields <span class="making-progress">(making progress)</span></li>
       <li>Ability to control which powers are applied</li>

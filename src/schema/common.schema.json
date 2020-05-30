@@ -45,16 +45,12 @@
         },
         "description": { "$ref": "#/definitions/Description" },
         "powerOptions": { "$ref": "#/definitions/PowerOptionDefinitionMap" },
-        "specialExtras": {},
-        "specialFlaws": {},
-        "specialFlats": {},
         "extras": { "$ref": "#/definitions/ModifierDefinitionList" },
         "flaws": { "$ref": "#/definitions/ModifierDefinitionList" },
-        "isPrimitiveEffect": { "type":  "boolean" },
         "isArray": { "type":  "boolean" },
         "docsURL": { "$ref": "#/definitions/DocsURL" }
       },
-      "required": [ "name", "baseCost", "description", "isPrimitiveEffect", "isArray" ],
+      "required": [ "name", "baseCost", "description", "isArray" ],
       "additionalProperties": false
     },
     "PowerOptionDefinitionMap": {
