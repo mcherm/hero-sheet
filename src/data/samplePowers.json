@@ -453,7 +453,96 @@
     "feature": {
       "name": "Invisibility",
       "description": "For two ranks, you can vanish from sight at will, gaining total visual concealment, although other senses can still detect you.",
-      "effect": "Concealment"
+      "effect": "Concealment",
+      "ranks": 2
+    }
+  },
+  "Mental Blast": {
+    "feature": {
+      "name": "Mental Blast",
+      "description": "You can strike targets' minds with \"mental force,\" inflicting Damage resisted by the target's Will rather than Toughness, but having no effect on targets immune to effects resisted by Will, such as inanimate objects. This version is difficult to detect with normal senses.",
+      "effect": "Damage",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 2
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Alternate Resistance",
+          "optionName": "Lower Resistance"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Subtle",
+          "optionName": "Subtle"
+        }
+      ]
+    }
+  },
+  "Magic Blast": {
+    "feature": {
+      "name": "Magic Blast",
+      "description": "You are a sorcerer, witch, or wizard, your basic default effect is a Blast of eldritch force, able to inflict Ranged Damage.",
+      "effect": "Damage",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Mimic": {
+    "feature": {
+      "name": "Mimic",
+      "description": "You can duplicate the traits of another character you can perceive, requiring a move action to scan them. You gain (Mimic rank x 5) power points worth of traits the target has, up to a maximum of the target's rank, and limited by the total power points you can Mimic.",
+      "effect": "Variable",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Action",
+          "optionName": "Change as a Move Action"
+        }
+      ]
+    }
+  },
+  "Mind Control": {
+    "feature": {
+      "name": "Mind Control",
+      "description": "You can impose your will on others, forcing them to obey your commands. Targets failing a Will resistance check against your effect DC first become dazed, then compelled, as they try to fight off your influence. Finally, with three or more degrees of effect, the target becomes controlled and obeys any commands you give.",
+      "effect": "Affliction",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Cumulative"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 2
+        },
+        {
+          "modifierSource": "special",
+          "modifierName": "Alternate Resistance"
+        }
+      ]
+    }
+  },
+  "Power-Lifting": {
+    "feature": {
+      "name": "Power-Lifting",
+      "description": "Your lifting and carrying capacity is out of proportion with the rest of your Strength. Each rank in this power gives you +1 to your Strength rank for determining how much weight you can lift and carry, but does not increase your Strength damage or other effects of your Strength rank.",
+      "effect": "Enhanced Trait",
+      "option": "Enhanced Strength",
+      "flaws": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Limited"
+        }
+      ]
     }
   }
 }

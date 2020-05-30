@@ -3321,6 +3321,13 @@
         "description": "You can change the configuration of your effect faster.",
         "modifierOptions": [
           {
+            "name": "Change as a Move Action",
+            "description": "You can change the configuration of your effect as a Move Action.",
+            "hasRanks": false,
+            "costType": "pointsOfMultiplier",
+            "cost": 1
+          },
+          {
             "name": "Change as a Free Action",
             "description": "You can change the configuration of your effect as a Free Action, but not more than once per turn.",
             "hasRanks": false,

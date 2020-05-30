@@ -96,4 +96,7 @@ TODO: A few powers really should have their own custom way of being created.
  * Variable - should be able to create the power options for it
  * Summon - should be able to create the character for it
  * Senses - should be able to select the sense itself and its features and
-   calcuate the cost
+   calculate the cost
+
+TODO: Some enhanced traits, like Power-Lifting, shouldn't be applied to the
+  trait.

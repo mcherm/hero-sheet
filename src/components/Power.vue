@@ -128,7 +128,7 @@
           }
           // Keep the existing number of ranks if ranks were not explicitly listed
           // in the template (except for subpowers which are just too hard to deal with).
-          if (!(samplePower.ranks) && newFeature.subpowers.length === 0) {
+          if (!(samplePower.feature.ranks)) {
             newFeature.ranks = this.power.ranks;
           }
           replacePower(this.power, newFeature);
