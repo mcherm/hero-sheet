@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-05-30: Official Alpha Release</li>
       <li>2020-05-29: Complete the process of adding sample powers and remove the previous way that was done.</li>
       <li>2020-05-24: Add several new sample powers.</li>
       <li>2020-05-20: Support complex sample powers with subpowers.</li>

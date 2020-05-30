@@ -1,8 +1,19 @@
 <template>
   <div>
+    <div class="logo-section">
+      <div class="text-logo">
+        <span class="level-1">Hero-Sheet</span>
+        <span class="level-3"> : Mutants and Masterminds</span>
+        <span class="level-2"> : Open for Alpha Testing</span>
+      </div>
+    </div>
     <div class="header">
       <button v-on:click="showingAbout = true">About</button>
-      <div class="title">Hero Sheet<span v-if="characterSelected && characterName !== ''"> : {{characterName}}</span></div>
+      <div class="title">
+        <span v-if="userSelected">{{user}}</span>
+        <span v-else>Log In</span>
+        <span v-if="characterSelected && characterName !== ''"> : {{characterName}}</span>
+      </div>
       <button v-if="characterSelected" @click="resetCharacter()" class="character-display">{{characterName}}</button>
       <button v-if="userSelected" @click="resetUser()" class="user-display">{{user}}</button>
     </div>
@@ -113,5 +124,29 @@
     text-align: center;
     flex-grow: 1;
     font-size: x-large;
+    padding: 2px;
+  }
+  .logo-section {
+    background-color: var(--title-color);
+    color: rgb(255, 255, 255);
+    border: solid 1px var(--box-border-color);
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 2px;
+  }
+  .text-logo {
+    text-align: center;
+    font-size: x-large;
+  }
+  @media (max-width: 750px) {
+    .level-3 {
+      display: none;
+    }
+  }
+  @media (max-width: 500px) {
+    .level-2 {
+      display: none;
+    }
   }
 </style>

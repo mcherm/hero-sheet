@@ -100,3 +100,7 @@ TODO: A few powers really should have their own custom way of being created.
 
 TODO: Some enhanced traits, like Power-Lifting, shouldn't be applied to the
   trait.
+
+TODO: Custom Equpiment with an attack power doesn't show up on the list of
+  attacks.
+
