@@ -40,3 +40,42 @@ Sending to:
 /u/Mason_Claye
 /u/rcbeller
 /u/OptimismBeast
+
+-------
+2020-05-30: Release of the Alpha version.
+
+/u/PonyPassingBy
+/u/Adran06
+/u/Mason_Claye
+/u/OptimismBeast
+/u/SamhainECI
+/u/Feonde
+/u/numberguy9647383673
+/u/dok_oleander
+/u/rcbeiler
+/u/Dragon_Effect
+/u/btriplem
+/u/ThyJacob
+/u/Tipop
+/u/belithioben
+/u/a2a3a2a3
+
+Alpha Test for hero-sheet.com
+
+Hey, about 2 months ago, I [posted](https://old.reddit.com/r/mutantsandmasterminds/comments/ffm8fq/seeking_beta_testers_for_a_mutants_and/) that I was working on a website offering Mutants and Masterminds character sheet, and you expressed some interest in helping to test it. I realize it's been a while (I've been making regular progress, but there's a lot to do!), but I now have reached the point where I'm ready for an open alpha test and I wanted to invite you to try it out if you are still interested.
+
+There are still features that I haven't built (click "About" for a list of some of them) and probably a number of errors that I don't know about yet (which is why I want testers!), but the app has now reached the point where it is generally usable for creating character sheets.
+
+I'd love to have you try it out and let me know what you think! I'm looking for ideas about how it could be made better and even more I'm looking for people who know the game well to let me know about bugs or errors. Whatever your feedback, just reply by email to hero-sheet@mcherm.com. To go to the site, just visit this URL:
+
+> [https://hero-sheet.com](https://hero-sheet.com)
+
+Creating an account and using the app should be straightforward, but if it isn't obvious then please let me know (that's a usability bug). Thank you in advance for whatever help you can give me.
+
+-- Michael Chermside
+   hero-sheet@mcherm.com
+
+----
+[stray note:
+/u/rcbeiler is apparently the GM for https://www.masksandmayhem.com which is
+  a podcast.
