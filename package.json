@@ -8,7 +8,8 @@
     "validate": "ajv -d src/data/samplePowers.json -s src/schema/samplePowers.schema.json -r src/schema/common.schema.json &&  ajv -d src/data/standardPowers.json -s src/schema/standardPowers.schema.json -r src/schema/common.schema.json && ajv -d src/data/modifiersData.json -s src/schema/modifiersData.schema.json -r src/schema/common.schema.json && ajv -d src/data/standardAdvantages.json -s src/schema/standardAdvantages.schema.json -r src/schema/common.schema.json && ajv -d src/data/standardEquipment.json -s src/schema/standardEquipment.schema.json -r src/schema/common.schema.json ",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "s3-easy-deploy --public-root ./dist --bucket hero-sheet.com"
+    "deploy": "s3-easy-deploy --public-root ./dist --bucket hero-sheet.com",
+    "download": "aws s3 sync s3://hero-sheet-storage download --delete"
   },
   "keywords": [],
   "author": "Michael Chermside",

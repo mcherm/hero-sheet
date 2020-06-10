@@ -124,6 +124,12 @@ async function createUser(user, email, password) {
   return await performAPICall(path, "POST", "create user", bodyObj);
 }
 
+async function rebuildIndex(user) {
+  const path = `/users/${user}/rebuild-index`;
+  const bodyObj = {value: "warthog"};
+  return await performAPICall(path, "POST", "rebuild index", bodyObj);
+}
+
 
 export {
   APIError,
@@ -137,4 +143,5 @@ export {
   deleteCharacter,
   login,
   createUser,
+  rebuildIndex,
 };

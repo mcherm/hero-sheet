@@ -620,6 +620,84 @@ async function deleteCharacterEndpoint(event) {
 }
 
 
+async function rebuildIndexEndpoint(event) {
+  console.log("invoked rebuildIndexEndpoint");
+  const user = event.pathParameters.user;
+  console.log(event);
+  try {
+    const params = {
+      Bucket: "hero-sheet-storage",
+      Prefix: `mutants/users/${user}/characters/`
+    };
+    const listResult = await s3.listObjects(params).promise();
+    if (listResult.IsTruncated) {
+      throw new Error("Too many results.");
+    }
+    const loadableFilenames = [];
+    for (const character of listResult.Contents) {
+      if (character.Key === params.Prefix) {
+        // Ignore this one; it's the directory
+        continue;
+      }
+      console.log("Listing", character.Key);
+      loadableFilenames.push(character.Key);
+    }
+    const fileFindings = await Promise.all(loadableFilenames.map(async key => {
+      const fileResult = await s3.getObject({
+        Bucket: "hero-sheet-storage",
+        Key: key
+      }).promise();
+      return {
+        key: key,
+        fileBody: JSON.parse(fileResult.Body.toString('utf-8'))
+      };
+    }));
+    const listOfResults = fileFindings.map(fileFinding => {
+      const key = fileFinding.key;
+      let campaign;
+      try {
+        campaign = fileFinding.fileBody.campaign.setting || "";
+      } catch(err) {
+        campaign = "";
+      }
+      let name;
+      try {
+        name = fileFinding.fileBody.naming.name || "";
+      } catch(err) {
+        name = "";
+      }
+      return {
+        key,
+        campaign,
+        name
+      };
+    });
+    const indexContents = {
+      characters: listOfResults
+    };
+    const indexAsString = JSON.stringify(indexContents, null, 2) + "\n";
+    const writeTo = {
+      Bucket: "hero-sheet-storage",
+      Key: `mutants/users/${user}/index.json`,
+      Body: indexAsString
+    }
+    const writeResult = await s3.putObject(writeTo).promise();
+    console.log(`writeResult`); // FIXME: Remove
+    console.log(writeResult); // FIXME: Remove
+    return {
+      statusCode: 200,
+      body: JSON.stringify(`Rebuilt index for ${user} with ${listOfResults.length} characters.`)
+    }
+  } catch(err) {
+    console.log("Had error:", err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify("Error rebuilding index.")
+    };
+  }
+}
+
+
 // In addition to this, any OPTIONS request will get optionsEndpoint and anything
 // not found will get invalidEndpoint.
 const ROUTING = {
@@ -640,6 +718,9 @@ const ROUTING = {
     "GET": getCharacterEndpoint,
     "PUT": putCharacterEndpoint,
     "DELETE": deleteCharacterEndpoint
+  },
+  "/hero-sheet/users/{user}/rebuild-index": {
+    "POST": rebuildIndexEndpoint
   }
 };
 

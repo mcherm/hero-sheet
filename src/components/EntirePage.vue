@@ -20,6 +20,12 @@
     <modal-lightbox v-if="showingAbout" v-on:exit="showingAbout = false">
       <about-application/>
     </modal-lightbox>
+    <!--
+    <div>
+      <div>Test Info</div>
+      <button @click="testMe()">Test Me</button>
+    </div>
+    -->
     <user-login
         v-if="!userSelected"
         :prefillUser="user"
@@ -48,7 +54,7 @@
   import CharacterSheet from "./CharacterSheet.vue";
   import UserLogin from "./UserLogin";
 
-  import {restoreSession, endSession} from "../js/api.js";
+  import {restoreSession, endSession, rebuildIndex} from "../js/api.js";
 
   export default {
     name: "EntirePage",
@@ -93,8 +99,8 @@
         this.characterName = newCharacter.name;
         this.characterSelected = true;
       },
-      resetUser: function() {
-        endSession();
+      resetUser: async function() {
+        await endSession();
         this.userSelected = false;
         this.characterSelected = false;
         this.characterId = "";
@@ -102,6 +108,10 @@
       },
       resetCharacter: function() {
         this.characterSelected = false;
+      },
+      testMe: async function() {
+        const rebuildIndexResponse = await rebuildIndex("mcherm");
+        console.log(`Rebuilt index.`, rebuildIndexResponse); // FIXME: Remove
       }
     }
   }
