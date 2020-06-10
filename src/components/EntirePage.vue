@@ -23,7 +23,7 @@
     <!--
     <div>
       <div>Test Info</div>
-      <button @click="testMe()">Test Me</button>
+      <button @click="rebuildIndex()">Rebuild Index</button>
     </div>
     -->
     <user-login
@@ -85,7 +85,7 @@
           this.user = restoreSessionResponse.user || "";
         }
       } catch(err) {
-        console.log(`The attempt to restore session failed`, err); // FIXME: Remove
+        console.log(`The attempt to restore session failed`, err);
         // The attempt to restore session failed; proceed without a live session
       }
     },
@@ -109,9 +109,9 @@
       resetCharacter: function() {
         this.characterSelected = false;
       },
-      testMe: async function() {
+      rebuildIndex: async function() {
         const rebuildIndexResponse = await rebuildIndex("mcherm");
-        console.log(`Rebuilt index.`, rebuildIndexResponse); // FIXME: Remove
+        console.log(`Rebuilt index.`, rebuildIndexResponse);
       }
     }
   }

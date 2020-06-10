@@ -1,12 +1,12 @@
 {
   "characters": [
     {
-      "key": "mutants/users/mcherm/characters/CH12345600",
+      "key": "mutants/users/mcherm/characters/CH12345600.json",
       "campaign": "Heros High",
       "name": "Teen Inventor"
     },
     {
-      "key": "mutants/users/mcherm/characters/CH6R3D1EZO",
+      "key": "mutants/users/mcherm/characters/CH6R3D1EZO.json",
       "campaign": "Heros High",
       "name": "Movie Master"
     }

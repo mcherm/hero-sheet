@@ -444,74 +444,84 @@ async function getLoggedInUser(event) {
 }
 
 
-// FIXME: Right now if any character is invalid this crashes. Instead, it should log the problem and return the rest of them.
+/*
+ * Rebuilds the index.json file. Can throw an exception. It
+ * returns the number of characters.
+ */
+async function rebuildIndex(user) {
+  const params = {
+    Bucket: "hero-sheet-storage",
+    Prefix: `mutants/users/${user}/characters/`
+  };
+  const listResult = await s3.listObjects(params).promise();
+  if (listResult.IsTruncated) {
+    throw new Error("Too many results.");
+  }
+  const loadableFilenames = [];
+  for (const character of listResult.Contents) {
+    if (character.Key === params.Prefix) {
+      // Ignore this one; it's the directory
+      continue;
+    }
+    console.log("Listing", character.Key);
+    loadableFilenames.push(character.Key);
+  }
+  const fileFindings = await Promise.all(loadableFilenames.map(async key => {
+    const fileResult = await s3.getObject({
+      Bucket: "hero-sheet-storage",
+      Key: key
+    }).promise();
+    return {
+      key: key,
+      fileBody: JSON.parse(fileResult.Body.toString('utf-8'))
+    };
+  }));
+  const listOfResults = fileFindings.map(fileFinding => {
+    const key = fileFinding.key;
+    const characterData = fileFinding.fileBody;
+    return extractIndexInfo(key, characterData);
+  });
+  const indexContents = {
+    characters: listOfResults
+  };
+  const indexAsString = JSON.stringify(indexContents, null, 2) + "\n";
+  const writeTo = {
+    Bucket: "hero-sheet-storage",
+    Key: `mutants/users/${user}/index.json`,
+    Body: indexAsString
+  }
+  await s3.putObject(writeTo).promise();
+  return listOfResults.length;
+}
+
+
 async function listCharactersEndpoint(event) {
   console.log("invoked listCharactersEndpoint");
   const user = await getLoggedInUser(event);
+  const readFrom = {
+    Bucket: "hero-sheet-storage",
+    Key: `mutants/users/${user}/index.json`
+  };
+  let file;
   try {
-    const params = {
-      Bucket: "hero-sheet-storage",
-      Prefix: `mutants/users/${user}/characters/`
-    };
-    const listResult = await s3.listObjects(params).promise();
-    if (listResult.IsTruncated) {
-      throw new Error("Too many results.");
-    }
-    const loadableFilenames = [];
-    for (const character of listResult.Contents) {
-      if (character.Key === params.Prefix) {
-        // Ignore this one; it's the directory
-        continue;
-      }
-      // FIXME: Reading every file isn't efficient if the sizes get big.
-      // FIXME: For now it will do, but I may need to improve it later.
-      console.log("Listing", character.Key);
-      loadableFilenames.push(character.Key);
-    }
-    const fileFindings = await Promise.all(loadableFilenames.map(async key => {
-      const fileResult = await s3.getObject({
-        Bucket: "hero-sheet-storage",
-        Key: key
-      }).promise();
-      return {
-        key: key,
-        fileBody: JSON.parse(fileResult.Body.toString('utf-8'))
-      };
-    }));
-    const listOfResults = fileFindings.map(fileFinding => {
-      const key = fileFinding.key;
-      let campaign = "";
-      try {
-        campaign = fileFinding.fileBody.campaign.setting || "";
-      } catch(err) {
-        campaign = "";
-      }
-      let name = "";
-      try {
-        name = fileFinding.fileBody.naming.name || "";
-      } catch(err) {
-        name = "";
-      }
-      return {
-        key,
-        campaign,
-        name
-      };
-    });
-    const resultBody = {
-      characters: listOfResults
-    };
-    return {
-      statusCode: 200,
-      body: JSON.stringify(resultBody)
-    };
+    file = await s3.getObject(readFrom).promise();
   } catch(err) {
-    console.log("Had error:", err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify("Error listing files.")
-    };
+    console.error(`For user "${user}", could not read index.json. Will regenerate.`);
+    await rebuildIndex(user);
+    try {
+      file = await s3.getObject(readFrom).promise();
+    } catch(err2) {
+      console.error(`For user "${user}", rebuilding index.json did not help.`);
+      return {
+        statusCode: 500,
+        body: JSON.stringify("Could not read index.json.")
+      };
+    }
   }
+  return {
+    statusCode: 200,
+    body: file.Body.toString('utf-8')
+  };
 }
 
 
@@ -527,10 +537,76 @@ function createCharacterId() {
 }
 
 
+
+/*
+ * Given a key and the JSON containing the data for a character,
+ * this creates the JSON that we will store in the index for that
+ * character.
+ */
+function extractIndexInfo(key, characterData) {
+  let campaign;
+  try {
+    campaign = characterData.campaign.setting || "";
+  } catch(err) {
+    campaign = "";
+  }
+  let name;
+  try {
+    name = characterData.naming.name || "";
+  } catch(err) {
+    name = "";
+  }
+  return {
+    key,
+    campaign,
+    name
+  };
+}
+
+/*
+ * This will update the index.json file for the user by modifying a
+ * single record. Provide the user, the key for the character (that's
+ * the whole path), and the characterData in JSON form. To delete a
+ * record from the index, pass null for the characterData.
+ */
+async function updateRecordInIndex(user, characterKey, characterData) {
+  console.log("invoked updateRecordInIndex");
+  const filename = `mutants/users/${user}/index.json`;
+  let currentFile;
+  try {
+    currentFile = await s3.getObject({
+      Bucket: "hero-sheet-storage",
+      Key: filename
+    }).promise();
+  } catch(err) {
+    console.error(`Could not read index.json for user "${user}". Will not update it.`);
+    return;
+  }
+  const currentFileAsString = currentFile.Body.toString('utf-8');
+  const fileAsJSON = JSON.parse(currentFileAsString);
+  const currentCharacters = fileAsJSON.characters;
+  const newCharacters = currentCharacters.map(character => {
+    return character.key === characterKey ? null: character;
+  });
+  if (characterData !== null) {
+    newCharacters.push(extractIndexInfo(characterKey, characterData));
+  }
+  fileAsJSON.characters = newCharacters.filter(x => x !== null);
+  const newFileAsString = JSON.stringify(fileAsJSON, null, 2) + "\n";
+  const writeTo = {
+    Bucket: "hero-sheet-storage",
+    Key: filename,
+    Body: newFileAsString
+  }
+  await s3.putObject(writeTo).promise();
+}
+
+
 async function createCharacterEndpoint(event) {
   console.log("invoked createCharacterEndpoint");
   const user = await getLoggedInUser(event);
   const characterId = createCharacterId();
+  console.log(`new character ID: ${characterId}`);
   const filename = `mutants/users/${user}/characters/${characterId}.json`;
   try {
     const writeTo = {
@@ -539,6 +615,8 @@ async function createCharacterEndpoint(event) {
       Body: event.body
     };
     await s3.putObject(writeTo).promise();
+    const characterData = JSON.parse(event.body.toString("utf-8"));
+    await updateRecordInIndex(user, filename, characterData);
     const responseBody = {
       characterId: characterId
     };
@@ -584,6 +662,8 @@ async function putCharacterEndpoint(event) {
       Body: event.body
     };
     await s3.putObject(writeTo).promise();
+    const characterData = JSON.parse(event.body.toString("utf-8"));
+    await updateRecordInIndex(user, filename, characterData);
     return {
       statusCode: 200,
       body: JSON.stringify("Success")
@@ -607,6 +687,7 @@ async function deleteCharacterEndpoint(event) {
       Bucket: "hero-sheet-storage",
       Key: filename
     }).promise();
+    await updateRecordInIndex(user, filename, null);
     return {
       statusCode: 200,
       body: JSON.stringify(`Deleted ${characterId}`)
@@ -623,70 +704,11 @@ async function deleteCharacterEndpoint(event) {
 async function rebuildIndexEndpoint(event) {
   console.log("invoked rebuildIndexEndpoint");
   const user = event.pathParameters.user;
-  console.log(event);
   try {
-    const params = {
-      Bucket: "hero-sheet-storage",
-      Prefix: `mutants/users/${user}/characters/`
-    };
-    const listResult = await s3.listObjects(params).promise();
-    if (listResult.IsTruncated) {
-      throw new Error("Too many results.");
-    }
-    const loadableFilenames = [];
-    for (const character of listResult.Contents) {
-      if (character.Key === params.Prefix) {
-        // Ignore this one; it's the directory
-        continue;
-      }
-      console.log("Listing", character.Key);
-      loadableFilenames.push(character.Key);
-    }
-    const fileFindings = await Promise.all(loadableFilenames.map(async key => {
-      const fileResult = await s3.getObject({
-        Bucket: "hero-sheet-storage",
-        Key: key
-      }).promise();
-      return {
-        key: key,
-        fileBody: JSON.parse(fileResult.Body.toString('utf-8'))
-      };
-    }));
-    const listOfResults = fileFindings.map(fileFinding => {
-      const key = fileFinding.key;
-      let campaign;
-      try {
-        campaign = fileFinding.fileBody.campaign.setting || "";
-      } catch(err) {
-        campaign = "";
-      }
-      let name;
-      try {
-        name = fileFinding.fileBody.naming.name || "";
-      } catch(err) {
-        name = "";
-      }
-      return {
-        key,
-        campaign,
-        name
-      };
-    });
-    const indexContents = {
-      characters: listOfResults
-    };
-    const indexAsString = JSON.stringify(indexContents, null, 2) + "\n";
-    const writeTo = {
-      Bucket: "hero-sheet-storage",
-      Key: `mutants/users/${user}/index.json`,
-      Body: indexAsString
-    }
-    const writeResult = await s3.putObject(writeTo).promise();
-    console.log(`writeResult`); // FIXME: Remove
-    console.log(writeResult); // FIXME: Remove
+    const numberOfCharacters = await rebuildIndex(user);
     return {
       statusCode: 200,
-      body: JSON.stringify(`Rebuilt index for ${user} with ${listOfResults.length} characters.`)
+      body: JSON.stringify(`Rebuilt index for ${user} with ${numberOfCharacters} characters.`)
     }
   } catch(err) {
     console.log("Had error:", err);
