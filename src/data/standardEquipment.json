@@ -443,7 +443,7 @@
     "category": "Melee Weapons",
     "feature": {
       "name": "Whip",
-      "description": "A length of chain can strike targets up to 10 ft. away (Reach 2) and provides the benefits of the Improved Grab and Improved Trip advantages.",
+      "description": "A whip can strike targets up to 15 ft. away (Reach 3) and provides the benefits of the Improved Grab and Improved Trip advantages.",
       "effect": "Damage",
       "ranks": 0,
       "extras": [
@@ -460,5 +460,254 @@
       "flaws": []
     },
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-MELEE-WEAPONS"
+  },
+  "Holdout Pistol": {
+    "name": "Holdout Pistol",
+    "description": "A low-caliber, easily concealed pistol, typically used as a back-up or secondary weapon.",
+    "cost": 4,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Holdout Pistol",
+      "description": "A low-caliber, easily concealed pistol, typically used as a back-up or secondary weapon.",
+      "effect": "Damage",
+      "ranks": 2,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Light Pistol": {
+    "name": "Light Pistol",
+    "description": "A common handgun, found in the hands of police officers and criminals alike.",
+    "cost": 6,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Light Pistol",
+      "description": "A common handgun, found in the hands of police officers and criminals alike.",
+      "effect": "Damage",
+      "ranks": 3,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Heavy Pistol": {
+    "name": "Heavy Pistol",
+    "description": "A high-caliber handgun, usually used by those who want a lot of stopping power.",
+    "cost": 8,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Heavy Pistol",
+      "description": "A high-caliber handgun, usually used by those who want a lot of stopping power.",
+      "effect": "Damage",
+      "ranks": 4,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Machine Pistol": {
+    "name": "Machine Pistol",
+    "description": "A small automatic weapon, usable in one hand.",
+    "cost": 9,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Machine Pistol",
+      "description": "A small automatic weapon, usable in one hand.",
+      "effect": "Damage",
+      "ranks": 3,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Multiattack"
+        }
+      ]
+    }
+  },
+  "Submachine Gun": {
+    "name": "Submachine Gun",
+    "description": "Compact automatic weapons that fire pistol ammunition, submachine guns are common military weapons, also used by criminals with access to more serious firepower.",
+    "cost": 12,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Submachine Gun",
+      "description": "Compact automatic weapons that fire pistol ammunition, submachine guns are common military weapons, also used by criminals with access to more serious firepower.",
+      "effect": "Damage",
+      "ranks": 4,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Multiattack"
+        }
+      ]
+    }
+  },
+  "Shotgun": {
+    "name": "Shotgun",
+    "description": "Compact automatic weapons that fire pistol ammunition, submachine guns are common military weapons, also used by criminals with access to more serious firepower.",
+    "cost": 10,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Shotgun",
+      "description": "Compact automatic weapons that fire pistol ammunition, submachine guns are common military weapons, also used by criminals with access to more serious firepower.",
+      "effect": "Damage",
+      "ranks": 5,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    },
+    "feature": {
+      "name": "Shotgun",
+      "description": "",
+      "effect": "Alternate",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ],
+      "subpowers": [
+        {
+          "name": "Shotgun Shot",
+          "effect": "Damage",
+          "description": "Does Damage 5 with Accurate 1 due to the spread, but Limited to Damage 3 against targets with Protection.",
+          "ranks": 5,
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Accurate",
+              "ranks": 1
+            }
+          ],
+          "flaws": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Limited"
+            }
+          ]
+        },
+        {
+          "name": "Solid Slugs in Shotgun",
+          "effect": "Damage",
+          "description": "Fire solid slugs from the shotgun.",
+          "ranks": 5
+        }
+      ]
+    }
+  },
+  "Assault Rifle": {
+    "name": "Assault Rifle",
+    "description": "Rifles designed for military use capable of both single-fire and automatic fire.",
+    "cost": 15,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Assault Rifle",
+      "description": "Rifles designed for military use capable of both single-fire and automatic fire.",
+      "effect": "Damage",
+      "ranks": 5,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Multiattack"
+        }
+      ]
+    }
+  },
+  "Sniper Rifle": {
+    "name": "Sniper Rifle",
+    "description": "A rifle designed for long-range use, typically in conjunction with a powerful scope or targeting system. Crits on a 19-20.",
+    "cost": 11,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Sniper Rifle",
+      "description": "A rifle designed for long-range use, typically in conjunction with a powerful scope or targeting system. Crits on a 19-20.",
+      "effect": "Damage",
+      "ranks": 5,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Feature"
+        }
+      ]
+    }
+  },
+  "Bow": {
+    "name": "Bow",
+    "description": "Although outdated, some heroes and villains favor the bow as a weapon and it can be quite effective in the right hands. Crits on a 19-20.",
+    "cost": 6,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Bow",
+      "description": "Although outdated, some heroes and villains favor the bow as a weapon and it can be quite effective in the right hands. Crits on a 19-20.",
+      "effect": "Damage",
+      "ranks": 3,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Crossbow": {
+    "name": "Crossbow",
+    "description": "Although outdated, some heroes and villains favor the crossbow as a weapon and it can be quite effective in the right hands.",
+    "cost": 7,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Crossbow",
+      "description": "Although outdated, some heroes and villains favor the crossbow as a weapon and it can be quite effective in the right hands.",
+      "effect": "Damage",
+      "ranks": 3,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Feature"
+        }
+      ]
+    }
   }
 }

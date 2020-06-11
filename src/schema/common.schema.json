@@ -188,7 +188,7 @@
         },
         "category": {
           "type": "string",
-          "enum": ["Electronics", "Criminal Gear", "Surveillance Gear", "Survival Gear", "Melee Weapons"]
+          "enum": ["Electronics", "Criminal Gear", "Surveillance Gear", "Survival Gear", "Melee Weapons", "Ranged Weapons"]
         },
         "feature": {},
         "docsURL": { "$ref": "#/definitions/DocsURL" }
