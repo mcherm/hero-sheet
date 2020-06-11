@@ -4,7 +4,6 @@
     "description": "A digital or film camera for taking still images. Most cameras have a capacity of 24 or 36 images and you can use one in conjunction with appropriate Expertise skills, such as photography.",
     "cost": 1,
     "category": "Electronics",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
   },
   "Cell Phone": {
@@ -12,7 +11,6 @@
     "description": "A small handheld or headset unit for communication. The battery lasts for approximately 24 hours before it needs to be recharged.",
     "cost": 1,
     "category": "Electronics",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
   },
   "Smart Phone": {
@@ -20,7 +18,6 @@
     "description": "A small handheld or headset unit for communication and internet use. The battery lasts for approximately 24 hours before it needs to be recharged. A smart phone can have most of the capabilities of a computer, at least with regard to accessing the Internet and providing data.",
     "cost": 2,
     "category": "Electronics",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
   },
   "Comm-Link": {
@@ -28,7 +25,6 @@
     "description": "A tiny button-sized device for radio communication with an effective range of about a mile (longer if patched into the cellular network or a similar network). Many hero (and villain) teams use comm-links.",
     "cost": 1,
     "category": "Electronics",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
   },
   "Computer": {
@@ -36,7 +32,6 @@
     "description": "A computer includes keyboard, mouse, monitor, printer, modem, and other standard peripherals, and may include things like a scanner at the GM's discretion.",
     "cost": 1,
     "category": "Electronics",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
   },
   "Audio Recorder": {
@@ -44,7 +39,6 @@
     "description": "These tiny digital recorders (about the size of a deck of playing cards) can record up to eight hours of audio and can be connected to a computer to download the digital recording.",
     "cost": 1,
     "category": "Electronics",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
   },
   "Video Camera": {
@@ -52,7 +46,6 @@
     "description": "A hand-held camera that records video and audio on tape or digitally, with a capacity of about 6 hours of footage.",
     "cost": 2,
     "category": "Electronics",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-ELECTRONICS"
   },
   "Handcuffs": {
@@ -60,7 +53,6 @@
     "description": "Handcuffs are restraints designed to lock two limbs—normally the wrists—of a prisoner together. They fit any medium or small humanoid. Handcuffs can only be placed on a defenseless or unresisting target.",
     "cost": 1,
     "category": "Criminal Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-CRIMINAL-GEAR"
   },
   "Lock Release Gun": {
@@ -68,7 +60,6 @@
     "description": "This small, pistol-like device automatically disables and opens cheap and average mechanical locks operated by standard keys as a routine check. It does not affect other locks.",
     "cost": 1,
     "category": "Criminal Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-CRIMINAL-GEAR"
   },
   "Restraints": {
@@ -76,7 +67,6 @@
     "description": "Similar to handcuffs are plastic restraints, used in cases where authorities need to restrain a large number of people and cuffs are impractical.",
     "cost": 1,
     "category": "Criminal Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-CRIMINAL-GEAR"
   },
   "Binoculars": {
@@ -84,7 +74,6 @@
     "description": "Standard binoculars allow the user to make visual Perception checks at a greater distance, or with a reduced penalty for distance, effectively providing a +5 equipment bonus that overcomes some or all of the distance penalty.",
     "cost": 1,
     "category": "Surveillance Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
   },
   "Concealable Microphone": {
@@ -92,7 +81,6 @@
     "description": "A tiny receiver usable as a listening device. It has a broadcast range of about a mile. It requires an Investigation or Perception check against the results of the Sleight of Hand check used to conceal the microphone to find it.",
     "cost": 1,
     "category": "Surveillance Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
   },
   "Mini-Tracer": {
@@ -100,7 +88,6 @@
     "description": "A tiny radio transmitter with an adhesive backing. It requires a successful attack check to plant a tracer on a target (or a Sleight of Hand check to plant it outside of action time). Noticing the tracer is a DC 20 Perception check or the result of the character’s Sleight of Hand check, whichever is higher. The tracer has a transmission range of about 2 miles.",
     "cost": 1,
     "category": "Surveillance Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
   },
   "Night Vision Goggles": {
@@ -108,7 +95,6 @@
     "description": "Night vision goggles use passive light gathering to improve vision in near-dark conditions. They grant the user darkvision—but because of the restricted field of view and lack of depth perception these goggles provide, they impose a –2 circumstance penalty on Perception checks made while wearing them. Night vision goggles must have at least a little light to operate.",
     "cost": 1,
     "category": "Surveillance Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
   },
   "Parabolic Microphone": {
@@ -116,7 +102,6 @@
     "description": "This apparatus has a gunlike microphone with an attached set of headphones. A parabolic mike provides a +5 equipment bonus to listening perception checks that overcomes some or all of the penalty for listening to sounds at a distance, through walls, etc.",
     "cost": 1,
     "category": "Surveillance Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVEILLANCE-GEAR"
   },
   "Camo Clothing": {
@@ -124,7 +109,6 @@
     "description": "Clothing in the right camouflage pattern for the environment grants a +5 equipment bonus on Stealth checks in that environment. Patterns include foliage, desert, urban, and arctic.",
     "cost": 1,
     "category": "Survival Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   },
   "Flash Goggles": {
@@ -132,7 +116,6 @@
     "description": "These tinted eye-coverings provide protection against blinding light, granting a +5 equipment bonus to resistance checks against visual Dazzle attacks involving bright light.",
     "cost": 1,
     "category": "Survival Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   },
   "Flashlight": {
@@ -140,7 +123,6 @@
     "description": "Flashlights negate penalties for darkness within their illuminated areas. The standard flashlight projects a beam 30 feet long and 15 feet across at its end.",
     "cost": 1,
     "category": "Survival Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   },
   "Fire Extinguisher": {
@@ -148,7 +130,6 @@
     "description": "This portable apparatus uses a chemical spray to extinguish small fires. The typical fire extinguisher ejects enough extinguishing chemicals to put out a fire in a 10-by-10-foot area as a move action. It contains enough material for two such uses.",
     "cost": 1,
     "category": "Survival Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   },
   "Gas Mask": {
@@ -156,7 +137,6 @@
     "description": "This apparatus covers the face and connects to a chemical air filter canister to protect the lungs and eyes from toxic gases. It provides immunity to eye and lung irritants. The filter canister lasts for 12 hours of use.",
     "cost": 1,
     "category": "Survival Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   },
   "GPS": {
@@ -164,7 +144,6 @@
     "description": "Global positioning system receivers use signals from GPS satellites to determine the receiver's location to within a few dozen feet. A GPS receiver grants its user a +5 equipment bonus on checks to navigate, but it generally only works outdoors.",
     "cost": 1,
     "category": "Survival Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   },
   "Multi-tool": {
@@ -172,7 +151,6 @@
     "description": "This device contains several different screwdrivers, a knife blade or two, can opener, bottle opener, file, short ruler, scissors, tweezers, and wire cutters. The whole thing unfolds into a handy pair of pliers. A multi-tool can lessen the penalty for making skill checks without appropriate tools to –2 instead of the normal –5. The tool is useful for certain tasks, as determined by the GM, but may not be useful in all situations.",
     "cost": 1,
     "category": "Survival Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   },
   "Rebreather": {
@@ -180,7 +158,6 @@
     "description": "A small cylinder that fits over the mouth and provides two minutes (20 rounds) of oxygen, during which the character does not need to make suffocation checks.",
     "cost": 1,
     "category": "Survival Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   },
   "SCUBA Gear": {
@@ -188,7 +165,6 @@
     "description": "A back-mounted oxygen cylinder and face- mask, used for diving. SCUBA (Self-Contained Underwater Breathing Apparatus) gear provides two hours of oxygen, and characters using it do not need to make checks for suffocation unless the gear is damaged or disabled.",
     "cost": 1,
     "category": "Survival Gear",
-    "feature": null,
     "docsURL": "https://www.d20herosrd.com/7-gadgets-gear/#TOC-SURVIVAL-GEAR"
   },
   "Brass Knuckles": {
@@ -706,6 +682,25 @@
         {
           "modifierSource": "standard",
           "modifierName": "Feature"
+        }
+      ]
+    }
+  },
+  "Blaster Pistol": {
+    "name": "Blaster Pistol",
+    "description": "A pistol that fires a coherent bolt of energy.",
+    "cost": 10,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Blaster Pistol",
+      "description": "A pistol that fires a coherent bolt of energy.",
+      "effect": "Damage",
+      "ranks": 5,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
         }
       ]
     }

@@ -190,7 +190,7 @@
           "type": "string",
           "enum": ["Electronics", "Criminal Gear", "Surveillance Gear", "Survival Gear", "Melee Weapons", "Ranged Weapons"]
         },
-        "feature": {},
+        "feature": { "$ref": "#/definitions/PowerTemplate"},
         "docsURL": { "$ref": "#/definitions/DocsURL" }
       },
       "required": ["name", "description", "cost", "category"],
