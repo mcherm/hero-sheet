@@ -1,2 +1,6 @@
 syntax: glob
 download
+node_modules
+dist
+# Default ignored files
+.idea/workspace.xml
