@@ -704,5 +704,149 @@
         }
       ]
     }
+  },
+  "Blaster Rifle": {
+    "name": "Blaster Rifle",
+    "description": "A larger rifle-sized weapon that fires a more powerful bolt of energy.",
+    "cost": 16,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Blaster Rifle",
+      "description": "A larger rifle-sized weapon that fires a more powerful bolt of energy.",
+      "effect": "Damage",
+      "ranks": 8,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Taser": {
+    "name": "Taser",
+    "description": "A compressed-air weapon firing a pair of darts. On impact they release a powerful electrical charge, for an Affliction effect that can daze, stun, or incapacitate (Fortitude\nresistance, DC 15).",
+    "cost": 10,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Taser",
+      "description": "A compressed-air weapon firing a pair of darts. On impact they release a powerful electrical charge, for an Affliction effect that can daze, stun, or incapacitate (Fortitude\nresistance, DC 15).",
+      "effect": "Affliction",
+      "ranks": 5,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Flamethrower": {
+    "name": "Flamethrower",
+    "description": "A flamethrower shoots a stream or arc of fire Damage as Cone or Line Area and can switch between settings as an Alternate Effect.",
+    "cost": 13,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Flamethrower",
+      "effect": "Alternate",
+      "description": "A flamethrower shoots a stream or arc of fire Damage as Cone or Line Area and can switch between settings as an Alternate Effect.",
+      "subpowers": [
+        {
+          "name": "Flamethrower Spray",
+          "effect": "Damage",
+          "description": "Shoots an arc of fire.",
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Area",
+              "optionName": "Cone Area",
+              "ranks": 1
+            }
+          ],
+          "ranks": 6
+        },
+        {
+          "name": "Flamethrower Stream",
+          "effect": "Damage",
+          "description": "Shoots a stream of fire.",
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Area",
+              "optionName": "Line Area",
+              "ranks": 1
+            }
+          ],
+          "ranks": 6
+        }
+      ]
+    }
+  },
+  "Grenade Launcher": {
+    "name": "Grenade Launcher",
+    "description": "A grenade launcher fires various types of grenades out a greater distance, generally fragmentation grenades.",
+    "cost": 15,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Grenade Launcher",
+      "description": "A grenade launcher fires various types of grenades out a greater distance, generally fragmentation grenades.",
+      "effect": "Damage",
+      "ranks": 5,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Burst Area",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Rocket Launcher": {
+    "name": "Rocket Launcher",
+    "description": "A rocket-launcher is generally an antitank weapon, although they also make useful anti-superhero weapons as well. The primary target hit by the rocket resists explosive Damage 10, while all other targets in the burst area resist Damage 7.",
+    "cost": 27,
+    "category": "Ranged Weapons",
+    "feature":     {
+      "name": "Rocket Launcher",
+      "effect": "Linked",
+      "description": "A rocket-launcher is generally an antitank weapon, although they also make useful anti-superhero weapons as well. The primary target hit by the rocket resists explosive Damage 10, while all other targets in the burst area resist Damage 7.",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ],
+      "subpowers": [
+        {
+          "name": "Area Blast",
+          "effect": "Damage",
+          "description": "Explosion affecting things near the target.",
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Area",
+              "optionName": "Burst Area",
+              "ranks": 1
+            }
+          ],
+          "ranks": 7
+        },
+        {
+          "name": "Damage to Target",
+          "effect": "Damage",
+          "description": "Additional levels of damage to the target of the rocket.",
+          "ranks": 3
+        }
+      ]
+    }
   }
 }

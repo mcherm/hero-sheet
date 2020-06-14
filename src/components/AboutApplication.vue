@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-06-14: Added the rest of the ranged weapons.</li>
       <li>2020-06-10: Added half of the ranged weapons.</li>
       <li>2020-06-09: Runs much faster for users with more than 2 characters.</li>
       <li>2020-05-30: Official Alpha Release</li>
