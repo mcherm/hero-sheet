@@ -547,19 +547,6 @@
     "category": "Ranged Weapons",
     "feature": {
       "name": "Shotgun",
-      "description": "Compact automatic weapons that fire pistol ammunition, submachine guns are common military weapons, also used by criminals with access to more serious firepower.",
-      "effect": "Damage",
-      "ranks": 5,
-      "extras": [
-        {
-          "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
-        }
-      ]
-    },
-    "feature": {
-      "name": "Shotgun",
       "description": "",
       "effect": "Alternate",
       "extras": [
@@ -814,7 +801,7 @@
     "description": "A rocket-launcher is generally an antitank weapon, although they also make useful anti-superhero weapons as well. The primary target hit by the rocket resists explosive Damage 10, while all other targets in the burst area resist Damage 7.",
     "cost": 27,
     "category": "Ranged Weapons",
-    "feature":     {
+    "feature": {
       "name": "Rocket Launcher",
       "effect": "Linked",
       "description": "A rocket-launcher is generally an antitank weapon, although they also make useful anti-superhero weapons as well. The primary target hit by the rocket resists explosive Damage 10, while all other targets in the burst area resist Damage 7.",
@@ -845,6 +832,97 @@
           "effect": "Damage",
           "description": "Additional levels of damage to the target of the rocket.",
           "ranks": 3
+        }
+      ]
+    }
+  },
+  "Bolos": {
+    "name": "Bolos",
+    "description": "A set of weighted cords intended to entangle an opponent with a Snare Affliction that hinders and impedes, then renders the target defenseless and immobile.",
+    "cost": 6,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Bolos",
+      "description": "A set of weighted cords intended to entangle an opponent with a Snare Affliction that hinders and impedes, then renders the target defenseless and immobile.",
+      "effect": "Affliction",
+      "ranks": 3,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "special",
+          "modifierName": "Extra Condition"
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Limited Degree",
+          "optionName": "Limited to two degrees of effect"
+        }
+      ]
+    }
+  },
+  "Boomerang": {
+    "name": "Boomerang",
+    "description": "A common throwing weapon for heroes, a thrown boomerang returns to the thrower's hand, ready to be thrown again on the next round (less a Feature and more a special descriptor). Boomerang wielders often use this property of the weapon to feint, allowing for an attack against a vulnerable target on the return arc on the attacker's next turn.",
+    "cost": 2,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Boomerang",
+      "description": "A common throwing weapon for heroes, a thrown boomerang returns to the thrower's hand, ready to be thrown again on the next round (less a Feature and more a special descriptor). Boomerang wielders often use this property of the weapon to feint, allowing for an attack against a vulnerable target on the return arc on the attacker's next turn.",
+      "effect": "Damage",
+      "ranks": 1,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Javelin": {
+    "name": "Javelin",
+    "description": "Light, flexible spears intended to be thrown. Javelins can also be used in melee combat.",
+    "cost": 2,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Javelin",
+      "description": "Light, flexible spears intended to be thrown. Javelins can also be used in melee combat.",
+      "effect": "Damage",
+      "ranks": 2,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Shuriken": {
+    "name": "Shuriken",
+    "description": "Flat metal stars or spikes for throwing. Shuriken can be thrown in groups as a Multiattack. Although they are thrown weapons, shuriken are not Strength-based, being too light.",
+    "cost": 3,
+    "category": "Ranged Weapons",
+    "feature": {
+      "name": "Shuriken",
+      "description": "Flat metal stars or spikes for throwing. Shuriken can be thrown in groups as a Multiattack. Although they are thrown weapons, shuriken are not Strength-based, being too light.",
+      "effect": "Damage",
+      "ranks": 1,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Multiattack"
         }
       ]
     }
