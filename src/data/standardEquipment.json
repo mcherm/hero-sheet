@@ -926,5 +926,188 @@
         }
       ]
     }
+  },
+  "Leather Armor": {
+    "name": "Leather Armor",
+    "description": "This can be archaic plates of boiled leather or a modern heavy leather jacket.",
+    "cost": 1,
+    "category": "Armor",
+    "feature": {
+      "name": "Leather Armor",
+      "description": "This can be archaic plates of boiled leather or a modern heavy leather jacket.",
+      "effect": "Protection",
+      "ranks": 1
+    }
+  },
+  "Chain-Mail Armor": {
+    "name": "Chain-Mail Armor",
+    "description": "A shirt of heavy metal chain, often with a coif (hood) to cover the wearer's head.",
+    "cost": 3,
+    "category": "Armor",
+    "feature": {
+      "name": "Chain-Mail Armor",
+      "description": "A shirt of heavy metal chain, often with a coif (hood) to cover the wearer's head.",
+      "effect": "Protection",
+      "ranks": 3
+    }
+  },
+  "Plate-Mail Armor": {
+    "name": "Plate-Mail Armor",
+    "description": "This is chain-mail augmented with a metal breastplate, greaves (leg-guards) and arm-guards.",
+    "cost": 5,
+    "category": "Armor",
+    "feature": {
+      "name": "Plate-Mail Armor",
+      "description": "This is chain-mail augmented with a metal breastplate, greaves (leg-guards) and arm-guards.",
+      "effect": "Protection",
+      "ranks": 5
+    }
+  },
+  "Full-Plate Armor": {
+    "name": "Full-Plate Armor",
+    "description": "A full (and heavy!) suit of articulated metal plates, like that worn by medieval knights.",
+    "cost": 6,
+    "category": "Armor",
+    "feature": {
+      "name": "Full-Plate Armor",
+      "description": "A full (and heavy!) suit of articulated metal plates, like that worn by medieval knights.",
+      "effect": "Protection",
+      "ranks": 6
+    }
+  },
+  "Undercover Shirt": {
+    "name": "Undercover Shirt",
+    "description": "A thin shirt of ballistic armor that can be worn under street clothes. Protection 2, subtle and limited to ballistics.",
+    "cost": 2,
+    "category": "Armor",
+    "feature": {
+      "name": "Undercover Shirt",
+      "description": "A thin shirt of ballistic armor that can be worn under street clothes. Protection 2, subtle and limited to ballistics.",
+      "effect": "Protection",
+      "ranks": 2,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Subtle",
+          "optionName": "Subtle",
+          "ranks": 1
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Limited",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Bulletproof Vest": {
+    "name": "Bulletproof Vest",
+    "description": "A heavier vest of ballistic armor worn by police officers and soldiers.",
+    "cost": 3,
+    "category": "Armor",
+    "feature": {
+      "name": "Bulletproof Vest",
+      "description": "A heavier vest of ballistic armor worn by police officers and soldiers.",
+      "effect": "Protection",
+      "ranks": 4,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Subtle",
+          "optionName": "Subtle",
+          "ranks": 1
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Limited",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Small Shield": {
+    "name": "Small Shield",
+    "description": "A small hand shield large enough to cover the wearer's forearm.",
+    "cost": 2,
+    "category": "Armor",
+    "feature": {
+      "name": "Active Defenses from a Small Shield",
+      "effect": "Linked",
+      "description": "A small hand shield large enough to cover the wearer's forearm.",
+      "subpowers": [
+        {
+          "name": "Enhanced Dodge",
+          "effect": "Enhanced Trait",
+          "description": "Your shield can help to dodge attacks.",
+          "ranks": 1,
+          "option": "Enhanced Dodge"
+        },
+        {
+          "name": "Enhanced Parry",
+          "effect": "Enhanced Trait",
+          "description": "You can parry with your shield.",
+          "ranks": 1,
+          "option": "Enhanced Parry"
+        }
+      ]
+    }
+  },
+  "Medium Shield": {
+    "name": "Medium Shield",
+    "description": "A larger shield covering almost the entire arm, able to shield a large portion of the torso.",
+    "cost": 4,
+    "category": "Armor",
+    "feature": {
+      "name": "Active Defenses from a Medium Shield",
+      "effect": "Linked",
+      "description": "A larger shield covering almost the entire arm, able to shield a large portion of the torso.",
+      "subpowers": [
+        {
+          "name": "Enhanced Dodge",
+          "effect": "Enhanced Trait",
+          "description": "Your shield can help to dodge attacks.",
+          "ranks": 2,
+          "option": "Enhanced Dodge"
+        },
+        {
+          "name": "Enhanced Parry",
+          "effect": "Enhanced Trait",
+          "description": "You can parry with your shield.",
+          "ranks": 2,
+          "option": "Enhanced Parry"
+        }
+      ]
+    }
+  },
+  "Large Shield": {
+    "name": "Large Shield",
+    "description": "A \"kite\" shield able to cover more than half of the wielder's body.",
+    "cost": 6,
+    "category": "Armor",
+    "feature": {
+      "name": "Active Defenses from a Large Shield",
+      "effect": "Linked",
+      "description": "A \"kite\" shield able to cover more than half of the wielder's body.",
+      "subpowers": [
+        {
+          "name": "Enhanced Dodge",
+          "effect": "Enhanced Trait",
+          "description": "Your shield can help to dodge attacks.",
+          "ranks": 3,
+          "option": "Enhanced Dodge"
+        },
+        {
+          "name": "Enhanced Parry",
+          "effect": "Enhanced Trait",
+          "description": "You can parry with your shield.",
+          "ranks": 3,
+          "option": "Enhanced Parry"
+        }
+      ]
+    }
   }
 }
