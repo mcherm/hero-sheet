@@ -193,7 +193,7 @@
         "feature": { "$ref": "#/definitions/PowerTemplate"},
         "docsURL": { "$ref": "#/definitions/DocsURL" }
       },
-      "required": ["name", "description", "cost", "category"],
+      "required": ["name", "description", "category"],
       "additionalProperties": false
     }
   }
