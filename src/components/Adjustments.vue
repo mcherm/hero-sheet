@@ -7,11 +7,13 @@
       <div class="col-label">Affected Trait</div>
       <div class="col-label">Type of Effect</div>
       <div class="col-label">Value</div>
+      <div class="col-label">In Use</div>
       <div class="display-contents" v-for="(data, affectedTrait) in charsheet.activeEffects">
         <div class="display-contents" v-for="entry of data">
           <div class="grid-with-lines-cell affected-trait">{{affectedTrait}}</div>
           <div class="grid-with-lines-cell">{{entry.description}}</div>
           <number-display class="value-display grid-with-lines-cell" :value="entry.value"/>
+          <div class="grid-with-lines-cell" @click="toggleIsActive(entry)">{{entry.isActive ? "Yes" : "No"}}</div>
         </div>
       </div>
       <div class="empty-notice" v-if="Object.keys(charsheet.activeEffects).length === 0">No Adjustments</div>
@@ -29,6 +31,11 @@
     },
     props: {
       charsheet: { type: Object, required: true }
+    },
+    methods: {
+      toggleIsActive: function(activeEffect) {
+        activeEffect.isActive = !activeEffect.isActive;
+      }
     }
   }
 </script>
@@ -36,7 +43,7 @@
 <style scoped>
   .adjustment-list {
     display: inline grid;
-    grid-template-columns: max-content max-content max-content;
+    grid-template-columns: max-content max-content max-content max-content;
     justify-items: stretch;
   }
   .adjustment-list div {

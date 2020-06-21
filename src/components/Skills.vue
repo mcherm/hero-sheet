@@ -69,7 +69,7 @@
   import LocalCostDisplay from "./LocalCostDisplay.vue";
   import SkillsCustomization from "./SkillsCustomization";
   import {newBlankSkill} from "../js/heroSheetVersioning.js";
-  import {skillCost} from "../js/heroSheetUtil.js";
+  import {skillCost, activeEffectModifier} from "../js/heroSheetUtil.js";
   const skillsData = require("../data/skillsData.json");
 
   export default {
@@ -130,14 +130,11 @@
         const activeEffectKey = skill.isTemplate
           ? `skills.skillList#${skill.hsid}` // the template skills aren't supported yet
           : `skills.skillList@${skill.name}`;
-        const pertinentActiveEffects = this.charsheet.activeEffects[activeEffectKey] || [];
-        return pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, 0);
+        return activeEffectModifier(this.charsheet, activeEffectKey);
       },
       skillRoll: function(skill) {
         const ranksFromActiveEffects = this.ranksFromActiveEffects(skill);
-        const pertinentActiveEffects = this.charsheet.activeEffects["jackOfAllTrades"] || [];
-        const jackOfAllTradesSum = pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, 0);
-        const isJackOfAllTrades = jackOfAllTradesSum > 0;
+        const isJackOfAllTrades = activeEffectModifier(this.charsheet, "jackOfAllTrades") > 0;
         const rollAllowed = this.skillData(skill).useUntrained || isJackOfAllTrades || skill.ranks > 0 || ranksFromActiveEffects > 0
         if (rollAllowed) {
           return this.baseValue(skill) + skill.ranks + ranksFromActiveEffects;

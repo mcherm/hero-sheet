@@ -7,7 +7,8 @@
  * which monitors certain fields and updates other fields in the charsheet.
  * An example would be an updater for creating an attack.
  */
-import {findFeatureByHsid, newHsid} from "./heroSheetVersioning";
+import {findFeatureByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
+import {activeEffectModifier} from "./heroSheetUtil.js"
 
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
@@ -114,8 +115,7 @@ class StatRankUpdater extends Updater {
   watchForChange() {
     const baseRanks = this.charsheet.abilities[this.statName].entered;
     const activeEffectKey = `abilities.${this.statName}.ranks`;
-    const pertinentActiveEffects = this.charsheet.activeEffects[activeEffectKey] || [];
-    const ranks = pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, baseRanks);
+    const ranks = baseRanks + activeEffectModifier(this.charsheet, activeEffectKey);
     return {
       identity: {}, // This updater never goes away.
       calculations: {
@@ -154,8 +154,7 @@ class DefenseUpdater extends Updater {
     const baseStat = _baseStatForDefenseMap[this.defenseName];
     const baseRanks = this.charsheet.abilities[baseStat].ranks + purchased;
     const activeEffectKey = `defenses.${this.defenseName}.ranks`;
-    const pertinentActiveEffects = this.charsheet.activeEffects[activeEffectKey] || [];
-    const ranks = pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, baseRanks);
+    const ranks = baseRanks + activeEffectModifier(this.charsheet, activeEffectKey);
     return {
       identity: {}, // This updater never goes away.
       calculations: {
@@ -176,9 +175,7 @@ class ToughnessUpdater extends Updater {
   watchForChange() {
     const baseStat = _baseStatForDefenseMap["toughness"];
     const baseRanks = this.charsheet.abilities[baseStat].ranks;
-    const activeEffectKey = "defenses.toughness.ranks";
-    const pertinentActiveEffects = this.charsheet.activeEffects[activeEffectKey] || [];
-    const ranks = pertinentActiveEffects.reduce((sum, activeEffect) => sum + activeEffect.value, baseRanks);
+    const ranks = baseRanks + activeEffectModifier(this.charsheet, "defenses.toughness.ranks");
     return {
       identity: {}, // This updater never goes away.
       calculations: {
@@ -248,12 +245,7 @@ class AttackUpdater extends Updater {
    * this attack.
    */
   attackCheckAdjustment() {
-    const activeEffects = this.charsheet.activeEffects[`attacks.${this.theAttack.hsid}.check`];
-    if (activeEffects) {
-      return activeEffects.reduce((sum, activeEffect) => sum + activeEffect.value, 0);
-    } else {
-      return 0;
-    }
+    return activeEffectModifier(this.charsheet, `attacks.${this.theAttack.hsid}.check`);
   }
 
   /*
@@ -621,13 +613,14 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
   }
 
   makeNewActiveEffect() {
-    const result = {};
-    result.hsid = newHsid();
-    result.value = this.activeEffectValue();
-    result.updater = this.constructor.name;
-    result.advantageHsid = this.advantage.hsid;
-    result.description = this.getDescription();
-    return result;
+    return newAdjustment(
+        this.constructor.name,
+        this.getDescription(),
+        this.activeEffectValue(),
+        {
+          advantageHsid: this.advantage.hsid
+        }
+    );
   }
 
   applyChanges(newCalculations) {
@@ -745,13 +738,14 @@ class EnhancedTraitUpdater extends Updater {
   }
 
   makeNewActiveEffect() {
-    return {
-      hsid: newHsid(),
-      value: this.power.ranks,
-      updater: this.constructor.name,
-      powerHsid: this.power.hsid,
-      description: `${this.power.option} from Power`,
-    };
+    return newAdjustment(
+        this.constructor.name,
+        `${this.power.option} from Power`,
+        this.power.ranks,
+        {
+          powerHsid: this.power.hsid
+        }
+    );
   }
 
   watchForChange() {
@@ -819,13 +813,14 @@ class ProtectionUpdater extends Updater {
   }
 
   makeNewActiveEffect() {
-    return {
-      hsid: newHsid(),
-      value: this.power.ranks,
-      updater: this.constructor.name,
-      powerHsid: this.power.hsid,
-      description: `Protection`,
-    };
+    return newAdjustment(
+        this.constructor.name,
+        "Protection",
+        this.power.ranks,
+        {
+          powerHsid: this.power.hsid,
+        }
+    );
   }
 
   watchForChange() {
@@ -889,13 +884,15 @@ class CombatSkillUpdater extends Updater {
       "close combat": "Close Combat",
       "ranged combat": "Ranged Combat"
     }[this.skill.name];
-    return {
-      hsid: newHsid(),
-      value: this.skill.ranks,
-      updater: this.constructor.name,
-      skillHsid: this.skill.hsid,
-      description: `${capitalizedName} Skill`,
-    };
+
+    return newAdjustment(
+        this.constructor.name,
+        `${capitalizedName} Skill`,
+        this.skill.ranks,
+        {
+          skillHsid: this.skill.hsid,
+        }
+    );
   }
 
   watchForChange() {
