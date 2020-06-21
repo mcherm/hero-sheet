@@ -170,7 +170,6 @@
   "Brass Knuckles": {
     "name": "Brass Knuckles",
     "description": "Pieces of molded metal fitting over the fingers, brass knuckles add +1 damage to your unarmed strikes. They include similar items like armored gauntlets.",
-    "cost": 1,
     "category": "Melee Weapons",
     "feature": {
       "name": "Brass Knuckles",
@@ -190,7 +189,6 @@
   "Club": {
     "name": "Club",
     "description": "Any of a number of blunt weapons used to strike, including nightsticks, batons, light maces, quarterstaffs, and similar bludgeoning weapons. The attack adds +2 damage.",
-    "cost": 2,
     "category": "Melee Weapons",
     "feature": {
       "name": "Club",
@@ -210,7 +208,6 @@
   "Knife": {
     "name": "Knife",
     "description": "A bladed weapon with a length less than 18 inches or so. This includes daggers, stilettos, sais, switchblades, bowie knives, and hunting knives, among others. The attack adds +1 damage, is piercing, and crits on a 19-20.",
-    "cost": 1,
     "category": "Melee Weapons",
     "feature": {
       "name": "Knife",
@@ -255,7 +252,6 @@
   "Stun Gun": {
     "name": "Stun Gun",
     "description": "A stun gun hits its target with a surge of electricity, an Affliction that can daze, stun, and potentially incapacitate.",
-    "cost": 5,
     "category": "Melee Weapons",
     "feature": {
       "name": "Stun Gun",
@@ -280,7 +276,6 @@
   "Battleaxe": {
     "name": "Battleaxe",
     "description": "A heavy-bladed axe that can be wielded with one or two hands. Does +3 damage, slashing.",
-    "cost": 3,
     "category": "Melee Weapons",
     "feature": {
       "name": "Battleaxe",
@@ -385,7 +380,6 @@
   "Chainsaw": {
     "name": "Chainsaw",
     "description": "A tool that sometimes sees use as a weapon, particularly against zombies and other slasher-flick mon- sters. Unlike most melee weapons, chainsaw damage is not Strength-based. Does 6 damage, slashing.",
-    "cost": 6,
     "category": "Melee Weapons",
     "feature": {
       "name": "Chainsaw",
@@ -440,7 +434,6 @@
   "Holdout Pistol": {
     "name": "Holdout Pistol",
     "description": "A low-caliber, easily concealed pistol, typically used as a back-up or secondary weapon.",
-    "cost": 4,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Holdout Pistol",
@@ -459,7 +452,6 @@
   "Light Pistol": {
     "name": "Light Pistol",
     "description": "A common handgun, found in the hands of police officers and criminals alike.",
-    "cost": 6,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Light Pistol",
@@ -478,7 +470,6 @@
   "Heavy Pistol": {
     "name": "Heavy Pistol",
     "description": "A high-caliber handgun, usually used by those who want a lot of stopping power.",
-    "cost": 8,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Heavy Pistol",
@@ -497,7 +488,6 @@
   "Machine Pistol": {
     "name": "Machine Pistol",
     "description": "A small automatic weapon, usable in one hand.",
-    "cost": 9,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Machine Pistol",
@@ -520,7 +510,6 @@
   "Submachine Gun": {
     "name": "Submachine Gun",
     "description": "Compact automatic weapons that fire pistol ammunition, submachine guns are common military weapons, also used by criminals with access to more serious firepower.",
-    "cost": 12,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Submachine Gun",
@@ -588,7 +577,6 @@
   "Assault Rifle": {
     "name": "Assault Rifle",
     "description": "Rifles designed for military use capable of both single-fire and automatic fire.",
-    "cost": 15,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Assault Rifle",
@@ -611,7 +599,6 @@
   "Sniper Rifle": {
     "name": "Sniper Rifle",
     "description": "A rifle designed for long-range use, typically in conjunction with a powerful scope or targeting system. Crits on a 19-20.",
-    "cost": 11,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Sniper Rifle",
@@ -634,7 +621,6 @@
   "Bow": {
     "name": "Bow",
     "description": "Although outdated, some heroes and villains favor the bow as a weapon and it can be quite effective in the right hands. Crits on a 19-20.",
-    "cost": 6,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Bow",
@@ -653,7 +639,6 @@
   "Crossbow": {
     "name": "Crossbow",
     "description": "Although outdated, some heroes and villains favor the crossbow as a weapon and it can be quite effective in the right hands.",
-    "cost": 7,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Crossbow",
@@ -676,7 +661,6 @@
   "Blaster Pistol": {
     "name": "Blaster Pistol",
     "description": "A pistol that fires a coherent bolt of energy.",
-    "cost": 10,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Blaster Pistol",
@@ -695,7 +679,6 @@
   "Blaster Rifle": {
     "name": "Blaster Rifle",
     "description": "A larger rifle-sized weapon that fires a more powerful bolt of energy.",
-    "cost": 16,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Blaster Rifle",
@@ -714,7 +697,6 @@
   "Taser": {
     "name": "Taser",
     "description": "A compressed-air weapon firing a pair of darts. On impact they release a powerful electrical charge, for an Affliction effect that can daze, stun, or incapacitate (Fortitude\nresistance, DC 15).",
-    "cost": 10,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Taser",
@@ -733,7 +715,6 @@
   "Flamethrower": {
     "name": "Flamethrower",
     "description": "A flamethrower shoots a stream or arc of fire Damage as Cone or Line Area and can switch between settings as an Alternate Effect.",
-    "cost": 13,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Flamethrower",
@@ -774,7 +755,6 @@
   "Grenade Launcher": {
     "name": "Grenade Launcher",
     "description": "A grenade launcher fires various types of grenades out a greater distance, generally fragmentation grenades.",
-    "cost": 15,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Grenade Launcher",
@@ -799,7 +779,6 @@
   "Rocket Launcher": {
     "name": "Rocket Launcher",
     "description": "A rocket-launcher is generally an antitank weapon, although they also make useful anti-superhero weapons as well. The primary target hit by the rocket resists explosive Damage 10, while all other targets in the burst area resist Damage 7.",
-    "cost": 27,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Rocket Launcher",
@@ -839,7 +818,6 @@
   "Bolos": {
     "name": "Bolos",
     "description": "A set of weighted cords intended to entangle an opponent with a Snare Affliction that hinders and impedes, then renders the target defenseless and immobile.",
-    "cost": 6,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Bolos",
@@ -869,7 +847,6 @@
   "Boomerang": {
     "name": "Boomerang",
     "description": "A common throwing weapon for heroes, a thrown boomerang returns to the thrower's hand, ready to be thrown again on the next round (less a Feature and more a special descriptor). Boomerang wielders often use this property of the weapon to feint, allowing for an attack against a vulnerable target on the return arc on the attacker's next turn.",
-    "cost": 2,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Boomerang",
@@ -907,7 +884,6 @@
   "Shuriken": {
     "name": "Shuriken",
     "description": "Flat metal stars or spikes for throwing. Shuriken can be thrown in groups as a Multiattack. Although they are thrown weapons, shuriken are not Strength-based, being too light.",
-    "cost": 3,
     "category": "Ranged Weapons",
     "feature": {
       "name": "Shuriken",
@@ -930,7 +906,6 @@
   "Leather Armor": {
     "name": "Leather Armor",
     "description": "This can be archaic plates of boiled leather or a modern heavy leather jacket.",
-    "cost": 1,
     "category": "Armor",
     "feature": {
       "name": "Leather Armor",
@@ -942,7 +917,6 @@
   "Chain-Mail Armor": {
     "name": "Chain-Mail Armor",
     "description": "A shirt of heavy metal chain, often with a coif (hood) to cover the wearer's head.",
-    "cost": 3,
     "category": "Armor",
     "feature": {
       "name": "Chain-Mail Armor",
@@ -954,7 +928,6 @@
   "Plate-Mail Armor": {
     "name": "Plate-Mail Armor",
     "description": "This is chain-mail augmented with a metal breastplate, greaves (leg-guards) and arm-guards.",
-    "cost": 5,
     "category": "Armor",
     "feature": {
       "name": "Plate-Mail Armor",
@@ -966,7 +939,6 @@
   "Full-Plate Armor": {
     "name": "Full-Plate Armor",
     "description": "A full (and heavy!) suit of articulated metal plates, like that worn by medieval knights.",
-    "cost": 6,
     "category": "Armor",
     "feature": {
       "name": "Full-Plate Armor",
@@ -1005,7 +977,6 @@
   "Bulletproof Vest": {
     "name": "Bulletproof Vest",
     "description": "A heavier vest of ballistic armor worn by police officers and soldiers.",
-    "cost": 3,
     "category": "Armor",
     "feature": {
       "name": "Bulletproof Vest",
@@ -1032,7 +1003,6 @@
   "Small Shield": {
     "name": "Small Shield",
     "description": "A small hand shield large enough to cover the wearer's forearm.",
-    "cost": 2,
     "category": "Armor",
     "feature": {
       "name": "Active Defenses from a Small Shield",
@@ -1086,7 +1056,6 @@
   "Large Shield": {
     "name": "Large Shield",
     "description": "A \"kite\" shield able to cover more than half of the wielder's body.",
-    "cost": 6,
     "category": "Armor",
     "feature": {
       "name": "Active Defenses from a Large Shield",

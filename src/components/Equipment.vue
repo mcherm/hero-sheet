@@ -108,16 +108,20 @@
         if (source === "standard") {
           item.source = source;
           item.name = selectedFields[1];
-          item.cost = standardEquipment[item.name].cost;
-          const standardFeature = standardEquipment[item.name].feature;
-          if (standardFeature === null) {
-            item.feature = null;
-          } else {
+          const stdEq = standardEquipment[item.name];
+          item.cost = stdEq.cost;
+          const standardFeature = stdEq.feature;
+          if (standardFeature) {
             item.feature = buildFeature(standardFeature);
+            if (item.cost === undefined || item.cost === null) {
+              item.cost = item.feature.cost; // Default to the feature cost if item cost is not specified
+            }
             const event = powerUpdaterEvent(item.feature);
             if (event !== null) {
               this.$emit("newUpdater", event);
             }
+          } else {
+            this.$delete(item, "feature");
           }
         } else if (source === "custom") {
           item.source = source;
