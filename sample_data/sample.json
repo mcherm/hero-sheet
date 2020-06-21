@@ -1,5 +1,5 @@
 {
-  "version": 10,
+  "version": 12,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
@@ -66,7 +66,7 @@
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 7
     },
     "fortitude": {
       "base": 0,
@@ -84,7 +84,7 @@
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 15
     },
     "will": {
       "base": 0,
@@ -93,80 +93,141 @@
       "ranks": 0
     }
   },
-  "initiative": 0,
+  "initiative": 8,
   "advantages": [
     {
-      "name": "Jack-of-All-Trades",
-      "hsid": "HIX9Z4WTW",
-      "ranks": null,
+      "name": "Improved Critical",
+      "hsid": "HI7TL1N68",
+      "ranks": 3,
+      "description": ""
+    },
+    {
+      "name": "Improved Initiative",
+      "hsid": "HIS6DN4WC",
+      "ranks": 2,
       "description": ""
     }
   ],
   "equipment": [
     {
-      "hsid": "HI1P6B9LN",
-      "name": "Camera",
-      "cost": 1,
-      "source": "standard"
-    },
-    {
-      "hsid": "HIFFSKUEL",
-      "name": "Binoculars",
-      "cost": 1,
-      "source": "standard"
-    },
-    {
-      "hsid": "HIBJMDXRL",
-      "name": "Brass Knuckles",
-      "cost": 1,
+      "hsid": "HIV3X44YG",
+      "name": "Shotgun",
+      "cost": 10,
       "source": "standard",
       "feature": {
-        "name": "Brass Knuckles",
-        "hsid": "HIQ6Y4EE6",
-        "effect": "Damage",
+        "name": "Shotgun",
+        "hsid": "HIA814JLQ",
+        "effect": "Alternate",
         "description": "",
         "extras": [
           {
-            "modifierName": "Strength Based",
-            "costType": "pointsOfMultiplier",
-            "cost": 0,
-            "displayText": "Strength Based (0)"
+            "modifierSource": "standard",
+            "modifierName": "Increased Range",
+            "ranks": 1,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1,
+            "displayText": "Increased Range (+1)"
           }
         ],
         "flaws": [],
         "ranks": 1,
-        "cost": 1,
-        "effectDescription": "You can inflict damage by making a close attack.",
-        "baseCost": 1,
-        "subpowers": []
+        "cost": 11,
+        "effectDescription": "Several different effects together.",
+        "baseCost": null,
+        "subpowers": [
+          {
+            "name": "Shotgun Shot",
+            "hsid": "HID99XW7L",
+            "effect": "Damage",
+            "description": "Does Damage 5 with Accurate 1 due to the spread, but Limited to Damage 3 against targets with Protection.",
+            "extras": [
+              {
+                "modifierSource": "standard",
+                "modifierName": "Accurate",
+                "ranks": 1,
+                "costType": "flatPointsPerRankOfModifier",
+                "cost": 1,
+                "displayText": "Accurate (+1 flat)"
+              }
+            ],
+            "flaws": [
+              {
+                "modifierSource": "standard",
+                "modifierName": "Limited",
+                "costType": "pointsOfMultiplier",
+                "cost": -1,
+                "displayText": "Limited (-1)"
+              }
+            ],
+            "ranks": 5,
+            "cost": 4,
+            "effectDescription": "You can inflict damage by making a close attack.",
+            "baseCost": 1,
+            "subpowers": [],
+            "option": null
+          },
+          {
+            "name": "Solid Slugs in Shotgun",
+            "hsid": "HI658DL98",
+            "effect": "Damage",
+            "description": "Fire solid slugs from the shotgun.",
+            "extras": [],
+            "flaws": [],
+            "ranks": 5,
+            "cost": 5,
+            "effectDescription": "You can inflict damage by making a close attack.",
+            "baseCost": 1,
+            "subpowers": [],
+            "option": null
+          }
+        ],
+        "option": null
       }
     },
     {
-      "hsid": "HI71JA8KV",
-      "name": "Shovel",
-      "cost": 1,
-      "source": "custom",
-      "description": "I dig. I dig real good.",
+      "hsid": "HIU4W2T48",
+      "name": "Javelin",
+      "cost": 2,
+      "source": "standard",
       "feature": {
-        "name": "Dig",
-        "hsid": "HIDGQ67KV",
-        "effect": "Burrowing",
-        "description": "",
+        "name": "Javelin",
+        "hsid": "HIBUGJ39B",
+        "effect": "Damage",
+        "description": "Light, flexible spears intended to be thrown. Javelins can also be used in melee combat.",
         "extras": [
           {
-            "modifierSource": "special",
-            "modifierName": "Penetrating",
-            "optionName": null,
+            "modifierSource": "standard",
+            "modifierName": "Increased Range",
             "ranks": 1,
-            "costType": "pointsOfMultiplier",
+            "costType": "pointsOfMultiplierPerRankOfModifier",
             "cost": 1,
-            "displayText": "Penetrating (+1)"
+            "displayText": "Increased Range (+1)"
           }
         ],
         "flaws": [],
-        "ranks": 4,
-        "cost": 8,
-        "effectDescription": "You can burrow through the ground, leaving a tunnel behind if you choose.",
+        "ranks": 2,
+        "cost": 4,
+        "effectDescription": "You can inflict damage by making a close attack.",
+        "baseCost": 1,
+        "subpowers": [],
+        "option": null
+      }
+    },
+    {
+      "hsid": "HIVY75XKP",
+      "name": "Full-Plate Armor",
+      "cost": 6,
+      "source": "standard",
+      "feature": {
+        "name": "Full-Plate Armor",
+        "hsid": "HIZGTDYMK",
+        "effect": "Protection",
+        "description": "A full (and heavy!) suit of articulated metal plates, like that worn by medieval knights.",
+        "extras": [],
+        "flaws": [],
+        "ranks": 6,
+        "cost": 6,
+        "effectDescription": "Protection shields you against damage, giving you +1 Toughness defense per rank.",
         "baseCost": 1,
         "subpowers": [],
         "option": null
@@ -184,6 +245,13 @@
         "name": "athletics",
         "ranks": 0,
         "isTemplate": false
+      },
+      {
+        "name": "close combat",
+        "hsid": "HIKFMTMDE",
+        "ranks": 0,
+        "isTemplate": true,
+        "attackHsid": "HI9EDCT8Y"
       },
       {
         "name": "deception",
@@ -217,10 +285,10 @@
       },
       {
         "name": "ranged combat",
-        "hsid": "HI5YLWSAK",
-        "ranks": 9,
+        "hsid": "HIL2Y11XS",
+        "ranks": 3,
         "isTemplate": true,
-        "attackHsid": "HI8MQDM1S"
+        "attackHsid": "HIJPKJFFR"
       },
       {
         "name": "slight of hand",
@@ -248,29 +316,36 @@
         "isTemplate": false
       }
     ],
-    "cost": 5
+    "cost": 2
   },
   "powers": [
     {
-      "name": "Gun",
-      "hsid": "HISW3QAGB",
-      "effect": "Damage",
+      "name": "Super Dodgy",
+      "hsid": "HI4SDZW2Q",
+      "effect": "Enhanced Trait",
       "description": "",
-      "extras": [
-        {
-          "modifierName": "Extended Range",
-          "ranks": 1,
-          "costType": "flatPointsPerRankOfModifier",
-          "cost": 1,
-          "displayText": "Extended Range (+1)"
-        }
-      ],
+      "extras": [],
       "flaws": [],
-      "ranks": 5,
-      "cost": 6,
-      "effectDescription": "You can inflict damage by making a close attack.",
+      "ranks": 7,
+      "cost": 7,
+      "effectDescription": "You can temporarily improve one of your existing traits.",
       "baseCost": 1,
-      "subpowers": []
+      "subpowers": [],
+      "option": "Enhanced Dodge"
+    },
+    {
+      "name": "Armored",
+      "hsid": "HID35W15L",
+      "effect": "Protection",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 9,
+      "cost": 9,
+      "effectDescription": "Protection shields you against damage, giving you +1 Toughness defense per rank.",
+      "baseCost": 1,
+      "subpowers": [],
+      "option": null
     }
   ],
   "complications": [
@@ -279,11 +354,11 @@
       "description": ""
     }
   ],
-  "background": "This is the story\nof this character.",
+  "background": "This is the story of Blanko.\n\nA very blank hero.",
   "attacks": {
     "attackList": [
       {
-        "hsid": "HI32UAU8Y",
+        "hsid": "HI9EDCT8Y",
         "updater": "UnarmedAttackUpdater",
         "name": "Unarmed",
         "attackCheck": 0,
@@ -291,31 +366,58 @@
         "resistanceDC": 0
       },
       {
-        "hsid": "HI8MQDM1S",
+        "hsid": "HID2CP44Y",
         "updater": "DamagePowerAttackUpdater",
-        "powerHsid": "HISW3QAGB",
-        "name": "Gun",
+        "powerHsid": "HIBUGJ39B",
+        "name": "Javelin",
         "attackCheck": 0,
         "effectType": "damage",
-        "resistanceDC": 5
+        "resistanceDC": 2
       }
     ]
   },
   "activeEffects": {
-    "jackOfAllTrades": [
+    "initiative": [
       {
-        "hsid": "HIZMK4S7D",
-        "value": 1,
-        "updater": "JackOfAllTradesUpdater",
-        "advantageHsid": "HIX9Z4WTW"
+        "hsid": "HI2GKM7BR",
+        "value": 8,
+        "updater": "ImprovedInitiativeUpdater",
+        "advantageHsid": "HIS6DN4WC",
+        "description": "Improved Initiative Advantage"
       }
     ],
-    "attacks.HI8MQDM1S.check": [
+    "attacks.HIJPKJFFR.check": [
       {
-        "hsid": "HIXXX1234",
-        "value": 4,
+        "hsid": "HI553R35D",
+        "value": 3,
         "updater": "CombatSkillUpdater",
-        "skillHsid": "HI5YLWSAK"
+        "skillHsid": "HIL2Y11XS",
+        "description": "Ranged Combat Skill"
+      }
+    ],
+    "defenses.dodge.ranks": [
+      {
+        "hsid": "HIFV3B9G9",
+        "value": 7,
+        "updater": "EnhancedTraitUpdater",
+        "powerHsid": "HI4SDZW2Q",
+        "description": "Enhanced Dodge from Power"
+      }
+    ],
+    "defenses.toughness.ranks": [
+      {
+        "hsid": "HI95JZEGL",
+        "value": 9,
+        "updater": "ProtectionUpdater",
+        "powerHsid": "HID35W15L",
+        "description": "Protection"
+      },
+      {
+        "hsid": "HI8FTJYUA",
+        "value": 6,
+        "updater": "ProtectionUpdater",
+        "powerHsid": "HIZGTDYMK",
+        "description": "Protection"
       }
     ]
   }

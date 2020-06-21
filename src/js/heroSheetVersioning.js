@@ -3,8 +3,8 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 12; // Up to this version can be saved
-const latestVersion = 12; // Might be an experimental version
+const currentVersion = 13; // Up to this version can be saved
+const latestVersion = 13; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
@@ -214,6 +214,31 @@ const newBlankComplication = function() {
 
 
 /*
+ * Creates an adjustment from the relevant data.
+ *
+ * updater: the name of the updater type
+ * description: the text description to display
+ * value: the number giving the amount of the update
+ * otherFields: an object containing additional fields to
+ *   be added to the adjustment object. The particular
+ *   fields used will be specific to the updater used.
+ */
+const newAdjustment = function(updater, description, value, otherFields) {
+  const result = {
+    hsid: newHsid(),
+    updater: updater,
+    description: description,
+    value: value,
+    isActive: true
+  };
+  for (const fieldName in otherFields) {
+    result[fieldName] = otherFields[fieldName];
+  }
+  return result;
+}
+
+
+/*
  * Given a charsheet and an hsid in it, returns the feature with that hsid or
  * null if there isn't one. It searches everwhere that a feature might appear:
  * in power but also other places like equipment.
@@ -405,6 +430,17 @@ const upgradeFuncs = {
   upgradeFrom11: function(charsheet) {
     charsheet.background = "";
     charsheet.version = 12;
+  },
+
+  upgradeFrom12: function(charsheet) {
+    for (const activeEffectList of Object.values(charsheet.activeEffects)) {
+      for (const activeEffect of activeEffectList) {
+        if (!("isActive" in activeEffect)) {
+          activeEffect.isActive = true;
+        }
+      }
+    }
+    charsheet.version = 13;
   }
 };
 
@@ -444,6 +480,7 @@ export {
   newBlankSkill,
   newBlankPower,
   newBlankComplication,
+  newAdjustment,
   findFeatureByHsid,
   findAdvantageByHsid,
   findSkillByHsid,

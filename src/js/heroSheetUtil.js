@@ -490,6 +490,20 @@ const powerUpdaterEvent = function(power) {
 }
 
 
+/*
+ * Given a key for an active effect, this sums the total value of all active
+ * activeEffects for that key and returns the total.
+ */
+const activeEffectModifier = function(charsheet, activeEffectKey) {
+  const pertinentActiveEffects = charsheet.activeEffects[activeEffectKey] || [];
+  const total = pertinentActiveEffects.reduce(
+      (sum, activeEffect) => sum + (activeEffect.isActive ? 1 : 0) * activeEffect.value,
+      0
+  );
+  return total;
+}
+
+
 export {
   powerCostCalculate,
   advantageIsRanked,
@@ -516,4 +530,5 @@ export {
   modifierDisplayText,
   buildNewModifier,
   powerUpdaterEvent,
+  activeEffectModifier,
 };

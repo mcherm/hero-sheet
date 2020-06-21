@@ -19,7 +19,6 @@
             :statName="statName"
             :statObj="charsheet.abilities[statName]"
             :docsURL="statData.docsURL"
-            :activeEffects="charsheet.activeEffects"
           />
         </tbody>
       </table>

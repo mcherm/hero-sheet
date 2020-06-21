@@ -19,8 +19,7 @@
     props: {
       statName: { type: String, required: true },
       statObj: { type: Object, required: true },
-      docsURL: { required: true, validator: (x => x === null || typeof x === 'string') },
-      activeEffects: { type: Object, required: true }
+      docsURL: { required: true, validator: (x => x === null || typeof x === 'string') }
     },
     created: function() {
       this.updateEntered(this.statObj.entered);

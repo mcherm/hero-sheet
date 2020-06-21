@@ -31,6 +31,8 @@
 </template>
 
 <script>
+  import {activeEffectModifier} from "../js/heroSheetUtil.js";
+
   const baseValueMap = {
     dodge: "agility",
     fortitude: "stamina",
@@ -47,8 +49,7 @@
     created: function() {
       const calcInitiative = () => {
         const agility = this.charsheet.abilities.agility.ranks;
-        const activeInitiativeEffects = this.charsheet.activeEffects['initiative'] || [];
-        return activeInitiativeEffects.reduce((sum, activeEffect) => sum + activeEffect.value, agility);
+        return agility + activeEffectModifier(this.charsheet, "initiative");
       };
       this.$watch(calcInitiative, function() {
         this.charsheet.initiative = calcInitiative();
