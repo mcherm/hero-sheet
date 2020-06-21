@@ -790,6 +790,79 @@ class EnhancedTraitUpdater extends Updater {
 }
 
 
+class ProtectionUpdater extends Updater {
+  constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super(vm, charsheet, newUpdaterEvent, ...otherArgs);
+  }
+
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
+    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
+    this.power = newUpdaterEvent.power;
+    this.activeEffectKey = this.getActiveEffectKey();
+    this.activeEffect = findOrCreateActiveEffect(this);
+  }
+
+  /*
+   * Subclasses should override this to return the key their active effect is stored under.
+   */
+  getActiveEffectKey() {
+    return "defenses.toughness.ranks";
+  }
+
+  /*
+   * Given an ActiveEffect entry for an updater of this class, this returns
+   * a boolean indicating whether it is the one belonging to this updater.
+   */
+  isMyActiveEffect(activeEffect) {
+    return activeEffect.powerHsid === this.power.hsid
+  }
+
+  makeNewActiveEffect() {
+    return {
+      hsid: newHsid(),
+      value: this.power.ranks,
+      updater: this.constructor.name,
+      powerHsid: this.power.hsid,
+      description: `Protection`,
+    };
+  }
+
+  watchForChange() {
+    return {
+      identity: {
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
+        powerHsid: this.power.hsid,
+        powerEffect: this.power.effect
+      },
+      calculations: {
+        powerRanks: this.power.ranks
+      }
+    };
+  }
+
+  applyChanges(newCalculations) {
+    this.activeEffect.value = newCalculations.powerRanks;
+  }
+
+  destroy() {
+    const possibleActiveEffects = this.charsheet.activeEffects[this.activeEffectKey];
+    if (possibleActiveEffects) {
+      const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
+      if (currentPosition !== -1) {
+        possibleActiveEffects.splice(currentPosition, 1);
+      } else {
+        console.log(`Attempted to delete a ${this.constructor.name} but it wasn't there.`);
+      }
+      if (possibleActiveEffects.length === 0) {
+        this.vm.$delete(this.charsheet.activeEffects, this.activeEffectKey);
+      }
+    }
+    super.destroy();
+  }
+}
+
+
 class CombatSkillUpdater extends Updater {
   constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super(vm, charsheet, newUpdaterEvent, ...otherArgs);
@@ -896,6 +969,7 @@ const updaterClasses = {
   ImprovedInitiativeUpdater,
   JackOfAllTradesUpdater,
   EnhancedTraitUpdater,
+  ProtectionUpdater,
   CombatSkillUpdater,
   EquipmentFeatureUpdater,
 };

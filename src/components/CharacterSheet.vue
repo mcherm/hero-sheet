@@ -210,7 +210,7 @@
               }
               const updateEvent = {updater: updaterType, advantage: advantage};
               new updaterClasses[updaterType](this, this.charsheet, updateEvent);
-            } else if (updaterType === "EnhancedTraitUpdater") {
+            } else if (["EnhancedTraitUpdater", "ProtectionUpdater"].includes(updaterType)) {
               const feature = findFeatureByHsid(this.charsheet, activeEffect.powerHsid);
               if (feature === null) {
                 throw new Error("Updater references hsid that isn't found.");
