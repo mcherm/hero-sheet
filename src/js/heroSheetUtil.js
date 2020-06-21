@@ -243,6 +243,7 @@ const buildFeature = function(template) {
       feature.subpowers.push(subpower);
     }
   }
+  recalculatePowerCost(feature);
   return feature;
 };
 
