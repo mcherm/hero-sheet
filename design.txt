@@ -87,20 +87,12 @@ TODO: [Adran06] Extra sheet for minions. And for Morph[Metamorph]. And for Summo
 
 TODO: [Adran06] Maybe an "extra sheet" for variable powers? Listing some options (for free)?
 
-TODO: The Affliction power should select which kind of effect it applies and
-  what resists it.
-
-TODO: The Protection power ought to influence toughness.
-
 TODO: A few powers really should have their own custom way of being created.
  * Variable - should be able to create the power options for it
  * Summon - should be able to create the character for it
  * Senses - should be able to select the sense itself and its features and
    calculate the cost
+ * Affliction - should be able to select the affliction and what resists it
 
 TODO: Some enhanced traits, like Power-Lifting, shouldn't be applied to the
   trait.
-
-TODO: Custom Equpiment with an attack power doesn't show up on the list of
-  attacks.
-

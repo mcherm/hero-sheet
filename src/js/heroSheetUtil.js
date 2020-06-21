@@ -482,6 +482,8 @@ const powerUpdaterEvent = function(power) {
     return { updater: "WeakenPowerAttackUpdater", power: power };
   } else if (power.effect === "Enhanced Trait") {
     return { updater: "EnhancedTraitUpdater", power: power };
+  } else if (power.effect === "Protection") {
+    return { updater: "ProtectionUpdater", power: power };
   } else {
     return null;
   }
