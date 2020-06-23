@@ -8,6 +8,8 @@ import Power from "./components/Power.vue"
 Vue.component("Power", Power);
 import NumberDisplay from "./components/NumberDisplay.vue"
 Vue.component("NumberDisplay", NumberDisplay);
+import ModifiableNumberDisplay from "./components/ModifiableNumberDisplay.vue"
+Vue.component("ModifiableNumberDisplay", ModifiableNumberDisplay);
 import NumberEntry from "./components/NumberEntry.vue"
 Vue.component("NumberEntry", NumberEntry);
 import StringEntry from "./components/StringEntry.vue"
@@ -18,6 +20,8 @@ import BoxedSection from "./components/BoxedSection.vue"
 Vue.component("BoxedSection", BoxedSection);
 import ModalLightbox from "./components/ModalLightbox.vue";
 Vue.component("ModalLightbox", ModalLightbox);
+import PencilIcon from "./components/PencilIcon.vue";
+Vue.component("PencilIcon", PencilIcon);
 import TrashIcon from "./components/TrashIcon.vue";
 Vue.component("TrashIcon", TrashIcon);
 import DocsLookup from "./components/DocsLookup.vue";
