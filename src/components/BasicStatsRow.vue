@@ -8,7 +8,7 @@
       />
     </td>
     <td><number-display :value="statObj.cost"/></td>
-    <td><number-display :value="statObj.ranks"/></td>
+    <td><modifiable-number-display :value="statObj.ranks" :is-modified="isModified" @toggle-modify="toggleModified()"/></td>
     <td><docs-lookup :docsURL="docsURL"/></td>
   </tr>
 </template>
@@ -21,6 +21,11 @@
       statObj: { type: Object, required: true },
       docsURL: { required: true, validator: (x => x === null || typeof x === 'string') }
     },
+    data: function() {
+      return {
+        isModified: false
+      };
+    },
     created: function() {
       this.updateEntered(this.statObj.entered);
     },
@@ -28,6 +33,10 @@
       updateEntered: function(newValue) {
         this.statObj.entered = Number(newValue);
         this.statObj.cost = this.statObj.entered * 2;
+      },
+      toggleModified: function() {
+        this.isModified = !this.isModified;
+        // FIXME: Need to do something real with the modification
       }
     }
   }

@@ -4,7 +4,7 @@
 -->
 <template>
   <div class="modifiable-number-display">
-    <pencil-icon/>
+    <pencil-icon :is-modified="isModified" @icon-click="$emit('toggle-modify')"/>
     <number-display :value="value" :is-out-of-spec="isOutOfSpec" :show-err-for-negatives="showErrForNegatives"/>
   </div>
   
@@ -16,7 +16,8 @@
     props: {
       value: { required: true, validator: x => x === undefined || x === null || typeof x === "number" },
       isOutOfSpec: { type: Boolean, required: false, default: false },
-      showErrForNegatives: { type: Boolean, required: false, default: true }
+      showErrForNegatives: { type: Boolean, required: false, default: true },
+      isModified: { type: Boolean, required: true }
     }
   }
 </script>

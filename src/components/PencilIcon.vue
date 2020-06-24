@@ -1,5 +1,5 @@
 <template functional>
-  <svg class="pencil" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
+  <svg class="pencil" :class="{isModified: props.isModified}" @click="listeners['icon-click']()" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
     <path d="M 332.99999,66.23072 102.86266,265.26266 C 85.998019,279.51825 39.380015,435.10415 32.902771,467.99362 64.238238,466.01824 203.04269,450.86712 221.44578,430.11084 L 461.05036,210.67712 C 475.4256,197.30834 505.72061,151.17483 453.1535,89.060723 400.58639,26.946617 348.62083,52.376467 332.99999,66.23072 Z"/>
     <line x1="143.11326" y1="330.64095" x2="356.5494" y2="133.24337"/>
     <line x1="181.35904" y1="381.84096" x2="398.49638" y2="180.74218"/>
@@ -12,7 +12,10 @@
 
 <script>
   export default {
-    name: "TrashIcon"
+    name: "PencilIcon",
+    props: {
+      isModified: { type: Boolean, required: true }
+    }
   }
 </script>
 
@@ -20,6 +23,10 @@
   svg.pencil {
     width: 8px;
     height: 8px;
+  }
+  svg.pencil.isModified {
+    width: 20px;
+    height: 20px;
   }
   line {
     stroke: #000;
