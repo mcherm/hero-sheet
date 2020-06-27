@@ -7,8 +7,9 @@
  * which monitors certain fields and updates other fields in the charsheet.
  * An example would be an updater for creating an attack.
  */
-import {findFeatureByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
+import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
 import {activeEffectModifier} from "./heroSheetUtil.js"
+
 
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
@@ -568,6 +569,14 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
     this.activeEffect = findOrCreateActiveEffect(this);
   }
 
+  static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
+    const advantage = findAdvantageByHsid(charsheet, activeEffect.advantageHsid);
+    if (advantage === null) {
+      throw new Error("Updater references hsid that isn't found.");
+    }
+    return {updater: activeEffect.updater, advantage: advantage};
+  }
+
   /*
    * Subclasses must override this to provide the activeEffect key where their
    * effect is stored.
@@ -689,6 +698,14 @@ class EnhancedTraitUpdater extends Updater {
     this.activeEffect = findOrCreateActiveEffect(this);
   }
 
+  static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
+    const feature = findFeatureByHsid(charsheet, activeEffect.powerHsid);
+    if (feature === null) {
+      throw new Error("Updater references hsid that isn't found.");
+    }
+    return {updater: activeEffect.updater, power: feature};
+  }
+
   /*
    * Subclasses should override this to return the key their active effect is stored under.
    */
@@ -797,6 +814,14 @@ class ProtectionUpdater extends Updater {
     this.activeEffect = findOrCreateActiveEffect(this);
   }
 
+  static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
+    const feature = findFeatureByHsid(charsheet, activeEffect.powerHsid);
+    if (feature === null) {
+      throw new Error("Updater references hsid that isn't found.");
+    }
+    return {updater: activeEffect.updater, power: feature};
+  }
+
   /*
    * Subclasses should override this to return the key their active effect is stored under.
    */
@@ -869,6 +894,14 @@ class CombatSkillUpdater extends Updater {
     this.skill = newUpdaterEvent.skill;
     this.activeEffectKey = `attacks.${this.skill.attackHsid}.check`;
     this.activeEffect = findOrCreateActiveEffect(this);
+  }
+
+  static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
+    const skill = findSkillByHsid(charsheet, activeEffect.skillHsid);
+    if (skill === null) {
+      throw new Error("Updater references hsid that isn't found.");
+    }
+    return {updater: activeEffect.updater, skill: skill};
   }
 
   /*
@@ -972,6 +1005,39 @@ const updaterClasses = {
 };
 
 
+/*
+ * An exception type.
+ */
+class UnsupportedUpdaterInActiveEffectError extends Error {
+}
+
+
+/*
+ * This gets called when a character sheet is loaded and the updaters need
+ * to be re-created. It creates and installs a new updater (and returns
+ * nothing, since it gets installed in the vm).
+ *
+ * Inputs are a vm to bind to, the charsheet, and the particular activeEffect
+ * for which an updater should be created. The activeEffect passed should
+ * one that has an "updater" property.
+ *
+ * If the call fails because the updater type is not known or does not
+ * support being created from an active effect, then this will throw an
+ * UnsupportedUpdaterInActiveEffectError.
+ */
+const newUpdaterFromActiveEffect = function(vm, charsheet, activeEffect) {
+  const updaterType = activeEffect.updater;
+  const updaterClass = updaterClasses[updaterType];
+  if (updaterClass === undefined || !("updateEventFromActiveEffect" in updaterClass)) {
+    throw new UnsupportedUpdaterInActiveEffectError(`Unsupported updater type '${updaterType}' in activeEffect.`);
+  }
+  const updateEvent = updaterClass.updateEventFromActiveEffect(vm, charsheet, activeEffect);
+  return new updaterClasses[updaterType](vm, charsheet, updateEvent);
+};
+
+
 export {
-  updaterClasses
+  updaterClasses,
+  newUpdaterFromActiveEffect,
+  UnsupportedUpdaterInActiveEffectError,
 };
