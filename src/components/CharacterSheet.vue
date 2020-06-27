@@ -63,8 +63,8 @@
 
   const statsData = require("../data/statsData.json");
 
-  import {currentVersion, findAdvantageByHsid, findFeatureByHsid, findSkillByHsid, upgradeVersion} from "../js/heroSheetVersioning.js";
-  import {updaterClasses} from "../js/updaters.js";
+  import {currentVersion, findFeatureByHsid, upgradeVersion} from "../js/heroSheetVersioning.js";
+  import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "../js/updaters.js";
   import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
 
   export default {
@@ -199,32 +199,22 @@
             new updaterClass(this, this.charsheet, updateEvent);
           }
         }
+        // For any active effects with an updater, initialize that updater
         for (const activeEffectKey in this.charsheet.activeEffects) {
           for (const activeEffect of this.charsheet.activeEffects[activeEffectKey]) {
             const updaterType = activeEffect.updater;
-            // FIXME: With a better design maybe I wouldn't need a special case here
-            if (["ImprovedInitiativeUpdater", "JackOfAllTradesUpdater"].includes(updaterType)) {
-              const advantage = findAdvantageByHsid(this.charsheet, activeEffect.advantageHsid);
-              if (advantage === null) {
-                throw new Error("Updater references hsid that isn't found.");
+            if (updaterType !== undefined) {
+              try {
+                newUpdaterFromActiveEffect(this, this.charsheet, activeEffect);
+              } catch(err) {
+                if (err instanceof UnsupportedUpdaterInActiveEffectError) {
+                  const existingList = this.charsheet.activeEffects[activeEffectKey];
+                  this.$delete(existingList, existingList.indexOf(activeEffect));
+                  console.error(`Unsupported updater type '${updaterType}' in activeEffect. Will delete the activeEffect.`);
+                } else {
+                  throw err;
+                }
               }
-              const updateEvent = {updater: updaterType, advantage: advantage};
-              new updaterClasses[updaterType](this, this.charsheet, updateEvent);
-            } else if (["EnhancedTraitUpdater", "ProtectionUpdater"].includes(updaterType)) {
-              const feature = findFeatureByHsid(this.charsheet, activeEffect.powerHsid);
-              if (feature === null) {
-                throw new Error("Updater references hsid that isn't found.");
-              }
-              const updateEvent = {updater: updaterType, power: feature};
-              new updaterClasses[updaterType](this, this.charsheet, updateEvent);
-            } else if (updaterType === "CombatSkillUpdater") {
-              const skill = findSkillByHsid(this.charsheet, activeEffect.skillHsid);
-              const updateEvent = {updater: updaterType, skill: skill};
-              new updaterClasses[updaterType](this, this.charsheet, updateEvent);
-            } else {
-              const existingList = this.charsheet.activeEffects[activeEffectKey];
-              this.$delete(existingList, existingList.indexOf(activeEffect));
-              throw new Error(`Unsupported updater type '${updaterType}' in activeEffect. Will delete the activeEffect.`);
             }
           }
         }
