@@ -446,7 +446,6 @@ const upgradeFuncs = {
     for (const activeEffectList of Object.values(charsheet.activeEffects)) {
       for (const activeEffect of activeEffectList) {
         if ("updater" in activeEffect && activeEffect.updater.startsWith("updaters_")) {
-          console.log(`upgrading updater name from ${activeEffect.updater} to ${activeEffect.updater.substring(9)}`); // FIXME: Remove
           activeEffect.updater = activeEffect.updater.substring(9);
         }
       }
