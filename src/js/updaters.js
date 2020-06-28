@@ -21,6 +21,18 @@ class Updater {
   }
 
   /*
+   * Returns the name of the updater. Once upon a time I used to use this.constructor.name
+   * but it turns out the vue.js compiling process makes that different on the server
+   * than in the development environment, so I'm inverting the updaterClasses dictionary
+   * instead.
+   */
+  className() {
+    const result = Object.keys(updaterClasses).find(name => this instanceof updaterClasses[name]);
+    console.log(`in className() for ${this.constructor.name}, className() returns '${result}'.`); // FIXME: Remove
+    return result;
+  }
+
+  /*
    * This gets run during the constructor BEFORE the watch is created. It
    * can be used to set instance fields that are needed by the watch.
    */
@@ -93,7 +105,7 @@ class Updater {
       const myThis = this;
       const cancelFunction = vm.$watch(
         () => {
-          console.log(`Will perform the test of this watch in a ${myThis.constructor.name}.`);
+          console.log(`Will perform the test of this watch in a ${myThis.className()}.`);
           return myThis.watchForChange.call(myThis);
         },
         (newValue, oldValue) => {
@@ -207,7 +219,7 @@ class AttackUpdater extends Updater {
    * override it because most attack types aren't unique.
    */
   matchAttack(attack) {
-    return attack.updater === this.constructor.name;
+    return attack.updater === this.className();
   }
 
   /*
@@ -216,7 +228,7 @@ class AttackUpdater extends Updater {
   makeNewAttack() {
     const result = {};
     result.hsid = newHsid();
-    result.updater = this.constructor.name;
+    result.updater = this.className();
     return result;
   }
 
@@ -225,7 +237,7 @@ class AttackUpdater extends Updater {
    * attack.
    */
   findOrCreateTheAttack() {
-    const updaterName = this.constructor.name;
+    const updaterName = this.className();
     const attackList = this.charsheet.attacks.attackList;
     const matchingAttacks = attackList.filter(
       x => this.matchAttack(x)
@@ -525,7 +537,7 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
  * the charsheet.
  *
  * It expects the updater to support the following
- *  * this.constructor.name (all Updaters support this)
+ *  * this.className (all Updaters support this)
  *  * this.vm (all Updater support this)
  *  * this.charsheet (all Updaters support this)
  *  * this.activeEffectKey
@@ -533,7 +545,7 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
  *  * this.makeNewActiveEffect()
  */
 function findOrCreateActiveEffect(updater) {
-  const updaterName = updater.constructor.name;
+  const updaterName = updater.className();
   if (updater.charsheet.activeEffects[(updater.activeEffectKey)] === undefined) {
     updater.vm.$set(updater.charsheet.activeEffects, updater.activeEffectKey, []);
   }
@@ -626,7 +638,7 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
         this.getDescription(),
         this.activeEffectValue(),
         {
-          updater: this.constructor.name,
+          updater: this.className(),
           advantageHsid: this.advantage.hsid
         }
     );
@@ -644,7 +656,7 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
       if (currentPosition !== -1) {
         possibleActiveEffects.splice(currentPosition, 1);
       } else {
-        console.log(`Attempted to delete a ${this.constructor.name} but it wasn't there.`);
+        console.log(`Attempted to delete a ${this.className()} but it wasn't there.`);
       }
       if (possibleActiveEffects.length === 0) {
         this.vm.$delete(this.charsheet.activeEffects, effectKey);
@@ -759,7 +771,7 @@ class EnhancedTraitUpdater extends Updater {
         `${this.power.option} from Power`,
         this.power.ranks,
         {
-          updater: this.constructor.name,
+          updater: this.className(),
           powerHsid: this.power.hsid
         }
     );
@@ -790,7 +802,7 @@ class EnhancedTraitUpdater extends Updater {
       if (currentPosition !== -1) {
         possibleActiveEffects.splice(currentPosition, 1);
       } else {
-        console.log(`Attempted to delete a ${this.constructor.name} but it wasn't there.`);
+        console.log(`Attempted to delete a ${this.className()} but it wasn't there.`);
       }
       if (possibleActiveEffects.length === 0) {
         this.vm.$delete(this.charsheet.activeEffects, this.activeEffectKey);
@@ -842,7 +854,7 @@ class ProtectionUpdater extends Updater {
         "Protection",
         this.power.ranks,
         {
-          updater: this.constructor.name,
+          updater: this.className(),
           powerHsid: this.power.hsid,
         }
     );
@@ -872,7 +884,7 @@ class ProtectionUpdater extends Updater {
       if (currentPosition !== -1) {
         possibleActiveEffects.splice(currentPosition, 1);
       } else {
-        console.log(`Attempted to delete a ${this.constructor.name} but it wasn't there.`);
+        console.log(`Attempted to delete a ${this.className()} but it wasn't there.`);
       }
       if (possibleActiveEffects.length === 0) {
         this.vm.$delete(this.charsheet.activeEffects, this.activeEffectKey);
@@ -922,7 +934,7 @@ class CombatSkillUpdater extends Updater {
         `${capitalizedName} Skill`,
         this.skill.ranks,
         {
-          updater: this.constructor.name,
+          updater: this.className(),
           skillHsid: this.skill.hsid,
         }
     );
@@ -953,7 +965,7 @@ class CombatSkillUpdater extends Updater {
       if (currentPosition !== -1) {
         possibleActiveEffects.splice(currentPosition, 1);
       } else {
-        console.log(`Attempted to delete a ${this.constructor.name} but it wasn't there.`);
+        console.log(`Attempted to delete a ${this.className()} but it wasn't there.`);
       }
       if (possibleActiveEffects.length === 0) {
         this.vm.$delete(this.charsheet.activeEffects, this.activeEffectKey);
@@ -988,10 +1000,10 @@ class EquipmentFeatureUpdater extends Updater {
 
 
 const updaterClasses = {
-  UnarmedAttackUpdater,
   StatRankUpdater,
   DefenseUpdater,
   ToughnessUpdater,
+  UnarmedAttackUpdater,
   DamagePowerAttackUpdater,
   AfflictionPowerAttackUpdater,
   NullifyPowerAttackUpdater,

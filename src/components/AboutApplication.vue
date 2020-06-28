@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-06-28: Fixed longstanding bug in the naming of updaters.</li>
       <li>2020-06-27: For stats, you can actually enter a manual adjustment.</li>
       <li>2020-06-21: Stats show a pencil icon that later will allow manual adjustments.</li>
       <li>2020-06-21: Allowed the user to toggle adjustments on and off.</li>
