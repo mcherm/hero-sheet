@@ -3,8 +3,8 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 13; // Up to this version can be saved
-const latestVersion = 13; // Might be an experimental version
+const currentVersion = 14; // Up to this version can be saved
+const latestVersion = 14; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
@@ -440,6 +440,18 @@ const upgradeFuncs = {
       }
     }
     charsheet.version = 13;
+  },
+
+  upgradeFrom13: function(charsheet) {
+    for (const activeEffectList of Object.values(charsheet.activeEffects)) {
+      for (const activeEffect of activeEffectList) {
+        if ("updater" in activeEffect && activeEffect.updater.startsWith("updaters_")) {
+          console.log(`upgrading updater name from ${activeEffect.updater} to ${activeEffect.updater.substring(9)}`); // FIXME: Remove
+          activeEffect.updater = activeEffect.updater.substring(9);
+        }
+      }
+    }
+    charsheet.version = 14;
   }
 };
 
