@@ -8,7 +8,14 @@
       />
     </td>
     <td><number-display :value="statObj.cost"/></td>
-    <td><modifiable-number-display :value="statObj.ranks" :is-modified="isManuallyAdjusted()" @toggle-modify="toggleManuallyAdjusted()"/></td>
+    <td>
+      <modifiable-number-display
+        :value="statObj.ranks"
+        :is-modified="isManuallyAdjusted()"
+        @add-manual-adjustment="createNewManualAdjustment"
+        @remove-manual-adjustment="removeManualAdjustment"
+      />
+    </td>
     <td><docs-lookup :docsURL="docsURL"/></td>
   </tr>
 </template>
@@ -44,13 +51,6 @@
         }
         return false;
       },
-      toggleManuallyAdjusted: function() {
-        if (this.isManuallyAdjusted()) {
-          this.removeManualAdjustment();
-        } else {
-          this.createNewManualAdjustment();
-        }
-      },
       removeManualAdjustment: function() {
         const activeEffectKey = `abilities.${this.statName}.ranks`;
         const activeEffects = this.charsheet.activeEffects[activeEffectKey];
@@ -64,10 +64,9 @@
           }
         }
       },
-      createNewManualAdjustment: function() {
-        const value = 5; // FIXME: Need to be able to ENTER this
-        const description = `Manual Adjustment made to ${this.statName} Ranks`; // FIXME: Need to be able to ENTER this
-        console.log(`createNewManualAdjustment(${value}, ${description})`); // FIXME: Remove
+      createNewManualAdjustment: function(modalResult) {
+        const value = modalResult.value;
+        const description = modalResult.description || `Manual Adjustment made to ${this.statName} Ranks`;
         this.removeManualAdjustment(); // do this as a precaution to clean up if there are errors
         const newActiveEffect = newAdjustment(
           description,
@@ -82,7 +81,6 @@
         }
         const activeEffects = this.charsheet.activeEffects[activeEffectKey];
         activeEffects.push(newActiveEffect);
-        console.log(`   At the end, activeEffects = ${JSON.stringify(activeEffects)}`); // FIXME: Remove
       }
     }
   }
