@@ -96,3 +96,5 @@ TODO: A few powers really should have their own custom way of being created.
 
 TODO: Some enhanced traits, like Power-Lifting, shouldn't be applied to the
   trait.
+
+TODO: "Adjustment" and "ActiveEffect" are two names for the same thing. Fix that.
