@@ -1,9 +1,27 @@
+<!--
+  A lightbox effect to display a modal dialog. The dialog to show is
+  provided in the main slot.
+
+  This exits by emitting an "exit" event. Listeners only need to listen
+  for that event and then remove the lightbox. However, for added
+  functionality (like dialog boxes), the event will come with a
+  parameter that says which button was clicked (or null if the modal
+  was dismissed by clicking outside the lightbox).
+
+  The lightbox has NO required parameters, but there are some that can
+  be provided for extra functionality. A list of strings called buttonNames
+  can be provided to have a list of buttons for exiting. The LAST name
+  in the list is the default value.
+-->
 <template>
-  <div class="modal-shade" @click="$emit('exit')">
+  <div class="modal-shade" @click="$emit('exit', null)">
     <div class="modal-content" @click.stop="">
       <slot/>
       <div class="button-row">
-        <button @click="$emit('exit')">Done</button>
+        <button
+          v-for="buttonName in buttonNames"
+          @click="$emit('exit', buttonName)"
+        >{{buttonName}}</button>
       </div>
     </div>
   </div>
@@ -11,7 +29,10 @@
 
 <script>
   export default {
-    name: "ModalLightbox"
+    name: "ModalLightbox",
+    props: {
+      buttonNames: { type: Array, required: false, default: ["Done"] },
+    }
   }
 </script>
 
@@ -38,7 +59,9 @@
     max-width: 90%;
   }
   .button-row {
+    margin-top: 6px;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 </style>
