@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 13,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
@@ -48,7 +48,7 @@
     "intellect": {
       "entered": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 3
     },
     "awareness": {
       "entered": 0,
@@ -84,7 +84,7 @@
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 15
+      "ranks": 9
     },
     "will": {
       "base": 0,
@@ -93,7 +93,7 @@
       "ranks": 0
     }
   },
-  "initiative": 8,
+  "initiative": 0,
   "advantages": [
     {
       "name": "Improved Critical",
@@ -346,6 +346,34 @@
       "baseCost": 1,
       "subpowers": [],
       "option": null
+    },
+    {
+      "name": "Bugger It",
+      "hsid": "HI6N5T3QD",
+      "effect": "Enhanced Trait",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 4,
+      "cost": 3,
+      "effectDescription": "You can temporarily improve one of your existing traits.",
+      "baseCost": 0.5,
+      "subpowers": [],
+      "option": "Enhanced Persuasion"
+    },
+    {
+      "name": "SuperSmart",
+      "hsid": "HI3G57MTR",
+      "effect": "Enhanced Trait",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 3,
+      "cost": 6,
+      "effectDescription": "You can temporarily improve one of your existing traits.",
+      "baseCost": 2,
+      "subpowers": [],
+      "option": "Enhanced Intellect"
     }
   ],
   "complications": [
@@ -383,16 +411,19 @@
         "value": 8,
         "updater": "ImprovedInitiativeUpdater",
         "advantageHsid": "HIS6DN4WC",
-        "description": "Improved Initiative Advantage"
+        "description": "Improved Initiative Advantage",
+        "isActive": false
       }
     ],
+    "attacks.HI9EDCT8Y.check": [],
     "attacks.HIJPKJFFR.check": [
       {
         "hsid": "HI553R35D",
         "value": 3,
         "updater": "CombatSkillUpdater",
         "skillHsid": "HIL2Y11XS",
-        "description": "Ranged Combat Skill"
+        "description": "Ranged Combat Skill",
+        "isActive": true
       }
     ],
     "defenses.dodge.ranks": [
@@ -401,7 +432,8 @@
         "value": 7,
         "updater": "EnhancedTraitUpdater",
         "powerHsid": "HI4SDZW2Q",
-        "description": "Enhanced Dodge from Power"
+        "description": "Enhanced Dodge from Power",
+        "isActive": true
       }
     ],
     "defenses.toughness.ranks": [
@@ -410,14 +442,44 @@
         "value": 9,
         "updater": "ProtectionUpdater",
         "powerHsid": "HID35W15L",
-        "description": "Protection"
+        "description": "Protection",
+        "isActive": true
       },
       {
         "hsid": "HI8FTJYUA",
         "value": 6,
         "updater": "ProtectionUpdater",
         "powerHsid": "HIZGTDYMK",
-        "description": "Protection"
+        "description": "Protection",
+        "isActive": false
+      }
+    ],
+    "skills.skillList@persuasion": [
+      {
+        "hsid": "HIMR1EGLY",
+        "updater": "EnhancedTraitUpdater",
+        "description": "Enhanced Persuasion from Power",
+        "value": 4,
+        "DUMMY_VALUE": "TEST_DUMMY_VALUE",
+        "powerHsid": "HI6N5T3QD",
+        "isActive": true
+      }
+    ],
+    "abilities.intellect.ranks": [
+      {
+        "hsid": "HIMM13W84",
+        "updater": "EnhancedTraitUpdater",
+        "description": "Enhanced Intellect from Power",
+        "value": 3,
+        "isActive": true,
+        "powerHsid": "HI3G57MTR"
+      },
+      {
+        "hsid": "HIXXXXXXX",
+        "isManualAdjustment": true,
+        "description": "Manual Adjustment made to Intellect Ranks",
+        "value": -2,
+        "isActive": true
       }
     ]
   }

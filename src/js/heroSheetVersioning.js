@@ -223,10 +223,9 @@ const newBlankComplication = function() {
  *   be added to the adjustment object. The particular
  *   fields used will be specific to the updater used.
  */
-const newAdjustment = function(updater, description, value, otherFields) {
+const newAdjustment = function(description, value, otherFields) {
   const result = {
     hsid: newHsid(),
-    updater: updater,
     description: description,
     value: value,
     isActive: true

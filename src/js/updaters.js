@@ -623,10 +623,10 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
 
   makeNewActiveEffect() {
     return newAdjustment(
-        this.constructor.name,
         this.getDescription(),
         this.activeEffectValue(),
         {
+          updater: this.constructor.name,
           advantageHsid: this.advantage.hsid
         }
     );
@@ -756,10 +756,10 @@ class EnhancedTraitUpdater extends Updater {
 
   makeNewActiveEffect() {
     return newAdjustment(
-        this.constructor.name,
         `${this.power.option} from Power`,
         this.power.ranks,
         {
+          updater: this.constructor.name,
           powerHsid: this.power.hsid
         }
     );
@@ -839,10 +839,10 @@ class ProtectionUpdater extends Updater {
 
   makeNewActiveEffect() {
     return newAdjustment(
-        this.constructor.name,
         "Protection",
         this.power.ranks,
         {
+          updater: this.constructor.name,
           powerHsid: this.power.hsid,
         }
     );
@@ -919,10 +919,10 @@ class CombatSkillUpdater extends Updater {
     }[this.skill.name];
 
     return newAdjustment(
-        this.constructor.name,
         `${capitalizedName} Skill`,
         this.skill.ranks,
         {
+          updater: this.constructor.name,
           skillHsid: this.skill.hsid,
         }
     );
