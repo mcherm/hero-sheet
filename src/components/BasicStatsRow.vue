@@ -43,9 +43,11 @@
       isManuallyAdjusted: function() {
         return isManuallyAdjusted(this.charsheet, `abilities.${this.statName}.ranks`);
       },
+      // FIXME: Closely related to the same function in Defenses; figure out how to share code
       removeManualAdjustment: function() {
         removeActiveEffects(this.charsheet, x => x.isManualAdjustment, `abilities.${this.statName}.ranks`);
       },
+      // FIXME: Closely related to the same function in Defenses; figure out how to share code
       createNewManualAdjustment: function(modalResult) {
         const value = modalResult.value;
         const description = modalResult.description || `Manual Adjustment made to ${this.statName} Ranks`;
