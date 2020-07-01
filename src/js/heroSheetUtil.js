@@ -491,6 +491,80 @@ const powerUpdaterEvent = function(power) {
 
 
 /*
+ * This adds a given activeEffect to the charsheet under the specified activeEffectKey.
+ */
+const addActiveEffect = function(charsheet, activeEffectKey, activeEffect) {
+  if (!charsheet.activeEffects[activeEffectKey]) {
+    Vue.set(charsheet.activeEffects, activeEffectKey, []);
+  }
+  const activeEffects = charsheet.activeEffects[activeEffectKey];
+  activeEffects.push(activeEffect);
+}
+
+/*
+ * This removes activeEffects. test should be a function taking an activeEffect,
+ * an activeEffectKey, and returning true to delete the active effect or false
+ * to keep it. Also activeEffectKey can be provided to search only within a
+ * given key or can be omitted to search all active effects.
+ */
+const removeActiveEffects = function(charsheet, test, activeEffectKey = null) {
+  if (activeEffectKey === null) {
+    for (const key in charsheet.activeEffects) {
+      removeActiveEffects(charsheet, test, key);
+    }
+  } else {
+    const activeEffects = charsheet.activeEffects[activeEffectKey];
+    if (activeEffects) {
+      let i = activeEffects.length;
+      while (i > 0) {
+        i = i - 1;
+        const activeEffect = activeEffects[i];
+        if (test(activeEffect, activeEffectKey)) {
+          activeEffects.splice(i, 1);
+          if (activeEffects.length === 0) {
+            Vue.delete(charsheet.activeEffects, activeEffectKey);
+          }
+        }
+      }
+    }
+  }
+}
+
+
+/*
+ * Attempts to locate a matching activeEffect and return it. If none is found,
+ * will instead create a new activeEffect, store it, and then return it.
+ *
+ * charsheet is the charsheet
+ * test is a function accepting an activeEffect and returning true if it is
+ *   the effect being searched for and false if not. Exactly one active
+ *   effect should match, or it will throw an error.
+ * create is a function taking no parameters and returning the new active
+ *   effect which will be called if no matching activeEffect is found.
+ * activeEffectKey is the key to use -- this is a required parameter because
+ *   we need to know where to store the effect in case it has to be created.
+ */
+const findOrCreateActiveEffect = function(charsheet, activeEffectKey, test, create) {
+  if (charsheet.activeEffects[activeEffectKey] === undefined) {
+    Vue.set(charsheet.activeEffects, activeEffectKey, []);
+  }
+  const possibleActiveEffects = charsheet.activeEffects[activeEffectKey];
+  const matchingActiveEffects = possibleActiveEffects.filter(test);
+  if (matchingActiveEffects.length > 1) {
+    throw Error(`Multiple active effects that matched.`);
+  } else if (matchingActiveEffects.length === 1) {
+    // The activeEffect entry exists. Return it.
+    return matchingActiveEffects[0];
+  } else {
+    // The activeEffect entry does not exist. Create it (and return it).
+    const newActiveEffect = create();
+    possibleActiveEffects.push(newActiveEffect);
+    return newActiveEffect;
+  }
+}
+
+
+/*
  * Given a key for an active effect, this sums the total value of all active
  * activeEffects for that key and returns the total.
  */
@@ -501,6 +575,23 @@ const activeEffectModifier = function(charsheet, activeEffectKey) {
       0
   );
   return total;
+}
+
+
+/*
+ * Returns true if the given activeEffectKey has an active effect that is a
+ * manual adjustment and false otherwise.
+ */
+const isManuallyAdjusted = function(charsheet, activeEffectKey) {
+  const activeEffects = charsheet.activeEffects[activeEffectKey];
+  if (activeEffects) {
+    for (const activeEffect of activeEffects) {
+      if (activeEffect.isManualAdjustment) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 
@@ -530,5 +621,9 @@ export {
   modifierDisplayText,
   buildNewModifier,
   powerUpdaterEvent,
+  addActiveEffect,
+  removeActiveEffects,
+  findOrCreateActiveEffect,
   activeEffectModifier,
+  isManuallyAdjusted,
 };

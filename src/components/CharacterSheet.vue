@@ -66,6 +66,7 @@
   import {currentVersion, findFeatureByHsid, upgradeVersion} from "../js/heroSheetVersioning.js";
   import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "../js/updaters.js";
   import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
+  import {removeActiveEffects} from "../js/heroSheetUtil.js";
 
   export default {
     name: "CharacterSheet",
@@ -208,8 +209,7 @@
                 newUpdaterFromActiveEffect(this, this.charsheet, activeEffect);
               } catch(err) {
                 if (err instanceof UnsupportedUpdaterInActiveEffectError) {
-                  const existingList = this.charsheet.activeEffects[activeEffectKey];
-                  this.$delete(existingList, existingList.indexOf(activeEffect));
+                  removeActiveEffects(this.charsheet, x => x === activeEffect, activeEffectKey);
                   console.error(`Unsupported updater type '${updaterType}' in activeEffect. Will delete the activeEffect.`);
                 } else {
                   throw err;

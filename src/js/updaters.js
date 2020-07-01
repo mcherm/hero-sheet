@@ -8,7 +8,7 @@
  * An example would be an updater for creating an attack.
  */
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
-import {activeEffectModifier} from "./heroSheetUtil.js"
+import {activeEffectModifier, findOrCreateActiveEffect} from "./heroSheetUtil.js"
 
 
 class Updater {
@@ -28,7 +28,6 @@ class Updater {
    */
   className() {
     const result = Object.keys(updaterClasses).find(name => this instanceof updaterClasses[name]);
-    console.log(`in className() for ${this.constructor.name}, className() returns '${result}'.`); // FIXME: Remove
     return result;
   }
 
@@ -544,26 +543,14 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
  *  * this.isMyActiveEffect()
  *  * this.makeNewActiveEffect()
  */
-function findOrCreateActiveEffect(updater) {
+function findOrCreateUpdaterActiveEffect(updater) {
   const updaterName = updater.className();
-  if (updater.charsheet.activeEffects[(updater.activeEffectKey)] === undefined) {
-    updater.vm.$set(updater.charsheet.activeEffects, updater.activeEffectKey, []);
-  }
-  const possibleActiveEffects = updater.charsheet.activeEffects[(updater.activeEffectKey)];
-  const matchingActiveEffects = possibleActiveEffects.filter(
-    x => x.updater === updaterName && updater.isMyActiveEffect(x)
+  findOrCreateActiveEffect(
+    updater.charsheet,
+    updater.activeEffectKey,
+    x => x.updater === updaterName && updater.isMyActiveEffect(x),
+    updater.makeNewActiveEffect
   );
-  if (matchingActiveEffects.length > 1) {
-    throw Error(`Multiple active effects of type ${updaterName} that matched.`);
-  } else if (matchingActiveEffects.length === 1) {
-    // The activeEffect entry exists. Return it.
-    return matchingActiveEffects[0];
-  } else {
-    // The activeEffect entry does not exist. Create it (and return it).
-    const newActiveEffect = updater.makeNewActiveEffect();
-    possibleActiveEffects.push(newActiveEffect);
-    return newActiveEffect;
-  }
 }
 
 
@@ -578,7 +565,7 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
     this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.advantage = newUpdaterEvent.advantage;
     this.activeEffectKey = this.getActiveEffectKey();
-    this.activeEffect = findOrCreateActiveEffect(this);
+    this.activeEffect = findOrCreateUpdaterActiveEffect(this);
   }
 
   static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
@@ -707,7 +694,7 @@ class EnhancedTraitUpdater extends Updater {
     this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.power = newUpdaterEvent.power;
     this.activeEffectKey = this.getActiveEffectKey();
-    this.activeEffect = findOrCreateActiveEffect(this);
+    this.activeEffect = findOrCreateUpdaterActiveEffect(this);
   }
 
   static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
@@ -823,7 +810,7 @@ class ProtectionUpdater extends Updater {
     this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.power = newUpdaterEvent.power;
     this.activeEffectKey = this.getActiveEffectKey();
-    this.activeEffect = findOrCreateActiveEffect(this);
+    this.activeEffect = findOrCreateUpdaterActiveEffect(this);
   }
 
   static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
@@ -905,7 +892,7 @@ class CombatSkillUpdater extends Updater {
     this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.skill = newUpdaterEvent.skill;
     this.activeEffectKey = `attacks.${this.skill.attackHsid}.check`;
-    this.activeEffect = findOrCreateActiveEffect(this);
+    this.activeEffect = findOrCreateUpdaterActiveEffect(this);
   }
 
   static updateEventFromActiveEffect(vm, charsheet, activeEffect) {

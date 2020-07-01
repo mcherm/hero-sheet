@@ -22,6 +22,7 @@
 
 <script>
   import {newAdjustment} from "../js/heroSheetVersioning.js";
+  import {isManuallyAdjusted, addActiveEffect, removeActiveEffects} from "../js/heroSheetUtil.js";
 
   export default {
     name: "BasicStatsRow",
@@ -40,29 +41,10 @@
         this.statObj.cost = this.statObj.entered * 2;
       },
       isManuallyAdjusted: function() {
-        const activeEffectKey = `abilities.${this.statName}.ranks`;
-        const activeEffects = this.charsheet.activeEffects[activeEffectKey];
-        if (activeEffects) {
-          for (const activeEffect of activeEffects) {
-            if (activeEffect.isManualAdjustment) {
-              return true;
-            }
-          }
-        }
-        return false;
+        return isManuallyAdjusted(this.charsheet, `abilities.${this.statName}.ranks`);
       },
       removeManualAdjustment: function() {
-        const activeEffectKey = `abilities.${this.statName}.ranks`;
-        const activeEffects = this.charsheet.activeEffects[activeEffectKey];
-        if (activeEffects) {
-          // Remove any active effects for which x.isManualAdjustment is true
-          let i = activeEffects.length;
-          while (i--) {
-            if (activeEffects[i].isManualAdjustment) {
-              activeEffects.splice(i,1);
-            }
-          }
-        }
+        removeActiveEffects(this.charsheet, x => x.isManualAdjustment, `abilities.${this.statName}.ranks`);
       },
       createNewManualAdjustment: function(modalResult) {
         const value = modalResult.value;
@@ -75,12 +57,7 @@
             isManualAdjustment: true
           }
         );
-        const activeEffectKey = `abilities.${this.statName}.ranks`;
-        if (!this.charsheet.activeEffects[activeEffectKey]) {
-          this.charsheet.activeEffects[activeEffectKey] = [];
-        }
-        const activeEffects = this.charsheet.activeEffects[activeEffectKey];
-        activeEffects.push(newActiveEffect);
+        addActiveEffect(this.charsheet, `abilities.${this.statName}.ranks`, newActiveEffect);
       }
     }
   }
