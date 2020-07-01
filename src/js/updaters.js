@@ -545,11 +545,11 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
  */
 function findOrCreateUpdaterActiveEffect(updater) {
   const updaterName = updater.className();
-  findOrCreateActiveEffect(
+  return findOrCreateActiveEffect(
     updater.charsheet,
     updater.activeEffectKey,
     x => x.updater === updaterName && updater.isMyActiveEffect(x),
-    updater.makeNewActiveEffect
+    x => updater.makeNewActiveEffect(x)
   );
 }
 
@@ -622,12 +622,12 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
 
   makeNewActiveEffect() {
     return newAdjustment(
-        this.getDescription(),
-        this.activeEffectValue(),
-        {
-          updater: this.className(),
-          advantageHsid: this.advantage.hsid
-        }
+      this.getDescription(),
+      this.activeEffectValue(),
+      {
+        updater: this.className(),
+        advantageHsid: this.advantage.hsid
+      }
     );
   }
 

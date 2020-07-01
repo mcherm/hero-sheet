@@ -18,13 +18,24 @@
         <number-entry v-else v-model="obj(defenseName).purchased"/>
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
         <number-display v-else :value="obj(defenseName).cost"/>
-        <number-display :value="obj(defenseName).ranks" :isOutOfSpec="isOutOfSpec(defenseName)"/>
+        <modifiable-number-display
+          :value="obj(defenseName).ranks"
+          :isOutOfSpec="isOutOfSpec(defenseName)"
+          :is-modified="isManuallyAdjusted(defenseName)"
+          @add-manual-adjustment="createNewManualAdjustment(defenseName, $event)"
+          @remove-manual-adjustment="removeManualAdjustment(defenseName)"
+        />
       </div>
     </div>
 
     <div class="initiative-grid grid-with-lines">
       <label class="row-label">initiative</label>
-      <number-display :value="charsheet.initiative"/>
+      <modifiable-number-display
+        :value="charsheet.initiative"
+        :is-modified="isInitiativeManuallyAdjusted()"
+        @add-manual-adjustment="createNewInitiativeManualAdjustment($event)"
+        @remove-manual-adjustment="removeInitiativeManualAdjustment()"
+      />
     </div>
 
   </boxed-section>
@@ -32,6 +43,8 @@
 
 <script>
   import {activeEffectModifier} from "../js/heroSheetUtil.js";
+  import {addActiveEffect, isManuallyAdjusted, removeActiveEffects} from "../js/heroSheetUtil";
+  import {newAdjustment} from "../js/heroSheetVersioning";
 
   const baseValueMap = {
     dodge: "agility",
@@ -96,7 +109,49 @@
         } else {
           return false;
         }
-      }
+      },
+      isManuallyAdjusted: function(defenseName) {
+        return isManuallyAdjusted(this.charsheet, `defenses.${defenseName}.ranks`);
+      },
+      // FIXME: Closely related to the same function in BasicStatsRow; figure out how to share code
+      removeManualAdjustment: function(defenseName) {
+        removeActiveEffects(this.charsheet, x => x.isManualAdjustment, `defenses.${defenseName}.ranks`);
+      },
+      // FIXME: Closely related to the same function in BasicStatsRow; figure out how to share code
+      createNewManualAdjustment: function(defenseName, modalResult) {
+        const value = modalResult.value;
+        const description = modalResult.description || `Manual Adjustment made to ${defenseName} value`;
+        this.removeManualAdjustment(defenseName); // do this as a precaution to clean up if there are errors
+        const newActiveEffect = newAdjustment(
+          description,
+          value,
+          {
+            isManualAdjustment: true
+          }
+        );
+        addActiveEffect(this.charsheet, `defenses.${defenseName}.ranks`, newActiveEffect);
+      },
+      isInitiativeManuallyAdjusted: function(defenseName) {
+        return isManuallyAdjusted(this.charsheet, `initiative`);
+      },
+      // FIXME: Closely related to the same function in BasicStatsRow; figure out how to share code
+      removeInitiativeManualAdjustment: function() {
+        removeActiveEffects(this.charsheet, x => x.isManualAdjustment, `initiative`);
+      },
+      // FIXME: Closely related to the same function in BasicStatsRow; figure out how to share code
+      createNewInitiativeManualAdjustment: function(modalResult) {
+        const value = modalResult.value;
+        const description = modalResult.description || `Manual Adjustment made to initiative value`;
+        this.removeInitiativeManualAdjustment(); // do this as a precaution to clean up if there are errors
+        const newActiveEffect = newAdjustment(
+          description,
+          value,
+          {
+            isManualAdjustment: true
+          }
+        );
+        addActiveEffect(this.charsheet, `initiative`, newActiveEffect);
+      },
     }
   }
 </script>
