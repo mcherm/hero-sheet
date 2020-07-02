@@ -31,7 +31,7 @@
   export default {
     name: "ModalLightbox",
     props: {
-      buttonNames: { type: Array, required: false, default: ["Done"] },
+      buttonNames: { type: Array, required: false, default: () => ["Done"] },
     }
   }
 </script>
