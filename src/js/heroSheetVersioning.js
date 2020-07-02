@@ -8,7 +8,8 @@ const latestVersion = 14; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
-  "initiative", "advantages", "equipment", "skills", "powers", "complications", "background", "attacks", "activeEffects"];
+  "initiative", "advantages", "equipment", "skills", "powers", "complications", "background", "attacks",
+  "activeEffects"];
 
 /*
  * Given a charsheet, this re-orders the fields so they are in the preferred order.
@@ -474,8 +475,9 @@ const upgradeFrom = function(charsheet) {
  * Given a charsheet that might be of an older version, modifies it in place to upgrade it to
  * the most current version.
  */
-const upgradeVersion = function(charsheet) {
-  while (charsheet.version < latestVersion) {
+const upgradeVersion = function(charsheet, developerMode) {
+  const targetVersion = developerMode ? latestVersion : currentVersion;
+  while (charsheet.version < targetVersion) {
     upgradeFrom(charsheet)
   }
   sortFields(charsheet);

@@ -114,7 +114,7 @@
         try {
           const json = await getCharacter(this.user, this.characterId);
           const initialVersion = json.version;
-          upgradeVersion(json);
+          upgradeVersion(json, this.$globals.developerMode);
           this.charsheet = json;
           if (json.version !== initialVersion) {
             console.log(`Version has been upgraded from ${initialVersion} to ${json.version}.`);

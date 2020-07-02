@@ -10,7 +10,14 @@
 </template>
 
 <script>
+  import Vue from 'vue';
   import EntirePage from "./components/EntirePage.vue";
+
+  // Create a global "$globals" available on all vue instances. (NOT reactive).
+  const globals = {
+    developerMode: false
+  };
+  Vue.prototype.$globals = globals;
 
   export default {
     name: "app",

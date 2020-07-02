@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-07-02: Added developer mode.</li>
       <li>2020-07-02: Added grenades and explosives, which is the last of the equpiment, and fix the cost of equipment.</li>
       <li>2020-07-01: For defenses and initiative, you can enter a manual adjustment.</li>
       <li>2020-06-28: Fixed longstanding bug in the naming of updaters.</li>
@@ -73,6 +74,13 @@
       <li>Support for sidekicks, summons, morphs, and variable powers.</li>
       <li>Printable character sheet</li>
     </ul>
+    <h2>Special Settings</h2>
+    <div class="global-settings grid-with-lines">
+      <label for="developerMode">Developer Mode</label>
+      <div class="grid-with-lines-cell">
+        <input type="checkbox" id="developerMode" v-model="$globals.developerMode">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -93,5 +101,9 @@
   }
   .making-progress {
     color: var(--under-development-color);
+  }
+  .global-settings {
+    width: min-content;
+    grid-template-columns: max-content max-content max-content;
   }
 </style>
