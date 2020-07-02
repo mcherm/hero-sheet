@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-07-02: Added grenades and explosives, which is the last of the equpiment, and fix the cost of equipment.</li>
       <li>2020-07-01: For defenses and initiative, you can enter a manual adjustment.</li>
       <li>2020-06-28: Fixed longstanding bug in the naming of updaters.</li>
       <li>2020-06-27: For stats, you can actually enter a manual adjustment.</li>
@@ -69,8 +70,6 @@
     <ul class="scrolling-list">
       <li>Functioning list of attacks <span class="making-progress">(making progress)</span></li>
       <li>Numerous powers and abilities should impact other fields <span class="making-progress">(making progress)</span></li>
-      <li>Ability to control which powers are applied</li>
-      <li>Manage custom adjustments to various fields</li>
       <li>Support for sidekicks, summons, morphs, and variable powers.</li>
       <li>Printable character sheet</li>
     </ul>

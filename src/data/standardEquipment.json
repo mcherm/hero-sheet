@@ -903,6 +903,224 @@
       ]
     }
   },
+  "Fragmentation Grenade": {
+    "name": "Fragmentation Grenade",
+    "description": "A common military grenade that sprays shrapnel in all directions.",
+    "category": "Grenades and Explosives",
+    "feature": {
+      "name": "Fragmentation Grenade",
+      "description": "A common military grenade that sprays shrapnel in all directions.",
+      "effect": "Damage",
+      "ranks": 5,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Burst Area",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Smoke Grenade": {
+    "name": "Smoke Grenade",
+    "description": "A smoke grenade fills an area with thick smoke (colored as desired) providing total concealment to all visual senses.",
+    "cost": 12,
+    "category": "Grenades and Explosives",
+    "feature": {
+      "name": "Smoke Grenade",
+      "description": "A smoke grenade fills an area with thick smoke (colored as desired) providing total concealment to all visual senses.",
+      "effect": "Concealment",
+      "ranks": 4,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Area",
+          "optionName": "Cloud Area",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Flash Grenade": {
+    "name": "Flash Grenade",
+    "description": "A flash grenade gives off a bright flash that can render targets temporarily blind.",
+    "category": "Grenades and Explosives",
+    "feature": {
+      "name": "Flash Grenade",
+      "description": "A flash grenade gives off a bright flash that can render targets temporarily blind.",
+      "effect": "Affliction",
+      "ranks": 4,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Cumulative"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Burst Area",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Limited"
+        }
+      ]
+    }
+  },
+  "Flash-Bang Grenade": {
+    "name": "Flash-Bang Grenade",
+    "description": "A flash-bang grenade gives off a bright flash and a loud bang that can render targets temporarily blind and deaf. A flash grenade affects only vision and costs 12 points.",
+    "category": "Grenades and Explosives",
+    "feature": {
+      "name": "Flash-Bang Grenade",
+      "description": "A flash-bang grenade gives off a bright flash and a loud bang that can render targets temporarily blind and deaf. A flash grenade affects only vision and costs 12 points.",
+      "effect": "Affliction",
+      "ranks": 4,
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Cumulative"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Burst Area",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "special",
+          "modifierName": "Extra Condition"
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Limited"
+        }
+      ]
+    }
+  },
+  "Sleep Gas Grenade": {
+    "name": "Sleep Gas Grenade",
+    "description": "This grenade releases a gas with an Affliction (Sleep) effect.",
+    "category": "Grenades and Explosives",
+    "feature": {
+      "name": "Sleep Gas Grenade",
+      "description": "This grenade releases a gas with an Affliction (Sleep) effect.",
+      "effect": "Affliction",
+      "ranks": 4,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Cloud Area",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Tear Gas Grenade": {
+    "name": "Tear Gas Grenade",
+    "description": "This type of grenade releases a cloud of gas that irritates the eyes and lungs, causing temporarily blindness and nausea (an Affliction with dazed and visually impaired, stunned and visually disabled, and incapacitated effects).",
+    "cost": 16,
+    "category": "Grenades and Explosives",
+    "feature": {
+      "name": "Tear Gas Grenade",
+      "description": "This type of grenade releases a cloud of gas that irritates the eyes and lungs, causing temporarily blindness and nausea (an Affliction with dazed and visually impaired, stunned and visually disabled, and incapacitated effects).",
+      "effect": "Affliction",
+      "ranks": 4,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Cloud Area",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Dynamite": {
+    "name": "Dynamite",
+    "description": "A common explosive. The damage on the ta- ble is for a single stick of dynamite. Each doubling of the amount of explosive increases Damage rank by 1.",
+    "category": "Grenades and Explosives",
+    "feature": {
+      "name": "Dynamite",
+      "description": "A common explosive. The damage on the ta- ble is for a single stick of dynamite. Each doubling of the amount of explosive increases Damage rank by 1.",
+      "effect": "Damage",
+      "ranks": 5,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Burst Area",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
+  "Plastic Explosive": {
+    "name": "Plastic Explosive",
+    "description": "Another common explosive, which can be worked into different shapes. The damage listed is for a 1-lb block. Each doubling of the amount of explosive increases Damage rank by 1.",
+    "category": "Grenades and Explosives",
+    "feature": {
+      "name": "Plastic Explosive",
+      "description": "Another common explosive, which can be worked into different shapes. The damage listed is for a 1-lb block. Each doubling of the amount of explosive increases Damage rank by 1.",
+      "effect": "Damage",
+      "ranks": 10,
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Burst Area",
+          "ranks": 1
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 1
+        }
+      ]
+    }
+  },
   "Leather Armor": {
     "name": "Leather Armor",
     "description": "This can be archaic plates of boiled leather or a modern heavy leather jacket.",
