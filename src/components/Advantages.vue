@@ -31,6 +31,11 @@
         <div :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
           {{standardAdvantage(advantage).description}}
           <docs-lookup :docsURL="standardAdvantage(advantage).docsURL"/>
+          <button
+            v-if="advantage.name === 'Sidekick'"
+            class="show-ally"
+            @click="$emit('show-ally', advantage.allyHsid)"
+          >Sidekick</button>
         </div>
         <string-entry v-model="advantage.description"/>
         <button
@@ -57,7 +62,7 @@
 <script>
   import LocalCostDisplay from "./LocalCostDisplay";
 
-  import {newBlankAdvantage} from "../js/heroSheetVersioning.js";
+  import {newBlankAdvantage, makeNewAlly} from "../js/heroSheetVersioning.js";
   import {advantageCost, advantageIsRanked} from "../js/heroSheetUtil";
 
   const standardAdvantages = require("../data/standardAdvantages.json");
@@ -103,6 +108,8 @@
         }
       },
       setAdvantageName: function(advantage, newAdvantageName) {
+        // -- Remember the old name --
+        const previousName = advantage.name;
         // -- Change the name --
         advantage.name = newAdvantageName;
         // -- Create (or remove) the ranks entry --
@@ -113,11 +120,20 @@
         } else {
           advantage.ranks = null;
         }
-        // -- Create an updater if appropriate --
+        // -- Clean up from special features that don't apply --
+        if (previousName !== newAdvantageName) {
+          if (previousName === "Sidekick") {
+            this.$delete(advantage, "allyHsid");
+          }
+        }
+        // -- Create an updater or special features if appropriate --
         if (advantage.name === "Improved Initiative") {
-          this.$emit("newUpdater", {updater: "ImprovedInitiativeUpdater", advantage: advantage});
+          this.$globals.eventBus.$emit("new-updater", {updater: "ImprovedInitiativeUpdater", advantage: advantage});
         } else if (advantage.name === "Jack-of-All-Trades") {
-          this.$emit("newUpdater", {updater: "JackOfAllTradesUpdater", advantage: advantage});
+          this.$globals.eventBus.$emit("new-updater", {updater: "JackOfAllTradesUpdater", advantage: advantage});
+        } else if (advantage.name === "Sidekick") {
+          const newAlly = makeNewAlly(this.getCharsheet(), "sidekick");
+          this.$set(advantage, "allyHsid", newAlly.hsid);
         }
         // -- Sort, but with empty strings at the end --
         const sortFunc = (x, y) => {
@@ -172,5 +188,8 @@
   }
   .advantage-type {
     background-color: var(--entry-field);
+  }
+  button.show-ally {
+    margin: 3px 5px;
   }
 </style>

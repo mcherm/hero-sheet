@@ -363,7 +363,6 @@
     "name": "Sidekick",
     "description": "Gain a sidekick with (5x rank) character points.",
     "isRanked": true,
-    "specialProcessing": "sidekick",
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-SIDEKICK-GENERAL-RANKED-"
   },
   "Skill Mastery": {

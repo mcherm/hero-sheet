@@ -29,7 +29,7 @@
       setAttackHsid: function(attackHsid) {
         this.skill.attackHsid = attackHsid;
         if (attackHsid) {
-          this.$emit("newUpdater", {updater: "CombatSkillUpdater", skill: this.skill})
+          this.$globals.eventBus.$emit("new-updater", {updater: "CombatSkillUpdater", skill: this.skill});
         }
       }
     }

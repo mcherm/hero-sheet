@@ -40,7 +40,7 @@
               :value="skill.ranks"
               @input="updateRanks(skill, $event)"
           />
-          <skills-customization :skill="skill" :skillData="skillData(skill)" v-on:newUpdater="$emit('newUpdater', $event)"/>
+          <skills-customization :skill="skill" :skillData="skillData(skill)"/>
           <div v-if="skillRoll(skill) === null" class="skill-roll roll-not-applicable">N/A</div>
           <number-display v-else :value="skillRoll(skill)" :isOutOfSpec="skillOutOfSpec(skillRoll)" class="skill-roll"/>
           <docs-lookup :docsURL="skillData(skill).docsURL"/>

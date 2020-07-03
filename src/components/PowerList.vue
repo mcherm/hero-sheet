@@ -7,7 +7,6 @@
             :power="power"
             :mutable="mutable"
             v-on:update:name="renamePower(power, $event)"
-            v-on:newUpdater="$emit('newUpdater', $event)"
           />
           <button class="trash-button" v-if="deleteIsVisible" v-on:click="deletePower(powerIndex)">
             <trash-icon/>

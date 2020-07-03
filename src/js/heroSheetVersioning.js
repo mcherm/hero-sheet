@@ -245,7 +245,7 @@ const newAdjustment = function(description, value, otherFields) {
  * charsheet, and returns it.
  */
 const makeNewAlly = function(charsheet, type) {
-  if (!["sidekick"].contains(type)) {
+  if (!["sidekick"].includes(type)) {
     throw new Error(`Allies of type "${type} not supported.`);
   }
   const ally = {
@@ -331,6 +331,14 @@ const findSkillByHsid = function(charsheet, hsid) {
   }
   return null;
 };
+
+
+/*
+ * Returns the ally that has the given hsid, or undefined if none does.
+ */
+const findAllyByHsid = function(charsheet, hsid) {
+  return charsheet.allies.find(x => x.hsid === hsid);
+}
 
 
 /*
@@ -522,6 +530,7 @@ export {
   findFeatureByHsid,
   findAdvantageByHsid,
   findSkillByHsid,
+  findAllyByHsid,
   newHsid,
   upgradeVersion
 };

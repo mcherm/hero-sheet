@@ -100,3 +100,6 @@ TODO: Some enhanced traits, like Power-Lifting, shouldn't be applied to the
 TODO: "Adjustment" and "ActiveEffect" are two names for the same thing. Fix that.
 
 TODO: Really ought to server-side validate the character sheet on updates.
+
+BUG: Custom equipment isn't creating updaters correctly. Try creating one that does
+  damage to see the problem: it won't create a new attack like it should.
