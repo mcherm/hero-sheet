@@ -7,9 +7,10 @@
  * which monitors certain fields and updates other fields in the charsheet.
  * An example would be an updater for creating an attack.
  */
-import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
-import {activeEffectModifier, findOrCreateActiveEffect} from "./heroSheetUtil.js"
+import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
+import {activeEffectModifier, findOrCreateActiveEffect, totalCost} from "./heroSheetUtil.js"
 
+// FIXME: Start importing Vue instead of setting vm every time. Really... I should be able to do that.
 
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
@@ -986,6 +987,47 @@ class EquipmentFeatureUpdater extends Updater {
 }
 
 
+class AllyCostUpdater extends Updater {
+  constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super(vm, charsheet, newUpdaterEvent, ...otherArgs);
+  }
+
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
+    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
+    this.allyHsid = newUpdaterEvent.allyHsid;
+    this.advantageHsid = newUpdaterEvent.advantageHsid;
+  }
+
+  watchForChange() {
+    const ally = findAllyByHsid(this.charsheet, this.allyHsid);
+    const allyExists = ally !== undefined;
+    console.log(`in watchForChange() allyExists = ${allyExists}`); // FIXME: Remove
+    const allyCost = allyExists ? totalCost(ally.charsheet) : 0;
+    console.log(`in watchForChange() allyCost = ${allyCost}`); // FIXME: Remove
+    const advantage = findAdvantageByHsid(this.charsheet, this.advantageHsid);
+    const advantageExists = advantage !== null;
+    console.log(`in watchForChange() advantageExists = ${advantageExists}`); // FIXME: Remove
+    const advantageName = advantageExists ? advantage.name : null;
+    return {
+      identity: {
+        allyExists,
+        advantageExists,
+        advantageName,
+      }, // This updater never goes away.
+      calculations: {
+        allyCost,
+      }
+    };
+  }
+
+  applyChanges(newCalculations) {
+    const advantage = findAdvantageByHsid(this.charsheet, this.advantageHsid);
+    advantage.ranks = Math.ceil(newCalculations.allyCost / 5);
+  }
+}
+
+
 const updaterClasses = {
   StatRankUpdater,
   DefenseUpdater,
@@ -1001,6 +1043,7 @@ const updaterClasses = {
   ProtectionUpdater,
   CombatSkillUpdater,
   EquipmentFeatureUpdater,
+  AllyCostUpdater,
 };
 
 
