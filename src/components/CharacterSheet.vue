@@ -43,7 +43,7 @@
     </tab-display>
     <modal-lightbox v-if="allyShown" v-on:exit="allyShown = null">
       <div class="title">{{findAllyByHsid(charsheet, allyShown).type}}</div>
-      <character-sheet :charsheet="findAllyByHsid(charsheet, allyShown).character"/>
+      <character-sheet :charsheet="findAllyByHsid(charsheet, allyShown).charsheet"/>
     </modal-lightbox>
   </div>
 </template>

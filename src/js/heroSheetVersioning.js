@@ -3,7 +3,7 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
-const currentVersion = 14; // Up to this version can be saved
+const currentVersion = 15; // Up to this version can be saved
 const latestVersion = 15; // Might be an experimental version
 
 
@@ -251,7 +251,7 @@ const makeNewAlly = function(charsheet, type) {
   const ally = {
     hsid: newHsid(),
     type: type,
-    character: newBlankCharacter(),
+    charsheet: newBlankCharacter(),
   }
   charsheet.allies.push(ally);
   return ally;
@@ -512,6 +512,11 @@ const upgradeVersion = function(charsheet, developerMode) {
   const targetVersion = developerMode ? latestVersion : currentVersion;
   while (charsheet.version < targetVersion) {
     upgradeFrom(charsheet)
+  }
+  if (charsheet.allies) {
+    for (const ally of charsheet.allies) {
+      upgradeVersion(ally.charsheet, developerMode);
+    }
   }
   sortFields(charsheet);
 };
