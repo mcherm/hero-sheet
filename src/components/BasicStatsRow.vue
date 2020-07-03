@@ -26,11 +26,15 @@
 
   export default {
     name: "BasicStatsRow",
+    inject: ["getCharsheet"],
     props: {
-      charsheet: { type: Object, required: true },
       statName: { type: String, required: true },
-      statObj: { type: Object, required: true },
       docsURL: { required: true, validator: (x => x === null || typeof x === 'string') }
+    },
+    data: function() {
+      return {
+        statObj: this.getCharsheet().abilities[this.statName]
+      }
     },
     created: function() {
       this.updateEntered(this.statObj.entered);
@@ -41,11 +45,11 @@
         this.statObj.cost = this.statObj.entered * 2;
       },
       isManuallyAdjusted: function() {
-        return isManuallyAdjusted(this.charsheet, `abilities.${this.statName}.ranks`);
+        return isManuallyAdjusted(this.getCharsheet(), `abilities.${this.statName}.ranks`);
       },
       // FIXME: Closely related to the same function in Defenses; figure out how to share code
       removeManualAdjustment: function() {
-        removeActiveEffects(this.charsheet, x => x.isManualAdjustment, `abilities.${this.statName}.ranks`);
+        removeActiveEffects(this.getCharsheet(), x => x.isManualAdjustment, `abilities.${this.statName}.ranks`);
       },
       // FIXME: Closely related to the same function in Defenses; figure out how to share code
       createNewManualAdjustment: function(modalResult) {
@@ -59,7 +63,7 @@
             isManualAdjustment: true
           }
         );
-        addActiveEffect(this.charsheet, `abilities.${this.statName}.ranks`, newActiveEffect);
+        addActiveEffect(this.getCharsheet(), `abilities.${this.statName}.ranks`, newActiveEffect);
       }
     }
   }

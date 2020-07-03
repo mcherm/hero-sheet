@@ -1,7 +1,7 @@
 <template>
   <boxed-section title="Equipment">
     <template v-slot:exhibit>
-      <local-cost-display :charsheet="charsheet" extra-label="equipment" :extra-value-function="equipmentCost"/>
+      <local-cost-display extra-label="equipment" :extra-value-function="equipmentCost"/>
     </template>
     <div class="equipment-list grid-with-lines" :class="{ 'deleteNotVisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
       <div class="col-label"></div>
@@ -10,7 +10,7 @@
       <div class="col-label">Cost</div>
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
       <div
-          v-for="item in charsheet.equipment"
+          v-for="item in equipment"
           :key="item.hsid"
           class="display-contents"
       >
@@ -61,11 +61,11 @@
           <power :power="item.feature" :mutable="item.source === 'custom'" />
         </div>
       </div>
-      <div class="empty-notice" v-if="charsheet.equipment.length === 0">No Equipment</div>
+      <div class="empty-notice" v-if="equipment.length === 0">No Equipment</div>
     </div>
     <div class="scrolling-list-footer">
       <button v-on:click="addEquipment()">Add Equipment</button>
-      <button v-if="charsheet.equipment.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible">
+      <button v-if="equipment.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
       </button>
@@ -77,7 +77,8 @@
   import LocalCostDisplay from "./LocalCostDisplay.vue";
   import MechanicsIcon from "./MechanicsIcon.vue";
   import {newBlankEquipment, newBlankPower} from "../js/heroSheetVersioning.js";
-  import {equipmentCost, buildFeature, powerUpdaterEvent} from "../js/heroSheetUtil.js";
+  import {buildFeature, equipmentCost, powerUpdaterEvent} from "../js/heroSheetUtil.js";
+
   const standardEquipment = require("../data/standardEquipment.json");
 
   export default {
@@ -86,21 +87,20 @@
       LocalCostDisplay,
       MechanicsIcon
     },
-    props: {
-      charsheet: { type: Object, required: true }
-    },
+    inject: ["getCharsheet"],
     data: function() {
       return {
         standardEquipment,
         deleteIsVisible: false,
-        showFeatureDetails: {}
+        showFeatureDetails: {},
+        equipment: this.getCharsheet().equipment
       }
     },
     methods: {
       equipmentCost,
       addEquipment: function() {
         const newEquipment = newBlankEquipment();
-        this.charsheet.equipment.push(newEquipment);
+        this.equipment.push(newEquipment);
       },
       selectItem: function(item, selected) {
         const selectedFields = selected.split(":");
@@ -146,9 +146,8 @@
         return Object.values(standardEquipment).filter(item => item.category === category);
       },
       onDelete: function(item) {
-        const equipment = this.charsheet.equipment;
-        this.$delete(equipment, equipment.indexOf(item));
-        if (equipment.length === 0) {
+        this.$delete(this.equipment, this.equipment.indexOf(item));
+        if (this.equipment.length === 0) {
           this.deleteIsVisible = false;
         }
       },

@@ -7,37 +7,37 @@
       <template slot="background">
         <div class="h-box">
           <campaign :campaign="charsheet.campaign"/>
-          <background :charsheet="charsheet"/>
-          <overall-costs :charsheet="charsheet"/>
+          <background/>
+          <overall-costs/>
         </div>
       </template>
       <template slot="abilities">
         <div class="h-box">
-          <basic-stats :charsheet="charsheet"/>
-          <defenses :charsheet="charsheet"/>
-          <overall-costs :charsheet="charsheet"/>
+          <basic-stats/>
+          <defenses/>
+          <overall-costs/>
         </div>
       </template>
       <template slot="skills">
-        <skills :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
+        <skills v-on:newUpdater="createUpdater($event)"/>
       </template>
       <template slot="advantages">
-        <advantages :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
+        <advantages v-on:newUpdater="createUpdater($event)"/>
       </template>
       <template slot="equipment">
-        <equipment :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
+        <equipment v-on:newUpdater="createUpdater($event)"/>
       </template>
       <template slot="powers">
-        <power-list-top-level :charsheet="charsheet" v-on:newUpdater="createUpdater($event)"/>
+        <power-list-top-level v-on:newUpdater="createUpdater($event)"/>
       </template>
       <template slot="complications">
-        <complications :charsheet="charsheet"/>
+        <complications/>
       </template>
       <template slot="attacks">
-        <attacks :charsheet="charsheet"/>
+        <attacks/>
       </template>
       <template slot="adjustments">
-        <adjustments :charsheet="charsheet"/>
+        <adjustments/>
       </template>
     </tab-display>
     <div id="data-dump">
@@ -96,6 +96,11 @@
         activeSaveTimeout: null,
         initialLoadHasTriggeredEvent: false
       }
+    },
+    provide: function() {
+      return {
+        getCharsheet: () => this.charsheet
+      };
     },
     created: function() {
       this.loadCharacter();

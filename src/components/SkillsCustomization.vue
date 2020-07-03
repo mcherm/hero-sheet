@@ -5,7 +5,7 @@
       <select :value="skill.attackHsid" @change="setAttackHsid($event.target.value)">
         <option disabled value="">Select One</option>
         <option
-            v-for="attack in charsheet.attacks.attackList"
+            v-for="attack in getCharsheet().attacks.attackList"
             :key="attack.hsid"
             :value="attack.hsid"
         >{{attack.name}}</option>
@@ -20,9 +20,9 @@
 
   export default {
     name: "SkillsCustomization",
+    inject: ["getCharsheet"],
     props: {
       skill: { type: Object, required: true },
-      charsheet: { type: Object, required: true },
       skillData: { type: Object, required: true }
     },
     methods: {

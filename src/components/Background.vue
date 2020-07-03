@@ -31,7 +31,7 @@
       <label class="row-label">Home Base</label>
       <string-entry v-model="naming.baseOfOperations"/>
       <label class="row-label">Effort Points</label>
-      <number-entry v-model="charsheet.effortPoints" class="effort-points"/>
+      <number-entry v-model="getCharsheet().effortPoints" class="effort-points"/>
     </div>
   </boxed-section>
 </template>
@@ -39,13 +39,11 @@
 <script>
   export default {
     name: "Naming",
-    props: {
-      charsheet: { type: Object, required: true }
-    },
-    computed: {
-      naming: function() {
-        return this.charsheet.naming;
-      }
+    inject: ["getCharsheet"],
+    data: function() {
+      return {
+        naming: this.getCharsheet().naming
+      };
     }
   }
 </script>

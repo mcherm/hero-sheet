@@ -1,7 +1,7 @@
 <template>
   <boxed-section title="Attacks">
     <template v-slot:exhibit>
-      <local-cost-display :charsheet="charsheet"/>
+      <local-cost-display/>
     </template>
     <div class="attack-list grid-with-lines">
       <div class="col-label">Attack</div>
@@ -9,7 +9,7 @@
       <div class="col-label">Resist DC</div>
       <div class="col-label">Effect</div>
       <div
-          v-for="(attack, index) in charsheet.attacks.attackList"
+          v-for="(attack, index) in getCharsheet().attacks.attackList"
           :key="index"
           class="display-contents"
       >
@@ -40,15 +40,13 @@
     components: {
       LocalCostDisplay
     },
-    props: {
-      charsheet: { type: Object, required: true }
-    },
+    inject: ["getCharsheet"],
     methods: {
       isOutOfSpec: function(attack) {
         if (attack.attackCheck === null || attack.resistanceDC === null) {
           return false; // Because it isn't defined
         } else {
-          return attack.attackCheck + attack.resistanceDC > 2 * this.charsheet.campaign.powerLevel;
+          return attack.attackCheck + attack.resistanceDC > 2 * this.getCharsheet().campaign.powerLevel;
         }
       }
     }
