@@ -1,7 +1,7 @@
 <template>
   <boxed-section title="Advantages">
     <template v-slot:exhibit>
-      <local-cost-display :charsheet="charsheet" extra-label="advantages" :extra-value-function="advantageCost"/>
+      <local-cost-display extra-label="advantages" :extra-value-function="advantageCost"/>
     </template>
     <div class="advantages-list grid-with-lines" :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
       <div class="col-label">Advantage</div>
@@ -11,7 +11,7 @@
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
 
       <div
-          v-for="advantage in charsheet.advantages"
+          v-for="advantage in advantages"
           :key="advantage.name"
           class="display-contents"
       >
@@ -42,11 +42,11 @@
         </button>
       </div>
 
-      <div class="empty-notice" v-if="charsheet.advantages.length === 0">No Advantages</div>
+      <div class="empty-notice" v-if="advantages.length === 0">No Advantages</div>
     </div>
     <div class="scrolling-list-footer">
       <button v-on:click="addAdvantage()">Add Advantage</button>
-      <button v-if="charsheet.advantages.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible">
+      <button v-if="advantages.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
       </button>
@@ -67,19 +67,18 @@
     components: {
       LocalCostDisplay
     },
-    props: {
-      charsheet: { type: Object, required: true }
-    },
+    inject: ["getCharsheet"],
     data: function() {
       return {
-        deleteIsVisible: false
+        deleteIsVisible: false,
+        advantages: this.getCharsheet().advantages
       }
     },
     computed: {
       // A list of all standardAdvantages that are NOT in use on this character
       unusedStandardAdvantages: function() {
         const advantageInUse = {};
-        for (const advantage of this.charsheet.advantages) {
+        for (const advantage of this.advantages) {
           advantageInUse[advantage.name] = true;
         }
         return Object.values(standardAdvantages).filter(
@@ -132,16 +131,15 @@
             return x.name.localeCompare(y.name);
           }
         };
-        this.charsheet.advantages.sort(sortFunc);
+        this.advantages.sort(sortFunc);
       },
       addAdvantage: function() {
         const newAdvantage = newBlankAdvantage();
-        this.charsheet.advantages.push(newAdvantage);
+        this.advantages.push(newAdvantage);
       },
       onDelete: function(advantage) {
-        const advantages = this.charsheet.advantages;
-        this.$delete(advantages, advantages.indexOf(advantage));
-        if (advantages.length === 0) {
+        this.$delete(this.advantages, this.advantages.indexOf(advantage));
+        if (this.advantages.length === 0) {
           this.deleteIsVisible = false;
         }
       }

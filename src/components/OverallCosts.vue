@@ -2,23 +2,23 @@
   <boxed-section title="Costs">
     <div class="cost-grid grid-with-lines">
       <label class="row-label">Abilities</label>
-      <number-display :value="abilityCost(charsheet)" class="values-column"/>
+      <number-display :value="abilityCost(getCharsheet())" class="values-column"/>
       <label class="row-label">Defenses</label>
-      <number-display :value="defenseCost(charsheet)" class="values-column"/>
+      <number-display :value="defenseCost(getCharsheet())" class="values-column"/>
       <label class="row-label">Skills</label>
-      <number-display :value="skillCost(charsheet)" class="values-column"/>
+      <number-display :value="skillCost(getCharsheet())" class="values-column"/>
       <label class="row-label">Advantages</label>
-      <number-display :value="advantageCost(charsheet)" class="values-column"/>
+      <number-display :value="advantageCost(getCharsheet())" class="values-column"/>
       <label class="row-label">Equipment</label>
-      <number-display :value="equipmentCost(charsheet)" class="values-column"/>
+      <number-display :value="equipmentCost(getCharsheet())" class="values-column"/>
       <label class="row-label">Powers</label>
-      <number-display :value="powerCost(charsheet)" class="values-column"/>
+      <number-display :value="powerCost(getCharsheet())" class="values-column"/>
       <label class="row-label">TOTAL</label>
-      <number-display :value="totalCost(charsheet)" :isOutOfSpec="costOutOfSpec(charsheet)" class="values-column"/>
+      <number-display :value="totalCost(getCharsheet())" :isOutOfSpec="costOutOfSpec(getCharsheet())" class="values-column"/>
       <div class="grid-spacer grid-with-lines-no-lines"/>
       <div class="grid-spacer grid-with-lines-no-lines"/>
       <label class="row-label">Available</label>
-      <number-display :value="availablePoints(charsheet)" class="values-column"/>
+      <number-display :value="availablePoints(getCharsheet())" class="values-column"/>
     </div>
   </boxed-section>
 </template>
@@ -28,9 +28,7 @@
 
   export default {
     name: "OverallCosts",
-    props: {
-      charsheet: { type: Object, required: true }
-    },
+    inject: ["getCharsheet"],
     methods: {
       abilityCost,
       defenseCost,

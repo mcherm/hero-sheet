@@ -16,9 +16,7 @@
             v-for="(statData, statName) in statsData"
             is="basic-stats-row"
             :key="statName"
-            :charsheet="charsheet"
             :statName="statName"
-            :statObj="charsheet.abilities[statName]"
             :docsURL="statData.docsURL"
           />
         </tbody>
@@ -34,9 +32,6 @@
 
   export default {
     name: "BasicStats",
-    props: {
-      charsheet: { type: Object, required: true }
-    },
     data: function() {
       return {
         statsData

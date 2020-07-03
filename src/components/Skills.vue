@@ -1,7 +1,7 @@
 <template>
   <boxed-section title="Skills">
     <template v-slot:exhibit>
-      <local-cost-display :charsheet="charsheet" extra-label="skills" :extra-value-function="skillCost"/>
+      <local-cost-display extra-label="skills" :extra-value-function="skillCost"/>
     </template>
     <div class="minimum-necessary-width">
       <div
@@ -40,7 +40,7 @@
               :value="skill.ranks"
               @input="updateRanks(skill, $event)"
           />
-          <skills-customization :skill="skill" :skillData="skillData(skill)" :charsheet="charsheet" v-on:newUpdater="$emit('newUpdater', $event)"/>
+          <skills-customization :skill="skill" :skillData="skillData(skill)" v-on:newUpdater="$emit('newUpdater', $event)"/>
           <div v-if="skillRoll(skill) === null" class="skill-roll roll-not-applicable">N/A</div>
           <number-display v-else :value="skillRoll(skill)" :isOutOfSpec="skillOutOfSpec(skillRoll)" class="skill-roll"/>
           <docs-lookup :docsURL="skillData(skill).docsURL"/>
@@ -78,11 +78,10 @@
       LocalCostDisplay,
       SkillsCustomization
     },
-    props: {
-      charsheet: { type: Object, required: true }
-    },
+    inject: ["getCharsheet"],
     data: function() {
       return {
+        charsheet: this.getCharsheet(),
         skillsData: skillsData,
         deleteIsVisible: false
       }

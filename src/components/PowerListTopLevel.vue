@@ -1,9 +1,9 @@
 <template>
   <boxed-section title="Powers">
     <template v-slot:exhibit>
-      <local-cost-display :charsheet="charsheet" extra-label="powers" :extra-value-function="powerCost"/>
+      <local-cost-display extra-label="powers" :extra-value-function="powerCost"/>
     </template>
-    <power-list :powers="charsheet.powers" v-on:newUpdater="$emit('newUpdater', $event)" />
+    <power-list :powers="getCharsheet().powers" v-on:newUpdater="$emit('newUpdater', $event)" />
   </boxed-section>
 </template>
 
@@ -18,9 +18,7 @@
     components: {
       LocalCostDisplay
     },
-    props: {
-      charsheet: { type: Object, required: true }
-    },
+    inject: ["getCharsheet"],
     data: function() {
       return {
         deleteIsVisible: false

@@ -1,7 +1,7 @@
 <template>
   <boxed-section title="Complications">
     <template v-slot:exhibit>
-      <local-cost-display :charsheet="charsheet"/>
+      <local-cost-display/>
     </template>
     <div
         class="complications-list grid-with-lines"
@@ -60,11 +60,10 @@
     components: {
       LocalCostDisplay
     },
-    props: {
-      "charsheet": { type: Object, required: true }
-    },
+    inject: ["getCharsheet"],
     data: function() {
       return {
+        charsheet: this.getCharsheet(),
         complicationsData: complicationsData,
         deleteIsVisible: false
       }

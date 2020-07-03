@@ -56,8 +56,11 @@
 
   export default {
     name: "Defenses",
-    props: {
-      charsheet: { type: Object, required: true }
+    inject: ["getCharsheet"],
+    data: function() {
+      return {
+        charsheet: this.getCharsheet()
+      };
     },
     created: function() {
       const calcInitiative = () => {
