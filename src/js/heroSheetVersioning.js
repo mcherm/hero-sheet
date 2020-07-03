@@ -4,12 +4,12 @@ const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
 const currentVersion = 14; // Up to this version can be saved
-const latestVersion = 14; // Might be an experimental version
+const latestVersion = 15; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
   "initiative", "advantages", "equipment", "skills", "powers", "complications", "background", "attacks",
-  "activeEffects"];
+  "activeEffects", "allies"];
 
 /*
  * Given a charsheet, this re-orders the fields so they are in the preferred order.
@@ -130,6 +130,7 @@ const newBlankCharacter = function() {
     ]
   };
   const activeEffects = {};
+  const allies = [];
   return {
     version,
     campaign,
@@ -145,7 +146,8 @@ const newBlankCharacter = function() {
     complications,
     background,
     attacks,
-    activeEffects
+    activeEffects,
+    allies,
   }
 };
 
@@ -235,6 +237,24 @@ const newAdjustment = function(description, value, otherFields) {
     result[fieldName] = otherFields[fieldName];
   }
   return result;
+}
+
+
+/*
+ * This will create a new ally of the specified type, adds it to the
+ * charsheet, and returns it.
+ */
+const makeNewAlly = function(charsheet, type) {
+  if (!["sidekick"].contains(type)) {
+    throw new Error(`Allies of type "${type} not supported.`);
+  }
+  const ally = {
+    hsid: newHsid(),
+    type: type,
+    character: newBlankCharacter(),
+  }
+  charsheet.allies.push(ally);
+  return ally;
 }
 
 
@@ -452,6 +472,11 @@ const upgradeFuncs = {
       }
     }
     charsheet.version = 14;
+  },
+
+  upgradeFrom14: function(charsheet) {
+    charsheet.allies = [];
+    charsheet.version = 15;
   }
 };
 
@@ -493,6 +518,7 @@ export {
   newBlankPower,
   newBlankComplication,
   newAdjustment,
+  makeNewAlly,
   findFeatureByHsid,
   findAdvantageByHsid,
   findSkillByHsid,
