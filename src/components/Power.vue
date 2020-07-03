@@ -69,7 +69,7 @@
     </div>
     <div v-if="isArray()" class="subpower-list">
       <div class="scrolling-list-header">Array Powers</div>
-      <power-list :powers="power.subpowers" v-on:newUpdater="$emit('newUpdater', $event)" :mutable="mutable" />
+      <power-list :powers="power.subpowers" :mutable="mutable" />
     </div>
   </div>
 </template>
@@ -136,7 +136,7 @@
             for (const power of powerList) {
               const event = powerUpdaterEvent(power);
               if (event !== null) {
-                this.$emit("newUpdater", event);
+                this.$globals.eventBus.$emit("new-updater", event);
               }
               if (power.subpowers.length > 0) {
                 recursivelyCreateNewUpdaters(power.subpowers);
@@ -169,7 +169,7 @@
       potentiallyCreateNewUpdaters: function() {
         const event = powerUpdaterEvent(this.power);
         if (event !== null) {
-          this.$emit("newUpdater", event);
+          this.$globals.eventBus.$emit("new-updater", event);
         }
       }
     }

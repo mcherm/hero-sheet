@@ -118,7 +118,7 @@
             }
             const event = powerUpdaterEvent(item.feature);
             if (event !== null) {
-              this.$emit("newUpdater", event);
+              this.$globals.eventBus.$emit("new-updater", event);
             }
           } else {
             this.$delete(item, "feature");
@@ -133,7 +133,7 @@
               updater: "EquipmentFeatureUpdater",
               item: item
             };
-            this.$emit("newUpdater", newUpdaterEvent);
+            this.$globals.eventBus.$emit("new-updater", newUpdaterEvent);
           }
         } else {
           throw Error(`Unexpected source value of '${source}`);

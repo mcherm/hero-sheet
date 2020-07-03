@@ -15,6 +15,7 @@
 
   // Create a global "$globals" available on all vue instances. (NOT reactive).
   const globals = {
+    eventBus: new Vue({}),
     developerMode: false
   };
   Vue.prototype.$globals = globals;

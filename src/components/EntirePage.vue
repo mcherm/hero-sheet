@@ -38,7 +38,7 @@
         v-on:change-character="setCharacterId($event)"
         v-on:not-logged-in="resetUser()"
     />
-    <character-sheet
+    <character-container
         v-if="userSelected && characterSelected"
         :user="user"
         :characterId="characterId"
@@ -51,7 +51,7 @@
 <script>
   import AboutApplication from "./AboutApplication";
   import CharacterPicker from "./CharacterPicker.vue";
-  import CharacterSheet from "./CharacterSheet.vue";
+  import CharacterContainer from "./CharacterContainer.vue";
   import UserLogin from "./UserLogin";
 
   import {restoreSession, endSession, rebuildIndex} from "../js/api.js";
@@ -62,7 +62,7 @@
       UserLogin,
       AboutApplication,
       CharacterPicker,
-      CharacterSheet
+      CharacterContainer
     },
     data: function() {
       return {

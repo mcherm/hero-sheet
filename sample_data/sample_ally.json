@@ -1,0 +1,199 @@
+{
+  "version": 15,
+  "campaign": {
+    "powerLevel": 10,
+    "xpAwarded": 0,
+    "setting": ""
+  },
+  "naming": {
+    "name": "Blanko-Ally",
+    "player": "",
+    "identityType": "none",
+    "identity": "",
+    "gender": "",
+    "age": "",
+    "heightWeight": "",
+    "eyesHair": "",
+    "costume": "",
+    "groupAffiliation": "",
+    "baseOfOperations": ""
+  },
+  "effortPoints": 1,
+  "abilities": {
+    "strength": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "stamina": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "agility": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "dexterity": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "fighting": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "intellect": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "awareness": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "presence": {
+      "entered": 0,
+      "cost": 0,
+      "ranks": 0
+    }
+  },
+  "defenses": {
+    "dodge": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "fortitude": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "parry": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "toughness": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "will": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    }
+  },
+  "initiative": null,
+  "advantages": [
+    {
+      "name": "Sidekick",
+      "hsid": "HIB1N8YMT",
+      "ranks": 1,
+      "description": "",
+      "allyHsid": "HIDMP7PVZ"
+    }
+  ],
+  "equipment": [],
+  "skills": {
+    "skillList": [
+      {
+        "name": "acrobatics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "athletics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "deception",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "insight",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "intimidation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "investigation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "perception",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "persuasion",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "slight of hand",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "stealth",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "technology",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "treatment",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "vehicles",
+        "ranks": 0,
+        "isTemplate": false
+      }
+    ],
+    "cost": 0
+  },
+  "powers": [],
+  "complications": [
+    {
+      "complicationType": "motivation",
+      "description": ""
+    }
+  ],
+  "background": "",
+  "attacks": {
+    "attackList": [
+      {
+        "hsid": "HIV6SSEVP",
+        "updater": "UnarmedAttackUpdater",
+        "name": "Unarmed",
+        "attackCheck": 0,
+        "effectType": "damage",
+        "resistanceDC": 0
+      }
+    ]
+  },
+  "activeEffects": {},
+  "allies": []
+}
