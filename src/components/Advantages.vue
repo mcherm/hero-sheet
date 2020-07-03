@@ -26,8 +26,9 @@
             >{{standardAdvantage.name}}</option>
           </select>
         </div>
-        <number-entry v-if="advantageIsRanked(advantage)" v-model="advantage.ranks"/>
-        <div v-else class="inapplicable"></div>
+        <div v-if="!advantageIsRanked(advantage)" class="inapplicable"></div>
+        <number-display class="full-size" v-else-if="advantage.name === 'Sidekick'" v-model="advantage.ranks"/>
+        <number-entry v-else v-model="advantage.ranks"/>
         <div :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
           {{standardAdvantage(advantage).description}}
           <docs-lookup :docsURL="standardAdvantage(advantage).docsURL"/>
@@ -134,6 +135,11 @@
         } else if (advantage.name === "Sidekick") {
           const newAlly = makeNewAlly(this.getCharsheet(), "sidekick");
           this.$set(advantage, "allyHsid", newAlly.hsid);
+          const newAllyInfo = {
+            parentCharsheet: this.getCharsheet(),
+            allyHsid: newAlly.hsid
+          };
+          this.$globals.eventBus.$emit("new-ally", newAllyInfo); // creates updaters & such
         }
         // -- Sort, but with empty strings at the end --
         const sortFunc = (x, y) => {
@@ -191,5 +197,8 @@
   }
   button.show-ally {
     margin: 3px 5px;
+  }
+  .full-size {
+    margin-left: 0;
   }
 </style>

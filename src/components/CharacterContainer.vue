@@ -19,7 +19,7 @@
 
   const statsData = require("../data/statsData.json");
 
-  import {currentVersion, findFeatureByHsid, upgradeVersion} from "../js/heroSheetVersioning.js";
+  import {currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid} from "../js/heroSheetVersioning.js";
   import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "../js/updaters.js";
   import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
   import {removeActiveEffects} from "../js/heroSheetUtil.js";
@@ -55,6 +55,7 @@
     },
     mounted: function() {
       this.$globals.eventBus.$on("new-updater", this.createUpdater);
+      this.$globals.eventBus.$on("new-ally", this.initializeAlly);
     },
     methods: {
       loadCharacter: async function() {
@@ -68,7 +69,7 @@
             this.hasUnsavedChanges = true;
             this.scheduleSave();
           }
-          this.installUpdaters();
+          this.installUpdaters(this.charsheet);
         } catch(err) {
           if (err instanceof NotLoggedInError) {
             this.$emit("not-logged-in");
@@ -110,30 +111,30 @@
           this.saveCharacter();
         }, SAVE_FREQUENCY_MILLIS);
       },
-      installUpdaters: function() {
+      installUpdaters: function(charsheet) {
         for (const stat in statsData) {
-          new updaterClasses["StatRankUpdater"](this, this.charsheet, stat);
+          new updaterClasses["StatRankUpdater"](this, charsheet, stat);
         }
-        new updaterClasses["DefenseUpdater"](this, this.charsheet, "dodge");
-        new updaterClasses["DefenseUpdater"](this, this.charsheet, "fortitude");
-        new updaterClasses["DefenseUpdater"](this, this.charsheet, "parry");
-        new updaterClasses["ToughnessUpdater"](this, this.charsheet);
-        new updaterClasses["DefenseUpdater"](this, this.charsheet, "will");
-        const attackList = this.charsheet.attacks.attackList;
-        for (const item of this.charsheet.equipment) {
+        new updaterClasses["DefenseUpdater"](this, charsheet, "dodge");
+        new updaterClasses["DefenseUpdater"](this, charsheet, "fortitude");
+        new updaterClasses["DefenseUpdater"](this, charsheet, "parry");
+        new updaterClasses["ToughnessUpdater"](this, charsheet);
+        new updaterClasses["DefenseUpdater"](this, charsheet, "will");
+        const attackList = charsheet.attacks.attackList;
+        for (const item of charsheet.equipment) {
           if (item.source === "custom" && item.feature) {
             const updaterType = "EquipmentFeatureUpdater";
             const updateEvent = { updater: updaterType, item: item }
-            const updater = new updaterClasses[updaterType](this, this.charsheet, updateEvent);
+            const updater = new updaterClasses[updaterType](this, charsheet, updateEvent);
           }
         }
         for (const attack of attackList) {
           // FIXME: With a better design maybe I wouldn't need a special case here
           const updaterType = attack.updater;
           if (updaterType === "UnarmedAttackUpdater") {
-            const updater = new updaterClasses[updaterType](this, this.charsheet);
+            const updater = new updaterClasses[updaterType](this, charsheet);
           } else {
-            const feature = findFeatureByHsid(this.charsheet, attack.powerHsid);
+            const feature = findFeatureByHsid(charsheet, attack.powerHsid);
             if (feature === null) {
               this.$delete(attackList, attackList.indexOf(attack));
               throw new Error(`Invalid power '${attack.powerHsid}' in attack. Will delete the attack.`)
@@ -144,19 +145,19 @@
               this.$delete(attackList, attackList.indexOf(attack));
               throw new Error(`Invalid updater type '${updaterType}' in attack. Will delete the attack.`)
             }
-            new updaterClass(this, this.charsheet, updateEvent);
+            new updaterClass(this, charsheet, updateEvent);
           }
         }
         // For any active effects with an updater, initialize that updater
-        for (const activeEffectKey in this.charsheet.activeEffects) {
-          for (const activeEffect of this.charsheet.activeEffects[activeEffectKey]) {
+        for (const activeEffectKey in charsheet.activeEffects) {
+          for (const activeEffect of charsheet.activeEffects[activeEffectKey]) {
             const updaterType = activeEffect.updater;
             if (updaterType !== undefined) {
               try {
-                newUpdaterFromActiveEffect(this, this.charsheet, activeEffect);
+                newUpdaterFromActiveEffect(this, charsheet, activeEffect);
               } catch(err) {
                 if (err instanceof UnsupportedUpdaterInActiveEffectError) {
-                  removeActiveEffects(this.charsheet, x => x === activeEffect, activeEffectKey);
+                  removeActiveEffects(charsheet, x => x === activeEffect, activeEffectKey);
                   console.error(`Unsupported updater type '${updaterType}' in activeEffect. Will delete the activeEffect.`);
                 } else {
                   throw err;
@@ -165,10 +166,15 @@
             }
           }
         }
-        // FIXME: Here I need to recurse on any allies
+        for (const ally of charsheet.allies) {
+          this.initializeAlly({
+            parentCharsheet: charsheet,
+            allyHsid: ally.hsid
+          });
+        }
       },
+      // FIXME: this will probably need a new parameter specifying the charsheet so it can work on allies
       createUpdater: function(newUpdaterEvent) {
-        console.log(`createUpdater() was invoked in CharacterContainer.`); // FIXME: Remove
         const updaterName = newUpdaterEvent.updater;
         const updaterClass = updaterClasses[updaterName];
         if (updaterClass === undefined) {
@@ -176,6 +182,34 @@
         }
         new updaterClass(this, this.charsheet, newUpdaterEvent);
       },
+      /*
+       * Called after an ally is created. Should initialize the updaters for it -- both the
+       * normal updaters of any charsheet and the specialized ones that help integrate in
+       * this particular kind of ally.
+       */
+      initializeAlly: function(newAllyInfo) {
+        const {parentCharsheet, allyHsid} = newAllyInfo;
+        const ally = findAllyByHsid(parentCharsheet, allyHsid);
+        // Normal Updaters
+        if (ally !== undefined) {
+          this.installUpdaters(ally.charsheet);
+        }
+        // ally-type specific things
+        if (ally.type === "sidekick") {
+          const allyAdvantage = parentCharsheet.advantages.find(x => x.allyHsid = allyHsid);
+          if (allyAdvantage === undefined) {
+            console.log(`Ally ${allyHsid} has no source. Probably need to handle that case. Maybe delete the ally?`);
+          }
+          const newUpdaterEvent = {
+            updater: "AllyCostUpdater",
+            allyHsid: ally.hsid,
+            advantageHsid: allyAdvantage.hsid
+          };
+          this.createUpdater(newUpdaterEvent);
+        } else {
+          throw Error(`Ally type of ${ally.type} is not supported.`);
+        }
+      }
     },
     computed: {
       character_json: function() {

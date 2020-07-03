@@ -513,12 +513,12 @@ const upgradeVersion = function(charsheet, developerMode) {
   while (charsheet.version < targetVersion) {
     upgradeFrom(charsheet)
   }
+  sortFields(charsheet);
   if (charsheet.allies) {
     for (const ally of charsheet.allies) {
       upgradeVersion(ally.charsheet, developerMode);
     }
   }
-  sortFields(charsheet);
 };
 
 export {

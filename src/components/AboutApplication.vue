@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-07-03: For sidekicks, the cost is computed properly.</li>
       <li>2020-07-03: Support sidekicks as an "ally" and show the character sheet.</li>
       <li>2020-07-02: Added developer mode.</li>
       <li>2020-07-02: Added grenades and explosives, which is the last of the equpiment, and fix the cost of equipment.</li>
