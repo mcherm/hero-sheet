@@ -4,7 +4,7 @@
       <label class="row-label">Name</label>
       <string-entry v-model="naming.name"/>
       <label class="row-label">Player</label>
-      <string-entry v-model="naming.player"/>
+      <string-entry v-model="naming.player" :mutable="!editModes.isAlly"/>
       <label class="row-label">Identity</label>
       <div class="vert-stack">
         <div class="spacer">
@@ -39,7 +39,7 @@
 <script>
   export default {
     name: "Naming",
-    inject: ["getCharsheet"],
+    inject: ["getCharsheet", "editModes"],
     data: function() {
       return {
         naming: this.getCharsheet().naming

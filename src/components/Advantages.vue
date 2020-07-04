@@ -26,9 +26,8 @@
             >{{standardAdvantage.name}}</option>
           </select>
         </div>
-        <div v-if="!advantageIsRanked(advantage)" class="inapplicable"></div>
-        <number-display class="full-size" v-else-if="advantage.name === 'Sidekick'" v-model="advantage.ranks"/>
-        <number-entry v-else v-model="advantage.ranks"/>
+        <number-entry v-if="advantageIsRanked(advantage)" v-model="advantage.ranks" :mutable="advantage.name !== 'Sidekick'"/>
+        <div v-else class="inapplicable"></div>
         <div :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
           {{standardAdvantage(advantage).description}}
           <docs-lookup :docsURL="standardAdvantage(advantage).docsURL"/>
@@ -197,8 +196,5 @@
   }
   button.show-ally {
     margin: 3px 5px;
-  }
-  .full-size {
-    margin-left: 0;
   }
 </style>
