@@ -2,16 +2,15 @@
 // Classes for performing updates.
 //
 
+import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
+import {activeEffectModifier, findOrCreateActiveEffect, totalCost} from "./heroSheetUtil.js"
+
+
 /*
  * A parent class for all updaters. An Updater is a class, each instance of
  * which monitors certain fields and updates other fields in the charsheet.
  * An example would be an updater for creating an attack.
  */
-import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
-import {activeEffectModifier, findOrCreateActiveEffect, totalCost} from "./heroSheetUtil.js"
-
-// FIXME: Start importing Vue instead of setting vm every time. Really... I should be able to do that.
-
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
     this.activeWatches = [];

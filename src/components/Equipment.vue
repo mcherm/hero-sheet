@@ -116,7 +116,7 @@
             if (item.cost === undefined || item.cost === null) {
               item.cost = item.feature.cost; // Default to the feature cost if item cost is not specified
             }
-            const event = powerUpdaterEvent(item.feature);
+            const event = powerUpdaterEvent(this.getCharsheet(), item.feature);
             if (event !== null) {
               this.$globals.eventBus.$emit("new-updater", event);
             }
@@ -130,6 +130,7 @@
           if (selectedFields[1] === "powered") {
             item.feature = newBlankPower();
             const newUpdaterEvent = {
+              charsheet: this.getCharsheet(),
               updater: "EquipmentFeatureUpdater",
               item: item
             };

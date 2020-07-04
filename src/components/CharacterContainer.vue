@@ -173,14 +173,14 @@
           });
         }
       },
-      // FIXME: this will probably need a new parameter specifying the charsheet so it can work on allies
       createUpdater: function(newUpdaterEvent) {
+        const charsheet = newUpdaterEvent.charsheet;
         const updaterName = newUpdaterEvent.updater;
         const updaterClass = updaterClasses[updaterName];
         if (updaterClass === undefined) {
           throw new Error(`Updater class '${updaterName}' not supported.`);
         }
-        new updaterClass(this, this.charsheet, newUpdaterEvent);
+        new updaterClass(this, charsheet, newUpdaterEvent);
       },
       /*
        * Called after an ally is created. Should initialize the updaters for it -- both the
@@ -201,6 +201,7 @@
             console.log(`Ally ${allyHsid} has no source. Probably need to handle that case. Maybe delete the ally?`);
           }
           const newUpdaterEvent = {
+            charsheet: parentCharsheet,
             updater: "AllyUpdater",
             allyHsid: ally.hsid,
             advantageHsid: allyAdvantage.hsid
