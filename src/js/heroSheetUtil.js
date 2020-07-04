@@ -472,22 +472,24 @@ const buildNewModifier = function(inputFields) {
  * a new updater for that power, or returns null if this power does not require
  * any updater.
  */
-const powerUpdaterEvent = function(power) {
-  if (power.effect === "Damage") {
-    return { updater: "DamagePowerAttackUpdater", power: power };
-  } else if (power.effect === "Affliction") {
-    return { updater: "AfflictionPowerAttackUpdater", power: power };
-  } else if (power.effect === "Nullify") {
-    return { updater: "NullifyPowerAttackUpdater", power: power };
-  } else if (power.effect === "Weaken") {
-    return { updater: "WeakenPowerAttackUpdater", power: power };
-  } else if (power.effect === "Enhanced Trait") {
-    return { updater: "EnhancedTraitUpdater", power: power };
-  } else if (power.effect === "Protection") {
-    return { updater: "ProtectionUpdater", power: power };
-  } else {
+const powerUpdaterEvent = function(charsheet, power) {
+  const POWER_TO_UPDATER_MAP = {
+    "Damage": "DamagePowerAttackUpdater",
+    "Affliction": "AfflictionPowerAttackUpdater",
+    "Nullify": "NullifyPowerAttackUpdater",
+    "Weaken": "WeakenPowerAttackUpdater",
+    "Enhanced Trait": "EnhancedTraitUpdater",
+    "Protection": "ProtectionUpdater",
+  };
+  const updater = POWER_TO_UPDATER_MAP[power.effect];
+  if (updater === undefined) {
     return null;
   }
+  return {
+    charsheet,
+    updater,
+    power,
+  };
 }
 
 

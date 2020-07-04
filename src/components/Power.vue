@@ -87,6 +87,7 @@
       ModifierList,
       PowerEffectSelect
     },
+    inject: ["getCharsheet"],
     props: {
       power: { type: Object, required: true },
       mutable: { type: Boolean, required: false, default: true }
@@ -134,7 +135,7 @@
           replacePower(this.power, newFeature);
           const recursivelyCreateNewUpdaters = powerList => {
             for (const power of powerList) {
-              const event = powerUpdaterEvent(power);
+              const event = powerUpdaterEvent(this.getCharsheet(), power);
               if (event !== null) {
                 this.$globals.eventBus.$emit("new-updater", event);
               }
@@ -167,7 +168,7 @@
         }
       },
       potentiallyCreateNewUpdaters: function() {
-        const event = powerUpdaterEvent(this.power);
+        const event = powerUpdaterEvent(this.getCharsheet(), this.power);
         if (event !== null) {
           this.$globals.eventBus.$emit("new-updater", event);
         }
