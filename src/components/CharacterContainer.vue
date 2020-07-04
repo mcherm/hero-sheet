@@ -201,7 +201,7 @@
             console.log(`Ally ${allyHsid} has no source. Probably need to handle that case. Maybe delete the ally?`);
           }
           const newUpdaterEvent = {
-            updater: "AllyCostUpdater",
+            updater: "AllyUpdater",
             allyHsid: ally.hsid,
             advantageHsid: allyAdvantage.hsid
           };

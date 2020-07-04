@@ -987,7 +987,11 @@ class EquipmentFeatureUpdater extends Updater {
 }
 
 
-class AllyCostUpdater extends Updater {
+/*
+ * Updates allies in two directions: pushing the cost upward to the parent
+ * and pushing things like the setting and player downward.
+ */
+class AllyUpdater extends Updater {
   constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super(vm, charsheet, newUpdaterEvent, ...otherArgs);
   }
@@ -1000,30 +1004,44 @@ class AllyCostUpdater extends Updater {
   }
 
   watchForChange() {
+    const campaignPowerLevel = this.charsheet.campaign.powerLevel;
+    const campaignSetting = this.charsheet.campaign.setting;
+    const playerName = this.charsheet.naming.player;
     const ally = findAllyByHsid(this.charsheet, this.allyHsid);
     const allyExists = ally !== undefined;
-    console.log(`in watchForChange() allyExists = ${allyExists}`); // FIXME: Remove
+    const allyType = allyExists ? ally.type : null;
     const allyCost = allyExists ? totalCost(ally.charsheet) : 0;
-    console.log(`in watchForChange() allyCost = ${allyCost}`); // FIXME: Remove
     const advantage = findAdvantageByHsid(this.charsheet, this.advantageHsid);
     const advantageExists = advantage !== null;
-    console.log(`in watchForChange() advantageExists = ${advantageExists}`); // FIXME: Remove
     const advantageName = advantageExists ? advantage.name : null;
     return {
       identity: {
         allyExists,
+        allyType,
         advantageExists,
         advantageName,
       }, // This updater never goes away.
       calculations: {
+        allyType,
         allyCost,
+        campaignPowerLevel,
+        campaignSetting,
+        playerName,
       }
     };
   }
 
   applyChanges(newCalculations) {
+    const allyCharsheet = findAllyByHsid(this.charsheet, this.allyHsid).charsheet;
+    allyCharsheet.campaign.powerLevel = newCalculations.campaignPowerLevel;
+    allyCharsheet.campaign.setting = newCalculations.campaignSetting;
+    allyCharsheet.naming.player = newCalculations.playerName;
     const advantage = findAdvantageByHsid(this.charsheet, this.advantageHsid);
-    advantage.ranks = Math.ceil(newCalculations.allyCost / 5);
+    if (newCalculations.allyType === "sidekick") {
+      advantage.ranks = Math.ceil(newCalculations.allyCost / 5);
+    } else {
+      throw Error(`Ally type ${newCalculations.allyType} not supported.`);
+    }
   }
 }
 
@@ -1043,7 +1061,7 @@ const updaterClasses = {
   ProtectionUpdater,
   CombatSkillUpdater,
   EquipmentFeatureUpdater,
-  AllyCostUpdater,
+  AllyUpdater,
 };
 
 
