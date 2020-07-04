@@ -43,7 +43,10 @@
     </tab-display>
     <modal-lightbox v-if="allyShown" v-on:exit="allyShown = null">
       <div class="title">{{findAllyByHsid(charsheet, allyShown).type}}</div>
-      <character-sheet :charsheet="findAllyByHsid(charsheet, allyShown).charsheet"/>
+      <character-sheet
+        :charsheet="findAllyByHsid(charsheet, allyShown).charsheet"
+        :is-ally="true"
+      />
     </modal-lightbox>
   </div>
 </template>
@@ -83,7 +86,8 @@
       Adjustments
     },
     props: {
-      charsheet: { type: Object, required: true }
+      charsheet: { type: Object, required: true },
+      isAlly: { type: Boolean, required: false, default: false }
     },
     data: function() {
       return {
@@ -92,7 +96,10 @@
     },
     provide: function() {
       return {
-        getCharsheet: () => this.charsheet
+        getCharsheet: () => this.charsheet,
+        editModes: {
+          isAlly: this.isAlly
+        }
       };
     },
     methods: {
