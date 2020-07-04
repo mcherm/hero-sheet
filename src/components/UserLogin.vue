@@ -27,7 +27,7 @@
           <label>Password</label>
           <input v-model="newPassword" :pattern="allowedRegEx.password" @keyup.enter="attemptLogin()"/>
         </div>
-        <div class="explanation">A password to log into your account.</div>
+        <div class="explanation">A password to log into your account (minimum length 4).</div>
       </div>
       <button v-on:click="attemptCreateUser()">Create User</button>
     </boxed-section>
