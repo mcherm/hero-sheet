@@ -26,16 +26,16 @@
             >{{standardAdvantage.name}}</option>
           </select>
         </div>
-        <number-entry v-if="advantageIsRanked(advantage)" v-model="advantage.ranks" :mutable="advantage.name !== 'Sidekick'"/>
+        <number-entry v-if="advantageIsRanked(advantage)" v-model="advantage.ranks" :mutable="allyAdvantages.includes(advantage.name)"/>
         <div v-else class="inapplicable"></div>
         <div :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
           {{standardAdvantage(advantage).description}}
           <docs-lookup :docsURL="standardAdvantage(advantage).docsURL"/>
           <button
-            v-if="advantage.name === 'Sidekick'"
+            v-if="allyAdvantages.includes(advantage.name)"
             class="show-ally"
             @click="$emit('show-ally', advantage.allyHsid)"
-          >Sidekick</button>
+          >{{advantage.name}}</button>
         </div>
         <string-entry v-model="advantage.description"/>
         <button
@@ -62,7 +62,7 @@
 <script>
   import LocalCostDisplay from "./LocalCostDisplay";
 
-  import {newBlankAdvantage, makeNewAlly} from "../js/heroSheetVersioning.js";
+  import {newBlankAdvantage, makeNewAlly, allyAdvantages} from "../js/heroSheetVersioning.js";
   import {advantageCost, advantageIsRanked} from "../js/heroSheetUtil";
 
   const standardAdvantages = require("../data/standardAdvantages.json");
@@ -76,7 +76,8 @@
     data: function() {
       return {
         deleteIsVisible: false,
-        advantages: this.getCharsheet().advantages
+        advantages: this.getCharsheet().advantages,
+        allyAdvantages,
       }
     },
     computed: {
@@ -122,7 +123,7 @@
         }
         // -- Clean up from special features that don't apply --
         if (previousName !== newAdvantageName) {
-          if (previousName === "Sidekick") {
+          if (allyAdvantages.includes(previousName)) {
             this.$delete(advantage, "allyHsid");
           }
         }
@@ -141,8 +142,8 @@
             advantage: advantage
           };
           this.$globals.eventBus.$emit("new-updater", updaterEvent);
-        } else if (advantage.name === "Sidekick") {
-          const newAlly = makeNewAlly(this.getCharsheet(), "sidekick");
+        } else if (allyAdvantages.includes(advantage.name)) {
+          const newAlly = makeNewAlly(this.getCharsheet(), advantage.name.toLowerCase());
           this.$set(advantage, "allyHsid", newAlly.hsid);
           const newAllyInfo = {
             parentCharsheet: this.getCharsheet(),
