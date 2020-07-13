@@ -19,7 +19,7 @@
 
   const statsData = require("../data/statsData.json");
 
-  import {currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid} from "../js/heroSheetVersioning.js";
+  import {currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid, allyAdvantagesLowercase} from "../js/heroSheetVersioning.js";
   import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "../js/updaters.js";
   import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
   import {removeActiveEffects} from "../js/heroSheetUtil.js";
@@ -195,7 +195,7 @@
           this.installUpdaters(ally.charsheet);
         }
         // ally-type specific things
-        if (ally.type === "sidekick") {
+        if (allyAdvantagesLowercase.includes(ally.type)) {
           const allyAdvantage = parentCharsheet.advantages.find(x => x.allyHsid = allyHsid);
           if (allyAdvantage === undefined) {
             console.log(`Ally ${allyHsid} has no source. Probably need to handle that case. Maybe delete the ally?`);

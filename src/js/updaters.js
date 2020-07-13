@@ -1038,6 +1038,8 @@ class AllyUpdater extends Updater {
     const advantage = findAdvantageByHsid(this.charsheet, this.advantageHsid);
     if (newCalculations.allyType === "sidekick") {
       advantage.ranks = Math.ceil(newCalculations.allyCost / 5);
+    } else if (newCalculations.allyType === "minion") {
+      advantage.ranks = Math.ceil(newCalculations.allyCost / 15);
     } else {
       throw Error(`Ally type ${newCalculations.allyType} not supported.`);
     }

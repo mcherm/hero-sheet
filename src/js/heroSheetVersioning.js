@@ -239,13 +239,18 @@ const newAdjustment = function(description, value, otherFields) {
   return result;
 }
 
+/*
+ * The list of advantages that work like allies. Should perhaps move to the data files.
+ */
+const allyAdvantages = ["Minion", "Sidekick"];
+const allyAdvantagesLowercase = allyAdvantages.map(x => x.toLowerCase());
 
 /*
  * This will create a new ally of the specified type, adds it to the
  * charsheet, and returns it.
  */
 const makeNewAlly = function(charsheet, type) {
-  if (!["sidekick"].includes(type)) {
+  if (!allyAdvantagesLowercase.includes(type)) {
     throw new Error(`Allies of type "${type} not supported.`);
   }
   const ally = {
@@ -531,6 +536,8 @@ export {
   newBlankPower,
   newBlankComplication,
   newAdjustment,
+  allyAdvantages,
+  allyAdvantagesLowercase,
   makeNewAlly,
   findFeatureByHsid,
   findAdvantageByHsid,
