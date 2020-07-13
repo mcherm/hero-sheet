@@ -2,8 +2,12 @@
 // Classes for performing updates.
 //
 
+import Vue from 'vue';
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
 import {activeEffectModifier, findOrCreateActiveEffect, totalCost} from "./heroSheetUtil.js"
+
+
+const WATCH_DEBUGGING_ON = true; // FIXME: Set this back to false
 
 
 /*
@@ -76,8 +80,10 @@ class Updater {
    * updating.
    */
   processChange(newValue, oldValue) {
+    console.log(`${this.className()}: processChange()`); // FIXME: Remove
     const newIdentity = JSON.stringify(newValue.identity);
     const oldIdentity = oldValue === undefined ? newIdentity : JSON.stringify(oldValue.identity);
+    console.log(`${this.className()}: identity compare ${JSON.stringify(oldIdentity)} to ${JSON.stringify(newIdentity)}.`); // FIXME: Remove
     if (newIdentity !== oldIdentity) {
       this.destroy();
     } else {
@@ -88,32 +94,28 @@ class Updater {
   /*
    * Initiates the watch that drives this updater. It returns the cancel function for
    * the watch.
-   *
-   * NOTE: Right now I have 2 versions of this: the short version and the version
-   *  that helps me to do debugging. There's probably a better way.
    */
   createWatch(vm) {
-    const DEBUGGING_ON = false;
-    if (!DEBUGGING_ON) {
-      const cancelFunction = vm.$watch(
-        () => this.watchForChange.call(this),
-        (newValue, oldValue) => this.processChange.call(this, newValue, oldValue)
-      );
-      return cancelFunction;
-    } else {
-      const myThis = this;
-      const cancelFunction = vm.$watch(
-        () => {
-          console.log(`Will perform the test of this watch in a ${myThis.className()}.`);
-          return myThis.watchForChange.call(myThis);
-        },
-        (newValue, oldValue) => {
-          console.log(`in the watch, got ${JSON.stringify(newValue)} from ${JSON.stringify(oldValue)}`);
-          return myThis.processChange.call(myThis, newValue, oldValue)
+    const myThis = this;
+    const cancelFunction = vm.$watch(
+      () => {
+        if (WATCH_DEBUGGING_ON) {
+          console.log(`${myThis.className()}: watch is triggering; will perform the test.`);
         }
-      );
-      return cancelFunction;
-    }
+        const result = myThis.watchForChange.call(myThis);
+        console.log(`${myThis.className()}: watchForChange() returned ${JSON.stringify(result)}`); // FIXME: Remove
+        return result;
+      },
+      (newValue, oldValue) => {
+        if (WATCH_DEBUGGING_ON) {
+          console.log("launched"); // FIXME: Remove
+          console.log(`${myThis.className()}: watch is executing. new value: ${JSON.stringify(newValue)} old value: ${JSON.stringify(oldValue)}`);
+        }
+        return myThis.processChange.call(myThis, newValue, oldValue)
+      },
+      {deep: true}//, immediate: true} // FIXME: Do I really need this? I'm not sure!!
+    );
+    return cancelFunction;
   }
 
 }
@@ -765,17 +767,22 @@ class EnhancedTraitUpdater extends Updater {
   }
 
   watchForChange() {
-    return {
+    console.log(`EnhancedTraitUpdater: beginning watchForChange()`); // FIXME: Remove
+    const power = findFeatureByHsid(this.charsheet, this.power.hsid);
+    const result = {
       identity: {
-        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
-        powerHsid: this.power.hsid,
-        powerEffect: this.power.effect,
-        powerOption: this.power.option
+        powerExists: power !== null,
+        stupidTest: this.charsheet.powers.length, // FIXME: Will this fix it? If so, what to do?
+        powerHsid: power === null ? null : this.power.hsid,
+        powerEffect: power === null ? null : this.power.effect,
+        powerOption: power === null ? null : this.power.option
       },
       calculations: {
-        powerRanks: this.power.ranks
+        powerRanks: power === null ? null : this.power.ranks
       }
     };
+    console.log(`EnhancedTraitUpdater: watchForChange() returning ${JSON.stringify(result)}`); // FIXME: Remove
+    return result;
   }
 
   applyChanges(newCalculations) {
@@ -783,6 +790,7 @@ class EnhancedTraitUpdater extends Updater {
   }
 
   destroy() {
+    console.log(`EnhancedTraitUpdater.destroy()`); // FIXME: Remove
     const possibleActiveEffects = this.charsheet.activeEffects[this.activeEffectKey];
     if (possibleActiveEffects) {
       const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
@@ -792,6 +800,7 @@ class EnhancedTraitUpdater extends Updater {
         console.log(`Attempted to delete a ${this.className()} but it wasn't there.`);
       }
       if (possibleActiveEffects.length === 0) {
+        console.log(`EnhancedTraitUpdater about to call $delete`); // FIXME: Remove
         this.vm.$delete(this.charsheet.activeEffects, this.activeEffectKey);
       }
     }
@@ -865,6 +874,7 @@ class ProtectionUpdater extends Updater {
   }
 
   destroy() {
+    console.log(`ProtectionUpdater.destroy()`); // FIXME: Remove
     const possibleActiveEffects = this.charsheet.activeEffects[this.activeEffectKey];
     if (possibleActiveEffects) {
       const currentPosition = possibleActiveEffects.indexOf(this.activeEffect);
@@ -874,6 +884,7 @@ class ProtectionUpdater extends Updater {
         console.log(`Attempted to delete a ${this.className()} but it wasn't there.`);
       }
       if (possibleActiveEffects.length === 0) {
+        console.log(`Will delete this ProtectionUpdater.`); // FIXME: Remove
         this.vm.$delete(this.charsheet.activeEffects, this.activeEffectKey);
       }
     }
