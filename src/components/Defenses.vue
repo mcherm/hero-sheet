@@ -83,34 +83,20 @@
         return this.charsheet.abilities[baseValueMap[defenseName]].ranks;
       },
       isOutOfSpec: function(defenseName) {
-        // -- values --
-        const powerLevel = this.charsheet.campaign.powerLevel;
-        const defenses = this.charsheet.defenses;
-        const dodge = defenses.dodge.ranks;
-        const fortitude = defenses.fortitude.ranks;
-        const parry = defenses.parry.ranks;
-        const toughness = defenses.toughness.ranks;
-        const will = defenses.will.ranks;
-        // -- rules --
-        const exceeds = function(maxValue, value) {
-          return !isNaN(maxValue) && !isNaN(value) && value > maxValue;
+        const activeViolation = key => {
+          const violation = this.charsheet.constraintViolations[key];
+          return violation !== undefined && !violation.gmApproval;
         };
-        const fortWillExceeded = exceeds(powerLevel * 2, fortitude + will);
-        const parryToughExceeded = exceeds(powerLevel * 2, parry + toughness);
-        const dodgeToughExceeded = exceeds(powerLevel * 2, dodge + toughness);
-        // -- results --
         if (defenseName === "dodge") {
-          return dodgeToughExceeded;
+          return activeViolation("DodgeAndToughness");
         } else if (defenseName === "fortitude") {
-          return fortWillExceeded;
+          return activeViolation("FortitudeAndWill");
         } else if (defenseName === "parry") {
-          return parryToughExceeded;
+          return activeViolation("ParryAndToughness");
         } else if (defenseName === "toughness") {
-          return parryToughExceeded || dodgeToughExceeded;
+          return activeViolation("DodgeAndToughness") || activeViolation("ParryAndToughness");
         } else if (defenseName === "will") {
-          return fortWillExceeded;
-        } else {
-          return false;
+          return activeViolation("FortitudeAndWill");
         }
       },
       isManuallyAdjusted: function(defenseName) {

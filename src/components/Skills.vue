@@ -42,7 +42,7 @@
           />
           <skills-customization :skill="skill" :skillData="skillData(skill)"/>
           <div v-if="skillRoll(skill) === null" class="skill-roll roll-not-applicable">N/A</div>
-          <number-display v-else :value="skillRoll(skill)" :isOutOfSpec="skillOutOfSpec(skillRoll)" class="skill-roll"/>
+          <number-display v-else :value="skillRoll(skill)" :isOutOfSpec="skillOutOfSpec(skill)" class="skill-roll"/>
           <docs-lookup :docsURL="skillData(skill).docsURL"/>
           <div v-if="deleteIsVisible && !skill.isTemplate" class="grid-with-lines-no-lines"></div>
           <button
@@ -141,9 +141,16 @@
           return null;
         }
       },
-      skillOutOfSpec: function(skillRoll) {
-        const powerLevel = this.charsheet.campaign.powerLevel;
-        return !isNaN(powerLevel) && !isNaN(skillRoll) && skillRoll > powerLevel + 10;
+      skillOutOfSpec: function(skill) {
+        const activeViolation = key => {
+          const violation = this.getCharsheet().constraintViolations[key];
+          return violation !== undefined && !violation.gmApproval;
+        };
+        if (skill.isTemplate) {
+          return activeViolation(`TemplateSkillLimit@${skill.hsid}`);
+        } else {
+          return activeViolation(`NormalSkillLimit@${skill.name}`);
+        }
       },
       setSkillName: function(skill, skillName) {
         skill.name = skillName;

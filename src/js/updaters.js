@@ -27,8 +27,7 @@ class Updater {
    * instead.
    */
   className() {
-    const result = Object.keys(updaterClasses).find(name => this instanceof updaterClasses[name]);
-    return result;
+    return Object.keys(updaterClasses).find(name => this instanceof updaterClasses[name]);
   }
 
   /*
@@ -1047,6 +1046,86 @@ class AllyUpdater extends Updater {
 }
 
 
+class ConstraintUpdater extends Updater {
+  constructor(vm, charsheet, ...otherArgs) {
+    super(vm, charsheet, ...otherArgs);
+  }
+
+  watchForChange() {
+    const attacks = {};
+    this.charsheet.attacks.attackList.forEach(attack => {
+      attacks[attack.hsid] = {
+        "attackCheck": attack.attackCheck,
+        "resistanceDC": attack.resistanceDC
+      };
+    });
+    const normalSkills = {};
+    const templateSkills = {};
+    this.charsheet.skills.skillList.forEach(skill => {
+      if (skill.isTemplate) {
+        templateSkills[skill.hsid] = skill.ranks; // FIXME: Needs to be based on skill ROLL, not skill ranks.
+      } else {
+        normalSkills[skill.name] = skill.ranks; // FIXME: Needs to be based on skill ROLL, not skill ranks.
+      }
+    });
+    return {
+      "identity": {}, // This updater never goes away.
+      "calculations": {
+        "powerLevel": this.charsheet.campaign.powerLevel,
+        "dodge": this.charsheet.defenses.dodge.ranks,
+        "fortitude": this.charsheet.defenses.fortitude.ranks,
+        "parry": this.charsheet.defenses.parry.ranks,
+        "toughness": this.charsheet.defenses.toughness.ranks,
+        "will": this.charsheet.defenses.will.ranks,
+        attacks,
+        normalSkills,
+        templateSkills
+      }
+    };
+  }
+
+  applyChanges(newCalculations) {
+    const calcs = newCalculations; // shorter name
+    const hasGmApproval = key => {
+      const existingViolation = this.charsheet.constraintViolations[key];
+      return existingViolation ? existingViolation.gmApproval : false;
+    };
+    const constraintValue = key => { return { "gmApproval": hasGmApproval(key) }; };
+    const oldV = this.charsheet.constraintViolations;
+    const newV = {};
+    if (calcs.dodge + calcs.toughness > 2 * calcs.powerLevel) {
+      newV.DodgeAndToughness = constraintValue("DodgeAndToughness");
+    }
+    if (calcs.parry + calcs.toughness > 2 * calcs.powerLevel) {
+      newV.ParryAndToughness = constraintValue("ParryAndToughness");
+    }
+    if (calcs.fortitude + calcs.will > 2 * calcs.powerLevel) {
+      newV.FortitudeAndWill = constraintValue("FortitudeAndWill");
+    }
+    for (const hsid in calcs.attacks)  {
+      const attackCheck = calcs.attacks[hsid].attackCheck;
+      const resistanceDC = calcs.attacks[hsid].resistanceDC;
+      if (attackCheck + resistanceDC > 2 * calcs.powerLevel) {
+        const key = `AttackRoll@${hsid}`;
+        newV[key] = constraintValue(key);
+      }
+    }
+    for (const skillName in calcs.normalSkills) {
+      if (calcs.normalSkills[skillName] > 10 + calcs.powerLevel) {
+        const key = `NormalSkillLimit@${skillName}`;
+        newV[key] = constraintValue(key);
+      }
+    }
+    for (const skillHsid in calcs.templateSkills) {
+      if (calcs.templateSkills[skillHsid] > 10 + calcs.powerLevel) {
+        const key = `TemplateSkillLimit@${skillHsid}`;
+        newV[key] = constraintValue(key);
+      }
+    }
+    this.charsheet.constraintViolations = newV;
+  }
+}
+
 const updaterClasses = {
   StatRankUpdater,
   DefenseUpdater,
@@ -1063,6 +1142,7 @@ const updaterClasses = {
   CombatSkillUpdater,
   EquipmentFeatureUpdater,
   AllyUpdater,
+  ConstraintUpdater,
 };
 
 
