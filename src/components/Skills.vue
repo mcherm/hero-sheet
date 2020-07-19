@@ -41,8 +41,8 @@
               @input="updateRanks(skill, $event)"
           />
           <skills-customization :skill="skill" :skillData="skillData(skill)"/>
-          <div v-if="skillRoll(skill) === null" class="skill-roll roll-not-applicable">N/A</div>
-          <number-display v-else :value="skillRoll(skill)" :isOutOfSpec="skillOutOfSpec(skill)" class="skill-roll"/>
+          <div v-if="skillRoll(getCharsheet(), skill) === null" class="skill-roll roll-not-applicable">N/A</div>
+          <number-display v-else :value="skillRoll(getCharsheet(), skill)" :isOutOfSpec="skillOutOfSpec(skill)" class="skill-roll"/>
           <docs-lookup :docsURL="skillData(skill).docsURL"/>
           <div v-if="deleteIsVisible && !skill.isTemplate" class="grid-with-lines-no-lines"></div>
           <button
@@ -69,7 +69,7 @@
   import LocalCostDisplay from "./LocalCostDisplay.vue";
   import SkillsCustomization from "./SkillsCustomization";
   import {newBlankSkill} from "../js/heroSheetVersioning.js";
-  import {skillCost, activeEffectModifier} from "../js/heroSheetUtil.js";
+  import {skillCost, skillRoll} from "../js/heroSheetUtil.js";
   const skillsData = require("../data/skillsData.json");
 
   export default {
@@ -88,6 +88,7 @@
     },
     methods: {
       skillCost,
+      skillRoll,
       skillData: function(skill) {
         let result;
         if (skill.isTemplate) {
@@ -124,22 +125,6 @@
       updateTotalCost: function() {
         const totalRanks = this.charsheet.skills.skillList.reduce((x, y) => x + y.ranks, 0);
         this.charsheet.skills.cost = Math.ceil(totalRanks / 2);
-      },
-      ranksFromActiveEffects: function(skill) {
-        const activeEffectKey = skill.isTemplate
-          ? `skills.skillList#${skill.hsid}` // the template skills aren't supported yet
-          : `skills.skillList@${skill.name}`;
-        return activeEffectModifier(this.charsheet, activeEffectKey);
-      },
-      skillRoll: function(skill) {
-        const ranksFromActiveEffects = this.ranksFromActiveEffects(skill);
-        const isJackOfAllTrades = activeEffectModifier(this.charsheet, "jackOfAllTrades") > 0;
-        const rollAllowed = this.skillData(skill).useUntrained || isJackOfAllTrades || skill.ranks > 0 || ranksFromActiveEffects > 0
-        if (rollAllowed) {
-          return this.baseValue(skill) + skill.ranks + ranksFromActiveEffects;
-        } else {
-          return null;
-        }
       },
       skillOutOfSpec: function(skill) {
         const activeViolation = key => {

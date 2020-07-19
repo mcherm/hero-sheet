@@ -4,6 +4,7 @@ import {newBlankPower} from "./heroSheetVersioning.js";
 const standardAdvantages = require("../data/standardAdvantages.json");
 const standardPowers = require("../data/standardPowers.json");
 const modifiersData = require("../data/modifiersData.json");
+const skillsData = require("../data/skillsData.json");
 
 
 function isArray(power) {
@@ -153,6 +154,41 @@ const availablePoints = function(charsheet) {
 const costOutOfSpec = function(charsheet) {
   return totalCost(charsheet) > availablePoints(charsheet);
 };
+
+
+/*
+ * Given a charsheet and the information needed to identify a skill, this returns the
+ * roll for that skill. It will return NaN if any of the inputs are NaN. If the skill
+ * does not allow a roll or if the skill specified is not found it will return null.
+ *
+ * Specifying the skill is an object that contains a boolean named isTemplate and, if
+ * isTemplate contains a field named hsid or if !isTemplate contains a field named name.
+ * A skill object from the charsheet will satisfy these requirements.
+ */
+const skillRoll = function(charsheet, skillSpecifier) {
+  const {isTemplate, name, hsid} = skillSpecifier;
+  const skill = charsheet.skills.skillList.find(x => isTemplate ? x.hsid === hsid : x.name === name);
+  if (skill === undefined) {
+    return null;
+  }
+  const activeEffectKey = isTemplate
+    ? `skills.skillList#${hsid}`
+    : `skills.skillList@${name}`;
+  const ranksFromActiveEffects = activeEffectModifier(charsheet, activeEffectKey);
+  const isJackOfAllTrades = activeEffectModifier(charsheet, "jackOfAllTrades") > 0;
+  const skillData = isTemplate ? skillsData.templateSkills[skill.name] : skillsData.normalSkills[name];
+  if (skillData === undefined) {
+    // It is some kind of a dummy skill, so we return null
+    return null;
+  }
+  const rollAllowed = skillData.useUntrained || isJackOfAllTrades || skill.ranks > 0 || ranksFromActiveEffects > 0;
+  if (rollAllowed) {
+    const baseValue = charsheet.abilities[skillData.ability].ranks;
+    return baseValue + skill.ranks + ranksFromActiveEffects;
+  } else {
+    return null;
+  }
+}
 
 
 /*
@@ -610,6 +646,7 @@ export {
   totalCost,
   availablePoints,
   costOutOfSpec,
+  skillRoll,
   findModifierItemTemplate,
   buildFeature,
   getStandardPower,
