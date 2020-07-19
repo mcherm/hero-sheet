@@ -38,7 +38,10 @@
         <attacks/>
       </template>
       <template slot="adjustments">
-        <adjustments/>
+        <div class="v-box">
+          <adjustments/>
+          <constraint-violations/>
+        </div>
       </template>
     </tab-display>
     <modal-lightbox v-if="allyShown" v-on:exit="allyShown = null">
@@ -65,6 +68,7 @@
   import Complications from "./Complications.vue";
   import Attacks from "./Attacks.vue"
   import Adjustments from "./Adjustments.vue";
+  import ConstraintViolations from "./ConstraintViolations.vue";
 
   import {findAllyByHsid} from "../js/heroSheetVersioning.js";
 
@@ -83,7 +87,8 @@
       PowerListTopLevel,
       Complications,
       Attacks,
-      Adjustments
+      Adjustments,
+      ConstraintViolations,
     },
     props: {
       charsheet: { type: Object, required: true },

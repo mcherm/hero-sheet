@@ -84,6 +84,7 @@
     border: 1px solid var(--grid-line-color);
     font-style: italic;
     text-align: center;
+    padding: 2px;
   }
   .copyright-notice {
     border-top: 1px solid var(--box-border-color);

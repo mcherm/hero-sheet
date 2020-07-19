@@ -16,6 +16,8 @@ import StringEntry from "./components/StringEntry.vue"
 Vue.component("StringEntry", StringEntry);
 import MultilineStringEntry from "./components/MultilineStringEntry.vue";
 Vue.component("MultilineStringEntry", MultilineStringEntry);
+import YesNoToggle from "./components/YesNoToggle.vue";
+Vue.component("YesNoToggle", YesNoToggle);
 import BoxedSection from "./components/BoxedSection.vue"
 Vue.component("BoxedSection", BoxedSection);
 import ModalLightbox from "./components/ModalLightbox.vue";

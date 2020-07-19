@@ -4,12 +4,12 @@ const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
 const currentVersion = 15; // Up to this version can be saved
-const latestVersion = 15; // Might be an experimental version
+const latestVersion = 16; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
   "initiative", "advantages", "equipment", "skills", "powers", "complications", "background", "attacks",
-  "activeEffects", "allies"];
+  "activeEffects", "constraintViolations", "allies"];
 
 /*
  * Given a charsheet, this re-orders the fields so they are in the preferred order.
@@ -55,8 +55,8 @@ const newHsid = function() {
 };
 
 
-const newBlankCharacter = function() {
-  const version = latestVersion;
+const newBlankCharacter = function(developerMode) {
+  const version = developerMode ? latestVersion : currentVersion;
   const campaign = {
     powerLevel: 10,
     xpAwarded: 0,
@@ -130,6 +130,7 @@ const newBlankCharacter = function() {
     ]
   };
   const activeEffects = {};
+  const constraintViolations = {};
   const allies = [];
   return {
     version,
@@ -147,6 +148,7 @@ const newBlankCharacter = function() {
     background,
     attacks,
     activeEffects,
+    constraintViolations,
     allies,
   }
 };
@@ -490,6 +492,11 @@ const upgradeFuncs = {
   upgradeFrom14: function(charsheet) {
     charsheet.allies = [];
     charsheet.version = 15;
+  },
+
+  upgradeFrom15: function(charsheet) {
+    charsheet.constraintViolations = {};
+    charsheet.version = 16;
   }
 };
 

@@ -43,11 +43,11 @@
     inject: ["getCharsheet"],
     methods: {
       isOutOfSpec: function(attack) {
-        if (attack.attackCheck === null || attack.resistanceDC === null) {
-          return false; // Because it isn't defined
-        } else {
-          return attack.attackCheck + attack.resistanceDC > 2 * this.getCharsheet().campaign.powerLevel;
-        }
+        const activeViolation = key => {
+          const violation = this.getCharsheet().constraintViolations[key];
+          return violation !== undefined && !violation.gmApproval;
+        };
+        return activeViolation(`AttackRoll@${attack.hsid}`);
       }
     }
   }

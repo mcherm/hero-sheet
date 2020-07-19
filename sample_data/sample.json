@@ -483,6 +483,14 @@
       }
     ]
   },
+  "constraintViolations": {
+    "DodgeAndToughness": { "gmApproval": false },
+    "ParryAndToughness": { "gmApproval":  true },
+    "FortitudeAndWill": { "gmApproval": false },
+    "AttackRoll@HID2CP44Y": { "gmApproval": false },
+    "NormalSkillLimit@acrobatics": { "gmApproval": false },
+    "TemplateSkillLimit@HIL2Y11XS":  { "gmApproval": false }
+  },
   "allies": [
     {
       "hsid": "HI1GQF7RB",

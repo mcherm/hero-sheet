@@ -13,7 +13,7 @@
           <div class="grid-with-lines-cell affected-trait">{{affectedTrait}}</div>
           <div class="grid-with-lines-cell">{{entry.description}}</div>
           <number-display class="value-display grid-with-lines-cell" :value="entry.value"/>
-          <div class="grid-with-lines-cell" @click="toggleIsActive(entry)">{{entry.isActive ? "Yes" : "No"}}</div>
+          <yes-no-toggle class="grid-with-lines-cell" v-model="entry.isActive"/>
         </div>
       </div>
       <div class="empty-notice" v-if="Object.keys(getCharsheet().activeEffects).length === 0">No Adjustments</div>
@@ -30,11 +30,6 @@
       LocalCostDisplay
     },
     inject: ["getCharsheet"],
-    methods: {
-      toggleIsActive: function(activeEffect) {
-        activeEffect.isActive = !activeEffect.isActive;
-      }
-    }
   }
 </script>
 

@@ -73,10 +73,13 @@ TODO: The ability "Ultimate Effort" should be specific to a particular skill
 TODO: For the power "Communication", the extra "Sense-Dependent" isn't really
   a flaw of the power, it is a flaw of any other power
 
-TODO: Campaign limits not implemented yet:
-  * For an attack, (Attack bonus + effect rank) <= powerLevel * 2
-  * For an attack with resistance, not attack,
-    effect Rank <= powerLevel
+TODO: Campaign power level limits not implemented yet:
+  * TOTAL modifier with any skill <= 10+powerLevel [YES - per skill: NormalSkillLimit / TemplateSkillLimit]
+  * For an attack with an attack roll, (Attack bonus + effect rank) <= powerLevel * 2 [YES - per attack: AttackRoll]
+  * For an attack with resistance, not attack, Effect Rank <= powerLevel [NO - per attack: ResistedAttack]
+  * Dodge + Toughness <= 2 * powerLevel [YES: DodgeAndToughness]
+  * Parry + Toughness <= 2 * powerLevel [YES: ParryAndToughness]
+  * Fortitude + Will <= 2 * powerLevel [YES: FortitudeAndWill]
   * For all campaign limits, should make a list of them and be able to display
     it and even make exceptions for individual ones.
 

@@ -120,6 +120,7 @@
         new updaterClasses["DefenseUpdater"](this, charsheet, "parry");
         new updaterClasses["ToughnessUpdater"](this, charsheet);
         new updaterClasses["DefenseUpdater"](this, charsheet, "will");
+        new updaterClasses["ConstraintUpdater"](this, charsheet);
         const attackList = charsheet.attacks.attackList;
         for (const item of charsheet.equipment) {
           if (item.source === "custom" && item.feature) {

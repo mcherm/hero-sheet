@@ -79,7 +79,7 @@
         this.$emit("change-character", eventData);
       },
       createNewCharacter: async function() {
-        const character = newBlankCharacter();
+        const character = newBlankCharacter(this.$globals.developerMode);
         try {
           const createResponse = await createCharacter(this.user, character);
           this.selectCharacter({
