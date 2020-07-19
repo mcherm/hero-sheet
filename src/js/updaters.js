@@ -3,7 +3,7 @@
 //
 
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
-import {activeEffectModifier, findOrCreateActiveEffect, totalCost} from "./heroSheetUtil.js"
+import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll} from "./heroSheetUtil.js"
 
 
 /*
@@ -1063,9 +1063,9 @@ class ConstraintUpdater extends Updater {
     const templateSkills = {};
     this.charsheet.skills.skillList.forEach(skill => {
       if (skill.isTemplate) {
-        templateSkills[skill.hsid] = skill.ranks; // FIXME: Needs to be based on skill ROLL, not skill ranks.
+        templateSkills[skill.hsid] = skillRoll(this.charsheet, skill);
       } else {
-        normalSkills[skill.name] = skill.ranks; // FIXME: Needs to be based on skill ROLL, not skill ranks.
+        normalSkills[skill.name] = skillRoll(this.charsheet, skill);
       }
     });
     return {
