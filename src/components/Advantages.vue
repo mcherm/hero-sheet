@@ -26,7 +26,7 @@
             >{{standardAdvantage.name}}</option>
           </select>
         </div>
-        <number-entry v-if="advantageIsRanked(advantage)" v-model="advantage.ranks" :mutable="allyAdvantages.includes(advantage.name)"/>
+        <number-entry v-if="advantageIsRanked(advantage)" v-model="advantage.ranks" :mutable="!allyAdvantages.includes(advantage.name)"/>
         <div v-else class="inapplicable"></div>
         <div :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
           {{standardAdvantage(advantage).description}}
