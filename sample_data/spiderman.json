@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 16,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 71,
@@ -416,7 +416,8 @@
         "hsid": "HIM5W5BYB",
         "value": 8,
         "updater": "ImprovedInitiativeUpdater",
-        "advantageHsid": "HID48D3TJ"
+        "advantageHsid": "HID48D3TJ",
+        "isActive": true
       }
     ],
     "attacks.HI2KJVBLR.check": [
@@ -424,8 +425,11 @@
         "hsid": "HI6WLV2WQ",
         "value": 3,
         "updater": "CombatSkillUpdater",
-        "skillHsid": "HILZ41YR9"
+        "skillHsid": "HILZ41YR9",
+        "isActive": true
       }
     ]
-  }
+  },
+  "constraintViolations": {},
+  "allies": []
 }
