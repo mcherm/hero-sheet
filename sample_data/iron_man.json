@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 16,
   "campaign": {
     "powerLevel": 14,
     "xpAwarded": 158,
@@ -277,7 +277,37 @@
       "hsid": "HISBFZ2Z5"
     }
   ],
-  "equipment": [],
+  "equipment": [
+    {
+      "hsid": "HIP6NX44G",
+      "name": "Blaster Pistol",
+      "cost": 10,
+      "source": "standard",
+      "feature": {
+        "name": "Blaster Pistol",
+        "hsid": "HI5TB852Q",
+        "effect": "Damage",
+        "description": "A pistol that fires a coherent bolt of energy.",
+        "extras": [
+          {
+            "modifierSource": "standard",
+            "modifierName": "Increased Range",
+            "ranks": 1,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1,
+            "displayText": "Increased Range (+1)"
+          }
+        ],
+        "flaws": [],
+        "ranks": 5,
+        "cost": 10,
+        "effectDescription": "You can inflict damage by making a close attack.",
+        "baseCost": 1,
+        "subpowers": [],
+        "option": null
+      }
+    }
+  ],
   "skills": {
     "skillList": [
       {
@@ -516,8 +546,19 @@
         "resistanceDC": 2,
         "updater": "UnarmedAttackUpdater",
         "hsid": "HIJV81R4W"
+      },
+      {
+        "hsid": "HIWLV6PJ4",
+        "updater": "DamagePowerAttackUpdater",
+        "powerHsid": "HI5TB852Q",
+        "name": "Blaster Pistol",
+        "attackCheck": 10,
+        "effectType": "damage",
+        "resistanceDC": 5
       }
     ]
   },
-  "activeEffects": {}
+  "activeEffects": {},
+  "constraintViolations": {},
+  "allies": []
 }
