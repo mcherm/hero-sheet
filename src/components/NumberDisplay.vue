@@ -38,7 +38,7 @@
     text-align: right;
     background-color: var(--paper-color);
     padding: 2px 6px;
-    margin-left: auto;
+    margin-left: 0;
     margin-right: 0;
   }
   .number-display.negative {

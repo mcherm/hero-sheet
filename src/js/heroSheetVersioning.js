@@ -4,12 +4,12 @@ const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
 const currentVersion = 16; // Up to this version can be saved
-const latestVersion = 16; // Might be an experimental version
+const latestVersion = 17; // Might be an experimental version
 
 
-const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses",
-  "initiative", "advantages", "equipment", "skills", "powers", "complications", "background", "attacks",
-  "activeEffects", "constraintViolations", "allies"];
+const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
+  "advantages", "equipment", "skills", "powers", "complications", "background", "attacks", "activeEffects",
+  "constraintViolations", "allies"];
 
 /*
  * Given a charsheet, this re-orders the fields so they are in the preferred order.
@@ -94,7 +94,11 @@ const newBlankCharacter = function(developerMode) {
       ranks: 0
     }
   }
-  const initiative = null;
+  const misc = {
+    initiative: null,
+    isMindlessConstruct: false,
+    isImmobileConstruct: false
+  };
   const advantages = [];
   const equipment = [];
   const skillList = [];
@@ -139,7 +143,7 @@ const newBlankCharacter = function(developerMode) {
     effortPoints,
     abilities,
     defenses,
-    initiative,
+    misc,
     advantages,
     equipment,
     skills,
@@ -497,6 +501,16 @@ const upgradeFuncs = {
   upgradeFrom15: function(charsheet) {
     charsheet.constraintViolations = {};
     charsheet.version = 16;
+  },
+
+  upgradeFrom16: function(charsheet) {
+    charsheet.misc = {
+      initiative: charsheet.initiative,
+      isMindlessConstruct: false,
+      isImmobileConstruct: false
+    }
+    delete charsheet.initiative;
+    charsheet.version = 17;
   }
 };
 

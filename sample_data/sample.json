@@ -23,7 +23,7 @@
     "strength": {
       "entered": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": "Construct"
     },
     "stamina": {
       "entered": 0,
@@ -93,7 +93,11 @@
       "ranks": 0
     }
   },
-  "initiative": 0,
+  "misc": {
+    "initiative": 0,
+    "isImmobileConstruct": false,
+    "isMindlessConstruct": false
+  },
   "advantages": [
     {
       "name": "Improved Critical",

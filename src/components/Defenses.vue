@@ -18,7 +18,9 @@
         <number-entry v-else v-model="obj(defenseName).purchased"/>
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
         <number-display v-else :value="obj(defenseName).cost"/>
+        <div v-if="false" class="inapplicable">Construct</div> <!-- Need to drive this off of field values -->
         <modifiable-number-display
+          v-else
           :value="obj(defenseName).ranks"
           :isOutOfSpec="isOutOfSpec(defenseName)"
           :is-modified="isManuallyAdjusted(defenseName)"
@@ -31,7 +33,7 @@
     <div class="initiative-grid grid-with-lines">
       <label class="row-label">initiative</label>
       <modifiable-number-display
-        :value="charsheet.initiative"
+        :value="charsheet.misc.initiative"
         :is-modified="isInitiativeManuallyAdjusted()"
         @add-manual-adjustment="createNewInitiativeManualAdjustment($event)"
         @remove-manual-adjustment="removeInitiativeManualAdjustment()"
@@ -68,7 +70,7 @@
         return agility + activeEffectModifier(this.charsheet, "initiative");
       };
       this.$watch(calcInitiative, function() {
-        this.charsheet.initiative = calcInitiative();
+        this.charsheet.misc.initiative = calcInitiative();
       }, {immediate: true});
     },
     methods: {
@@ -102,11 +104,11 @@
       isManuallyAdjusted: function(defenseName) {
         return isManuallyAdjusted(this.charsheet, `defenses.${defenseName}.ranks`);
       },
-      // FIXME: Closely related to the same function in BasicStatsRow; figure out how to share code
+      // FIXME: Closely related to the same function in BasicStats; figure out how to share code
       removeManualAdjustment: function(defenseName) {
         removeActiveEffects(this.charsheet, x => x.isManualAdjustment, `defenses.${defenseName}.ranks`);
       },
-      // FIXME: Closely related to the same function in BasicStatsRow; figure out how to share code
+      // FIXME: Closely related to the same function in BasicStats; figure out how to share code
       createNewManualAdjustment: function(defenseName, modalResult) {
         const value = modalResult.value;
         const description = modalResult.description || `Manual Adjustment made to ${defenseName} value`;
@@ -114,9 +116,7 @@
         const newActiveEffect = newAdjustment(
           description,
           value,
-          {
-            isManualAdjustment: true
-          }
+          { isManualAdjustment: true }
         );
         addActiveEffect(this.charsheet, `defenses.${defenseName}.ranks`, newActiveEffect);
       },
@@ -159,6 +159,6 @@
   }
   .inapplicable {
     background-color: var(--inapplicable-color);
+    padding: 2px 6px;
   }
-
 </style>
