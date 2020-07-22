@@ -5,7 +5,7 @@
 <template>
   <div class="modifiable-number-display">
     <pencil-icon :is-modified="isModified" @icon-click="iconClick()"/>
-    <number-display :value="value" :is-out-of-spec="isOutOfSpec" :show-err-for-negatives="showErrForNegatives"/>
+    <number-display class="right-align" :value="value" :is-out-of-spec="isOutOfSpec" :show-err-for-negatives="showErrForNegatives"/>
     <modal-lightbox
       v-if="isShowingModal"
       v-on:exit="onModalExit"
@@ -71,5 +71,8 @@
 <style scoped>
   .modifiable-number-display {
     display: flex;
+  }
+  .right-align {
+    margin-left: auto;
   }
 </style>
