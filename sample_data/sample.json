@@ -22,42 +22,34 @@
   "abilities": {
     "strength": {
       "entered": 0,
-      "cost": 0,
-      "ranks": "Construct"
+      "ranks": "lack"
     },
     "stamina": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "agility": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "dexterity": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "fighting": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "intellect": {
       "entered": 0,
-      "cost": 0,
       "ranks": 3
     },
     "awareness": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "presence": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     }
   },

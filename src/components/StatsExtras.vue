@@ -54,12 +54,33 @@
       },
       toggleIsConstruct: function(fieldName) {
         this.charsheet.misc[fieldName] = !this.charsheet.misc[fieldName];
+        const affectedStats = {
+          isImmobileConstruct: ["stamina", "strength", "agility"],
+          isMindlessConstruct: ["stamina", "intellect", "presence"],
+        }[fieldName];
         if (this.charsheet.misc[fieldName]) {
           // Becoming a construct
-          console.log(`Time to become a contruct`);
+          for (const affectedStat of affectedStats) {
+            this.charsheet.abilities[affectedStat].entered = "construct";
+          }
         } else {
           // Ceasing to be a construct
-          console.log(`Time to cease being a construt`);
+          for (const affectedStat of affectedStats) {
+            const affectedStatData = this.charsheet.abilities[affectedStat];
+            if (affectedStatData.entered === "construct") {
+              affectedStatData.entered = 0;
+              // Special case for stamina when both constructs were on
+              if (affectedStat === "stamina") {
+                const otherFieldName = {
+                  isImmobileConstruct: "isMindlessConstruct",
+                  isMindlessConstruct: "isImmobileConstruct",
+                }[fieldName];
+                if (this.charsheet.misc[otherFieldName]) {
+                  affectedStatData.entered = "construct";
+                }
+              }
+            }
+          }
         }
       },
     }

@@ -166,11 +166,17 @@ class DefenseUpdater extends Updater {
 
   watchForChange() {
     const purchased = this.charsheet.defenses[this.defenseName].purchased;
-    const cost = purchased;
     const baseStat = _baseStatForDefenseMap[this.defenseName];
-    const baseRanks = this.charsheet.abilities[baseStat].ranks + purchased;
-    const activeEffectKey = `defenses.${this.defenseName}.ranks`;
-    const ranks = baseRanks + activeEffectModifier(this.charsheet, activeEffectKey);
+    const statLacking = lacksStat(this.charsheet, baseStat);
+    const cost = statLacking ? 0 : purchased;
+    const baseRanks = this.charsheet.abilities[baseStat].ranks;
+    let ranks;
+    if (statLacking) {
+      ranks = baseRanks;
+    } else {
+      const activeEffectKey = `defenses.${this.defenseName}.ranks`;
+      ranks = baseRanks + purchased + activeEffectModifier(this.charsheet, activeEffectKey);
+    }
     return {
       identity: {}, // This updater never goes away.
       calculations: {

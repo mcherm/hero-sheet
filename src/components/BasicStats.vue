@@ -19,7 +19,7 @@
           @input="updateEntered(statName, $event)"
         />
         <div v-if="lacksStat(charsheet, statName)" class="inapplicable">N/A</div>
-        <number-display v-else :value="statObj(statName).entered * 2"/>
+        <number-display v-else :value="costOfAbility(charsheet, statName)"/>
         <div v-if="lacksStat(charsheet, statName)" class="inapplicable">N/A</div>
         <modifiable-number-display
           v-else
@@ -39,7 +39,7 @@
 
 <script>
   import {newAdjustment} from "../js/heroSheetVersioning.js";
-  import {isManuallyAdjusted, addActiveEffect, removeActiveEffects, lacksStat} from "../js/heroSheetUtil.js";
+  import {isManuallyAdjusted, addActiveEffect, removeActiveEffects, lacksStat, costOfAbility} from "../js/heroSheetUtil.js";
 
   import StatsExtras from "./StatsExtras.vue"
   const statsData = require("../data/statsData.json");
@@ -54,6 +54,7 @@
       return {
         statsData,
         lacksStat,
+        costOfAbility,
         charsheet: this.getCharsheet(),
       }
     },
