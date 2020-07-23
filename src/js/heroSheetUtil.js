@@ -117,11 +117,26 @@ const advantageIsRanked = function(advantage) {
 };
 
 
+const costOfAbility = function(charsheet, statName) {
+  const statData = charsheet.abilities[statName];
+  if (statData.entered === "lack") {
+    return -10;
+  }
+  if (statData.entered === "construct") {
+    return 0;
+  }
+  if (charsheet.misc.isMindlessConstruct && ["strength", "intellect", "presence"].includes(statName)) {
+    return (statData.entered + 5) * 2;
+  }
+  if (charsheet.misc.isImmobileConstruct && ["strength", "stamina", "agility"].includes(statName)) {
+    return (statData.entered + 5) * 2;
+  }
+  return statData.entered * 2;
+};
+
+
 const abilityCost = function(charsheet) {
-  const costOfAbility = function([statName, statData]) {
-    return lacksStat(charsheet, statName) ? -10 : statData.entered * 2;
-  };
-  return Object.entries(charsheet.abilities).reduce((x,y) => x + costOfAbility(y), 0);
+  return Object.entries(charsheet.abilities).reduce((x,y) => x + costOfAbility(charsheet, y[0]), 0);
 };
 
 const defenseCost = function(charsheet) {
@@ -657,6 +672,7 @@ const lacksStat = function(charsheet, statName) {
 export {
   powerCostCalculate,
   advantageIsRanked,
+  costOfAbility,
   abilityCost,
   defenseCost,
   skillCost,
