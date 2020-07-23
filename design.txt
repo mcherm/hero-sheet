@@ -54,6 +54,20 @@ User and Email:
   if the user and email are the same, and under BOTH places if the email exists and
   is different from the user.
 
+Stat Ranks:
+  Each stat or "Ability" can take on a few different values:
+   * A number from -5 to big positive numbers: the character has this rank
+   * NaN: a value used to calculate the rank is undefined
+   * "lack": the character lacks this ability. This costs -10 points and means
+     nothing based on the ability can be done.
+   * "construct": the character is a construct who lacks this ability and has
+     not chosen to buy back the ability.
+  The "entered" field for a stat can ALSO take on similar values:
+   * A positive or negative number
+   * NaN: for any non-numeric input or errors
+   * "lack": means the character lacks this ability
+   * "construct" means the character lacks this ability due to being a construct
+
 Bug List:
 
 TODO: Some powers (like Invisiblity or Concealment and maybe Morph) don't have

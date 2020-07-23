@@ -28,6 +28,7 @@
         <div v-else class="inapplicable"></div>
         <div class="attack-type">{{attack.effectType}}</div>
       </div>
+      <div class="empty-notice" v-if="getCharsheet().attacks.attackList.length === 0">No Attacks</div>
     </div>
   </boxed-section>
 </template>
