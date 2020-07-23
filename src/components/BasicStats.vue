@@ -12,12 +12,15 @@
            :key="statName"
       >
         <div class="row-label">{{statName}}</div>
+        <div v-if="lacksStat(charsheet, statName)" class="inapplicable">N/A</div>
         <number-entry
+          v-else
           :value="statObj(statName).entered"
           @input="updateEntered(statName, $event)"
         />
-        <number-display :value="statObj(statName).cost"/>
-        <div v-if="inapplicableDueToConstruct(statName)" class="inapplicable">Construct</div>
+        <div v-if="lacksStat(charsheet, statName)" class="inapplicable">N/A</div>
+        <number-display v-else :value="statObj(statName).entered * 2"/>
+        <div v-if="lacksStat(charsheet, statName)" class="inapplicable">N/A</div>
         <modifiable-number-display
           v-else
           :value="statObj(statName).ranks"
@@ -29,32 +32,28 @@
       </div>
     </div>
 
-    <div class="stats-extras grid-with-lines">
-      <label class="row-label" for="is-mindless-construct">Mindless Construct</label>
-      <div class="grid-with-lines-cell">
-        <input type="checkbox" id="is-mindless-construct" v-model="charsheet.misc.isMindlessConstruct">
-      </div>
-      <label class="row-label" for="is-immobile-construct">Immobile Construct</label>
-      <div class="grid-with-lines-cell">
-        <input type="checkbox" id="is-immobile-construct" v-model="charsheet.misc.isImmobileConstruct">
-      </div>
-    </div>
+    <stats-extras class="ten-px-top-margin"/>
 
   </boxed-section>
 </template>
 
 <script>
   import {newAdjustment} from "../js/heroSheetVersioning.js";
-  import {isManuallyAdjusted, addActiveEffect, removeActiveEffects} from "../js/heroSheetUtil.js";
+  import {isManuallyAdjusted, addActiveEffect, removeActiveEffects, lacksStat} from "../js/heroSheetUtil.js";
 
+  import StatsExtras from "./StatsExtras.vue"
   const statsData = require("../data/statsData.json");
 
   export default {
     name: "BasicStats",
     inject: ["getCharsheet"],
+    components: {
+      StatsExtras,
+    },
     data: function() {
       return {
         statsData,
+        lacksStat,
         charsheet: this.getCharsheet(),
       }
     },
@@ -91,26 +90,25 @@
           this.charsheet.misc.isMindlessConstruct && ["stamina", "intellect", "presence"].includes(statName) ||
           this.charsheet.misc.isImmobileConstruct && ["stamina", "strength", "agility"].includes(statName)
         );
-      }
+      },
     }
   }
 </script>
 
 <style scoped>
-  th {
-    border: 1px solid var(--grid-line-color);
-    text-align: center;
+  .boxed-section .v-box {
+    display: flex;
+    flex-flow: column;
+    background-color: var(--section-color);
   }
   .stat-grid {
     grid-template-columns: max-content max-content max-content max-content max-content;
   }
-  .stats-extras {
-    grid-template-columns: max-content max-content;
-    margin-top: 10px;
-    display: inline grid;
-  }
   .inapplicable {
     background-color: var(--inapplicable-color);
     padding: 2px 6px;
+  }
+  .ten-px-top-margin {
+    margin-top: 10px;
   }
 </style>

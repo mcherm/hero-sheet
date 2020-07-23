@@ -3,7 +3,7 @@
 //
 
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
-import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll} from "./heroSheetUtil.js"
+import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat} from "./heroSheetUtil.js"
 
 
 /*
@@ -124,9 +124,14 @@ class StatRankUpdater extends Updater {
   }
 
   watchForChange() {
-    const baseRanks = this.charsheet.abilities[this.statName].entered;
-    const activeEffectKey = `abilities.${this.statName}.ranks`;
-    const ranks = baseRanks + activeEffectModifier(this.charsheet, activeEffectKey);
+    const entered = this.charsheet.abilities[this.statName].entered;
+    const characterLacksStat = lacksStat(this.charsheet, this.statName);
+    let calculatedRanks;
+    if (!characterLacksStat) {
+      const activeEffectKey = `abilities.${this.statName}.ranks`;
+      calculatedRanks = entered + activeEffectModifier(this.charsheet, activeEffectKey);
+    }
+    const ranks = characterLacksStat ? entered : calculatedRanks;
     return {
       identity: {}, // This updater never goes away.
       calculations: {
@@ -231,10 +236,10 @@ class AttackUpdater extends Updater {
   }
 
   /*
-   * This is run once during the constructor to obtain or create the specific
-   * attack.
+   * Finds the existing attack and returns it, or returns null if the attack can't
+   * be found.
    */
-  findOrCreateTheAttack() {
+  findTheAttack() {
     const updaterName = this.className();
     const attackList = this.charsheet.attacks.attackList;
     const matchingAttacks = attackList.filter(
@@ -245,9 +250,22 @@ class AttackUpdater extends Updater {
     } else if (matchingAttacks.length === 1) {
       return matchingAttacks[0];
     } else {
+      return null;
+    }
+  }
+
+  /*
+   * This is run once during the constructor to obtain or create the specific
+   * attack.
+   */
+  findOrCreateTheAttack() {
+    const foundAttack = this.findTheAttack();
+    if (foundAttack === null) {
       const newAttack = this.makeNewAttack();
-      attackList.push(newAttack);
+      this.charsheet.attacks.attackList.push(newAttack);
       return newAttack;
+    } else {
+      return foundAttack;
     }
   }
 
@@ -297,14 +315,27 @@ class UnarmedAttackUpdater extends AttackUpdater {
       calculations: {
         strength: this.charsheet.abilities.strength.ranks,
         fighting: this.charsheet.abilities.fighting.ranks,
-        attackCheckAdjustment: this.attackCheckAdjustment()
+        attackCheckAdjustment: this.attackCheckAdjustment(),
+        lacksStrength: lacksStat(this.charsheet, "strength"),
       }
     }
   }
 
   applyChanges(newCalculations) {
-    this.theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
-    this.theAttack.resistanceDC = newCalculations.strength;
+    if (newCalculations.lacksStrength) {
+      const foundAttack = this.findTheAttack();
+      if (foundAttack !== null) {
+        const attackList = this.charsheet.attacks.attackList;
+        const index = attackList.indexOf(foundAttack);
+        if (index !== -1) {
+          attackList.splice(index, 1);
+        }
+      }
+    } else {
+      const theAttack = this.findOrCreateTheAttack();
+      theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
+      theAttack.resistanceDC = newCalculations.strength;
+    }
   }
 }
 

@@ -118,7 +118,10 @@ const advantageIsRanked = function(advantage) {
 
 
 const abilityCost = function(charsheet) {
-  return Object.values(charsheet.abilities).reduce((x,y) => x + y.cost, 0);
+  const costOfAbility = function([statName, statData]) {
+    return lacksStat(charsheet, statName) ? -10 : statData.entered * 2;
+  };
+  return Object.entries(charsheet.abilities).reduce((x,y) => x + costOfAbility(y), 0);
 };
 
 const defenseCost = function(charsheet) {
@@ -634,6 +637,23 @@ const isManuallyAdjusted = function(charsheet, activeEffectKey) {
 }
 
 
+/*
+ * Returns true if the character lacks the given stat (rather than having a value). A invalid
+ * value (eg: NaN) is NOT a lack, but "lack" is.
+ */
+const lacksStat = function(charsheet, statName) {
+  const statObj = charsheet.abilities[statName];
+  if (typeof(statObj.entered) === "string") {
+    return true;
+  } else if (typeof(statObj.entered) === "number") {
+    return false;
+  } else {
+    throw Error(`The entered ranks for ${statName} are '${statObj.entered}' which is an unexpected type.`);
+  }
+}
+
+
+
 export {
   powerCostCalculate,
   advantageIsRanked,
@@ -666,4 +686,5 @@ export {
   findOrCreateActiveEffect,
   activeEffectModifier,
   isManuallyAdjusted,
+  lacksStat,
 };

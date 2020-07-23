@@ -34,16 +34,26 @@
             </select>
             <span v-else>CHOOSE</span>
           </label>
-          <td class="abilityName" :class="{isOutOfSpec: !skillData(skill).ability}">{{skillData(skill).ability}}</td>
-          <number-display class="base-value" :value="baseValue(skill)"/>
+
+          <div v-if="lacksSkill(skill)" class="inapplicable">N/A</div>
+          <td v-else class="abilityName" :class="{isOutOfSpec: !skillData(skill).ability}">{{skillData(skill).ability}}</td>
+
+          <div v-if="lacksSkill(skill)" class="inapplicable">N/A</div>
+          <number-display v-else class="base-value" :value="baseValue(skill)"/>
+
           <number-entry
               :value="skill.ranks"
               @input="updateRanks(skill, $event)"
           />
+
           <skills-customization :skill="skill" :skillData="skillData(skill)"/>
-          <div v-if="skillRoll(getCharsheet(), skill) === null" class="skill-roll roll-not-applicable">N/A</div>
+
+          <div v-if="lacksSkill(skill)" class="inapplicable">N/A</div>
+          <div v-else-if="skillRoll(getCharsheet(), skill) === null" class="skill-roll roll-not-applicable">N/A</div>
           <number-display v-else :value="skillRoll(getCharsheet(), skill)" :isOutOfSpec="skillOutOfSpec(skill)" class="skill-roll"/>
+
           <docs-lookup :docsURL="skillData(skill).docsURL"/>
+
           <div v-if="deleteIsVisible && !skill.isTemplate" class="grid-with-lines-no-lines"></div>
           <button
               v-if="deleteIsVisible && skill.isTemplate"
@@ -69,7 +79,7 @@
   import LocalCostDisplay from "./LocalCostDisplay.vue";
   import SkillsCustomization from "./SkillsCustomization";
   import {newBlankSkill} from "../js/heroSheetVersioning.js";
-  import {skillCost, skillRoll} from "../js/heroSheetUtil.js";
+  import {skillCost, skillRoll, lacksStat} from "../js/heroSheetUtil.js";
   const skillsData = require("../data/skillsData.json");
 
   export default {
@@ -136,6 +146,10 @@
         } else {
           return activeViolation(`NormalSkillLimit@${skill.name}`);
         }
+      },
+      lacksSkill: function(skill) {
+        const ability = this.skillData(skill).ability;
+        return ability && lacksStat(this.charsheet, ability);
       },
       setSkillName: function(skill, skillName) {
         skill.name = skillName;
@@ -205,5 +219,9 @@
   .isOutOfSpec {
     outline: var(--error-color) solid 4px;
     outline-offset: -4px;
+  }
+  .inapplicable {
+    background-color: var(--inapplicable-color);
+    padding: 2px 6px;
   }
 </style>

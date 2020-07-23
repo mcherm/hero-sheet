@@ -80,7 +80,6 @@ const newBlankCharacter = function(developerMode) {
   for (const statName in statsData) {
     abilities[statName] = {
       entered: 0,
-      cost: 0,
       ranks: 0
     };
   }
@@ -508,8 +507,11 @@ const upgradeFuncs = {
       initiative: charsheet.initiative,
       isMindlessConstruct: false,
       isImmobileConstruct: false
-    }
+    };
     delete charsheet.initiative;
+    for (const statName in statsData) {
+      delete charsheet.abilities[statName].cost;
+    }
     charsheet.version = 17;
   }
 };

@@ -13,12 +13,13 @@
           :key="defenseName"
       >
         <label class="row-label">{{defenseName}}</label>
-        <number-display :value="base(defenseName)"/>
+        <div v-if="lacksDefense(defenseName)" class="inapplicable">N/A</div>
+        <number-display v-else :value="base(defenseName)"/>
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
         <number-entry v-else v-model="obj(defenseName).purchased"/>
         <div v-if="isImmutable(defenseName)" class="inapplicable"/>
         <number-display v-else :value="obj(defenseName).cost"/>
-        <div v-if="false" class="inapplicable">Construct</div> <!-- Need to drive this off of field values -->
+        <div v-if="lacksDefense(defenseName)" class="inapplicable">N/A</div>
         <modifiable-number-display
           v-else
           :value="obj(defenseName).ranks"
@@ -32,7 +33,9 @@
 
     <div class="initiative-grid grid-with-lines">
       <label class="row-label">initiative</label>
+      <div v-if="lacksInitiative()" class="inapplicable">N/A</div>
       <modifiable-number-display
+        v-else
         :value="charsheet.misc.initiative"
         :is-modified="isInitiativeManuallyAdjusted()"
         @add-manual-adjustment="createNewInitiativeManualAdjustment($event)"
@@ -45,7 +48,7 @@
 
 <script>
   import {activeEffectModifier} from "../js/heroSheetUtil.js";
-  import {addActiveEffect, isManuallyAdjusted, removeActiveEffects} from "../js/heroSheetUtil";
+  import {addActiveEffect, isManuallyAdjusted, removeActiveEffects, lacksStat} from "../js/heroSheetUtil.js";
   import {newAdjustment} from "../js/heroSheetVersioning";
 
   const baseValueMap = {
@@ -83,6 +86,12 @@
       },
       base: function(defenseName) {
         return this.charsheet.abilities[baseValueMap[defenseName]].ranks;
+      },
+      lacksDefense: function(defenseName) {
+        return lacksStat(this.charsheet, baseValueMap[defenseName]);
+      },
+      lacksInitiative: function() {
+        return lacksStat(this.charsheet, "agility");
       },
       isOutOfSpec: function(defenseName) {
         const activeViolation = key => {
