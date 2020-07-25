@@ -13,11 +13,7 @@
       >
         <div class="row-label">{{statName}}</div>
         <div v-if="lacksStat(charsheet, statName)" class="inapplicable">N/A</div>
-        <number-entry
-          v-else
-          :value="statObj(statName).entered"
-          @input="updateEntered(statName, $event)"
-        />
+        <number-entry v-else v-model="statObj(statName).entered"/>
         <div v-if="lacksStat(charsheet, statName)" class="inapplicable">N/A</div>
         <number-display v-else :value="costOfAbility(charsheet, statName)"/>
         <div v-if="lacksStat(charsheet, statName)" class="inapplicable">N/A</div>
@@ -61,11 +57,6 @@
     methods: {
       statObj: function(statName) {
         return this.charsheet.abilities[statName];
-      },
-      updateEntered: function(statName, newValue) {
-        const statObj = this.statObj(statName);
-        statObj.entered = Number(newValue);
-        statObj.cost = statObj.entered * 2;
       },
       isManuallyAdjusted: function(statName) {
         return isManuallyAdjusted(this.charsheet, `abilities.${statName}.ranks`);

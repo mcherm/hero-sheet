@@ -69,8 +69,12 @@
     },
     created: function() {
       const calcInitiative = () => {
-        const agility = this.charsheet.abilities.agility.ranks;
-        return agility + activeEffectModifier(this.charsheet, "initiative");
+        if (lacksStat(this.charsheet, "agility")) {
+          return this.charsheet.abilities.agility.ranks;
+        } else {
+          const agility = this.charsheet.abilities.agility.ranks;
+          return agility + activeEffectModifier(this.charsheet, "initiative");
+        }
       };
       this.$watch(calcInitiative, function() {
         this.charsheet.misc.initiative = calcInitiative();

@@ -491,7 +491,7 @@
     {
       "hsid": "HI1GQF7RB",
       "type": "sidekick",
-      "character": {
+      "charsheet": {
         "version": 13,
         "campaign": {
           "powerLevel": 10,

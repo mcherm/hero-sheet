@@ -8,7 +8,7 @@
       Loading...
     </div>
     <character-sheet v-else :charsheet="charsheet"/>
-    <div id="data-dump">
+    <div v-if="this.$globals.developerMode" id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
     </div>
   </div>
@@ -23,6 +23,15 @@
   import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "../js/updaters.js";
   import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
   import {removeActiveEffects} from "../js/heroSheetUtil.js";
+
+  // FIXME: Begin continuous validation (which should be removed)
+  const Ajv = require('ajv');
+  const ajv = Ajv({allErrors: true});
+  const commonSchema = require("../schema/common.schema.json");
+  ajv.addSchema(commonSchema, "commonSchema");
+  const charsheetSchema = require("../schema/charsheet.schema.json");
+  ajv.addSchema(charsheetSchema, "charsheetSchema");
+  // FIXME: End continuous validation
 
   export default {
     name: "CharacterContainer",
@@ -215,7 +224,19 @@
     },
     computed: {
       character_json: function() {
-        return JSON.stringify(this.charsheet, null, 2) + "\n";
+        const result = JSON.stringify(this.charsheet, null, 2) + "\n";
+        // FIXME: Begin continuous validation (which should be removed)
+        if (this.$globals.developerMode) {
+          if (this.charsheet) {
+            const reconstitutedCharsheet = JSON.parse(result); // Has NaN turned into null, and maybe other things
+            const isValid = ajv.validate("charsheetSchema", reconstitutedCharsheet);
+            if (!isValid) {
+              console.log(`Failed Schema Validation: ${JSON.stringify(ajv.errors, null, 2)}`);
+            }
+          }
+        }
+        // FIXME: End continuous validation
+        return result;
       },
       characterName: function() {
         try {

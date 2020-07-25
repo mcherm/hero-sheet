@@ -14,7 +14,9 @@
           class="display-contents"
       >
         <div class="attack-name">{{attack.name}}</div>
+        <div v-if="typeof(attack.attackCheck) === 'string'" class="inapplicable">N/A</div>
         <number-display
+            v-else
             class="to-hit"
             :value="attack.attackCheck"
             :isOutOfSpec="isOutOfSpec(attack)"
@@ -34,7 +36,7 @@
 </template>
 
 <script>
-  import LocalCostDisplay from "./LocalCostDisplay";
+  import LocalCostDisplay from "./LocalCostDisplay.vue";
 
   export default {
     name: "Attacks",
@@ -74,5 +76,9 @@
   }
   .attack-type {
     color: var(--under-development-color);
+  }
+  .inapplicable {
+    background-color: var(--inapplicable-color);
+    padding: 2px 6px;
   }
 </style>
