@@ -197,7 +197,13 @@ class ToughnessUpdater extends Updater {
   watchForChange() {
     const baseStat = _baseStatForDefenseMap["toughness"];
     const baseRanks = this.charsheet.abilities[baseStat].ranks;
-    const ranks = baseRanks + activeEffectModifier(this.charsheet, "defenses.toughness.ranks");
+    const statLacking = lacksStat(this.charsheet, baseStat);
+    let ranks;
+    if (statLacking) {
+      ranks = baseRanks;
+    } else {
+      ranks = baseRanks + activeEffectModifier(this.charsheet, "defenses.toughness.ranks");
+    }
     return {
       identity: {}, // This updater never goes away.
       calculations: {
@@ -339,7 +345,10 @@ class UnarmedAttackUpdater extends AttackUpdater {
       }
     } else {
       const theAttack = this.findOrCreateTheAttack();
-      theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
+      const attackCheck = typeof(newCalculations.fighting) === "string"
+        ? newCalculations.fighting
+        : newCalculations.fighting + newCalculations.attackCheckAdjustment;
+      theAttack.attackCheck = attackCheck;
       theAttack.resistanceDC = newCalculations.strength;
     }
   }
@@ -421,7 +430,11 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
   /* Calculate the attack check based on given inputs. Used for update and create. */
   _attackCheckFormula(inputs) {
     const {fighting, attackCheckAdjustment} = inputs;
-    return fighting + attackCheckAdjustment;
+    if (typeof(fighting) === "string") {
+      return fighting;
+    } else {
+      return fighting + attackCheckAdjustment;
+    }
   }
 
   /* Calculate the resistanceDC based on given inputs. Used for update and create. */

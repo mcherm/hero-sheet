@@ -1,5 +1,5 @@
 {
-  "version": 16,
+  "version": 17,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 71,
@@ -22,42 +22,34 @@
   "abilities": {
     "strength": {
       "entered": 9,
-      "cost": 18,
       "ranks": 9
     },
     "stamina": {
       "entered": 10,
-      "cost": 20,
       "ranks": 10
     },
     "agility": {
       "entered": 12,
-      "cost": 24,
       "ranks": 12
     },
     "dexterity": {
       "entered": 12,
-      "cost": 24,
       "ranks": 12
     },
     "fighting": {
       "entered": 9,
-      "cost": 18,
       "ranks": 9
     },
     "intellect": {
       "entered": 8,
-      "cost": 16,
       "ranks": 8
     },
     "awareness": {
       "entered": 7,
-      "cost": 14,
       "ranks": 7
     },
     "presence": {
       "entered": 2,
-      "cost": 4,
       "ranks": 2
     }
   },
@@ -88,7 +80,11 @@
       "ranks": 15
     }
   },
-  "initiative": 20,
+  "misc": {
+    "initiative": 20,
+    "isMindlessConstruct": false,
+    "isImmobileConstruct": false
+  },
   "advantages": [
     {
       "name": "Accurate Attack",
@@ -231,14 +227,12 @@
       {
         "name": "acrobatics",
         "ranks": 8,
-        "isTemplate": false,
-        "hsid": "HIXA1TK7N"
+        "isTemplate": false
       },
       {
         "name": "athletics",
         "ranks": 6,
-        "isTemplate": false,
-        "hsid": "HI2DRR425"
+        "isTemplate": false
       },
       {
         "name": "close combat",

@@ -4,7 +4,7 @@ const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 
 const currentVersion = 17; // Up to this version can be saved
-const latestVersion = 17; // Might be an experimental version
+const latestVersion = 18; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
@@ -115,6 +115,7 @@ const newBlankCharacter = function(developerMode) {
   const powers = [];
   const complications = [
     {
+      hsid: newHsid(),
       complicationType: "motivation",
       description: ""
     }
@@ -513,6 +514,55 @@ const upgradeFuncs = {
       delete charsheet.abilities[statName].cost;
     }
     charsheet.version = 17;
+  },
+
+  upgradeFrom17: function(charsheet) {
+    for (const complication of charsheet.complications) {
+      if (complication.hsid === undefined) {
+        complication.hsid = newHsid();
+      }
+    }
+    for (const skill of charsheet.skills.skillList) {
+      if (!skill.isTemplate) {
+        delete skill.hsid;
+      }
+    }
+    const patchAdvantage = function(advantage) {
+      delete advantage.effect;
+      delete advantage.isRanked;
+    }
+    for (const advantage of charsheet.advantages) {
+      patchAdvantage(advantage);
+    }
+    const patchModifier = function(modifier) {
+      if (modifier.modifierSource === undefined) {
+        modifier.modifierSource = "standard";
+      }
+    }
+    const patchFeature = function(power) {
+      for (const extra of power.extras) {
+        patchModifier(extra);
+      }
+      for (const flaw of power.flaws) {
+        patchModifier(flaw);
+      }
+      delete power.flats;
+      if (power.baseCost === null) {
+        delete power.baseCost;
+      }
+      for (const subpower of power.subpowers) {
+        patchFeature(subpower);
+      }
+    }
+    for (const power of charsheet.powers) {
+      patchFeature(power);
+    }
+    for (const item of charsheet.equipment) {
+      if (item.feature) {
+        patchFeature(item.feature);
+      }
+    }
+    charsheet.version = 18;
   }
 };
 

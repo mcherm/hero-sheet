@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "validate": "ajv -d src/data/samplePowers.json -s src/schema/samplePowers.schema.json -r src/schema/common.schema.json &&  ajv -d src/data/standardPowers.json -s src/schema/standardPowers.schema.json -r src/schema/common.schema.json && ajv -d src/data/modifiersData.json -s src/schema/modifiersData.schema.json -r src/schema/common.schema.json && ajv -d src/data/standardAdvantages.json -s src/schema/standardAdvantages.schema.json -r src/schema/common.schema.json && ajv -d src/data/standardEquipment.json -s src/schema/standardEquipment.schema.json -r src/schema/common.schema.json ",
+    "validate": "node scripts/validateDataFiles.js",
+    "validate_downloads": "ajv -d sample_data/blanko.json -s src/schema/charsheet.schema.json -r src/schema/common.schema.json &&  ajv -d sample_data/spiderman.json -s src/schema/charsheet.schema.json -r src/schema/common.schema.json &&  ajv -d sample_data/blobo.json -s src/schema/charsheet.schema.json -r src/schema/common.schema.json &&  ajv -d sample_data/american_eagle.json -s src/schema/charsheet.schema.json -r src/schema/common.schema.json",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "deploy": "s3-easy-deploy --public-root ./dist --bucket hero-sheet.com",

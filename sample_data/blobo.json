@@ -1,18 +1,18 @@
 {
-  "version": 15,
+  "version": 17,
   "campaign": {
-    "powerLevel": 8,
+    "powerLevel": 10,
     "xpAwarded": 0,
-    "setting": "Hero Academy"
+    "setting": ""
   },
   "naming": {
-    "name": "Blobo-1",
-    "player": "Michael Chermside",
+    "name": "Blqnko",
+    "player": "",
     "identityType": "none",
     "identity": "",
-    "gender": "Male",
-    "age": "23",
-    "heightWeight": "A little overweight",
+    "gender": "",
+    "age": "",
+    "heightWeight": "",
     "eyesHair": "",
     "costume": "",
     "groupAffiliation": "",
@@ -21,44 +21,36 @@
   "effortPoints": 1,
   "abilities": {
     "strength": {
-      "entered": 4,
-      "cost": 8,
-      "ranks": 4
+      "entered": 0,
+      "ranks": 0
     },
     "stamina": {
-      "entered": 5,
-      "cost": 10,
-      "ranks": 5
+      "entered": 0,
+      "ranks": 0
     },
     "agility": {
-      "entered": 2,
-      "cost": 4,
-      "ranks": 2
+      "entered": 0,
+      "ranks": 0
     },
     "dexterity": {
-      "entered": 2,
-      "cost": 4,
-      "ranks": 2
+      "entered": 0,
+      "ranks": 0
     },
     "fighting": {
-      "entered": 4,
-      "cost": 8,
-      "ranks": 4
+      "entered": 0,
+      "ranks": 0
     },
     "intellect": {
-      "entered": 1,
-      "cost": 2,
-      "ranks": 1
+      "entered": 0,
+      "ranks": 0
     },
     "awareness": {
-      "entered": 1,
-      "cost": 2,
-      "ranks": 1
+      "entered": 0,
+      "ranks": 0
     },
     "presence": {
-      "entered": 2,
-      "cost": 4,
-      "ranks": 2
+      "entered": 0,
+      "ranks": 0
     }
   },
   "defenses": {
@@ -66,102 +58,48 @@
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 2
+      "ranks": 0
     },
     "fortitude": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 5
+      "ranks": 0
     },
     "parry": {
       "base": 0,
-      "purchased": 1,
-      "cost": 1,
-      "ranks": 5
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
     },
     "toughness": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 5
+      "ranks": 0
     },
     "will": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 1
+      "ranks": 0
     }
   },
-  "initiative": 2,
+  "misc": {
+    "initiative": null,
+    "isMindlessConstruct": false,
+    "isImmobileConstruct": false
+  },
   "advantages": [
     {
-      "name": "All-out Attack",
-      "hsid": "HIC5MCATG",
-      "ranks": null,
-      "description": ""
-    },
-    {
-      "name": "Defensive Roll",
-      "hsid": "HI6UNM5LK",
-      "ranks": 6,
-      "description": ""
-    },
-    {
-      "name": "Evasion",
-      "hsid": "HIVVT6EBF",
-      "ranks": 3,
-      "description": ""
-    },
-    {
-      "name": "Power Attack",
-      "hsid": "HIXMA7C6U",
-      "ranks": null,
-      "description": ""
+      "name": "Minion",
+      "hsid": "HIRF7D73C",
+      "ranks": 0,
+      "description": "",
+      "allyHsid": "HIPZTTMUY"
     }
   ],
-  "equipment": [
-    {
-      "hsid": "HI3SX8A2M",
-      "name": "Smart Phone",
-      "cost": 2,
-      "source": "standard"
-    },
-    {
-      "hsid": "HIW988338",
-      "name": "Multi-tool",
-      "cost": 1,
-      "source": "standard"
-    },
-    {
-      "hsid": "HI2KT7P71",
-      "name": "Knife",
-      "cost": 1,
-      "source": "standard",
-      "feature": {
-        "name": "Knife",
-        "hsid": "HIMU8J373",
-        "effect": "Damage",
-        "description": "Piercing and crits on a 19-20.",
-        "extras": [
-          {
-            "modifierSource": "special",
-            "modifierName": "Strength Based",
-            "costType": "pointsOfMultiplier",
-            "cost": 0,
-            "displayText": "Strength Based (0)"
-          }
-        ],
-        "flaws": [],
-        "ranks": 1,
-        "cost": 1,
-        "effectDescription": "You can inflict damage by making a close attack.",
-        "baseCost": 1,
-        "subpowers": [],
-        "option": null
-      }
-    }
-  ],
+  "equipment": [],
   "skills": {
     "skillList": [
       {
@@ -191,12 +129,12 @@
       },
       {
         "name": "investigation",
-        "ranks": 3,
+        "ranks": 0,
         "isTemplate": false
       },
       {
         "name": "perception",
-        "ranks": 1,
+        "ranks": 0,
         "isTemplate": false
       },
       {
@@ -211,12 +149,12 @@
       },
       {
         "name": "stealth",
-        "ranks": 3,
+        "ranks": 0,
         "isTemplate": false
       },
       {
         "name": "technology",
-        "ranks": 5,
+        "ranks": 0,
         "isTemplate": false
       },
       {
@@ -230,177 +168,12 @@
         "isTemplate": false
       }
     ],
-    "cost": 6
+    "cost": 0
   },
-  "powers": [
-    {
-      "name": "Able to extrude limbs",
-      "hsid": "HI5UJCZ55",
-      "effect": "Extra Limbs",
-      "description": "Can grow temporary extra limbs.",
-      "extras": [
-        {
-          "modifierName": "Sustained",
-          "costType": "pointsOfMultiplier",
-          "cost": 0,
-          "displayText": "Sustained (0)"
-        }
-      ],
-      "flaws": [],
-      "ranks": 2,
-      "cost": 2,
-      "subpowers": [],
-      "effectDescription": "You have extra manipulative limbs, such as arms, tentacles, or even prehensile hair or a tail.",
-      "baseCost": 1
-    },
-    {
-      "name": "Watery Substance",
-      "hsid": "HICEQPLE3",
-      "effect": "Linked",
-      "description": "",
-      "extras": [],
-      "flaws": [],
-      "ranks": 1,
-      "cost": 25,
-      "subpowers": [
-        {
-          "name": "Able to flow around things",
-          "hsid": "HI2J2Q8KZ",
-          "effect": "Insubstantial",
-          "description": "",
-          "extras": [],
-          "flaws": [],
-          "ranks": 1,
-          "cost": 5,
-          "subpowers": [],
-          "effectDescription": "You can assume a less solid form, with each rank becoming progressively less solid.",
-          "baseCost": 5
-        },
-        {
-          "name": "Undamaged by physical attacks",
-          "hsid": "HI3KQSSWD",
-          "effect": "Immunity",
-          "description": "Immunity to physical attacks",
-          "extras": [],
-          "flaws": [],
-          "ranks": 20,
-          "cost": 20,
-          "subpowers": [],
-          "effectDescription": "You are immune to certain effects.",
-          "baseCost": 1
-        }
-      ],
-      "effectDescription": "Several different effects together."
-    },
-    {
-      "name": "Stretchy Body",
-      "hsid": "HI694ZBJM",
-      "effect": "Elongation",
-      "description": "",
-      "extras": [],
-      "flaws": [],
-      "ranks": 3,
-      "cost": 3,
-      "subpowers": [],
-      "effectDescription": "You can elongate your body and/or limbs to extend your reach.",
-      "baseCost": 1
-    },
-    {
-      "name": "Natural form",
-      "hsid": "HIUT6FJFT",
-      "effect": "Regeneration",
-      "description": "When damaged he rapidly regains his natural form.",
-      "extras": [],
-      "flaws": [],
-      "ranks": 5,
-      "cost": 5,
-      "subpowers": [],
-      "effectDescription": "You recover quickly from damage.",
-      "baseCost": 1
-    },
-    {
-      "name": "Able to swell with a source of water",
-      "hsid": "HIW13793W",
-      "effect": "Growth",
-      "description": "Can only grow if a source of reasonably clean water is available.",
-      "extras": [],
-      "flaws": [
-        {
-          "modifierName": "Limited",
-          "costType": "pointsOfMultiplier",
-          "cost": -1,
-          "displayText": "Limited (-1)"
-        }
-      ],
-      "ranks": 4,
-      "cost": 4,
-      "subpowers": [],
-      "effectDescription": "You can temporarily increase your size.",
-      "baseCost": 2
-    },
-    {
-      "name": "Silent Sliding Movement",
-      "hsid": "HIS6UU4CS",
-      "effect": "Enhanced Trait",
-      "description": "",
-      "extras": [],
-      "flaws": [],
-      "ranks": 5,
-      "cost": 4,
-      "subpowers": [],
-      "effectDescription": "You can temporarily improve one of your existing traits.",
-      "baseCost": 0.5,
-      "option": "Enhanced Stealth"
-    },
-    {
-      "name": "Area Engulf",
-      "hsid": "HI15APPBP",
-      "effect": "Affliction",
-      "description": "With full concentration, he can engulf an area in liquid, causing everyone there to be \"Vulnerable\" (halves their active defenses). Resisted by Str.",
-      "extras": [
-        {
-          "modifierName": "Area",
-          "optionName": "Shapeable Area",
-          "ranks": 2,
-          "costType": "pointsOfMultiplierPerRankOfModifier",
-          "cost": 1,
-          "displayText": "Shapeable Area (+2)"
-        }
-      ],
-      "flaws": [
-        {
-          "modifierName": "Concentration",
-          "costType": "pointsOfMultiplier",
-          "cost": -1,
-          "displayText": "Concentration (-1)"
-        }
-      ],
-      "ranks": 8,
-      "cost": 16,
-      "subpowers": [],
-      "effectDescription": "Impose some debilitating condition(s) on a target.",
-      "baseCost": 1,
-      "option": null
-    }
-  ],
+  "powers": [],
   "complications": [
     {
       "complicationType": "motivation",
-      "description": ""
-    },
-    {
-      "hsid": "HIC2C4WWS",
-      "complicationType": "weakness",
-      "description": "Especially vulnerable to freezing attacks - takes extra damage. "
-    },
-    {
-      "hsid": "HI95V8XCV",
-      "complicationType": "powerLoss",
-      "description": "Freezing attacks will negate his invulnerability, stretching, etc."
-    },
-    {
-      "hsid": "HIMV51CPQ",
-      "complicationType": "accident",
       "description": ""
     }
   ],
@@ -408,44 +181,209 @@
   "attacks": {
     "attackList": [
       {
-        "name": "Unarmed",
-        "attackCheck": 4,
-        "effectType": "damage",
-        "resistanceDC": 4,
+        "hsid": "HILCX9FC4",
         "updater": "UnarmedAttackUpdater",
-        "hsid": "HINRFC4L4"
-      },
-      {
-        "hsid": "HIWVYEQ6V",
-        "updater": "DamagePowerAttackUpdater",
-        "powerHsid": "HIMU8J373",
-        "name": "Knife",
-        "attackCheck": 4,
+        "name": "Unarmed",
+        "attackCheck": 0,
         "effectType": "damage",
-        "resistanceDC": 5
-      },
-      {
-        "hsid": "HIQJ531Y6",
-        "updater": "AfflictionPowerAttackUpdater",
-        "powerHsid": "HI15APPBP",
-        "name": "Area Engulf",
-        "attackCheck": 4,
-        "effectType": "affliction",
-        "resistanceDC": 8
+        "resistanceDC": 0
       }
     ]
   },
-  "activeEffects": {
-    "skills.skillList@stealth": [
-      {
-        "hsid": "HI78S6TM1",
-        "description": "Enhanced Stealth from Power",
-        "value": 5,
-        "isActive": true,
-        "updater": "EnhancedTraitUpdater",
-        "powerHsid": "HIS6UU4CS"
+  "activeEffects": {},
+  "constraintViolations": {},
+  "allies": [
+    {
+      "hsid": "HIPZTTMUY",
+      "type": "minion",
+      "charsheet": {
+        "version": 17,
+        "campaign": {
+          "powerLevel": 10,
+          "xpAwarded": 0,
+          "setting": ""
+        },
+        "naming": {
+          "name": "",
+          "player": "",
+          "identityType": "none",
+          "identity": "",
+          "gender": "",
+          "age": "",
+          "heightWeight": "",
+          "eyesHair": "",
+          "costume": "",
+          "groupAffiliation": "",
+          "baseOfOperations": ""
+        },
+        "effortPoints": 1,
+        "abilities": {
+          "strength": {
+            "entered": 0,
+            "ranks": 0
+          },
+          "stamina": {
+            "entered": 0,
+            "ranks": 0
+          },
+          "agility": {
+            "entered": 0,
+            "ranks": 0
+          },
+          "dexterity": {
+            "entered": 0,
+            "ranks": 0
+          },
+          "fighting": {
+            "entered": 0,
+            "ranks": 0
+          },
+          "intellect": {
+            "entered": 0,
+            "ranks": 0
+          },
+          "awareness": {
+            "entered": 0,
+            "ranks": 0
+          },
+          "presence": {
+            "entered": 0,
+            "ranks": 0
+          }
+        },
+        "defenses": {
+          "dodge": {
+            "base": 0,
+            "purchased": 0,
+            "cost": 0,
+            "ranks": 0
+          },
+          "fortitude": {
+            "base": 0,
+            "purchased": 0,
+            "cost": 0,
+            "ranks": 0
+          },
+          "parry": {
+            "base": 0,
+            "purchased": 0,
+            "cost": 0,
+            "ranks": 0
+          },
+          "toughness": {
+            "base": 0,
+            "purchased": 0,
+            "cost": 0,
+            "ranks": 0
+          },
+          "will": {
+            "base": 0,
+            "purchased": 0,
+            "cost": 0,
+            "ranks": 0
+          }
+        },
+        "misc": {
+          "initiative": null,
+          "isMindlessConstruct": false,
+          "isImmobileConstruct": false
+        },
+        "advantages": [],
+        "equipment": [],
+        "skills": {
+          "skillList": [
+            {
+              "name": "acrobatics",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "athletics",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "deception",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "insight",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "intimidation",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "investigation",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "perception",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "persuasion",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "slight of hand",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "stealth",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "technology",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "treatment",
+              "ranks": 0,
+              "isTemplate": false
+            },
+            {
+              "name": "vehicles",
+              "ranks": 0,
+              "isTemplate": false
+            }
+          ],
+          "cost": 0
+        },
+        "powers": [],
+        "complications": [
+          {
+            "complicationType": "motivation",
+            "description": ""
+          }
+        ],
+        "background": "",
+        "attacks": {
+          "attackList": [
+            {
+              "hsid": "HIV1X4YYK",
+              "updater": "UnarmedAttackUpdater",
+              "name": "Unarmed",
+              "attackCheck": 0,
+              "effectType": "damage",
+              "resistanceDC": 0
+            }
+          ]
+        },
+        "activeEffects": {},
+        "constraintViolations": {},
+        "allies": []
       }
-    ]
-  },
-  "allies": []
+    }
+  ]
 }

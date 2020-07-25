@@ -658,12 +658,15 @@ const isManuallyAdjusted = function(charsheet, activeEffectKey) {
  */
 const lacksStat = function(charsheet, statName) {
   const statObj = charsheet.abilities[statName];
-  if (typeof(statObj.entered) === "string") {
+  const entered = statObj.entered;
+  if (typeof(entered) === "string") {
     return true;
-  } else if (typeof(statObj.entered) === "number") {
+  } else if (typeof(entered) === "number") {
+    return false;
+  } else if (statObj.entered === null) {
     return false;
   } else {
-    throw Error(`The entered ranks for ${statName} are '${statObj.entered}' which is an unexpected type.`);
+    throw Error(`The entered ranks for ${statName} are '${entered}' which is an unexpected type.`);
   }
 }
 
