@@ -6,10 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "validate": "node scripts/validateDataFiles.js",
-    "validate_downloads": "node scripts/validateDownloads.js",
+    "validate-downloads": "node scripts/validateDownloads.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "deploy": "s3-easy-deploy --public-root ./dist --bucket hero-sheet.com",
+    "deploy-lambda": "rm -rf lambdas/deploy/hero-sheet-storage && mkdir -p lambdas/deploy/hero-sheet-storage && cp lambdas/src/hero-sheet-storage.js lambdas/deploy/hero-sheet-storage/index.js && mkdir -p lambdas/deploy/hero-sheet-storage/schema && cp src/schema/charsheet.schema.json lambdas/deploy/hero-sheet-storage/schema/charsheet.schema.json &&  cp src/schema/common.schema.json lambdas/deploy/hero-sheet-storage/schema/common.schema.json && cd lambdas/deploy/hero-sheet-storage && 7z a hero-sheet-storage.zip -r * && aws lambda update-function-code --function-name hero-sheet-storage --zip-file fileb://hero-sheet-storage.zip --publish",
     "download": "aws s3 sync s3://hero-sheet-storage download --delete"
   },
   "keywords": [],
