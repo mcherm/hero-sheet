@@ -4,7 +4,7 @@ const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 const standardPowers = require("../data/standardPowers.json");
 
-const currentVersion = 17; // Up to this version can be saved
+const currentVersion = 18; // Up to this version can be saved
 const latestVersion = 18; // Might be an experimental version
 
 

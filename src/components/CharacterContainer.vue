@@ -24,7 +24,7 @@
   import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
   import {removeActiveEffects} from "../js/heroSheetUtil.js";
 
-  // FIXME: Begin continuous validation (which should be removed)
+  // FIXME: Begin continuous validation
   const Ajv = require('ajv');
   const ajv = Ajv({allErrors: true});
   const commonSchema = require("../schema/common.schema.json");
@@ -225,7 +225,7 @@
     computed: {
       character_json: function() {
         const result = JSON.stringify(this.charsheet, null, 2) + "\n";
-        // FIXME: Begin continuous validation (which should be removed)
+        // FIXME: Begin continuous validation
         if (this.$globals.developerMode) {
           if (this.charsheet) {
             const reconstitutedCharsheet = JSON.parse(result); // Has NaN turned into null, and maybe other things
