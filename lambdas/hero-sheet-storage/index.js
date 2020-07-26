@@ -1,11 +1,36 @@
+console.log("version 3.5");
+
 const LOG_REQUESTS = true;
 const DEVELOPER_MODE = true;
 
 const crypto = require("crypto");
-const AWS = require("aws-sdk");
+const AWS = require("node_modules/aws-sdk");
+const Ajv = require('node_modules/ajv');
 
 
 const s3 = new AWS.S3();
+
+// Initialize the schema validator
+const ajv = Ajv({allErrors: true});
+for (const schemaName of ["common", "charsheet"]) {
+  const schema = require(`schema/${schemaName}.schema.json`);
+  ajv.addSchema(schema, schemaName);
+}
+
+/*
+ * Attempts to validate the schema. Returns REGARDLESS of whether it is successful,
+ * but will log failures.
+ */
+function validateSchema(charsheet) {
+  console.log('Schema Validation Running'); // FIXME: Remove
+  const isValid = ajv.validate("charsheet", charsheet);
+  if (!isValid) {
+    console.error("Schema Validation Failed");
+    console.error(`Schema Validation Errors: ${JSON.stringify(ajv.errors, null, 2)}`);
+  }
+}
+
+console.log("loaded");
 
 async function invalidEndpoint(event) {
   console.log("invoked invalidEndpoint");
@@ -605,6 +630,7 @@ async function updateRecordInIndex(user, characterKey, characterData) {
 async function createCharacterEndpoint(event) {
   console.log("invoked createCharacterEndpoint");
   const user = await getLoggedInUser(event);
+  validateSchema(JSON.parse(event.body));
   const characterId = createCharacterId();
   console.log(`new character ID: ${characterId}`);
   const filename = `mutants/users/${user}/characters/${characterId}.json`;
@@ -653,6 +679,7 @@ async function getCharacterEndpoint(event) {
 async function putCharacterEndpoint(event) {
   console.log("invoked putCharacterEndpoint");
   const user = await getLoggedInUser(event);
+  validateSchema(JSON.parse(event.body));
   const characterId = event.pathParameters.characterId;
   const filename = `mutants/users/${user}/characters/${characterId}.json`;
   try {
