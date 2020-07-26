@@ -100,7 +100,7 @@ TODO: Campaign power level limits not implemented yet:
 TODO: Generate a PDF. See http://raw.githack.com/MrRio/jsPDF/master/docs/index.html
   or https://pdfkit.org/.
 
-TODO: [Adran06] Extra sheet for minions. And for Morph[Metamorph]. And for Summon.
+TODO: [Adran06] Extra sheet for Morph[Metamorph]. And for Summon.
 
 TODO: [Adran06] Maybe an "extra sheet" for variable powers? Listing some options (for free)?
 
@@ -114,9 +114,16 @@ TODO: A few powers really should have their own custom way of being created.
 TODO: Some enhanced traits, like Power-Lifting, shouldn't be applied to the
   trait.
 
+TODO: Some way to have enhanced traits that apply to other POWERS like Iron Man
+  using it to boost his blast.
+
 TODO: "Adjustment" and "ActiveEffect" are two names for the same thing. Fix that.
 
 TODO: Really ought to server-side validate the character sheet on updates.
+  [Making progress!!]
+
+TODO: Probably track attacks separately as hand-to-hand and ranged
+  so I can apply the correct stat (fighting vs dexterity).
 
 BUG: Custom equipment isn't creating updaters correctly. Try creating one that does
   damage to see the problem: it won't create a new attack like it should.

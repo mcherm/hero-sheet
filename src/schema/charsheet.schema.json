@@ -5,7 +5,7 @@
   "title": "Root Schema for a Charsheet - v18",
   "description": "The root schema is the schema that comprises the entire JSON document for a charsheet.",
   "properties": {
-    "version": { "type": "integer", "enum": [18] },
+    "version": { "type": "integer", "const": 18 },
     "campaign": { "$ref":  "#/definitions/Campaign" },
     "naming": { "$ref":  "#/definitions/Naming" },
     "effortPoints": { "$ref":  "#/definitions/IntegerOrNull" },
@@ -170,8 +170,9 @@
       "properties": {
         "hsid": { "$ref": "#/definitions/Hsid" },
         "name": { "type": "string" },
-        "cost": { "type": "integer" },
+        "cost": { "$ref": "#/definitions/IntegerOrNull" },
         "source": { "type": "string", "enum": ["standard", "custom", "unselected"] },
+        "description": { "$ref": "common.schema.json#/definitions/Description" },
         "feature": {
           "oneOf": [
             { "type": "null" },
@@ -187,13 +188,13 @@
       "properties": {
         "name": { "type": "string" },
         "hsid": { "$ref": "#/definitions/Hsid" },
-        "effect": { "$ref": "common.schema.json#/definitions/EffectName" },
+        "effect": { "$ref": "#/definitions/EffectNameOrEmpty" },
         "option": { "$ref": "#/definitions/PowerOption" },
         "description": { "$ref": "common.schema.json#/definitions/Description" },
         "extras": { "$ref": "#/definitions/ModifierList" },
         "flaws": { "$ref": "#/definitions/ModifierList" },
         "ranks": { "type": "integer" },
-        "cost": { "type": "integer" },
+        "cost": { "$ref": "#/definitions/IntegerOrNull" },
         "effectDescription": { "type": "string" },
         "baseCost": { "$ref": "#/definitions/PowerBaseCost" },
         "subpowers": { "$ref": "#/definitions/PowerList" }
@@ -202,6 +203,12 @@
         "name", "hsid", "effect", "description", "extras", "flaws", "ranks", "cost", "effectDescription", "subpowers"
       ],
       "additionalProperties": false
+    },
+    "EffectNameOrEmpty": {
+      "oneOf": [
+        { "const": "" },
+        { "$ref": "common.schema.json#/definitions/EffectName" }
+      ]
     },
     "PowerOption": {
       "oneOf": [
@@ -226,7 +233,7 @@
         },
         "ranks": { "type":  "integer" },
         "costType": { "$ref": "common.schema.json#/definitions/CostType" },
-        "cost": { "type": "integer" },
+        "cost": { "$ref": "#/definitions/IntegerOrNull" },
         "displayText": { "type": "string" }
       },
       "required": ["modifierSource", "modifierName", "costType", "cost", "displayText"],
@@ -242,7 +249,8 @@
         {
           "type": "number",
           "multipleOf": 0.5
-        }
+        },
+        { "type": "null" }
       ]
     },
     "Skills": {
@@ -325,11 +333,17 @@
       "type": "object",
       "properties": {
         "hsid": { "$ref": "#/definitions/Hsid" },
-        "complicationType": { "$ref":  "#/definitions/ComplicationType" },
+        "complicationType": { "$ref":  "#/definitions/ComplicationTypeOrEmpty" },
         "description": { "$ref": "common.schema.json#/definitions/Description" }
       },
       "required": ["hsid", "complicationType", "description"],
       "additionalProperties": false
+    },
+    "ComplicationTypeOrEmpty": {
+      "oneOf": [
+        { "const": "" },
+        { "$ref": "#/definitions/ComplicationType" }
+      ]
     },
     "ComplicationType": {
       "type": "string",
@@ -356,13 +370,14 @@
       "properties": {
         "hsid": { "$ref": "#/definitions/Hsid" },
         "updater": { "$ref": "common.schema.json#/definitions/Name" },
-        "powerHsid": { "$ref": "#/definitions/Hsid" },
         "name": { "type": "string" },
         "attackCheck": { "$ref": "#/definitions/AbilityValue" },
         "effectType": { "$ref":  "#/definitions/AttackEffectType" },
-        "resistanceDC": { "$ref": "#/definitions/IntegerOrNull" }
+        "resistanceDC": { "$ref": "#/definitions/IntegerOrNull" },
+        "powerHsid": { "$ref": "#/definitions/Hsid" },
+        "nullifyRanks": { "$ref": "#/definitions/IntegerOrNull" }
       },
-      "required": ["hsid", "updater", "name", "attackCheck", "effectType", "resistanceDC"],
+      "required": ["hsid", "updater", "attackCheck", "effectType", "resistanceDC"],
       "additionalProperties": false
     },
     "AttackEffectType": {
@@ -390,9 +405,10 @@
         "updater": { "$ref": "common.schema.json#/definitions/Name" },
         "powerHsid": { "$ref": "#/definitions/Hsid" },
         "skillHsid": { "$ref": "#/definitions/Hsid" },
-        "advantageHsid": { "$ref": "#/definitions/Hsid" }
+        "advantageHsid": { "$ref": "#/definitions/Hsid" },
+        "isManualAdjustment": { "type": "boolean" }
       },
-      "required": ["hsid", "value", "isActive", "updater"],
+      "required": ["hsid", "description", "value", "isActive"],
       "additionalProperties": false
     },
     "ConstraintViolations": {
