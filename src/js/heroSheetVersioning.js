@@ -2,6 +2,7 @@
 const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
+const standardPowers = require("../data/standardPowers.json");
 
 const currentVersion = 17; // Up to this version can be saved
 const latestVersion = 18; // Might be an experimental version
@@ -36,6 +37,16 @@ const sortFields = function(charsheet) {
 };
 
 
+const getRandomValues = function(){
+  if (typeof(window) !== "undefined" && window.crypto && window.crypto.getRandomValues) {
+    return x => window.crypto.getRandomValues(x);
+  } else {
+    const getRandomValues = require('get-random-values');
+    return getRandomValues
+  }
+}();
+
+
 /*
  * Generate a random element ID.
  *
@@ -44,12 +55,12 @@ const sortFields = function(charsheet) {
  * 32 is 5 bits. So we can use 32 values as follows:
  * ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
  * ABCDEFG  JKLMN PQRSTUVWXYZ 123456789  (0 and O are easily confused; HI is used as a prefix)
- * So "ID" followed by 7 characters chosen at random from "ABCDEFGJKLMNPQRSTUVWXYZ123456789"
+ * So "HI" followed by 7 characters chosen at random from "ABCDEFGJKLMNPQRSTUVWXYZ123456789"
  */
 const newHsid = function() {
   const allowedCharacters = "ABCDEFGJKLMNPQRSTUVWXYZ123456789"; // 32 chars long
   const randomData = new Uint8Array(7);
-  window.crypto.getRandomValues(randomData);
+  getRandomValues(randomData);
   const characters = Array.from(randomData).map(x => allowedCharacters[x % 32]);
   return "HI" + characters.join("");
 };
@@ -527,40 +538,69 @@ const upgradeFuncs = {
         delete skill.hsid;
       }
     }
+    // Given a patchFunc that modifies objects in place AND returns true to keep and
+    // false to delete, this applies it to each element in list and returns the
+    // result
+    const applyPatchToList = function(patchFunc, list) {
+      return list.reduce((accumulate, item) => {
+        if (patchFunc(item)) {
+          accumulate.push(item);
+        }
+        return accumulate;
+      }, []);
+    }
     const patchAdvantage = function(advantage) {
       delete advantage.effect;
       delete advantage.isRanked;
-    }
-    for (const advantage of charsheet.advantages) {
-      patchAdvantage(advantage);
+      return true;
     }
     const patchModifier = function(modifier) {
       if (modifier.modifierSource === undefined) {
         modifier.modifierSource = "standard";
       }
+      return true;
     }
     const patchFeature = function(power) {
-      for (const extra of power.extras) {
-        patchModifier(extra);
-      }
-      for (const flaw of power.flaws) {
-        patchModifier(flaw);
-      }
+      power.extras = applyPatchToList(patchModifier, power.extras);
+      power.flaws = applyPatchToList(patchModifier, power.flaws);
       delete power.flats;
       if (power.baseCost === null) {
         delete power.baseCost;
       }
-      for (const subpower of power.subpowers) {
-        patchFeature(subpower);
+      power.subpowers = applyPatchToList(patchFeature, power.subpowers);
+      if (power.effect in standardPowers) {
+        return true;
+      } else {
+        return false;
       }
-    }
-    for (const power of charsheet.powers) {
-      patchFeature(power);
-    }
-    for (const item of charsheet.equipment) {
+    };
+    const patchItem = function(item) {
       if (item.feature) {
-        patchFeature(item.feature);
+        const shouldKeep = patchFeature(item.feature);
+        if (!shouldKeep) {
+          delete item.feature;
+        }
       }
+      return true;
+    };
+    const patchAttack = function(attack) {
+      if (attack.updater.startsWith("updaters_")) {
+        attack.updater = attack.updater.substring(9);
+      }
+      return true;
+    };
+    const patchActiveEffect = function(activeEffect) {
+      if (activeEffect.description === undefined) {
+        activeEffect.description = "";
+      }
+      return true;
+    };
+    charsheet.advantages = applyPatchToList(patchAdvantage, charsheet.advantages)
+    charsheet.powers = applyPatchToList(patchFeature, charsheet.powers);
+    charsheet.equipment = applyPatchToList(patchItem, charsheet.equipment);
+    charsheet.attacks.attackList = applyPatchToList(patchAttack, charsheet.attacks.attackList);
+    for (const key in charsheet.activeEffects) {
+      charsheet.activeEffects[key] = applyPatchToList(patchActiveEffect, charsheet.activeEffects[key]);
     }
     charsheet.version = 18;
   }
@@ -599,7 +639,8 @@ const upgradeVersion = function(charsheet, developerMode) {
   }
 };
 
-export {
+// Using the older syntax here to support calling it from a node-based script
+module.exports = {
   STARTING_POWER_NAME,
   currentVersion,
   newBlankCharacter,

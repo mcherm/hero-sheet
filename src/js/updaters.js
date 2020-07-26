@@ -244,6 +244,9 @@ class AttackUpdater extends Updater {
     const result = {};
     result.hsid = newHsid();
     result.updater = this.className();
+    result.attackCheck = null; // Subclass is likely to set a value
+    result.resistanceDC = null; // Subclass is likely to set a value
+    // Subclass MUST set result.effectType
     return result;
   }
 
@@ -282,6 +285,22 @@ class AttackUpdater extends Updater {
   }
 
   /*
+   * For cases where an attack needs to be removed from the list, this method
+   * can be used.
+   */
+  removeTheAttack() {
+    const foundAttack = this.findTheAttack();
+    if (foundAttack !== null) {
+      const attackList = this.charsheet.attacks.attackList;
+      const index = attackList.indexOf(foundAttack);
+      if (index !== -1) {
+        attackList.splice(index, 1);
+      }
+    }
+    this.theAttack = null;
+  }
+
+  /*
    * Returns the total adjustment due to activeEffects on the check for
    * this attack.
    */
@@ -295,12 +314,7 @@ class AttackUpdater extends Updater {
    */
   destroy() {
     super.destroy();
-    // -- remove the attack we made --
-    const attackList = this.charsheet.attacks.attackList;
-    const index = attackList.indexOf(this.theAttack);
-    if (index !== -1) {
-      attackList.splice(index, 1);
-    }
+    this.removeTheAttack();
   }
 
 }
@@ -329,26 +343,17 @@ class UnarmedAttackUpdater extends AttackUpdater {
         fighting: this.charsheet.abilities.fighting.ranks,
         attackCheckAdjustment: this.attackCheckAdjustment(),
         lacksStrength: lacksStat(this.charsheet, "strength"),
+        lacksFighting: lacksStat(this.charsheet, "fighting")
       }
     }
   }
 
   applyChanges(newCalculations) {
-    if (newCalculations.lacksStrength) {
-      const foundAttack = this.findTheAttack();
-      if (foundAttack !== null) {
-        const attackList = this.charsheet.attacks.attackList;
-        const index = attackList.indexOf(foundAttack);
-        if (index !== -1) {
-          attackList.splice(index, 1);
-        }
-      }
+    if (newCalculations.lacksStrength || newCalculations.lacksFighting) {
+      this.removeTheAttack();
     } else {
       const theAttack = this.findOrCreateTheAttack();
-      const attackCheck = typeof(newCalculations.fighting) === "string"
-        ? newCalculations.fighting
-        : newCalculations.fighting + newCalculations.attackCheckAdjustment;
-      theAttack.attackCheck = attackCheck;
+      theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
       theAttack.resistanceDC = newCalculations.strength;
     }
   }
@@ -422,7 +427,9 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
         powerRanks: this.power.ranks,
         powerName: this.power.name,
         attackCheckAdjustment: this.attackCheckAdjustment(),
-        isStrengthBased: this._isStrengthBased(this.power)
+        isStrengthBased: this._isStrengthBased(this.power),
+        lacksStrength: lacksStat(this.charsheet, "strength"),
+        lacksFighting: lacksStat(this.charsheet, "fighting")
       }
     }
   }
@@ -444,11 +451,15 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
   }
 
   applyChanges(newCalculations) {
-    // -- Update the Values --
-    const theAttack = this.theAttack;
-    theAttack.name = newCalculations.powerName;
-    theAttack.attackCheck = this._attackCheckFormula(newCalculations);
-    theAttack.resistanceDC = this._resistanceDCFormula(newCalculations);
+    if (newCalculations.lacksFighting || newCalculations.isStrengthBased && newCalculations.lacksFighting) {
+      this.removeTheAttack();
+    } else {
+      // -- Update the Values --
+      const theAttack = this.theAttack;
+      theAttack.name = newCalculations.powerName;
+      theAttack.attackCheck = this._attackCheckFormula(newCalculations);
+      theAttack.resistanceDC = this._resistanceDCFormula(newCalculations);
+    }
   }
 
 }

@@ -1,4 +1,7 @@
-
+//
+// This goes through every file in the data directory and validates it against
+// the corresponding schema.
+//
 const fs = require("fs");
 const { spawnSync } = require("child_process");
 
@@ -39,4 +42,3 @@ try {
   console.error(err);
   process.exitCode = 1
 }
-console.log(`Exit code will be ${process.exitCode}`); // FIXME: Remove
