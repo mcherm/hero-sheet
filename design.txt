@@ -114,16 +114,29 @@ TODO: A few powers really should have their own custom way of being created.
 TODO: Some enhanced traits, like Power-Lifting, shouldn't be applied to the
   trait.
 
+TODO: You can't take enhanced Toughness
+
+TODO: Maybe throwing should be a default attack like unarmed is.
+
+TODO: When a description is long enough that it wraps, it should wrap and then if
+  necessary grow the field so that it is all visible.
+
+TODO: The cost of the Impervious says "+1 flat" but it should be +1/rank. Is that
+  actually the RIGHT way to do it? I'm not sure.
+
 TODO: Some way to have enhanced traits that apply to other POWERS like Iron Man
   using it to boost his blast.
 
 TODO: "Adjustment" and "ActiveEffect" are two names for the same thing. Fix that.
 
 TODO: Really ought to server-side validate the character sheet on updates.
-  [Making progress!!]
+  [Nearly Done!!]
 
 TODO: Probably track attacks separately as hand-to-hand and ranged
   so I can apply the correct stat (fighting vs dexterity).
+
+TODO: Along with deleting, it would be kind of nice if there were also a way to re-order
+  the items in a list like powers.
 
 BUG: Custom equipment isn't creating updaters correctly. Try creating one that does
   damage to see the problem: it won't create a new attack like it should.
