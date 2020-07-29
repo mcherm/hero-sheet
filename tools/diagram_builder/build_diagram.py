@@ -41,6 +41,10 @@ STYLESHEET = """\
     font-size: 6;
     font-style: italic;
   }
+  .connector {
+    stroke: #000000;
+    stroke-width: 1;
+  }
 """
 
 HEADER = f"""\
@@ -56,6 +60,11 @@ HEADER = f"""\
   <style type="text/css">
     <![CDATA[{STYLESHEET}]]>
   </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+  </defs>
   <g>
 """
 
@@ -113,6 +122,27 @@ CONDITION_DATA = [
     ("Dying", "Fort Checks + {Incapacitated}",                    CMID, R4,  "dual"),
 ]
 
+CONDITION_WIDTH = 48
+CONDITION_HEIGHT = 26
+
+H_X = CONDITION_WIDTH / 2
+H_Y = CONDITION_HEIGHT / 2
+A_Y = CONDITION_HEIGHT
+AR = 10 # Arrowhead length
+
+CONNECTOR_DATA = [
+    ( C2 + H_X,  R1 + A_Y,  C2 + H_X, R2a - AR, True), # Dazed -> Stunned
+    ( C4 + H_X,  R1 + A_Y,  C4 + H_X, R2a - AR, True), # Hindered -> Immobile
+    ( C6 + H_X,  R1 + A_Y,  C6 + H_X, R2a - AR, True), # Vulnerable -> Defenseless
+    ( C8 + H_X,  R1 + A_Y,  C8 + H_X, R2a - AR, True), # Impaired -> Disabled
+    (C10 + H_X,  R1 + A_Y, C10 + H_X, R2a - AR, True), # Fatigued -> Exhausted
+    ( C9 + H_X, R2b + A_Y,  C9 + H_X, R3a - AR, True), # Compelled -> Controlled
+    (C12 + H_X, R2a + A_Y, C12 + H_X, R3a - AR, True), # Restrained -> Bound
+    ( C7 + H_X, R2b + A_Y,  C7 + H_X, R3a - AR, True), # Weakened -> Debilitated
+    ( C8 + H_X, R2a + A_Y,  C8 + H_X, R3a - 14, False), # Disabled -> point-A
+    ( C8 + H_X, R3a - 14,   C7 + H_X, R3a - 14, False), # point-A -> point-B
+]
+
 
 class FileWriter:
     def __init__(self, outFile):
@@ -137,8 +167,6 @@ class FileWriter:
             self.write_bar(i)
 
     def write_condition(self, name, desc, x, y, cond_type):
-        CONDITION_WIDTH = 48
-        CONDITION_HEIGHT = 26
         LINE_SPACING = 7
         self.write(f"""\
             <rect
@@ -165,9 +193,20 @@ class FileWriter:
         for condition_values in CONDITION_DATA:
             self.write_condition(*condition_values)
 
+    def write_line(self, x0, y0, x1, y1, isArrow):
+        arrow_string = f'marker-end="url(#arrowhead)"' if isArrow else ""
+        self.write(f"""\
+            <line x1="{x0}" y1="{y0}" x2="{x1}" y2="{y1}" class="connector" {arrow_string}/>
+        \n""")
+
+    def write_lines(self):
+        for line_values in CONNECTOR_DATA:
+            self.write_line(*line_values)
+
     def write_file(self):
         self.write(HEADER)
         self.write_bars()
+        self.write_lines()
         self.write_conditions()
         self.write(FOOTER)
 
