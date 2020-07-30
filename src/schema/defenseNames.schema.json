@@ -1,1 +1,7 @@
-{}
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/defenseNames.schema.json",
+  "type": "array",
+  "title": "Defense Names Schema",
+  "items": { "type": "string" }
+}

@@ -1,1 +1,28 @@
-{}
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/complicationsData.schema.json",
+  "type": "object",
+  "title": "Complications Data Schema",
+  "properties": {
+    "complicationTypes": { "$ref": "#/definitions/ComplicationTypes" }
+  },
+  "required": [ "complicationTypes" ],
+  "additionalProperties": false,
+  "definitions": {
+    "ComplicationTypes": {
+      "patternProperties": {
+        "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/ComplicationType" }
+      },
+      "additionalProperties": false
+    },
+    "ComplicationType": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "common.schema.json#/definitions/Name"},
+        "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL"}
+      },
+      "required": [ "name", "docsURL" ],
+      "additionalProperties": false
+    }
+  }
+}

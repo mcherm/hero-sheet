@@ -1,1 +1,30 @@
-{}
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/campaignData.schema.json",
+  "type": "object",
+  "title": "Campaign Data Schema",
+  "properties": {
+    "powerLevel": { "$ref": "#/definitions/PowerLevel" },
+    "experience": { "$ref": "#/definitions/Experience" }
+  },
+  "required": [ "powerLevel", "experience" ],
+  "additionalProperties": false,
+  "definitions": {
+    "PowerLevel": {
+      "type": "object",
+      "properties": {
+        "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL"}
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Experience": {
+      "type": "object",
+      "properties": {
+        "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL"}
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  }
+}
