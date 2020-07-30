@@ -5,7 +5,9 @@
 OUT_FILENAME = "conditions.svg"
 
 FULL_WIDTH = 520
-FULL_HEIGHT = 400
+FULL_HEIGHT = 380
+CONDITION_WIDTH = 50
+CONDITION_HEIGHT = 28
 
 STYLESHEET = """\
   .colorBar {
@@ -24,6 +26,10 @@ STYLESHEET = """\
   }
   #bar4 {
     fill: #552200;
+  }
+  .conditionBorder {
+    fill: #FFFFFF;
+    stroke: #000000;
   }
   .conditionBox {
     fill: #FFFFFF;
@@ -45,6 +51,18 @@ STYLESHEET = """\
     stroke: #000000;
     stroke-width: 1;
   }
+  #condition_immobile .conditionBorder {
+    fill: #F7F711;
+  }
+  #condition_immobile .conditionBox {
+    fill: #F7F711;
+  }
+  #condition_entranced .conditionBox {
+    fill: #F7F711;
+  }
+  #condition_stunned .conditionBox {
+    fill: #F7F711;
+  }
 """
 
 HEADER = f"""\
@@ -58,7 +76,7 @@ HEADER = f"""\
    height="{FULL_HEIGHT}mm"
 >
   <style type="text/css">
-    <![CDATA[{STYLESHEET}]]>
+    {STYLESHEET}
   </style>
   <defs>
     <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
@@ -73,57 +91,75 @@ FOOTER = """\
 </svg>
 """
 
+
+def ff(f):
+    """Given a float (or int) this returns the same float unless it is an exact int,
+    in which case it returns the corresponding int. It is useful to avoid numbers
+    ending in ".0"."""
+    if (isinstance(f, float) and f.is_integer()):
+        return round(f)
+    else:
+        return f
+
 LEFT_MARGIN = 20
 X_SUB_SPACING = 40
 RIGHTMOST = LEFT_MARGIN + X_SUB_SPACING * 12
 C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12 = range(LEFT_MARGIN, RIGHTMOST, X_SUB_SPACING)
 CMID = (C6 + C7) / 2
 
-Y_SUB_SPACING = 16
-R0 = 26
-R1 = R0 + (FULL_HEIGHT / 5)
-R2 = R1 + (FULL_HEIGHT / 5)
-R2a = R2 - Y_SUB_SPACING
-R2b = R2 + Y_SUB_SPACING
-R3 = R2 + (FULL_HEIGHT / 5)
-R3a = R3 - Y_SUB_SPACING
-R3b = R3 + Y_SUB_SPACING
-R4 = R3 + (FULL_HEIGHT / 5)
-
-CONDITION_DATA = [
-    ("Normal", "No Conditions",                                   CMID, R0,  "basic"),
-    ("Dazed", "Single Action",                                      C2, R1,  "basic"),
-    ("Hindered", "Half Move",                                       C4, R1,  "basic"),
-    ("Vulnerable", "Half Active Def",                               C6, R1,  "basic"),
-    ("Impaired(stat)", "-1 on checks",                              C8, R1,  "basic"),
-    ("Fatigued", "-1 on checks",                                   C10, R1,  "combined"),
-    ("Prone", "+/-5 attacks {hindered}",                            C1, R2b, "dual"),
-    ("Stunned", "No Actions",                                       C2, R2a, "basic"),
-    ("Staggered", "{Dazed + Hindered}",                             C3, R2b, "combined"),
-    ("Immobile", "No Move",                                         C4, R2a, "basic"),
-    ("Surprised", "{Stunned + Vulnerable}",                         C5, R2b, "combined"),
-    ("Defenseless", "Active Def = 0",                               C6, R2a, "basic"),
-    ("Weakened(pwr)", "-X on power/stat",                           C7, R2b, "basic"),
-    ("Disabled(stat)", "-5 on checks",                              C8, R2a, "basic"),
-    ("Compelled", "They get one action",                            C9, R2b, "basic"),
-    ("Exhausted", "{Impaired + Hindered}",                         C10, R2a, "combined"),
-    ("Entranced", "{Stunned}",                                     C11, R2b, "combined"),
-    ("Restrained", "{Vulnerable + Hindered/Immobile}",             C12, R2a, "combined"),
-    ("Incapacitated", "{Defenseless + Stunned + Unaware + Prone}",  C1, R3a, "combined"),
-    ("Asleep", "{Defenseless + Stunned + Unaware}",                 C2, R3b, "combined"),
-    ("Paralyzed", "{Defenseless + Immobile + Stunned(physical)}",   C3, R3a, "combined"),
-    ("Blind", "{Unaware(see) + Hindered + Vulnerable}",             C4, R3b, "combined"),
-    ("Unaware(sense)", "Can't Perceive",                            C5, R3a, "basic"),
-    ("Deaf", "Unaware(hear)",                                       C6, R3b, "combined"),
-    ("Debilitated(stat)", "Varies by Stat",                         C7, R3a, "basic"),
-    ("Controlled", "They Control You",                              C9, R3a, "basic"),
-    ("Transformed", "Alternate Form",                              C10, R3b, "basic"),
-    ("Bound", "{Defenseless + Immobile + Impaired}",               C12, R3a, "combined"),
-    ("Dying", "Fort Checks + {Incapacitated}",                    CMID, R4,  "dual"),
+BAR_BOUNDS = [
+    0, 60, 120, 220, 320, FULL_HEIGHT
 ]
 
-CONDITION_WIDTH = 48
-CONDITION_HEIGHT = 26
+def center_of_bar_minus_half_condition(bar_index):
+    top = BAR_BOUNDS[bar_index]
+    bottom = BAR_BOUNDS[bar_index + 1]
+    middle = top + ((bottom - top) / 2)
+    return middle - (CONDITION_HEIGHT / 2)
+
+Y_SUB_SPACING = 20
+R0 = center_of_bar_minus_half_condition(0)
+R1 = center_of_bar_minus_half_condition(1)
+R2 = center_of_bar_minus_half_condition(2)
+R2a = R2 - Y_SUB_SPACING
+R2b = R2 + Y_SUB_SPACING
+R3 = center_of_bar_minus_half_condition(3)
+R3a = R3 - Y_SUB_SPACING
+R3b = R3 + Y_SUB_SPACING
+R4 = center_of_bar_minus_half_condition(4)
+
+CONDITION_DATA = [
+    ("Normal", "", "No Conditions", "",                                   CMID, R0,  "basic"),
+    ("Dazed", "", "Single Action", "",                                      C2, R1,  "basic"),
+    ("Hindered", "", "Half Move", "",                                       C4, R1,  "basic"),
+    ("Vulnerable", "", "Half Active Def", "",                               C6, R1,  "basic"),
+    ("Impaired", "(stat)", "-1 on checks", "",                              C8, R1,  "basic"),
+    ("Fatigued", "", "-1 on checks", "",                                   C10, R1,  "combined"),
+    ("Prone", "", "+/-5 attacks", "{hindered}",                             C1, R2b, "dual"),
+    ("Stunned", "", "No Actions", "",                                       C2, R2a, "basic"),
+    ("Staggered", "", "", "{Dazed + Hindered}",                             C3, R2b, "combined"),
+    ("Immobile", "", "No Move", "",                                         C4, R2a, "basic"),
+    ("Surprised", "", "", "{Stunned + Vulnerable}",                         C5, R2b, "combined"),
+    ("Defenseless", "", "Active Def = 0", "",                               C6, R2a, "basic"),
+    ("Weakened", "(pwr)", "-X on power/stat", "",                           C7, R2b, "basic"),
+    ("Disabled", "(stat)", "-5 on checks", "",                              C8, R2a, "basic"),
+    ("Compelled", "", "1 forced action", "",                                C9, R2b, "basic"),
+    ("Exhausted", "", "", "{Impaired + Hindered}",                         C10, R2a, "combined"),
+    ("Entranced", "", "", "{Stunned}",                                     C11, R2b, "combined"),
+    ("Restrained", "", "", "{Vulnerable + Hindered/Immobile}",             C12, R2a, "combined"),
+    ("Incapacitated", "", "", "{Defenseless + Stunned + Unaware + Prone}",  C1, R3b, "combined"),
+    ("Asleep", "", "", "{Defenseless + Stunned + Unaware}",                 C2, R3a, "combined"),
+    ("Paralyzed", "", "", "{Defenseless + Immobile + Stunned(physical)}",   C3, R3b, "combined"),
+    ("Blind", "", "", "{Unaware(see) + Hindered + Vulnerable}",             C4, R3a, "combined"),
+    ("Unaware", "(sense)", "Can't Perceive", "",                            C5, R3b, "basic"),
+    ("Deaf", "", "", "Unaware(hear)",                                       C6, R3a, "combined"),
+    ("Debilitated", "(stat)", "Varies by Stat", "",                         C7, R3b, "basic"),
+    ("Controlled", "", "Forced actions", "",                                C9, R3a, "basic"),
+    ("Transformed", "", "Alternate Form", "",                              C10, R3b, "basic"),
+    ("Bound", "", "", "{Defenseless + Immobile + Impaired}",               C12, R3a, "combined"),
+    ("Dying", "", "Fort Checks", "{Incapacitated}",                       CMID, R4,  "dual"),
+]
+
 
 H_X = CONDITION_WIDTH / 2
 H_Y = CONDITION_HEIGHT / 2
@@ -138,9 +174,11 @@ CONNECTOR_DATA = [
     (C10 + H_X,  R1 + A_Y, C10 + H_X, R2a - AR, True), # Fatigued -> Exhausted
     ( C9 + H_X, R2b + A_Y,  C9 + H_X, R3a - AR, True), # Compelled -> Controlled
     (C12 + H_X, R2a + A_Y, C12 + H_X, R3a - AR, True), # Restrained -> Bound
-    ( C7 + H_X, R2b + A_Y,  C7 + H_X, R3a - AR, True), # Weakened -> Debilitated
-    ( C8 + H_X, R2a + A_Y,  C8 + H_X, R3a - 14, False), # Disabled -> point-A
-    ( C8 + H_X, R3a - 14,   C7 + H_X, R3a - 14, False), # point-A -> point-B
+    ( C7 + H_X, R2b + A_Y,  C7 + H_X, R3b - AR, True), # Weakened -> Debilitated
+    ( C8 + H_X, R2a + A_Y,  C8 + H_X, R3a - 8,  False), # Disabled -> point-A
+    ( C8 + H_X, R3a - 8,    C7 + H_X, R3a - 8,  False), # point-A -> point-B
+    ( C4 + H_X, R3a + A_Y,  C5 + H_X, R3b,      False), # Blind -> Unaware
+    ( C6 + H_X, R3a + A_Y,  C5 + H_X, R3b,      False), # Deaf -> Unaware
 ]
 
 
@@ -152,42 +190,41 @@ class FileWriter:
         self.outFile.write(s)
 
     def write_bar(self, index):
+        bar_top = BAR_BOUNDS[index]
+        bar_bottom = BAR_BOUNDS[index + 1]
+        bar_height = bar_bottom - bar_top
         self.write(f"""\
-            <rect
-               x="0"
-               y="{index * FULL_HEIGHT / 5}"
-               width="{FULL_WIDTH}"
-               height="{FULL_HEIGHT / 5}"
-               id="bar{index}"
-               class="colorBar"
+            <rect id="bar{index}" class="colorBar"
+               x="0" y="{ff(bar_top)}"
+               width="{FULL_WIDTH}" height="{ff(bar_height)}"
             />\n""")
 
     def write_bars(self):
         for i in range(5):
             self.write_bar(i)
 
-    def write_condition(self, name, desc, x, y, cond_type):
+    def write_condition(self, name, params, desc, affects, x, y, cond_type):
         LINE_SPACING = 7
+        rounded_corners = {"basic": True, "combined": False, "dual": True}[cond_type]
         self.write(f"""\
-            <rect
-                class="conditionBox"
-                x="{x}"
-                y="{y}"
-                width="{CONDITION_WIDTH}"
-                height="{CONDITION_HEIGHT}"
-                rx="5"
-                ry="5"
-              />
-            <text
-                class="conditionName"
-                x="{x + CONDITION_WIDTH / 2}"
-                y="{y + CONDITION_HEIGHT / 2}"
-            >{name}</text>
-            <text
-                class="conditionDesc"
-                x="{x + CONDITION_WIDTH / 2}"
-                y="{LINE_SPACING + y + CONDITION_HEIGHT / 2}"
-            >{desc}</text>\n""")
+            <g id="condition_{name.lower()}" class="condition">
+                <rect class="conditionBorder"
+                    x="{ff(x)}" y="{ff(y)}"
+                    width="{CONDITION_WIDTH}" height="{CONDITION_HEIGHT}"
+                    {'rx="7" ry="7"' if rounded_corners else ''}
+                />
+                <rect class="conditionBox"
+                    x="{ff(x + 2)}" y="{ff(y + 2)}"
+                    width="{CONDITION_WIDTH - 4}" height="{CONDITION_HEIGHT - 4}"
+                    {'rx="5" ry="5"' if rounded_corners else ''}
+                />
+                <text class="conditionName"
+                    x="{ff(x + CONDITION_WIDTH / 2)}" y="{ff(y + CONDITION_HEIGHT / 2)}"
+                >{name}{params}</text>
+                <text class="conditionDesc"
+                    x="{ff(x + CONDITION_WIDTH / 2)}" y="{ff(LINE_SPACING + y + CONDITION_HEIGHT / 2)}"
+                >{desc}</text>
+            </g>\n""")
 
     def write_conditions(self):
         for condition_values in CONDITION_DATA:
@@ -196,8 +233,7 @@ class FileWriter:
     def write_line(self, x0, y0, x1, y1, isArrow):
         arrow_string = f'marker-end="url(#arrowhead)"' if isArrow else ""
         self.write(f"""\
-            <line x1="{x0}" y1="{y0}" x2="{x1}" y2="{y1}" class="connector" {arrow_string}/>
-        \n""")
+            <line x1="{ff(x0)}" y1="{ff(y0)}" x2="{ff(x1)}" y2="{ff(y1)}" class="connector" {arrow_string}/>\n""")
 
     def write_lines(self):
         for line_values in CONNECTOR_DATA:
