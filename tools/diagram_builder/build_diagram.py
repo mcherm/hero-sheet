@@ -2,12 +2,115 @@
 # This outputs a svg file we will use for displaying conditions.
 #
 
-OUT_FILENAME = "conditions.svg"
-
 FULL_WIDTH = 520
 FULL_HEIGHT = 380
 CONDITION_WIDTH = 50
 CONDITION_HEIGHT = 28
+
+TOP_OF_SVG = f"""\
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    id="conditions"
+    viewBox="0 0 {FULL_WIDTH} {FULL_HEIGHT}"
+    width="{FULL_WIDTH}"
+    height="{FULL_HEIGHT}"
+>
+"""
+
+TOP_OF_VUE = f"""\
+<!-- WARNING: Generated Code... Do Not Modify! -->
+<!-- See tools/diagram_builder/build_diagram.py instead. -->
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    id="conditions"
+    viewBox="0 0 {FULL_WIDTH} {FULL_HEIGHT}"
+  >
+"""
+
+BEGIN_CONTENT = f"""\
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+  </defs>
+  <g>
+"""
+END_CONTENT = """\
+  </g>
+</svg>
+"""
+
+MIDDLE_OF_VUE = """\
+</template>
+
+<script>
+  export default {
+    name: "ConditionsImage.vue",
+    data: function() {
+      return {
+        normal: { active: false, selected: false },
+        dazed: { active: false, selected: false },
+        hindered: { active: false, selected: false },
+        vulnerable: { active: false, selected: false },
+        impaired: { active: false, selected: false },
+        fatigued: { active: false, selected: false },
+        prone: { active: false, selected: false },
+        stunned: { active: false, selected: false },
+        staggered: { active: false, selected: false },
+        immobile: { active: false, selected: false },
+        surprised: { active: false, selected: false },
+        defenseless: { active: false, selected: false },
+        weakened: { active: false, selected: false },
+        disabled: { active: false, selected: false },
+        compelled: { active: false, selected: false },
+        exhausted: { active: false, selected: false },
+        entranced: { active: false, selected: false },
+        restrained: { active: false, selected: false },
+        incapacitated: { active: false, selected: false },
+        asleep: { active: false, selected: false },
+        paralyzed: { active: false, selected: false },
+        blind: { active: false, selected: false },
+        unaware: { active: false, selected: false },
+        deaf: { active: false, selected: false },
+        debilitated: { active: false, selected: false },
+        controlled: { active: false, selected: false },
+        transformed: { active: false, selected: false },
+        bound: { active: false, selected: false },
+        dying: { active: false, selected: false },
+      }
+    },
+    methods: {
+      onClick: function(button) {
+        this[button].selected = !this[button].selected;
+        const activationMap = {
+          asleep: ["defenseless", "stunned", "unaware"],
+          blind: ["hindered", "unaware", "vulnerable"],
+          bound: ["defenseless", "immobile", "impaired"],
+          deaf: ["unaware"],
+          dying: ["incapacitated", "defenseless", "stunned", "unaware", "prone", "hindered"],
+          entranced: ["stunned"],
+          exhausted: ["impaired", "hindered"],
+          fatigued: ["hindered"],
+          incapacitated: ["defenseless", "stunned", "unaware", "prone"],
+          paralyzed: ["defenseless", "immobile", "stunned"],
+          prone: ["hindered"],
+          restrained: ["hindered", "vulnerable", "immobile"],
+          staggered: ["dazed", "hindered"],
+          surprised: ["stunned", "vulnerable"],
+        };
+        const othersToActivate = activationMap[button];
+        if (othersToActivate) {
+          for (const other of othersToActivate) {
+            this[other].active = this[button].selected; // WARNING: Bug here if others had activated it
+          }
+        }
+      }
+    }
+  }
+</script>
+
+"""
 
 STYLESHEET = """\
   .colorBar {
@@ -38,57 +141,44 @@ STYLESHEET = """\
   .conditionName {
     dominant-baseline: middle;
     text-anchor: middle;
-    font-size: 6;
+    font-size: 6px;
     font-weight: bold;
   }
   .conditionDesc {
     dominant-baseline: middle;
     text-anchor: middle;
-    font-size: 6;
+    font-size: 6px;
     font-style: italic;
   }
   .connector {
     stroke: #000000;
     stroke-width: 1;
   }
-  #condition_immobile .conditionBorder {
-    fill: #F7F711;
-  }
-  #condition_immobile .conditionBox {
-    fill: #F7F711;
-  }
-  #condition_entranced .conditionBox {
-    fill: #F7F711;
-  }
-  #condition_stunned .conditionBox {
-    fill: #F7F711;
-  }
 """
 
-HEADER = f"""\
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns="http://www.w3.org/2000/svg"
-   id="conditions"
-   version="1.1"
-   viewBox="0 0 {FULL_WIDTH} {FULL_HEIGHT}"
-   width="{FULL_WIDTH}mm"
-   height="{FULL_HEIGHT}mm"
->
+SVG_STYLESHEET = f"""\
   <style type="text/css">
     {STYLESHEET}
   </style>
-  <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" />
-    </marker>
-  </defs>
-  <g>
 """
 
-FOOTER = """\
-  </g>
-</svg>
+VUE_STYLESHEET = f"""\
+<style scoped>
+{STYLESHEET}
+  svg {{
+    width: 100%;
+    height: auto;
+  }}
+  .selected .conditionBorder {{
+    fill: #F7F711;
+  }}
+  .selected .conditionBox {{
+    fill: #F7F711;
+  }}
+  .active .conditionBox {{
+    fill: #F7F711;
+  }}
+</style>
 """
 
 
@@ -182,7 +272,7 @@ CONNECTOR_DATA = [
 ]
 
 
-class FileWriter:
+class CommonWriter:
     def __init__(self, outFile):
         self.outFile = outFile
 
@@ -203,11 +293,16 @@ class FileWriter:
         for i in range(5):
             self.write_bar(i)
 
+    def condition_extras(self, name):
+        """Returns a string to be inserted as an attribute of the g tag. Defaults to an
+        empty string, but subclasses can return attributes beginning with a space."""
+        return ""
+
     def write_condition(self, name, params, desc, affects, x, y, cond_type):
         LINE_SPACING = 7
         rounded_corners = {"basic": True, "combined": False, "dual": True}[cond_type]
         self.write(f"""\
-            <g id="condition_{name.lower()}" class="condition">
+            <g id="condition_{name.lower()}" class="condition"{self.condition_extras(name)}>
                 <rect class="conditionBorder"
                     x="{ff(x)}" y="{ff(y)}"
                     width="{CONDITION_WIDTH}" height="{CONDITION_HEIGHT}"
@@ -240,17 +335,45 @@ class FileWriter:
             self.write_line(*line_values)
 
     def write_file(self):
-        self.write(HEADER)
+        raise NotImplemented() # subclasses should implement this
+
+
+
+class SVGFileWriter(CommonWriter):
+
+    def write_file(self):
+        self.write(TOP_OF_SVG)
+        self.write(BEGIN_CONTENT)
+        self.write(SVG_STYLESHEET)
         self.write_bars()
         self.write_lines()
         self.write_conditions()
-        self.write(FOOTER)
+        self.write(END_CONTENT)
+
+
+class VueFileWriter(CommonWriter):
+    def condition_extras(self, name):
+        return f" :class=\"{name.lower()}\" @click=\"onClick('{name.lower()}')\""
+
+    def write_file(self):
+        self.write(TOP_OF_VUE)
+        self.write(BEGIN_CONTENT)
+        self.write_bars()
+        self.write_lines()
+        self.write_conditions()
+        self.write(END_CONTENT)
+        self.write(MIDDLE_OF_VUE)
+        self.write(VUE_STYLESHEET)
 
 
 def main():
-    with open(OUT_FILENAME, "w", encoding="utf-8") as out_file:
-        file_writer = FileWriter(out_file)
+    with open("conditions.svg", "w", encoding="utf-8") as out_file:
+        file_writer = SVGFileWriter(out_file)
         file_writer.write_file()
+    with open("../../src/components/ConditionsImage.vue", "w", encoding="utf-8") as out_file:
+        file_writer = VueFileWriter(out_file)
+        file_writer.write_file()
+
 
 if __name__ == "__main__":
     main()

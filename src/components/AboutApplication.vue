@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-07-30: Added Conditions tab for viewing (not yet saving) conditions affecting a character.</li>
       <li>2020-07-26: Create a schema for validating characters. This was a prerequisite for release.</li>
       <li>2020-07-22: Support for constructs and characters who lack particular abilities.</li>
       <li>2020-07-21: Fixed a bug in editing the ranks of advantages.</li>
