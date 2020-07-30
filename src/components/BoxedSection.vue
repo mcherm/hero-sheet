@@ -27,7 +27,7 @@
 <style scoped>
   .boxed-section {
     border: 1px solid var(--box-border-color);
-    padding: 5px;
+    padding: 5px 8px;
     margin: 5px;
     background-color: var(--section-color);
   }

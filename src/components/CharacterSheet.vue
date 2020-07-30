@@ -43,6 +43,9 @@
           <constraint-violations/>
         </div>
       </template>
+      <template slot="conditions">
+        <conditions/>
+      </template>
     </tab-display>
     <modal-lightbox v-if="allyShown" v-on:exit="allyShown = null">
       <div class="title">{{findAllyByHsid(charsheet, allyShown).type}}</div>
@@ -69,6 +72,7 @@
   import Attacks from "./Attacks.vue"
   import Adjustments from "./Adjustments.vue";
   import ConstraintViolations from "./ConstraintViolations.vue";
+  import Conditions from "./Conditions.vue";
 
   import {findAllyByHsid} from "../js/heroSheetVersioning.js";
 
@@ -89,6 +93,7 @@
       Attacks,
       Adjustments,
       ConstraintViolations,
+      Conditions,
     },
     props: {
       charsheet: { type: Object, required: true },
