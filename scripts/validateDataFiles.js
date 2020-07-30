@@ -10,7 +10,7 @@ const dataFileRegExp = RegExp("^([a-zA-Z0-9]+)\.json$");
 try {
   const files = fs.readdirSync("./src/data");
   const runFilesUntilError = function() {
-    files.forEach(file => {
+    for (const file of files) {
       const match = file.match(dataFileRegExp);
       if (!match) {
         throw new Error(`File '${file}' in data directory has an unexpected filename.`);
@@ -32,7 +32,7 @@ try {
       if (status) {
         return 1; // We got an error, so exit
       }
-    });
+    }
     return 0;
   };
   const exitCode = runFilesUntilError();
@@ -40,5 +40,5 @@ try {
 
 } catch (err) {
   console.error(err);
-  process.exitCode = 1
+  process.exitCode = 1;
 }

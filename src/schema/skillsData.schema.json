@@ -1,1 +1,41 @@
-{}
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/skillsData.schema.json",
+  "type": "object",
+  "title": "Skills Data Schema",
+  "properties": {
+    "normalSkills": { "$ref": "#/definitions/NormalSkills" },
+    "templateSkills": { "$ref": "#/definitions/TemplateSkills" }
+  },
+  "required": [ "normalSkills", "templateSkills" ],
+  "additionalProperties": false,
+  "definitions": {
+    "NormalSkills": {
+      "patternProperties": {
+        "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/NormalSkill" }
+      },
+      "additionalProperties": false
+    },
+    "NormalSkill": {
+      "ability": { "$ref": "common.schema.json#/definitions/Name"},
+      "useUntrained": { "type": "boolean" },
+      "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL"}
+    },
+    "TemplateSkills": {
+      "patternProperties": {
+        "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/TemplateSkill" }
+      },
+      "additionalProperties": false
+    },
+    "TemplateSkill": {
+      "ability": { "$ref": "common.schema.json#/definitions/Name"},
+      "useUntrained": { "type": "boolean" },
+      "customization": { "$ref":  "#/definitions/TemplateCustomizationType" },
+      "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL"}
+    },
+    "TemplateCustomizationType": {
+      "type": "string",
+      "enum": ["selectAttack", "description" ]
+    }
+  }
+}
