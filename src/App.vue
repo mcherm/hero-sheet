@@ -41,6 +41,7 @@
     --lightbox-shade-color: rgba(0, 0, 0, 0.5);
     --under-development-color: rgb(255, 148, 77);
     --title-color: rgb(148, 9, 218);
+    --status-color: rgb(247, 247, 17);
     font-family: sans-serif;
     font-size: small;
   }
