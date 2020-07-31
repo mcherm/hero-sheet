@@ -152,23 +152,23 @@
                     x="405" y="97"
                 >-1 on checks</text>
             </g>
-            <g id="condition_prone" class="condition" :class="conditions.prone" @click="onClickCondition('prone')">
+            <g id="condition_staggered" class="condition" :class="conditions.staggered" @click="onClickCondition('staggered')">
                 <rect class="conditionBorder"
                     x="20" y="176"
                     width="50" height="28"
-                    rx="7" ry="7"
+                    
                 />
                 <rect class="conditionBox"
                     x="22" y="178"
                     width="46" height="24"
-                    rx="5" ry="5"
+                    
                 />
                 <text class="conditionName"
                     x="45" y="190"
-                >Prone</text>
+                >Staggered</text>
                 <text class="conditionDesc"
                     x="45" y="197"
-                >+/-5 attacks</text>
+                ></text>
             </g>
             <g id="condition_stunned" class="condition" :class="conditions.stunned" @click="onClickCondition('stunned')">
                 <rect class="conditionBorder"
@@ -188,23 +188,23 @@
                     x="85" y="157"
                 >No Actions</text>
             </g>
-            <g id="condition_staggered" class="condition" :class="conditions.staggered" @click="onClickCondition('staggered')">
+            <g id="condition_prone" class="condition" :class="conditions.prone" @click="onClickCondition('prone')">
                 <rect class="conditionBorder"
                     x="100" y="176"
                     width="50" height="28"
-                    
+                    rx="7" ry="7"
                 />
                 <rect class="conditionBox"
                     x="102" y="178"
                     width="46" height="24"
-                    
+                    rx="5" ry="5"
                 />
                 <text class="conditionName"
                     x="125" y="190"
-                >Staggered</text>
+                >Prone</text>
                 <text class="conditionDesc"
                     x="125" y="197"
-                ></text>
+                >+/-5 attacks</text>
             </g>
             <g id="condition_immobile" class="condition" :class="conditions.immobile" @click="onClickCondition('immobile')">
                 <rect class="conditionBorder"
@@ -572,18 +572,20 @@
 
 <script>
   const conditionsData = require("../data/conditionsData.json");
-  const triggeredBy = function() {
+  const invertConditionLink = function(linkList) {
     const result = {};
     for (const condition in conditionsData.conditions) {
       result[condition] = [];
     }
     for (const condition in conditionsData.conditions) {
-      for (const trigger of conditionsData.conditions[condition].triggers) {
-        result[trigger].push(condition);
+      for (const affectedCondition of conditionsData.conditions[condition][linkList]) {
+        result[affectedCondition].push(condition);
       }
     }
     return result;
-  }();
+  };
+  const triggeredBy = invertConditionLink("triggers");
+  const supersededBy = invertConditionLink("supersedes");
 
   export default {
     name: "ConditionsImage.vue",
@@ -602,15 +604,35 @@
         }
         return false;
       },
-      fixTriggersAndSupersedes: function(condition) {
+      someAncestorSupersedesThis: function(condition) {
+        for (const superseder of supersededBy[condition]) {
+          if (this.conditions[superseder].active || this.someAncestorSupersedesThis(superseder)) {
+            return true;
+          }
+        }
+        return false;
+      },
+      fixTriggers: function(condition) {
         const triggers = conditionsData.conditions[condition].triggers;
         for (const trigger of triggers) {
           this.conditions[trigger].active = this.someAncestorTriggersThis(trigger);
-          this.fixTriggersAndSupersedes(trigger);
+          this.fixSupersedes(trigger);
+          this.fixTriggers(trigger);
+        }
+      },
+      fixSupersedes: function(condition) {
+        const supersedes = conditionsData.conditions[condition].supersedes;
+        for (const superseder of supersedes) {
+          this.conditions[superseder].superseded = this.someAncestorSupersedesThis(superseder);
+          this.conditions[superseder].active =  this.someAncestorTriggersThis(superseder);
+          this.fixSupersedes(superseder);
         }
       },
       onClickCondition: function(button) {
         const thisCondition = this.conditions[button];
+        if (thisCondition.superseded) {
+          return;
+        }
         thisCondition.selected = !thisCondition.selected;
         if (button === "normal") {
           if (thisCondition.selected) {
@@ -618,6 +640,7 @@
               if (condition !== "normal") {
                 this.conditions[condition].selected = false;
                 this.conditions[condition].active = false;
+                this.conditions[condition].superseded = false;
               }
             }
           } else {
@@ -631,7 +654,8 @@
           } else {
             thisCondition.active = this.someAncestorTriggersThis(button);
           }
-          this.fixTriggersAndSupersedes(button);
+          this.fixTriggers(button);
+          this.fixSupersedes(button);
         }
       }
     }
@@ -693,5 +717,8 @@
   }
   .active .conditionBox {
     fill: var(--status-color);
+  }
+  .superseded .conditionBox {
+    fill: var(--inapplicable-color);
   }
 </style>
