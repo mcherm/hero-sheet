@@ -594,31 +594,45 @@
       }
     },
     methods: {
+      someAncestorTriggersThis: function(condition) {
+        for (const trigger of triggeredBy[condition]) {
+          if (this.conditions[trigger].selected || this.someAncestorTriggersThis(trigger)) {
+            return true;
+          }
+        }
+        return false;
+      },
+      fixTriggersAndSupersedes: function(condition) {
+        const triggers = conditionsData.conditions[condition].triggers;
+        for (const trigger of triggers) {
+          this.conditions[trigger].active = this.someAncestorTriggersThis(trigger);
+          this.fixTriggersAndSupersedes(trigger);
+        }
+      },
       onClickCondition: function(button) {
-        const vueThis = this;
         const thisCondition = this.conditions[button];
         thisCondition.selected = !thisCondition.selected;
-        const someAncestorTriggersThis = function(condition) {
-          for (const trigger of triggeredBy[condition]) {
-            if (vueThis.conditions[trigger].selected || someAncestorTriggersThis(trigger)) {
-              return true;
+        if (button === "normal") {
+          if (thisCondition.selected) {
+            for (const condition in conditionsData.conditions) {
+              if (condition !== "normal") {
+                this.conditions[condition].selected = false;
+                this.conditions[condition].active = false;
+              }
             }
+          } else {
+            thisCondition.active = false;
           }
-          return false;
-        }
-        if (thisCondition.selected) {
-          thisCondition.active = true;
         } else {
-          thisCondition.active = someAncestorTriggersThis(button);
-        }
-        const fixTriggersAndSupersedes = function(condition) {
-          const triggers = conditionsData.conditions[condition].triggers;
-          for (const trigger of triggers) {
-            vueThis.conditions[trigger].active = someAncestorTriggersThis(trigger);
-            fixTriggersAndSupersedes(trigger);
+          if (thisCondition.selected) {
+            thisCondition.active = true;
+            this.conditions.normal.selected = false;
+            this.conditions.normal.active = false;
+          } else {
+            thisCondition.active = this.someAncestorTriggersThis(button);
           }
+          this.fixTriggersAndSupersedes(button);
         }
-        fixTriggersAndSupersedes(button);
       }
     }
   }
@@ -672,12 +686,12 @@
     height: auto;
   }
   .selected .conditionBorder {
-    fill: #F7F711;
+    fill: var(--status-color);
   }
   .selected .conditionBox {
-    fill: #F7F711;
+    fill: var(--status-color);
   }
   .active .conditionBox {
-    fill: #F7F711;
+    fill: var(--status-color);
   }
 </style>
