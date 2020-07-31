@@ -5,7 +5,7 @@ const skillsData = require("../data/skillsData.json");
 const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 
-const currentVersion = 18; // Up to this version can be saved
+const currentVersion = 19; // Up to this version can be saved
 const latestVersion = 19; // Might be an experimental version
 
 
@@ -179,7 +179,8 @@ const blankConditions = function() {
   for (const condition in conditionsData.conditions) {
     result[condition] = {
       "active": false,
-      "selected": false
+      "selected": false,
+      "superseded": false
     };
   }
   return result;

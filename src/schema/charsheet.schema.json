@@ -446,9 +446,10 @@
       "type": "object",
       "properties": {
         "active": { "type": "boolean" },
-        "selected": { "type": "boolean" }
+        "selected": { "type": "boolean" },
+        "superseded": { "type": "boolean" }
       },
-      "required": ["active", "selected"],
+      "required": ["active", "selected", "superseded"],
       "additionalProperties": false
     },
     "AllyList": {

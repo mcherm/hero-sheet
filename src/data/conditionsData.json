@@ -33,7 +33,7 @@
     "fatigued": {
       "hasEffects": true,
       "supersedes": [],
-      "triggers": []
+      "triggers": ["hindered"]
     },
     "hindered": {
       "hasEffects": true,
@@ -42,7 +42,7 @@
     },
     "immobile": {
       "hasEffects": true,
-      "supersedes": [],
+      "supersedes": ["hindered"],
       "triggers": []
     },
     "impaired": {
@@ -92,7 +92,7 @@
     },
     "bound": {
       "hasEffects": false,
-      "supersedes": [],
+      "supersedes": ["restrained"],
       "triggers": ["defenseless", "immobile", "impaired"]
     },
     "deaf": {
@@ -112,7 +112,7 @@
     },
     "exhausted": {
       "hasEffects": false,
-      "supersedes": [],
+      "supersedes": ["fatigued"],
       "triggers": ["impaired", "hindered"]
     },
     "incapacitated": {

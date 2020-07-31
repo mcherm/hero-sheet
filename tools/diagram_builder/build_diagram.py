@@ -46,18 +46,20 @@ MIDDLE_OF_VUE = """\
 
 <script>
   const conditionsData = require("../data/conditionsData.json");
-  const triggeredBy = function() {
+  const invertConditionLink = function(linkList) {
     const result = {};
     for (const condition in conditionsData.conditions) {
       result[condition] = [];
     }
     for (const condition in conditionsData.conditions) {
-      for (const trigger of conditionsData.conditions[condition].triggers) {
-        result[trigger].push(condition);
+      for (const affectedCondition of conditionsData.conditions[condition][linkList]) {
+        result[affectedCondition].push(condition);
       }
     }
     return result;
-  }();
+  };
+  const triggeredBy = invertConditionLink("triggers");
+  const supersededBy = invertConditionLink("supersedes");
 
   export default {
     name: "ConditionsImage.vue",
@@ -76,15 +78,35 @@ MIDDLE_OF_VUE = """\
         }
         return false;
       },
-      fixTriggersAndSupersedes: function(condition) {
+      someAncestorSupersedesThis: function(condition) {
+        for (const superseder of supersededBy[condition]) {
+          if (this.conditions[superseder].active || this.someAncestorSupersedesThis(superseder)) {
+            return true;
+          }
+        }
+        return false;
+      },
+      fixTriggers: function(condition) {
         const triggers = conditionsData.conditions[condition].triggers;
         for (const trigger of triggers) {
           this.conditions[trigger].active = this.someAncestorTriggersThis(trigger);
-          this.fixTriggersAndSupersedes(trigger);
+          this.fixSupersedes(trigger);
+          this.fixTriggers(trigger);
+        }
+      },
+      fixSupersedes: function(condition) {
+        const supersedes = conditionsData.conditions[condition].supersedes;
+        for (const superseder of supersedes) {
+          this.conditions[superseder].superseded = this.someAncestorSupersedesThis(superseder);
+          this.conditions[superseder].active =  this.someAncestorTriggersThis(superseder);
+          this.fixSupersedes(superseder);
         }
       },
       onClickCondition: function(button) {
         const thisCondition = this.conditions[button];
+        if (thisCondition.superseded) {
+          return;
+        }
         thisCondition.selected = !thisCondition.selected;
         if (button === "normal") {
           if (thisCondition.selected) {
@@ -92,6 +114,7 @@ MIDDLE_OF_VUE = """\
               if (condition !== "normal") {
                 this.conditions[condition].selected = false;
                 this.conditions[condition].active = false;
+                this.conditions[condition].superseded = false;
               }
             }
           } else {
@@ -105,7 +128,8 @@ MIDDLE_OF_VUE = """\
           } else {
             thisCondition.active = this.someAncestorTriggersThis(button);
           }
-          this.fixTriggersAndSupersedes(button);
+          this.fixTriggers(button);
+          this.fixSupersedes(button);
         }
       }
     }
@@ -180,6 +204,9 @@ VUE_STYLESHEET = f"""\
   .active .conditionBox {{
     fill: var(--status-color);
   }}
+  .superseded .conditionBox {{
+    fill: var(--inapplicable-color);
+  }}
 </style>
 """
 
@@ -227,9 +254,9 @@ CONDITION_DATA = [
     ("Vulnerable", "", "Half Active Def", "",                               C6, R1,  "basic"),
     ("Impaired", "(stat)", "-1 on checks", "",                              C8, R1,  "basic"),
     ("Fatigued", "", "-1 on checks", "",                                   C10, R1,  "combined"),
-    ("Prone", "", "+/-5 attacks", "{hindered}",                             C1, R2b, "dual"),
+    ("Staggered", "", "", "{Dazed + Hindered}",                             C1, R2b, "combined"),
     ("Stunned", "", "No Actions", "",                                       C2, R2a, "basic"),
-    ("Staggered", "", "", "{Dazed + Hindered}",                             C3, R2b, "combined"),
+    ("Prone", "", "+/-5 attacks", "{hindered}",                             C3, R2b, "dual"),
     ("Immobile", "", "No Move", "",                                         C4, R2a, "basic"),
     ("Surprised", "", "", "{Stunned + Vulnerable}",                         C5, R2b, "combined"),
     ("Defenseless", "", "Active Def = 0", "",                               C6, R2a, "basic"),
