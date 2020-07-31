@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "http://hero-sheet.com/schemas/charsheet.schema.json",
   "type": "object",
-  "title": "Root Schema for a Charsheet - v18",
+  "title": "Root Schema for a Charsheet - v19",
   "description": "The root schema is the schema that comprises the entire JSON document for a charsheet.",
   "properties": {
-    "version": { "type": "integer", "const": 18 },
+    "version": { "type": "integer", "const": 19 },
     "campaign": { "$ref":  "#/definitions/Campaign" },
     "naming": { "$ref":  "#/definitions/Naming" },
     "effortPoints": { "$ref":  "#/definitions/IntegerOrNull" },
@@ -21,6 +21,7 @@
     "attacks": { "$ref": "#/definitions/Attacks" },
     "activeEffects": { "$ref": "#/definitions/ActiveEffects" },
     "constraintViolations": { "$ref": "#/definitions/ConstraintViolations" },
+    "status": { "$ref": "#/definitions/Status" },
     "allies": { "$ref": "#/definitions/AllyList" }
   },
   "required": [
@@ -424,6 +425,30 @@
         "gmApproval": { "type": "boolean" }
       },
       "required": ["gmApproval"],
+      "additionalProperties": false
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "conditions": { "$ref": "#/definitions/Conditions" }
+      },
+      "required": ["conditions"],
+      "additionalProperties": false
+    },
+    "Conditions": {
+      "type": "object",
+      "patternProperties": {
+        "[a-z]+": { "$ref": "#/definitions/Condition" }
+      },
+      "additionalProperties": false
+    },
+    "Condition": {
+      "type": "object",
+      "properties": {
+        "active": { "type": "boolean" },
+        "selected": { "type": "boolean" }
+      },
+      "required": ["active", "selected"],
       "additionalProperties": false
     },
     "AllyList": {

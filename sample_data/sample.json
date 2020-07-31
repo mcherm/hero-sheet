@@ -487,6 +487,18 @@
     "NormalSkillLimit@acrobatics": { "gmApproval": false },
     "TemplateSkillLimit@HIL2Y11XS":  { "gmApproval": false }
   },
+  "status": {
+    "conditions": {
+      "normal": {
+        "active": false,
+        "selected": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false
+      }
+    }
+  },
   "allies": [
     {
       "hsid": "HI1GQF7RB",

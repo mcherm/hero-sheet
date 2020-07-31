@@ -1,0 +1,150 @@
+{
+  "conditions": {
+    "compelled": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "controlled": {
+      "hasEffects": true,
+      "supersedes": ["compelled"],
+      "triggers": []
+    },
+    "dazed": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "debilitated": {
+      "hasEffects": true,
+      "supersedes": ["disabled", "weakened"],
+      "triggers": []
+    },
+    "defenseless": {
+      "hasEffects": true,
+      "supersedes": ["vulnerable"],
+      "triggers": []
+    },
+    "disabled": {
+      "hasEffects": true,
+      "supersedes": ["impaired"],
+      "triggers": []
+    },
+    "fatigued": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "hindered": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "immobile": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "impaired": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "normal": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "stunned": {
+      "hasEffects": true,
+      "supersedes": ["dazed"],
+      "triggers": []
+    },
+    "transformed": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "unaware": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "vulnerable": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "weakened": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": []
+    },
+    "asleep": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["defenseless", "stunned", "unaware"]
+    },
+    "blind": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["hindered", "unaware", "vulnerable"]
+    },
+    "bound": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["defenseless", "immobile", "impaired"]
+    },
+    "deaf": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["unaware"]
+    },
+    "dying": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": ["incapacitated"]
+    },
+    "entranced": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["stunned"]
+    },
+    "exhausted": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["impaired", "hindered"]
+    },
+    "incapacitated": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["defenseless", "stunned", "unaware", "prone"]
+    },
+    "paralyzed": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["defenseless", "immobile", "stunned"]
+    },
+    "prone": {
+      "hasEffects": true,
+      "supersedes": [],
+      "triggers": ["hindered"]
+    },
+    "restrained": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["hindered", "vulnerable", "immobile"]
+    },
+    "staggered": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["dazed", "hindered"]
+    },
+    "surprised": {
+      "hasEffects": false,
+      "supersedes": [],
+      "triggers": ["stunned", "vulnerable"]
+    }
+  },
+  "docsURL": "https://www.d20herosrd.com/9-gamemastering/conditions/"
+}
