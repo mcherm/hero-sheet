@@ -45,66 +45,54 @@ MIDDLE_OF_VUE = """\
 </template>
 
 <script>
+  const conditionsData = require("../data/conditionsData.json");
+  const triggeredBy = function() {
+    const result = {};
+    for (const condition in conditionsData.conditions) {
+      result[condition] = [];
+    }
+    for (const condition in conditionsData.conditions) {
+      for (const trigger of conditionsData.conditions[condition].triggers) {
+        result[trigger].push(condition);
+      }
+    }
+    return result;
+  }();
+
   export default {
     name: "ConditionsImage.vue",
+    inject: ["getCharsheet"],
     data: function() {
       return {
-        normal: { active: false, selected: false },
-        dazed: { active: false, selected: false },
-        hindered: { active: false, selected: false },
-        vulnerable: { active: false, selected: false },
-        impaired: { active: false, selected: false },
-        fatigued: { active: false, selected: false },
-        prone: { active: false, selected: false },
-        stunned: { active: false, selected: false },
-        staggered: { active: false, selected: false },
-        immobile: { active: false, selected: false },
-        surprised: { active: false, selected: false },
-        defenseless: { active: false, selected: false },
-        weakened: { active: false, selected: false },
-        disabled: { active: false, selected: false },
-        compelled: { active: false, selected: false },
-        exhausted: { active: false, selected: false },
-        entranced: { active: false, selected: false },
-        restrained: { active: false, selected: false },
-        incapacitated: { active: false, selected: false },
-        asleep: { active: false, selected: false },
-        paralyzed: { active: false, selected: false },
-        blind: { active: false, selected: false },
-        unaware: { active: false, selected: false },
-        deaf: { active: false, selected: false },
-        debilitated: { active: false, selected: false },
-        controlled: { active: false, selected: false },
-        transformed: { active: false, selected: false },
-        bound: { active: false, selected: false },
-        dying: { active: false, selected: false },
+        conditions: this.getCharsheet().status.conditions,
       }
     },
     methods: {
-      onClick: function(button) {
-        this[button].selected = !this[button].selected;
-        const activationMap = {
-          asleep: ["defenseless", "stunned", "unaware"],
-          blind: ["hindered", "unaware", "vulnerable"],
-          bound: ["defenseless", "immobile", "impaired"],
-          deaf: ["unaware"],
-          dying: ["incapacitated", "defenseless", "stunned", "unaware", "prone", "hindered"],
-          entranced: ["stunned"],
-          exhausted: ["impaired", "hindered"],
-          fatigued: ["hindered"],
-          incapacitated: ["defenseless", "stunned", "unaware", "prone"],
-          paralyzed: ["defenseless", "immobile", "stunned"],
-          prone: ["hindered"],
-          restrained: ["hindered", "vulnerable", "immobile"],
-          staggered: ["dazed", "hindered"],
-          surprised: ["stunned", "vulnerable"],
-        };
-        const othersToActivate = activationMap[button];
-        if (othersToActivate) {
-          for (const other of othersToActivate) {
-            this[other].active = this[button].selected; // WARNING: Bug here if others had activated it
+      onClickCondition: function(button) {
+        const vueThis = this;
+        const thisCondition = this.conditions[button];
+        thisCondition.selected = !thisCondition.selected;
+        const someAncestorTriggersThis = function(condition) {
+          for (const trigger of triggeredBy[condition]) {
+            if (vueThis.conditions[trigger].selected || someAncestorTriggersThis(trigger)) {
+              return true;
+            }
+          }
+          return false;
+        }
+        if (thisCondition.selected) {
+          thisCondition.active = true;
+        } else {
+          thisCondition.active = someAncestorTriggersThis(button);
+        }
+        const fixTriggersAndSupersedes = function(condition) {
+          const triggers = conditionsData.conditions[condition].triggers;
+          for (const trigger of triggers) {
+            vueThis.conditions[trigger].active = someAncestorTriggersThis(trigger);
+            fixTriggersAndSupersedes(trigger);
           }
         }
+        fixTriggersAndSupersedes(button);
       }
     }
   }
@@ -353,7 +341,7 @@ class SVGFileWriter(CommonWriter):
 
 class VueFileWriter(CommonWriter):
     def condition_extras(self, name):
-        return f" :class=\"{name.lower()}\" @click=\"onClick('{name.lower()}')\""
+        return f" :class=\"conditions.{name.lower()}\" @click=\"onClickCondition('{name.lower()}')\""
 
     def write_file(self):
         self.write(TOP_OF_VUE)

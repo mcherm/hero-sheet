@@ -3,14 +3,15 @@ const statsData = require("../data/statsData.json");
 const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 const standardPowers = require("../data/standardPowers.json");
+const conditionsData = require("../data/conditionsData.json");
 
 const currentVersion = 18; // Up to this version can be saved
-const latestVersion = 18; // Might be an experimental version
+const latestVersion = 19; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
   "advantages", "equipment", "skills", "powers", "complications", "background", "attacks", "activeEffects",
-  "constraintViolations", "allies"];
+  "constraintViolations", "status", "allies"];
 
 /*
  * Given a charsheet, this re-orders the fields so they are in the preferred order.
@@ -28,7 +29,7 @@ const sortFields = function(charsheet) {
       charsheet[field] = original[field];
     }
   }
-  // -- Just in case, if anything isn't in the preferred order add it --
+  // -- Just in case, if anything isn't in the preferred order add it at the end --
   for (const field in original) {
     if (!(field in charsheet)) {
       charsheet[field] = original[field];
@@ -146,6 +147,9 @@ const newBlankCharacter = function(developerMode) {
   };
   const activeEffects = {};
   const constraintViolations = {};
+  const status = {
+    "conditions": blankConditions()
+  };
   const allies = [];
   return {
     version,
@@ -164,9 +168,22 @@ const newBlankCharacter = function(developerMode) {
     attacks,
     activeEffects,
     constraintViolations,
+    status,
     allies,
   }
 };
+
+
+const blankConditions = function() {
+  const result = {};
+  for (const condition in conditionsData.conditions) {
+    result[condition] = {
+      "active": false,
+      "selected": false
+    };
+  }
+  return result;
+}
 
 const newBlankAdvantage = function() {
   return {
@@ -603,7 +620,15 @@ const upgradeFuncs = {
       charsheet.activeEffects[key] = applyPatchToList(patchActiveEffect, charsheet.activeEffects[key]);
     }
     charsheet.version = 18;
-  }
+  },
+
+  upgradeFrom18: function(charsheet) {
+    charsheet.status = {
+      "conditions": blankConditions()
+    };
+    charsheet.version = 19;
+  },
+
 };
 
 

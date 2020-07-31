@@ -44,7 +44,7 @@
             <line x1="325" y1="228" x2="285" y2="228" class="connector" />
             <line x1="165" y1="264" x2="205" y2="276" class="connector" />
             <line x1="245" y1="264" x2="205" y2="276" class="connector" />
-            <g id="condition_normal" class="condition" :class="normal" @click="onClick('normal')">
+            <g id="condition_normal" class="condition" :class="conditions.normal" @click="onClickCondition('normal')">
                 <rect class="conditionBorder"
                     x="240" y="16"
                     width="50" height="28"
@@ -62,7 +62,7 @@
                     x="265" y="37"
                 >No Conditions</text>
             </g>
-            <g id="condition_dazed" class="condition" :class="dazed" @click="onClick('dazed')">
+            <g id="condition_dazed" class="condition" :class="conditions.dazed" @click="onClickCondition('dazed')">
                 <rect class="conditionBorder"
                     x="60" y="76"
                     width="50" height="28"
@@ -80,7 +80,7 @@
                     x="85" y="97"
                 >Single Action</text>
             </g>
-            <g id="condition_hindered" class="condition" :class="hindered" @click="onClick('hindered')">
+            <g id="condition_hindered" class="condition" :class="conditions.hindered" @click="onClickCondition('hindered')">
                 <rect class="conditionBorder"
                     x="140" y="76"
                     width="50" height="28"
@@ -98,7 +98,7 @@
                     x="165" y="97"
                 >Half Move</text>
             </g>
-            <g id="condition_vulnerable" class="condition" :class="vulnerable" @click="onClick('vulnerable')">
+            <g id="condition_vulnerable" class="condition" :class="conditions.vulnerable" @click="onClickCondition('vulnerable')">
                 <rect class="conditionBorder"
                     x="220" y="76"
                     width="50" height="28"
@@ -116,7 +116,7 @@
                     x="245" y="97"
                 >Half Active Def</text>
             </g>
-            <g id="condition_impaired" class="condition" :class="impaired" @click="onClick('impaired')">
+            <g id="condition_impaired" class="condition" :class="conditions.impaired" @click="onClickCondition('impaired')">
                 <rect class="conditionBorder"
                     x="300" y="76"
                     width="50" height="28"
@@ -134,7 +134,7 @@
                     x="325" y="97"
                 >-1 on checks</text>
             </g>
-            <g id="condition_fatigued" class="condition" :class="fatigued" @click="onClick('fatigued')">
+            <g id="condition_fatigued" class="condition" :class="conditions.fatigued" @click="onClickCondition('fatigued')">
                 <rect class="conditionBorder"
                     x="380" y="76"
                     width="50" height="28"
@@ -152,7 +152,7 @@
                     x="405" y="97"
                 >-1 on checks</text>
             </g>
-            <g id="condition_prone" class="condition" :class="prone" @click="onClick('prone')">
+            <g id="condition_prone" class="condition" :class="conditions.prone" @click="onClickCondition('prone')">
                 <rect class="conditionBorder"
                     x="20" y="176"
                     width="50" height="28"
@@ -170,7 +170,7 @@
                     x="45" y="197"
                 >+/-5 attacks</text>
             </g>
-            <g id="condition_stunned" class="condition" :class="stunned" @click="onClick('stunned')">
+            <g id="condition_stunned" class="condition" :class="conditions.stunned" @click="onClickCondition('stunned')">
                 <rect class="conditionBorder"
                     x="60" y="136"
                     width="50" height="28"
@@ -188,7 +188,7 @@
                     x="85" y="157"
                 >No Actions</text>
             </g>
-            <g id="condition_staggered" class="condition" :class="staggered" @click="onClick('staggered')">
+            <g id="condition_staggered" class="condition" :class="conditions.staggered" @click="onClickCondition('staggered')">
                 <rect class="conditionBorder"
                     x="100" y="176"
                     width="50" height="28"
@@ -206,7 +206,7 @@
                     x="125" y="197"
                 ></text>
             </g>
-            <g id="condition_immobile" class="condition" :class="immobile" @click="onClick('immobile')">
+            <g id="condition_immobile" class="condition" :class="conditions.immobile" @click="onClickCondition('immobile')">
                 <rect class="conditionBorder"
                     x="140" y="136"
                     width="50" height="28"
@@ -224,7 +224,7 @@
                     x="165" y="157"
                 >No Move</text>
             </g>
-            <g id="condition_surprised" class="condition" :class="surprised" @click="onClick('surprised')">
+            <g id="condition_surprised" class="condition" :class="conditions.surprised" @click="onClickCondition('surprised')">
                 <rect class="conditionBorder"
                     x="180" y="176"
                     width="50" height="28"
@@ -242,7 +242,7 @@
                     x="205" y="197"
                 ></text>
             </g>
-            <g id="condition_defenseless" class="condition" :class="defenseless" @click="onClick('defenseless')">
+            <g id="condition_defenseless" class="condition" :class="conditions.defenseless" @click="onClickCondition('defenseless')">
                 <rect class="conditionBorder"
                     x="220" y="136"
                     width="50" height="28"
@@ -260,7 +260,7 @@
                     x="245" y="157"
                 >Active Def = 0</text>
             </g>
-            <g id="condition_weakened" class="condition" :class="weakened" @click="onClick('weakened')">
+            <g id="condition_weakened" class="condition" :class="conditions.weakened" @click="onClickCondition('weakened')">
                 <rect class="conditionBorder"
                     x="260" y="176"
                     width="50" height="28"
@@ -278,7 +278,7 @@
                     x="285" y="197"
                 >-X on power/stat</text>
             </g>
-            <g id="condition_disabled" class="condition" :class="disabled" @click="onClick('disabled')">
+            <g id="condition_disabled" class="condition" :class="conditions.disabled" @click="onClickCondition('disabled')">
                 <rect class="conditionBorder"
                     x="300" y="136"
                     width="50" height="28"
@@ -296,7 +296,7 @@
                     x="325" y="157"
                 >-5 on checks</text>
             </g>
-            <g id="condition_compelled" class="condition" :class="compelled" @click="onClick('compelled')">
+            <g id="condition_compelled" class="condition" :class="conditions.compelled" @click="onClickCondition('compelled')">
                 <rect class="conditionBorder"
                     x="340" y="176"
                     width="50" height="28"
@@ -314,7 +314,7 @@
                     x="365" y="197"
                 >1 forced action</text>
             </g>
-            <g id="condition_exhausted" class="condition" :class="exhausted" @click="onClick('exhausted')">
+            <g id="condition_exhausted" class="condition" :class="conditions.exhausted" @click="onClickCondition('exhausted')">
                 <rect class="conditionBorder"
                     x="380" y="136"
                     width="50" height="28"
@@ -332,7 +332,7 @@
                     x="405" y="157"
                 ></text>
             </g>
-            <g id="condition_entranced" class="condition" :class="entranced" @click="onClick('entranced')">
+            <g id="condition_entranced" class="condition" :class="conditions.entranced" @click="onClickCondition('entranced')">
                 <rect class="conditionBorder"
                     x="420" y="176"
                     width="50" height="28"
@@ -350,7 +350,7 @@
                     x="445" y="197"
                 ></text>
             </g>
-            <g id="condition_restrained" class="condition" :class="restrained" @click="onClick('restrained')">
+            <g id="condition_restrained" class="condition" :class="conditions.restrained" @click="onClickCondition('restrained')">
                 <rect class="conditionBorder"
                     x="460" y="136"
                     width="50" height="28"
@@ -368,7 +368,7 @@
                     x="485" y="157"
                 ></text>
             </g>
-            <g id="condition_incapacitated" class="condition" :class="incapacitated" @click="onClick('incapacitated')">
+            <g id="condition_incapacitated" class="condition" :class="conditions.incapacitated" @click="onClickCondition('incapacitated')">
                 <rect class="conditionBorder"
                     x="20" y="276"
                     width="50" height="28"
@@ -386,7 +386,7 @@
                     x="45" y="297"
                 ></text>
             </g>
-            <g id="condition_asleep" class="condition" :class="asleep" @click="onClick('asleep')">
+            <g id="condition_asleep" class="condition" :class="conditions.asleep" @click="onClickCondition('asleep')">
                 <rect class="conditionBorder"
                     x="60" y="236"
                     width="50" height="28"
@@ -404,7 +404,7 @@
                     x="85" y="257"
                 ></text>
             </g>
-            <g id="condition_paralyzed" class="condition" :class="paralyzed" @click="onClick('paralyzed')">
+            <g id="condition_paralyzed" class="condition" :class="conditions.paralyzed" @click="onClickCondition('paralyzed')">
                 <rect class="conditionBorder"
                     x="100" y="276"
                     width="50" height="28"
@@ -422,7 +422,7 @@
                     x="125" y="297"
                 ></text>
             </g>
-            <g id="condition_blind" class="condition" :class="blind" @click="onClick('blind')">
+            <g id="condition_blind" class="condition" :class="conditions.blind" @click="onClickCondition('blind')">
                 <rect class="conditionBorder"
                     x="140" y="236"
                     width="50" height="28"
@@ -440,7 +440,7 @@
                     x="165" y="257"
                 ></text>
             </g>
-            <g id="condition_unaware" class="condition" :class="unaware" @click="onClick('unaware')">
+            <g id="condition_unaware" class="condition" :class="conditions.unaware" @click="onClickCondition('unaware')">
                 <rect class="conditionBorder"
                     x="180" y="276"
                     width="50" height="28"
@@ -458,7 +458,7 @@
                     x="205" y="297"
                 >Can't Perceive</text>
             </g>
-            <g id="condition_deaf" class="condition" :class="deaf" @click="onClick('deaf')">
+            <g id="condition_deaf" class="condition" :class="conditions.deaf" @click="onClickCondition('deaf')">
                 <rect class="conditionBorder"
                     x="220" y="236"
                     width="50" height="28"
@@ -476,7 +476,7 @@
                     x="245" y="257"
                 ></text>
             </g>
-            <g id="condition_debilitated" class="condition" :class="debilitated" @click="onClick('debilitated')">
+            <g id="condition_debilitated" class="condition" :class="conditions.debilitated" @click="onClickCondition('debilitated')">
                 <rect class="conditionBorder"
                     x="260" y="276"
                     width="50" height="28"
@@ -494,7 +494,7 @@
                     x="285" y="297"
                 >Varies by Stat</text>
             </g>
-            <g id="condition_controlled" class="condition" :class="controlled" @click="onClick('controlled')">
+            <g id="condition_controlled" class="condition" :class="conditions.controlled" @click="onClickCondition('controlled')">
                 <rect class="conditionBorder"
                     x="340" y="236"
                     width="50" height="28"
@@ -512,7 +512,7 @@
                     x="365" y="257"
                 >Forced actions</text>
             </g>
-            <g id="condition_transformed" class="condition" :class="transformed" @click="onClick('transformed')">
+            <g id="condition_transformed" class="condition" :class="conditions.transformed" @click="onClickCondition('transformed')">
                 <rect class="conditionBorder"
                     x="380" y="276"
                     width="50" height="28"
@@ -530,7 +530,7 @@
                     x="405" y="297"
                 >Alternate Form</text>
             </g>
-            <g id="condition_bound" class="condition" :class="bound" @click="onClick('bound')">
+            <g id="condition_bound" class="condition" :class="conditions.bound" @click="onClickCondition('bound')">
                 <rect class="conditionBorder"
                     x="460" y="236"
                     width="50" height="28"
@@ -548,7 +548,7 @@
                     x="485" y="257"
                 ></text>
             </g>
-            <g id="condition_dying" class="condition" :class="dying" @click="onClick('dying')">
+            <g id="condition_dying" class="condition" :class="conditions.dying" @click="onClickCondition('dying')">
                 <rect class="conditionBorder"
                     x="240" y="336"
                     width="50" height="28"
@@ -571,66 +571,54 @@
 </template>
 
 <script>
+  const conditionsData = require("../data/conditionsData.json");
+  const triggeredBy = function() {
+    const result = {};
+    for (const condition in conditionsData.conditions) {
+      result[condition] = [];
+    }
+    for (const condition in conditionsData.conditions) {
+      for (const trigger of conditionsData.conditions[condition].triggers) {
+        result[trigger].push(condition);
+      }
+    }
+    return result;
+  }();
+
   export default {
     name: "ConditionsImage.vue",
+    inject: ["getCharsheet"],
     data: function() {
       return {
-        normal: { active: false, selected: false },
-        dazed: { active: false, selected: false },
-        hindered: { active: false, selected: false },
-        vulnerable: { active: false, selected: false },
-        impaired: { active: false, selected: false },
-        fatigued: { active: false, selected: false },
-        prone: { active: false, selected: false },
-        stunned: { active: false, selected: false },
-        staggered: { active: false, selected: false },
-        immobile: { active: false, selected: false },
-        surprised: { active: false, selected: false },
-        defenseless: { active: false, selected: false },
-        weakened: { active: false, selected: false },
-        disabled: { active: false, selected: false },
-        compelled: { active: false, selected: false },
-        exhausted: { active: false, selected: false },
-        entranced: { active: false, selected: false },
-        restrained: { active: false, selected: false },
-        incapacitated: { active: false, selected: false },
-        asleep: { active: false, selected: false },
-        paralyzed: { active: false, selected: false },
-        blind: { active: false, selected: false },
-        unaware: { active: false, selected: false },
-        deaf: { active: false, selected: false },
-        debilitated: { active: false, selected: false },
-        controlled: { active: false, selected: false },
-        transformed: { active: false, selected: false },
-        bound: { active: false, selected: false },
-        dying: { active: false, selected: false },
+        conditions: this.getCharsheet().status.conditions,
       }
     },
     methods: {
-      onClick: function(button) {
-        this[button].selected = !this[button].selected;
-        const activationMap = {
-          asleep: ["defenseless", "stunned", "unaware"],
-          blind: ["hindered", "unaware", "vulnerable"],
-          bound: ["defenseless", "immobile", "impaired"],
-          deaf: ["unaware"],
-          dying: ["incapacitated", "defenseless", "stunned", "unaware", "prone", "hindered"],
-          entranced: ["stunned"],
-          exhausted: ["impaired", "hindered"],
-          fatigued: ["hindered"],
-          incapacitated: ["defenseless", "stunned", "unaware", "prone"],
-          paralyzed: ["defenseless", "immobile", "stunned"],
-          prone: ["hindered"],
-          restrained: ["hindered", "vulnerable", "immobile"],
-          staggered: ["dazed", "hindered"],
-          surprised: ["stunned", "vulnerable"],
-        };
-        const othersToActivate = activationMap[button];
-        if (othersToActivate) {
-          for (const other of othersToActivate) {
-            this[other].active = this[button].selected; // WARNING: Bug here if others had activated it
+      onClickCondition: function(button) {
+        const vueThis = this;
+        const thisCondition = this.conditions[button];
+        thisCondition.selected = !thisCondition.selected;
+        const someAncestorTriggersThis = function(condition) {
+          for (const trigger of triggeredBy[condition]) {
+            if (vueThis.conditions[trigger].selected || someAncestorTriggersThis(trigger)) {
+              return true;
+            }
+          }
+          return false;
+        }
+        if (thisCondition.selected) {
+          thisCondition.active = true;
+        } else {
+          thisCondition.active = someAncestorTriggersThis(button);
+        }
+        const fixTriggersAndSupersedes = function(condition) {
+          const triggers = conditionsData.conditions[condition].triggers;
+          for (const trigger of triggers) {
+            vueThis.conditions[trigger].active = someAncestorTriggersThis(trigger);
+            fixTriggersAndSupersedes(trigger);
           }
         }
+        fixTriggersAndSupersedes(button);
       }
     }
   }

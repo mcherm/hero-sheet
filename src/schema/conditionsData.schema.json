@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/conditionsData.schema.json",
+  "type": "object",
+  "title": "Conditions Data Schema",
+  "properties": {
+    "conditions": { "$ref": "#/definitions/Conditions"},
+    "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL" }
+  },
+  "required": ["conditions", "docsURL"],
+  "additionalProperties": false,
+  "definitions": {
+    "Conditions": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/Condition" }
+      },
+      "additionalProperties": false
+    },
+    "Condition": {
+      "type": "object",
+      "properties": {
+        "hasEffects": { "type": "boolean" },
+        "supersedes": { "$ref": "#/definitions/ConditionList"},
+        "triggers": { "$ref": "#/definitions/ConditionList"}
+      },
+      "required": ["hasEffects", "supersedes", "triggers"],
+      "additionalProperties": false
+    },
+    "ConditionList": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/definitions/Name" }
+    }
+  }
+}
