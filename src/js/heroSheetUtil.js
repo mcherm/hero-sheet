@@ -20,6 +20,30 @@ function isArray(power) {
 
 
 /*
+ * Given a member of the enum for range, this returns an integer. Any other value
+ * will return undefined.
+ */
+const rangeToInt = function(range) {
+  const mapping = {
+    personal: 0,
+    close: 1,
+    ranged: 2,
+    perception: 3
+  };
+  return mapping[range];
+}
+
+/*
+ * Given an integer, this returns a member of the range array. Numbers outside the range 0..3 will
+ * be truncated to fit.
+ */
+const intToRange = function(n) {
+  const values = ["personal", "close", "ranged", "perception"];
+  return values[Math.min(Math.max(0, n), 3)];
+}
+
+
+/*
  * This contains the formulas to calculate the cost of a (non-array) power.
  *
  * As input, it takes a list of modifier lists (sometimes the modifiers come
@@ -674,6 +698,8 @@ const lacksStat = function(charsheet, statName) {
 
 export {
   powerCostCalculate,
+  rangeToInt,
+  intToRange,
   advantageIsRanked,
   costOfAbility,
   abilityCost,

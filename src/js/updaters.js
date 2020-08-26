@@ -3,7 +3,8 @@
 //
 
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
-import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat} from "./heroSheetUtil.js"
+import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt, intToRange} from "./heroSheetUtil.js"
+const standardPowers = require("../data/standardPowers.json");
 
 
 /*
@@ -246,7 +247,9 @@ class AttackUpdater extends Updater {
     result.updater = this.className();
     result.attackCheck = null; // Subclass is likely to set a value
     result.resistanceDC = null; // Subclass is likely to set a value
-    // Subclass MUST set result.effectType
+    // Subclass MUST set result.effectType to one of ["damage", "affliction", "nullify", "weaken"]
+    // Subclass MUST set result.range to one of ["personal", "close", "ranged", "perception"]
+    // Subclass MUST set result.scope to one of ["singleTarget", "area"]
     return result;
   }
 
@@ -330,6 +333,8 @@ class UnarmedAttackUpdater extends AttackUpdater {
     result.name = "Unarmed";
     result.attackCheck = this.charsheet.abilities.fighting.ranks;
     result.effectType = "damage";
+    result.range = "close";
+    result.scope = "singleTarget";
     result.resistanceDC = this.charsheet.abilities.strength.ranks;
     return result;
   }
@@ -382,7 +387,50 @@ class PowerAttackUpdater extends AttackUpdater {
     const result = super.makeNewAttack();
     result.powerHsid = this.power.hsid;
     result.name = this.power.name;
+    result.range = null;
+    result.scope = null;
     return result;
+  }
+
+  applyChanges(newCalculations) {
+    // FIXME: Look at what the damage attack does. It's checking for lacksFighting... they all should do that
+    // -- Update the Values --
+    const theAttack = this.theAttack;
+    theAttack.name = newCalculations.powerName;
+    theAttack.range = newCalculations.range;
+    theAttack.scope = newCalculations.scope;
+
+    // FIXME: Below this is stuff that we might be able to bring inside the parent class (this one)
+    // -- Damage --
+    // theAttack.attackCheck = this._attackCheckFormula(newCalculations);
+    // theAttack.resistanceDC = this._resistanceDCFormula(newCalculations);
+    // -- Affliction --
+    // theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
+    // theAttack.resistanceDC = newCalculations.powerRanks;
+    // -- Nullify --
+    // theAttack.attackCheck = newCalculations.dexterity + newCalculations.attackCheckAdjustment;
+    // theAttack.nullifyRanks = newCalculations.powerRanks;
+    // -- Weaken --
+    // this.theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
+    // this.theAttack.resistanceDC = 10 + newCalculations.powerRanks;
+  }
+
+  findRange(power) {
+    const baseRange = rangeToInt(standardPowers[power.effect].range);
+    const increasedRange = power.extras.reduce(
+      (sum, mod) => sum + (mod.modifierName === "Increased Range" ? mod.ranks : 0),
+      0
+    );
+    const diminishedRange = power.flaws.reduce(
+      (sum, mod) => sum + (mod.modifierName === "Diminished Range" ? mod.ranks : 0),
+      0
+    );
+    return intToRange(baseRange + increasedRange - diminishedRange);
+  }
+
+  findScope(power) {
+    const hasAreaMod = power.extras.some(mod => mod.modifierName === "Area");
+    return hasAreaMod ? "area" : "singleTarget";
   }
 }
 
@@ -399,6 +447,8 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
       attackCheckAdjustment: 0
     });
     result.effectType = "damage";
+    result.range = this.findRange(this.power);
+    result.scope = this.findScope(this.power);
     result.resistanceDC = this._resistanceDCFormula({
       powerRanks: this.power.ranks,
       isStrengthBased: this._isStrengthBased(this.power),
@@ -428,6 +478,8 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
         powerName: this.power.name,
         attackCheckAdjustment: this.attackCheckAdjustment(),
         isStrengthBased: this._isStrengthBased(this.power),
+        range: this.findRange(this.power),
+        scope: this.findScope(this.power),
         lacksStrength: lacksStat(this.charsheet, "strength"),
         lacksFighting: lacksStat(this.charsheet, "fighting")
       }
@@ -454,11 +506,9 @@ class DamagePowerAttackUpdater extends PowerAttackUpdater {
     if (newCalculations.lacksFighting || newCalculations.isStrengthBased && newCalculations.lacksFighting) {
       this.removeTheAttack();
     } else {
-      // -- Update the Values --
-      const theAttack = this.theAttack;
-      theAttack.name = newCalculations.powerName;
-      theAttack.attackCheck = this._attackCheckFormula(newCalculations);
-      theAttack.resistanceDC = this._resistanceDCFormula(newCalculations);
+      super.applyChanges(newCalculations);
+      this.theAttack.attackCheck = this._attackCheckFormula(newCalculations);
+      this.theAttack.resistanceDC = this._resistanceDCFormula(newCalculations);
     }
   }
 
@@ -490,17 +540,17 @@ class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
         fighting: this.charsheet.abilities.fighting.ranks,
         powerRanks: this.power.ranks,
         powerName: this.power.name,
+        range: this.findRange(this.power),
+        scope: this.findScope(this.power),
         attackCheckAdjustment: this.attackCheckAdjustment()
       }
     }
   }
 
   applyChanges(newCalculations) {
-    // -- Update the Values --
-    const theAttack = this.theAttack;
-    theAttack.name = newCalculations.powerName;
-    theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
-    theAttack.resistanceDC = newCalculations.powerRanks;
+    super.applyChanges(newCalculations);
+    this.theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
+    this.theAttack.resistanceDC = newCalculations.powerRanks;
   }
 
 }
@@ -532,17 +582,17 @@ class NullifyPowerAttackUpdater extends PowerAttackUpdater {
         dexterity: this.charsheet.abilities.dexterity.ranks,
         powerRanks: this.power.ranks,
         powerName: this.power.name,
+        range: this.findRange(this.power),
+        scope: this.findScope(this.power),
         attackCheckAdjustment: this.attackCheckAdjustment()
       }
     }
   }
 
   applyChanges(newCalculations) {
-    // -- Update the Values --
-    const theAttack = this.theAttack;
-    theAttack.name = newCalculations.powerName;
-    theAttack.attackCheck = newCalculations.dexterity + newCalculations.attackCheckAdjustment;
-    theAttack.nullifyRanks = newCalculations.powerRanks;
+    super.applyChanges(newCalculations);
+    this.theAttack.attackCheck = newCalculations.dexterity + newCalculations.attackCheckAdjustment;
+    this.theAttack.nullifyRanks = newCalculations.powerRanks;
   }
 
 }
@@ -573,17 +623,17 @@ class WeakenPowerAttackUpdater extends PowerAttackUpdater {
         fighting: this.charsheet.abilities.fighting.ranks,
         powerRanks: this.power.ranks,
         powerName: this.power.name,
+        range: this.findRange(this.power),
+        scope: this.findScope(this.power),
         attackCheckAdjustment: this.attackCheckAdjustment()
       }
     }
   }
 
   applyChanges(newCalculations) {
-    // -- Update the Values --
-    const theAttack = this.theAttack;
-    theAttack.name = newCalculations.powerName;
-    theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
-    theAttack.resistanceDC = 10 + newCalculations.powerRanks;
+    super.applyChanges(newCalculations);
+    this.theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
+    this.theAttack.resistanceDC = 10 + newCalculations.powerRanks;
   }
 
 }

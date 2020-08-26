@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "http://hero-sheet.com/schemas/charsheet.schema.json",
   "type": "object",
-  "title": "Root Schema for a Charsheet - v19",
+  "title": "Root Schema for a Charsheet - v20",
   "description": "The root schema is the schema that comprises the entire JSON document for a charsheet.",
   "properties": {
-    "version": { "type": "integer", "const": 19 },
+    "version": { "type": "integer", "const": 20 },
     "campaign": { "$ref":  "#/definitions/Campaign" },
     "naming": { "$ref":  "#/definitions/Naming" },
     "effortPoints": { "$ref":  "#/definitions/IntegerOrNull" },
@@ -374,16 +374,22 @@
         "name": { "type": "string" },
         "attackCheck": { "$ref": "#/definitions/AbilityValue" },
         "effectType": { "$ref":  "#/definitions/AttackEffectType" },
+        "range": { "$ref": "common.schema.json#/definitions/EffectRange" },
+        "scope": { "$ref": "#/definitions/AttackScope" },
         "resistanceDC": { "$ref": "#/definitions/IntegerOrNull" },
         "powerHsid": { "$ref": "#/definitions/Hsid" },
         "nullifyRanks": { "$ref": "#/definitions/IntegerOrNull" }
       },
-      "required": ["hsid", "updater", "attackCheck", "effectType", "resistanceDC"],
+      "required": ["hsid", "updater", "attackCheck", "effectType", "range", "scope", "resistanceDC"],
       "additionalProperties": false
     },
     "AttackEffectType": {
       "type": "string",
       "enum": ["damage", "affliction", "nullify", "weaken"]
+    },
+    "AttackScope": {
+      "type": "string",
+      "enum": ["singleTarget", "area"]
     },
     "ActiveEffects": {
       "type": "object",
