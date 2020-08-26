@@ -21,37 +21,56 @@
       "type": "string"
     },
     "PowerDefinition": {
-      "type": "object",
-      "properties": {
-        "name": { "$ref": "#/definitions/Name" },
-        "type": {},
-        "action": {},
-        "range": {},
-        "duration": {},
-        "resistance": {},
-        "baseCost": {
-          "anyOf": [
-            { "type": "integer" },
-            {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "name": { "$ref": "#/definitions/Name" },
+            "type": {},
+            "action": {},
+            "range": { "$ref": "#/definitions/EffectRange" },
+            "duration": {},
+            "resistance": {},
+            "baseCost": {
+              "oneOf": [
+                { "type": "integer" },
+                { "type": "string", "const": "powerOptions" }
+              ]
+            },
+            "description": { "$ref": "#/definitions/Description" },
+            "powerOptions": { "$ref": "#/definitions/PowerOptionDefinitionMap" },
+            "extras": { "$ref": "#/definitions/ModifierDefinitionList" },
+            "flaws": { "$ref": "#/definitions/ModifierDefinitionList" },
+            "isArray": { "type":  "boolean", "const": false },
+            "docsURL": { "$ref": "#/definitions/DocsURL" }
+          },
+          "required": [ "name", "range", "baseCost", "description", "isArray" ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": { "$ref": "#/definitions/Name" },
+            "baseCost": {
               "type": "string",
               "enum": [
-                "powerOptions",
                 "sum of components",
                 "most expensive + 1 + 2 per other component",
                 "most expensive + 1 per other component"
               ]
-            }
-          ]
-        },
-        "description": { "$ref": "#/definitions/Description" },
-        "powerOptions": { "$ref": "#/definitions/PowerOptionDefinitionMap" },
-        "extras": { "$ref": "#/definitions/ModifierDefinitionList" },
-        "flaws": { "$ref": "#/definitions/ModifierDefinitionList" },
-        "isArray": { "type":  "boolean" },
-        "docsURL": { "$ref": "#/definitions/DocsURL" }
-      },
-      "required": [ "name", "baseCost", "description", "isArray" ],
-      "additionalProperties": false
+            },
+            "description": { "$ref": "#/definitions/Description" },
+            "isArray": { "type":  "boolean", "const": true },
+            "docsURL": { "$ref": "#/definitions/DocsURL" }
+          },
+          "required": [ "name", "baseCost", "description", "isArray" ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "EffectRange": {
+      "type": "string",
+      "enum": ["personal", "close", "ranged", "perception"]
     },
     "PowerOptionDefinitionMap": {
       "type": "object",

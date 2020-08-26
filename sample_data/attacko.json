@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 20,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
@@ -22,42 +22,34 @@
   "abilities": {
     "strength": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "stamina": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "agility": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "dexterity": {
-      "entered": 3,
-      "cost": 6,
-      "ranks": 3
+      "entered": 0,
+      "ranks": 0
     },
     "fighting": {
-      "entered": 2,
-      "cost": 4,
-      "ranks": 2
+      "entered": 0,
+      "ranks": 0
     },
     "intellect": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "awareness": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "presence": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     }
   },
@@ -78,7 +70,7 @@
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 2
+      "ranks": 0
     },
     "toughness": {
       "base": 0,
@@ -93,15 +85,12 @@
       "ranks": 0
     }
   },
-  "initiative": 0,
-  "advantages": [
-    {
-      "name": "Improved Initiative",
-      "hsid": "HIBXGPTWE",
-      "ranks": 1,
-      "description": ""
-    }
-  ],
+  "misc": {
+    "initiative": null,
+    "isMindlessConstruct": false,
+    "isImmobileConstruct": false
+  },
+  "advantages": [],
   "equipment": [],
   "skills": {
     "skillList": [
@@ -114,13 +103,6 @@
         "name": "athletics",
         "ranks": 0,
         "isTemplate": false
-      },
-      {
-        "name": "close combat",
-        "hsid": "HIG1S3ZED",
-        "ranks": 4,
-        "isTemplate": true,
-        "attackHsid": "HIJFN66WZ"
       },
       {
         "name": "deception",
@@ -153,13 +135,6 @@
         "isTemplate": false
       },
       {
-        "name": "ranged combat",
-        "hsid": "HINQYXPS3",
-        "ranks": 4,
-        "isTemplate": true,
-        "attackHsid": "HIGWECGNG"
-      },
-      {
         "name": "slight of hand",
         "ranks": 0,
         "isTemplate": false
@@ -185,135 +160,298 @@
         "isTemplate": false
       }
     ],
-    "cost": 4
+    "cost": 0
   },
   "powers": [
     {
-      "name": "Bite",
-      "hsid": "HI3BN17LC",
-      "effect": "Damage",
+      "name": "Many Attacks",
+      "hsid": "HI45623YU",
+      "effect": "Alternate",
       "description": "",
       "extras": [],
       "flaws": [],
-      "ranks": 5,
-      "cost": 5,
-      "effectDescription": "You can inflict damage by making a close attack.",
-      "baseCost": 1,
-      "subpowers": []
-    },
-    {
-      "name": "Disease",
-      "hsid": "HIMQE65RC",
-      "effect": "Affliction",
-      "description": "",
-      "extras": [],
-      "flaws": [],
-      "ranks": 8,
-      "cost": 8,
-      "effectDescription": "Impose some debilitating condition(s) on a target.",
-      "baseCost": 1,
-      "subpowers": []
-    },
-    {
-      "name": "Cancellation",
-      "hsid": "HIS11YCB8",
-      "effect": "Nullify",
-      "description": "",
-      "extras": [],
-      "flaws": [],
-      "ranks": 3,
-      "cost": 3,
-      "effectDescription": "Nullify can counter effects of a particular descriptor, such as fire or magic.",
-      "baseCost": 1,
-      "subpowers": []
-    },
-    {
-      "name": "DrainO",
-      "hsid": "HINV3TUB4",
-      "effect": "Weaken",
-      "description": "",
-      "extras": [],
-      "flaws": [],
-      "ranks": 15,
-      "cost": 15,
-      "effectDescription": "You can temporarily lower one of your target's traits.",
-      "baseCost": 1,
-      "subpowers": []
+      "ranks": 1,
+      "cost": 9,
+      "effectDescription": "Several different effects together.",
+      "baseCost": null,
+      "subpowers": [
+        {
+          "name": "Damage Power",
+          "hsid": "HI69Z24KJ",
+          "effect": "Damage",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 6,
+          "cost": 6,
+          "effectDescription": "You can inflict damage by making a close attack.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Affliction Power",
+          "hsid": "HIDBDCVSR",
+          "effect": "Affliction",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 6,
+          "cost": 6,
+          "effectDescription": "Impose some debilitating condition(s) on a target.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Nullify Power",
+          "hsid": "HITP8J4ZE",
+          "effect": "Nullify",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 6,
+          "cost": 6,
+          "effectDescription": "Nullify can counter effects of a particular descriptor, such as fire or magic.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Weaken Power",
+          "hsid": "HIYS261LT",
+          "effect": "Weaken",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 6,
+          "cost": 6,
+          "effectDescription": "You can temporarily lower one of your target's traits.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        }
+      ],
+      "option": null
     }
   ],
   "complications": [
     {
+      "hsid": "HI8J2285P",
       "complicationType": "motivation",
-      "description": "Likes harming people."
+      "description": ""
     }
   ],
-  "background": "A hero with many ways to attack.",
+  "background": "",
   "attacks": {
     "attackList": [
       {
+        "hsid": "HIQFX8UL2",
+        "updater": "UnarmedAttackUpdater",
         "name": "Unarmed",
-        "attackCheck": 6,
+        "attackCheck": 0,
         "effectType": "damage",
         "resistanceDC": 0,
-        "updater": "UnarmedAttackUpdater",
-        "hsid": "HIJFN66WZ"
+        "range": "close",
+        "scope": "singleTarget"
       },
       {
-        "name": "Bite",
-        "attackCheck": 2,
-        "effectType": "damage",
-        "resistanceDC": 5,
-        "updater": "DamagePowerAttackUpdater",
-        "powerHsid": "HI3BN17LC",
-        "hsid": "HI4SJS3NZ"
-      },
-      {
-        "name": "Disease",
-        "attackCheck": 6,
-        "effectType": "affliction",
-        "resistanceDC": 8,
+        "hsid": "HINCGZ97N",
         "updater": "AfflictionPowerAttackUpdater",
-        "powerHsid": "HIMQE65RC",
-        "hsid": "HIGWECGNG"
+        "attackCheck": 0,
+        "resistanceDC": 6,
+        "powerHsid": "HIDBDCVSR",
+        "name": "Affliction Power",
+        "effectType": "affliction",
+        "range": "close",
+        "scope": "singleTarget"
       },
       {
-        "name": "Cancellation",
-        "attackCheck": 3,
-        "effectType": "nullify",
-        "resistanceDC": null,
-        "nullifyRanks": 3,
+        "hsid": "HINWAVTAT",
         "updater": "NullifyPowerAttackUpdater",
-        "powerHsid": "HIS11YCB8",
-        "hsid": "HI22F7BMW"
+        "attackCheck": 0,
+        "resistanceDC": null,
+        "powerHsid": "HITP8J4ZE",
+        "name": "Nullify Power",
+        "effectType": "nullify",
+        "nullifyRanks": 6,
+        "range": "ranged",
+        "scope": "singleTarget"
       },
       {
-        "name": "DrainO",
-        "attackCheck": 2,
-        "effectType": "weaken",
-        "resistanceDC": 25,
-        "nullifyRanks": 26,
+        "hsid": "HIYV82Q9S",
         "updater": "WeakenPowerAttackUpdater",
-        "powerHsid": "HINV3TUB4",
-        "hsid": "HIR85A8BK"
+        "attackCheck": 0,
+        "resistanceDC": 16,
+        "powerHsid": "HIYS261LT",
+        "name": "Weaken Power",
+        "effectType": "weaken",
+        "range": "close",
+        "scope": "singleTarget"
+      },
+      {
+        "hsid": "HIQ18R9D2",
+        "updater": "DamagePowerAttackUpdater",
+        "attackCheck": 0,
+        "resistanceDC": 6,
+        "powerHsid": "HI69Z24KJ",
+        "name": "Damage Power",
+        "range": "close",
+        "scope": "singleTarget",
+        "effectType": "damage"
       }
     ]
   },
-  "activeEffects": {
-    "attacks.HIJFN66WZ.check": [
-      {
-        "hsid": "HIYNSPVNA",
-        "value": 4,
-        "updater": "CombatSkillUpdater",
-        "skillHsid": "HIG1S3ZED"
+  "activeEffects": {},
+  "constraintViolations": {},
+  "status": {
+    "conditions": {
+      "compelled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "controlled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "debilitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "defenseless": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "disabled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "fatigued": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "hindered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "immobile": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "impaired": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "normal": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "stunned": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "transformed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "unaware": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "vulnerable": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "weakened": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "asleep": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "blind": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "bound": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "deaf": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dying": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "entranced": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "exhausted": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "incapacitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "paralyzed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "prone": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "restrained": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "staggered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "surprised": {
+        "active": false,
+        "selected": false,
+        "superseded": false
       }
-    ],
-    "attacks.HIGWECGNG.check": [
-      {
-        "hsid": "HIF4Q4D74",
-        "value": 4,
-        "updater": "CombatSkillUpdater",
-        "skillHsid": "HINQYXPS3"
-      }
-    ]
-  }
+    }
+  },
+  "allies": []
 }

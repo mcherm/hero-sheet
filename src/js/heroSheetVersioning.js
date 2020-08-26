@@ -6,7 +6,7 @@ const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 
 const currentVersion = 19; // Up to this version can be saved
-const latestVersion = 19; // Might be an experimental version
+const latestVersion = 20; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
@@ -629,6 +629,14 @@ const upgradeFuncs = {
     };
     charsheet.version = 19;
   },
+
+  upgradeFrom19: function(charsheet) {
+    charsheet.attacks.attackList.forEach(attack => {
+      attack.range = attack.effectType === "nullify" ? "ranged" : "close";
+      attack.scope = "singleTarget"
+    });
+    charsheet.version = 20;
+  }
 
 };
 
