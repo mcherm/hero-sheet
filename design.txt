@@ -183,3 +183,6 @@ TODO: Along with deleting, it would be kind of nice if there were also a way to 
 
 BUG: Custom equipment isn't creating updaters correctly. Try creating one that does
   damage to see the problem: it won't create a new attack like it should.
+
+BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another (eg: Damage)
+  and it will remove the old attack but NOT create the new one.

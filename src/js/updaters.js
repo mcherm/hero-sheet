@@ -245,11 +245,12 @@ class AttackUpdater extends Updater {
     const result = {};
     result.hsid = newHsid();
     result.updater = this.className();
-    result.attackCheck = null; // Subclass is likely to set a value
-    result.resistanceDC = null; // Subclass is likely to set a value
+    // Subclass MUST set result.name
     // Subclass MUST set result.effectType to one of ["damage", "affliction", "nullify", "weaken"]
     // Subclass MUST set result.range to one of ["personal", "close", "ranged", "perception"]
     // Subclass MUST set result.scope to one of ["singleTarget", "area"]
+    // Subclass MUST set result.ranks to an integer
+    // Subclass MAY set result.powerHsid
     return result;
   }
 
@@ -331,11 +332,11 @@ class UnarmedAttackUpdater extends AttackUpdater {
   makeNewAttack() {
     const result = super.makeNewAttack();
     result.name = "Unarmed";
-    result.attackCheck = this.charsheet.abilities.fighting.ranks;
     result.effectType = "damage";
     result.range = "close";
     result.scope = "singleTarget";
-    result.resistanceDC = this.charsheet.abilities.strength.ranks;
+    result.ranks = this.charsheet.abilities.strength.ranks;
+    result.attackCheckAdjustment = 0; // FIXME: We may need to check if there are adjustments in the sheet
     return result;
   }
 
@@ -358,8 +359,8 @@ class UnarmedAttackUpdater extends AttackUpdater {
       this.removeTheAttack();
     } else {
       const theAttack = this.findOrCreateTheAttack();
-      theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
-      theAttack.resistanceDC = newCalculations.strength;
+      theAttack.ranks = newCalculations.strength;
+      theAttack.attackCheckAdjustment = newCalculations.attackCheckAdjustment;
     }
   }
 }
@@ -385,34 +386,56 @@ class PowerAttackUpdater extends AttackUpdater {
 
   makeNewAttack() {
     const result = super.makeNewAttack();
-    result.powerHsid = this.power.hsid;
     result.name = this.power.name;
-    result.range = null;
-    result.scope = null;
+    result.effectType = this.getEffectType();
+    result.range = this.findRange(this.power);
+    result.scope = this.findScope(this.power);
+    result.ranks = this.power.ranks + this.isStrengthBased(this.power) ? this.charsheet.abilities.strength.ranks : 0;
+    result.attackCheckAdjustment = 0; // It is brand new and can't have adjustments yet
+    result.powerHsid = this.power.hsid;
     return result;
   }
 
-  applyChanges(newCalculations) {
-    // FIXME: Look at what the damage attack does. It's checking for lacksFighting... they all should do that
-    // -- Update the Values --
-    const theAttack = this.theAttack;
-    theAttack.name = newCalculations.powerName;
-    theAttack.range = newCalculations.range;
-    theAttack.scope = newCalculations.scope;
+  watchForChange() {
+    // -- Test Function for Watch --
+    const result = {
+      identity: {
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
+        powerHsid: this.power.hsid,
+        powerEffect: this.power.effect
+      },
+      calculations: {
+        name: this.power.name,
+        range: this.findRange(this.power),
+        scope: this.findScope(this.power),
+        powerRanks: this.power.ranks,
+        attackCheckAdjustment: this.attackCheckAdjustment(),
+        fighting: this.charsheet.abilities.fighting.ranks,
+        lacksFighting: lacksStat(this.charsheet, "fighting"),
+        dexterity: this.charsheet.abilities.dexterity.ranks,
+        lacksDexterity: lacksStat(this.charsheet, "dexterity"),
+        isStrengthBased: this.isStrengthBased(this.power),
+        strength: this.charsheet.abilities.strength.ranks,
+        lacksStrength: lacksStat(this.charsheet, "strength"),
+      }
+    };
+    console.log(`watchForChange() -> ${JSON.stringify(result)}`); // FIXME: Remove and collapse lines
+    return result;
+  }
 
-    // FIXME: Below this is stuff that we might be able to bring inside the parent class (this one)
-    // -- Damage --
-    // theAttack.attackCheck = this._attackCheckFormula(newCalculations);
-    // theAttack.resistanceDC = this._resistanceDCFormula(newCalculations);
-    // -- Affliction --
-    // theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
-    // theAttack.resistanceDC = newCalculations.powerRanks;
-    // -- Nullify --
-    // theAttack.attackCheck = newCalculations.dexterity + newCalculations.attackCheckAdjustment;
-    // theAttack.nullifyRanks = newCalculations.powerRanks;
-    // -- Weaken --
-    // this.theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
-    // this.theAttack.resistanceDC = 10 + newCalculations.powerRanks;
+  applyChanges(calc) {
+    this.theAttack.name = calc.name;
+    this.theAttack.range = calc.range;
+    this.theAttack.scope = calc.scope;
+    if (calc.range === 'close' && calc.lacksFighting
+      || calc.range === 'ranged' && calc.lacksDexterity
+      || calc.isStrengthBased && calc.lacksStrength) {
+      this.theAttack.ranks = "lack";
+    } else {
+      this.theAttack.ranks = calc.powerRanks + (calc.isStrengthBased ? calc.strength : 0);
+      console.log(`... the ranks are ${this.theAttack.ranks} parts are ${calc.powerRanks} and ${(calc.isStrengthBased ? calc.strength : 0)}`); // FIXME: Remove
+    }
+    this.theAttack.attackCheckAdjustment = calc.attackCheckAdjustment;
   }
 
   findRange(power) {
@@ -432,208 +455,21 @@ class PowerAttackUpdater extends AttackUpdater {
     const hasAreaMod = power.extras.some(mod => mod.modifierName === "Area");
     return hasAreaMod ? "area" : "singleTarget";
   }
-}
 
-
-class DamagePowerAttackUpdater extends PowerAttackUpdater {
-  constructor(vm, charsheet, newUpdaterEvent) {
-    super(vm, charsheet, newUpdaterEvent);
-  }
-
-  makeNewAttack() {
-    const result = super.makeNewAttack();
-    result.attackCheck = this._attackCheckFormula({
-      fighting: this.charsheet.abilities.fighting.ranks,
-      attackCheckAdjustment: 0
-    });
-    result.effectType = "damage";
-    result.range = this.findRange(this.power);
-    result.scope = this.findScope(this.power);
-    result.resistanceDC = this._resistanceDCFormula({
-      powerRanks: this.power.ranks,
-      isStrengthBased: this._isStrengthBased(this.power),
-      strength: this.charsheet.abilities.strength.ranks
-    });
-    return result;
-  }
-
-  _isStrengthBased(power) {
+  isStrengthBased(power) {
     return power.extras.filter(
       x => x.modifierSource === "special" && x.modifierName === "Strength Based"
     ).length > 0;
   }
 
-  watchForChange() {
-    // -- Test Function for Watch --
-    return {
-      identity: {
-        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
-        powerHsid: this.power.hsid,
-        powerEffect: this.power.effect
-      },
-      calculations: {
-        fighting: this.charsheet.abilities.fighting.ranks,
-        strength: this.charsheet.abilities.strength.ranks,
-        powerRanks: this.power.ranks,
-        powerName: this.power.name,
-        attackCheckAdjustment: this.attackCheckAdjustment(),
-        isStrengthBased: this._isStrengthBased(this.power),
-        range: this.findRange(this.power),
-        scope: this.findScope(this.power),
-        lacksStrength: lacksStat(this.charsheet, "strength"),
-        lacksFighting: lacksStat(this.charsheet, "fighting")
-      }
-    }
-  }
-
-  /* Calculate the attack check based on given inputs. Used for update and create. */
-  _attackCheckFormula(inputs) {
-    const {fighting, attackCheckAdjustment} = inputs;
-    if (typeof(fighting) === "string") {
-      return fighting;
-    } else {
-      return fighting + attackCheckAdjustment;
-    }
-  }
-
-  /* Calculate the resistanceDC based on given inputs. Used for update and create. */
-  _resistanceDCFormula(inputs) {
-    const {powerRanks, isStrengthBased, strength} = inputs;
-    return powerRanks + (isStrengthBased ? strength : 0);
-  }
-
-  applyChanges(newCalculations) {
-    if (newCalculations.lacksFighting || newCalculations.isStrengthBased && newCalculations.lacksFighting) {
-      this.removeTheAttack();
-    } else {
-      super.applyChanges(newCalculations);
-      this.theAttack.attackCheck = this._attackCheckFormula(newCalculations);
-      this.theAttack.resistanceDC = this._resistanceDCFormula(newCalculations);
-    }
-  }
-
-}
-
-
-class AfflictionPowerAttackUpdater extends PowerAttackUpdater {
-  constructor(vm, charsheet, newUpdaterEvent) {
-    super(vm, charsheet, newUpdaterEvent);
-  }
-
-  makeNewAttack() {
-    const result = super.makeNewAttack();
-    result.attackCheck = this.charsheet.abilities.fighting.ranks;
-    result.effectType = "affliction";
-    result.resistanceDC = this.power.ranks;
-    return result;
-  }
-
-  watchForChange() {
-    // -- Test Function for Watch --
-    return {
-      identity: {
-        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
-        powerHsid: this.power.hsid,
-        powerEffect: this.power.effect
-      },
-      calculations: {
-        fighting: this.charsheet.abilities.fighting.ranks,
-        powerRanks: this.power.ranks,
-        powerName: this.power.name,
-        range: this.findRange(this.power),
-        scope: this.findScope(this.power),
-        attackCheckAdjustment: this.attackCheckAdjustment()
-      }
-    }
-  }
-
-  applyChanges(newCalculations) {
-    super.applyChanges(newCalculations);
-    this.theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
-    this.theAttack.resistanceDC = newCalculations.powerRanks;
-  }
-
-}
-
-
-class NullifyPowerAttackUpdater extends PowerAttackUpdater {
-  constructor(vm, charsheet, newUpdaterEvent) {
-    super(vm, charsheet, newUpdaterEvent);
-  }
-
-  makeNewAttack() {
-    const result = super.makeNewAttack();
-    result.attackCheck = this.charsheet.abilities.dexterity.ranks;
-    result.effectType = "nullify";
-    result.resistanceDC = null;
-    result.nullifyRanks = this.power.updateRanks;
-    return result;
-  }
-
-  watchForChange() {
-    // -- Test Function for Watch --
-    return {
-      identity: {
-        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
-        powerHsid: this.power.hsid,
-        powerEffect: this.power.effect
-      },
-      calculations: {
-        dexterity: this.charsheet.abilities.dexterity.ranks,
-        powerRanks: this.power.ranks,
-        powerName: this.power.name,
-        range: this.findRange(this.power),
-        scope: this.findScope(this.power),
-        attackCheckAdjustment: this.attackCheckAdjustment()
-      }
-    }
-  }
-
-  applyChanges(newCalculations) {
-    super.applyChanges(newCalculations);
-    this.theAttack.attackCheck = newCalculations.dexterity + newCalculations.attackCheckAdjustment;
-    this.theAttack.nullifyRanks = newCalculations.powerRanks;
-  }
-
-}
-
-
-class WeakenPowerAttackUpdater extends PowerAttackUpdater {
-  constructor(vm, charsheet, newUpdaterEvent) {
-    super(vm, charsheet, newUpdaterEvent);
-  }
-
-  makeNewAttack() {
-    const result = super.makeNewAttack();
-    result.attackCheck = this.charsheet.abilities.fighting.ranks;
-    result.effectType = "weaken";
-    result.resistanceDC = 10 + this.power.ranks;
-    return result;
-  }
-
-  watchForChange() {
-    // -- Test Function for Watch --
-    return {
-      identity: {
-        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
-        powerHsid: this.power.hsid,
-        powerEffect: this.power.effect
-      },
-      calculations: {
-        fighting: this.charsheet.abilities.fighting.ranks,
-        powerRanks: this.power.ranks,
-        powerName: this.power.name,
-        range: this.findRange(this.power),
-        scope: this.findScope(this.power),
-        attackCheckAdjustment: this.attackCheckAdjustment()
-      }
-    }
-  }
-
-  applyChanges(newCalculations) {
-    super.applyChanges(newCalculations);
-    this.theAttack.attackCheck = newCalculations.fighting + newCalculations.attackCheckAdjustment;
-    this.theAttack.resistanceDC = 10 + newCalculations.powerRanks;
+  getEffectType() {
+    const POWER_TO_ATTACK_MAP = {
+      "Damage": "damage",
+      "Affliction": "affliction",
+      "Nullify": "nullify",
+      "Weaken": "weaken",
+    };
+    return POWER_TO_ATTACK_MAP[this.power.effect];
   }
 
 }
@@ -1242,10 +1078,7 @@ const updaterClasses = {
   DefenseUpdater,
   ToughnessUpdater,
   UnarmedAttackUpdater,
-  DamagePowerAttackUpdater,
-  AfflictionPowerAttackUpdater,
-  NullifyPowerAttackUpdater,
-  WeakenPowerAttackUpdater,
+  PowerAttackUpdater,
   ImprovedInitiativeUpdater,
   JackOfAllTradesUpdater,
   EnhancedTraitUpdater,
