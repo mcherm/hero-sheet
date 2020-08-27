@@ -372,15 +372,14 @@
         "hsid": { "$ref": "#/definitions/Hsid" },
         "updater": { "$ref": "common.schema.json#/definitions/Name" },
         "name": { "type": "string" },
-        "attackCheck": { "$ref": "#/definitions/AbilityValue" },
         "effectType": { "$ref":  "#/definitions/AttackEffectType" },
         "range": { "$ref": "common.schema.json#/definitions/EffectRange" },
         "scope": { "$ref": "#/definitions/AttackScope" },
-        "resistanceDC": { "$ref": "#/definitions/IntegerOrNull" },
-        "powerHsid": { "$ref": "#/definitions/Hsid" },
-        "nullifyRanks": { "$ref": "#/definitions/IntegerOrNull" }
+        "ranks": { "type":  "integer" },
+        "attackCheckAdjustment": { "type": "integer" },
+        "powerHsid": { "$ref": "#/definitions/Hsid" }
       },
-      "required": ["hsid", "updater", "attackCheck", "effectType", "range", "scope", "resistanceDC"],
+      "required": ["hsid", "updater", "name", "effectType", "range", "scope", "ranks", "attackCheckAdjustment"],
       "additionalProperties": false
     },
     "AttackEffectType": {

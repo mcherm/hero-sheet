@@ -21,36 +21,36 @@
   "effortPoints": 1,
   "abilities": {
     "strength": {
-      "entered": 0,
-      "ranks": 0
+      "entered": 2,
+      "ranks": 2
     },
     "stamina": {
-      "entered": 0,
-      "ranks": 0
+      "entered": 2,
+      "ranks": 2
     },
     "agility": {
-      "entered": 0,
-      "ranks": 0
+      "entered": 2,
+      "ranks": 2
     },
     "dexterity": {
-      "entered": 0,
-      "ranks": 0
+      "entered": 2,
+      "ranks": 2
     },
     "fighting": {
-      "entered": 0,
-      "ranks": 0
+      "entered": 2,
+      "ranks": 2
     },
     "intellect": {
-      "entered": 0,
-      "ranks": 0
+      "entered": 2,
+      "ranks": 2
     },
     "awareness": {
-      "entered": 0,
-      "ranks": 0
+      "entered": 2,
+      "ranks": 2
     },
     "presence": {
-      "entered": 0,
-      "ranks": 0
+      "entered": 2,
+      "ranks": 2
     }
   },
   "defenses": {
@@ -58,35 +58,35 @@
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 2
     },
     "fortitude": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 2
     },
     "parry": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 2
     },
     "toughness": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 2
     },
     "will": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 2
     }
   },
   "misc": {
-    "initiative": null,
+    "initiative": 2,
     "isMindlessConstruct": false,
     "isImmobileConstruct": false
   },
@@ -233,6 +233,159 @@
         }
       ],
       "option": null
+    },
+    {
+      "name": "Adjustable Damage",
+      "hsid": "HI2JE5R2B",
+      "effect": "Alternate",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 19,
+      "effectDescription": "Several different effects together.",
+      "baseCost": null,
+      "subpowers": [
+        {
+          "name": "Ranged Blast",
+          "hsid": "HIU11KMQ9",
+          "effect": "Damage",
+          "description": "",
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Increased Range",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "pointsOfMultiplierPerRankOfModifier",
+              "cost": 1,
+              "displayText": "Increased Range (+1)"
+            }
+          ],
+          "flaws": [],
+          "ranks": 5,
+          "cost": 10,
+          "effectDescription": "You can inflict damage by making a close attack.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Perception Blast",
+          "hsid": "HIMTB6TB6",
+          "effect": "Damage",
+          "description": "",
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Increased Range",
+              "optionName": null,
+              "ranks": 2,
+              "costType": "pointsOfMultiplierPerRankOfModifier",
+              "cost": 1,
+              "displayText": "Increased Range (+2)"
+            }
+          ],
+          "flaws": [],
+          "ranks": 5,
+          "cost": 15,
+          "effectDescription": "You can inflict damage by making a close attack.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Close Area Blast",
+          "hsid": "HIDSWPLD3",
+          "effect": "Damage",
+          "description": "",
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Area",
+              "optionName": "Burst Area",
+              "ranks": 1,
+              "costType": "pointsOfMultiplierPerRankOfModifier",
+              "cost": 1,
+              "displayText": "Burst Area (+1)"
+            }
+          ],
+          "flaws": [],
+          "ranks": 5,
+          "cost": 10,
+          "effectDescription": "You can inflict damage by making a close attack.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Ranged Area Blast",
+          "hsid": "HINNMM145",
+          "effect": "Damage",
+          "description": "",
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Increased Range",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "pointsOfMultiplierPerRankOfModifier",
+              "cost": 1,
+              "displayText": "Increased Range (+1)"
+            },
+            {
+              "modifierSource": "standard",
+              "modifierName": "Area",
+              "optionName": "Cylinder Area",
+              "ranks": 1,
+              "costType": "pointsOfMultiplierPerRankOfModifier",
+              "cost": 1,
+              "displayText": "Cylinder Area (+1)"
+            }
+          ],
+          "flaws": [],
+          "ranks": 5,
+          "cost": 15,
+          "effectDescription": "You can inflict damage by making a close attack.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Ranged Str-Based Blast",
+          "hsid": "HINQRW21E",
+          "effect": "Damage",
+          "description": "",
+          "extras": [
+            {
+              "modifierSource": "special",
+              "modifierName": "Strength Based",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "pointsOfMultiplier",
+              "cost": 0,
+              "displayText": "Strength Based (0)"
+            },
+            {
+              "modifierSource": "standard",
+              "modifierName": "Increased Range",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "pointsOfMultiplierPerRankOfModifier",
+              "cost": 1,
+              "displayText": "Increased Range (+1)"
+            }
+          ],
+          "flaws": [],
+          "ranks": 5,
+          "cost": 10,
+          "effectDescription": "You can inflict damage by making a close attack.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        }
+      ],
+      "option": null
     }
   ],
   "complications": [
@@ -249,27 +402,28 @@
         "hsid": "HIQFX8UL2",
         "updater": "UnarmedAttackUpdater",
         "name": "Unarmed",
-        "attackCheck": 0,
+        "attackCheck": 2,
         "effectType": "damage",
-        "resistanceDC": 0,
+        "resistanceDC": 2,
         "range": "close",
         "scope": "singleTarget"
       },
       {
         "hsid": "HINCGZ97N",
         "updater": "AfflictionPowerAttackUpdater",
-        "attackCheck": 0,
+        "attackCheck": 2,
         "resistanceDC": 6,
         "powerHsid": "HIDBDCVSR",
         "name": "Affliction Power",
         "effectType": "affliction",
         "range": "close",
-        "scope": "singleTarget"
+        "scope": "singleTarget",
+        "effectRanks": 6
       },
       {
         "hsid": "HINWAVTAT",
         "updater": "NullifyPowerAttackUpdater",
-        "attackCheck": 0,
+        "attackCheck": 2,
         "resistanceDC": null,
         "powerHsid": "HITP8J4ZE",
         "name": "Nullify Power",
@@ -281,7 +435,7 @@
       {
         "hsid": "HIYV82Q9S",
         "updater": "WeakenPowerAttackUpdater",
-        "attackCheck": 0,
+        "attackCheck": 2,
         "resistanceDC": 16,
         "powerHsid": "HIYS261LT",
         "name": "Weaken Power",
@@ -292,13 +446,68 @@
       {
         "hsid": "HIQ18R9D2",
         "updater": "DamagePowerAttackUpdater",
-        "attackCheck": 0,
+        "attackCheck": 2,
         "resistanceDC": 6,
         "powerHsid": "HI69Z24KJ",
         "name": "Damage Power",
         "range": "close",
         "scope": "singleTarget",
         "effectType": "damage"
+      },
+      {
+        "hsid": "HIY6JXLZ7",
+        "updater": "DamagePowerAttackUpdater",
+        "attackCheck": 2,
+        "resistanceDC": 5,
+        "powerHsid": "HIU11KMQ9",
+        "name": "Ranged Blast",
+        "effectType": "damage",
+        "range": "ranged",
+        "scope": "singleTarget"
+      },
+      {
+        "hsid": "HIUQMX6D8",
+        "updater": "DamagePowerAttackUpdater",
+        "attackCheck": 2,
+        "resistanceDC": 5,
+        "powerHsid": "HIMTB6TB6",
+        "name": "Perception Blast",
+        "effectType": "damage",
+        "range": "perception",
+        "scope": "singleTarget"
+      },
+      {
+        "hsid": "HIN6AL3KJ",
+        "updater": "DamagePowerAttackUpdater",
+        "attackCheck": 2,
+        "resistanceDC": 5,
+        "powerHsid": "HIDSWPLD3",
+        "name": "Close Area Blast",
+        "effectType": "damage",
+        "range": "close",
+        "scope": "area"
+      },
+      {
+        "hsid": "HIJSE2TED",
+        "updater": "DamagePowerAttackUpdater",
+        "attackCheck": 2,
+        "resistanceDC": 5,
+        "powerHsid": "HINNMM145",
+        "name": "Ranged Area Blast",
+        "effectType": "damage",
+        "range": "ranged",
+        "scope": "area"
+      },
+      {
+        "hsid": "HIAX1YP3T",
+        "updater": "DamagePowerAttackUpdater",
+        "attackCheck": 2,
+        "resistanceDC": 7,
+        "powerHsid": "HINQRW21E",
+        "name": "Ranged Str-Based Blast",
+        "effectType": "damage",
+        "range": "ranged",
+        "scope": "singleTarget"
       }
     ]
   },

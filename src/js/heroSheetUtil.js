@@ -545,20 +545,21 @@ const buildNewModifier = function(inputFields) {
   };
 }
 
+const POWER_TO_UPDATER_MAP = {
+  "Damage": "PowerAttackUpdater",
+  "Affliction": "PowerAttackUpdater",
+  "Nullify": "PowerAttackUpdater",
+  "Weaken": "PowerAttackUpdater",
+  "Enhanced Trait": "EnhancedTraitUpdater",
+  "Protection": "ProtectionUpdater",
+};
+
 /*
  * Given a power (or feature), this returns the event payload needed to create
  * a new updater for that power, or returns null if this power does not require
  * any updater.
  */
 const powerUpdaterEvent = function(charsheet, power) {
-  const POWER_TO_UPDATER_MAP = {
-    "Damage": "DamagePowerAttackUpdater",
-    "Affliction": "AfflictionPowerAttackUpdater",
-    "Nullify": "NullifyPowerAttackUpdater",
-    "Weaken": "WeakenPowerAttackUpdater",
-    "Enhanced Trait": "EnhancedTraitUpdater",
-    "Protection": "ProtectionUpdater",
-  };
   const updater = POWER_TO_UPDATER_MAP[power.effect];
   if (updater === undefined) {
     return null;

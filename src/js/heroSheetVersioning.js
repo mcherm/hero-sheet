@@ -139,10 +139,25 @@ const newBlankCharacter = function(developerMode) {
         hsid: newHsid(),
         updater: "UnarmedAttackUpdater",
         name: "Unarmed",
-        attackCheck: 0,
         effectType: "damage",
-        resistanceDC: 0
+        range: "close",
+        scope: "singleTarget",
+        ranks: 0,
+        attackCheckAdjustment: 0
+      },
+      // FIXME: Add this:
+      /*
+      {
+        hsid: newHsid(),
+        updater: "UnarmedAttackUpdater",
+        name: "Thrown",
+        effectType: "damage",
+        range: "ranged",
+        scope: "singleTarget",
+        ranks: 0,
+        attackCheckAdjustment: 0
       }
+      */
     ]
   };
   const activeEffects = {};
@@ -632,8 +647,13 @@ const upgradeFuncs = {
 
   upgradeFrom19: function(charsheet) {
     charsheet.attacks.attackList.forEach(attack => {
-      attack.range = attack.effectType === "nullify" ? "ranged" : "close";
-      attack.scope = "singleTarget"
+      attack.range = attack.effectType === "nullify" ? "ranged" : "close"; // FIXME: Not right; see PowerUpdater.findRange
+      attack.scope = "singleTarget";  // FIXME: Not right; see PowerUpdater.findScope
+      attack.ranks = attack.nullifyRanks ? attack.nullifyRanks : attack.resistanceDC; // FIXME: Meh... close enough?
+      attack.attackCheckAdjustment = 0;
+      delete attack.attackCheck;
+      delete attack.resistanceDC;
+      delete attack.nullifyRanks;
     });
     charsheet.version = 20;
   }
