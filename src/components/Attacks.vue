@@ -25,7 +25,7 @@
           <div v-else-if="attack.range === 'perception'">Perceiving the target</div>
           <div v-else-if="attack.scope === 'area'">
             <div>If in the area take half effect by succeeding at:</div>
-            <div>D20 + Dodge <span class="vs">vs. </span> 10 + <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span></div>
+            <div>D20 + Dodge <span class="vs">vs.</span> 10 + <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span></div>
           </div>
           <div v-else-if="attackRollInfo(attack).attackIsDisallowed" class="inapplicable">N/A</div>
           <div v-else>
@@ -36,7 +36,7 @@
             <span v-else class="sourced-value" :title="attackRollInfo(attack).sourceDescription">
               {{attackRollInfo(attack).attackRoll}}
             </span>
-            <span class="vs">vs. </span>
+            <span class="vs"> vs. </span>
             <span>{{attack.range === 'close' ? 'Parry' : 'Dodge'}}</span>
             + 10
           </div>
@@ -50,10 +50,10 @@
             <span class="sourced-value" title="Ranks">{{attack.ranks}}</span>
             + 15
           </div>
-          <div v-else-if="attack.effectType === 'affliction'">TBD: UNKNOWN</div> <!--FIXME: Real code needed-->
+          <div v-else-if="attack.effectType === 'affliction'" class="under-development">TBD: UNKNOWN</div> <!--FIXME: Real code needed-->
           <div v-else-if="attack.effectType === 'nullify'">
             D20 + <span class="sourced-value" title="Ranks">{{attack.ranks}}</span>
-            <span class="vs">vs. </span>
+            <span class="vs"> vs.</span>
             (Targeted Rank or Will) + D20
           </div>
           <div v-else-if="attack.effectType === 'weaken'">
@@ -166,5 +166,8 @@
   }
   .vs {
     font-style: italic;
+  }
+  .under-development {
+    color: var(--under-development-color);
   }
 </style>

@@ -647,13 +647,16 @@ const upgradeFuncs = {
 
   upgradeFrom19: function(charsheet) {
     charsheet.attacks.attackList.forEach(attack => {
-      attack.range = attack.effectType === "nullify" ? "ranged" : "close"; // FIXME: Not right; see PowerUpdater.findRange
-      attack.scope = "singleTarget";  // FIXME: Not right; see PowerUpdater.findScope
-      attack.ranks = attack.nullifyRanks ? attack.nullifyRanks : attack.resistanceDC; // FIXME: Meh... close enough?
-      attack.attackCheckAdjustment = 0;
-      delete attack.attackCheck;
-      delete attack.resistanceDC;
-      delete attack.nullifyRanks;
+      // For all PowerAttacks, set the updater to the new common parent class
+      if (attack.updater.endsWith("PowerAttackUpdater")) {
+        attack.updater = "PowerAttackUpdater";
+      }
+      // Now, wipe out ALL fields except for hsid, updater, and powerHsid". The updater will re-populate them.
+      for (const field in attack) {
+        if (!["hsid", "updater", "powerHsid"].includes(field)) {
+          delete attack[field];
+        }
+      }
     });
     charsheet.version = 20;
   }

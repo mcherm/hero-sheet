@@ -245,13 +245,21 @@ class AttackUpdater extends Updater {
     const result = {};
     result.hsid = newHsid();
     result.updater = this.className();
-    // Subclass MUST set result.name
-    // Subclass MUST set result.effectType to one of ["damage", "affliction", "nullify", "weaken"]
-    // Subclass MUST set result.range to one of ["personal", "close", "ranged", "perception"]
-    // Subclass MUST set result.scope to one of ["singleTarget", "area"]
-    // Subclass MUST set result.ranks to an integer
-    // Subclass MAY set result.powerHsid
+    this.initializeAttackFields(result);
     return result;
+  }
+
+  /*
+   * Subclasses must override this to set the fields of the attack (besides hsid and updater). Specifically,
+   * * Subclass MUST set result.name
+   * * Subclass MUST set result.effectType to one of ["damage", "affliction", "nullify", "weaken"]
+   * * Subclass MUST set result.range to one of ["personal", "close", "ranged", "perception"]
+   * * Subclass MUST set result.scope to one of ["singleTarget", "area"]
+   * * Subclass MUST set result.ranks to an integer
+   * * Subclass MAY set result.powerHsid
+   */
+  initializeAttackFields(attack) {
+    throw new Error("Must be overridden");
   }
 
   /*
@@ -286,6 +294,15 @@ class AttackUpdater extends Updater {
     } else {
       return foundAttack;
     }
+  }
+
+  /*
+   * This is called to re-write all the attack fields other than HSID; it will be used when loading
+   * to ensure that the data is accurate.
+   */
+  reinitializeTheAttack() {
+    this.theAttack.updater = this.className();
+    this.initializeAttackFields(this.theAttack);
   }
 
   /*
@@ -329,15 +346,13 @@ class UnarmedAttackUpdater extends AttackUpdater {
     super(vm, charsheet, ...otherArgs);
   }
 
-  makeNewAttack() {
-    const result = super.makeNewAttack();
-    result.name = "Unarmed";
-    result.effectType = "damage";
-    result.range = "close";
-    result.scope = "singleTarget";
-    result.ranks = this.charsheet.abilities.strength.ranks;
-    result.attackCheckAdjustment = 0; // FIXME: We may need to check if there are adjustments in the sheet
-    return result;
+  initializeAttackFields(attack) {
+    attack.name = "Unarmed";
+    attack.effectType = "damage";
+    attack.range = "close";
+    attack.scope = "singleTarget";
+    attack.ranks = this.charsheet.abilities.strength.ranks;
+    attack.attackCheckAdjustment = this.attackCheckAdjustment();
   }
 
   watchForChange() {
@@ -384,21 +399,25 @@ class PowerAttackUpdater extends AttackUpdater {
     return super.matchAttack(attack) && attack.powerHsid === this.power.hsid;
   }
 
-  makeNewAttack() {
-    const result = super.makeNewAttack();
-    result.name = this.power.name;
-    result.effectType = this.getEffectType();
-    result.range = this.findRange(this.power);
-    result.scope = this.findScope(this.power);
-    result.ranks = this.power.ranks + this.isStrengthBased(this.power) ? this.charsheet.abilities.strength.ranks : 0;
-    result.attackCheckAdjustment = 0; // It is brand new and can't have adjustments yet
-    result.powerHsid = this.power.hsid;
-    return result;
+  initializeAttackFields(attack) {
+    attack.name = this.power.name;
+    attack.effectType = this.getEffectType();
+    attack.range = this.findRange(this.power);
+    attack.scope = this.findScope(this.power);
+    if (attack.range === 'close' && lacksStat(this.charsheet, "fighting")
+      || attack.range === 'ranged' && lacksStat(this.charsheet, "dexterity")
+      || this.isStrengthBased(this.power) && lacksStat(this.charsheet, "strength")) {
+      attack.ranks = "lack";
+    } else {
+      attack.ranks = this.power.ranks + this.isStrengthBased(this.power) ? this.charsheet.abilities.strength.ranks : 0;
+    }
+    attack.attackCheckAdjustment = 0; // It is brand new and can't have adjustments yet
+    attack.powerHsid = this.power.hsid;
   }
 
   watchForChange() {
     // -- Test Function for Watch --
-    const result = {
+    return {
       identity: {
         powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
         powerHsid: this.power.hsid,
@@ -419,8 +438,6 @@ class PowerAttackUpdater extends AttackUpdater {
         lacksStrength: lacksStat(this.charsheet, "strength"),
       }
     };
-    console.log(`watchForChange() -> ${JSON.stringify(result)}`); // FIXME: Remove and collapse lines
-    return result;
   }
 
   applyChanges(calc) {
@@ -433,7 +450,6 @@ class PowerAttackUpdater extends AttackUpdater {
       this.theAttack.ranks = "lack";
     } else {
       this.theAttack.ranks = calc.powerRanks + (calc.isStrengthBased ? calc.strength : 0);
-      console.log(`... the ranks are ${this.theAttack.ranks} parts are ${calc.powerRanks} and ${(calc.isStrengthBased ? calc.strength : 0)}`); // FIXME: Remove
     }
     this.theAttack.attackCheckAdjustment = calc.attackCheckAdjustment;
   }

@@ -130,7 +130,6 @@
         new updaterClasses["ToughnessUpdater"](this, charsheet);
         new updaterClasses["DefenseUpdater"](this, charsheet, "will");
         new updaterClasses["ConstraintUpdater"](this, charsheet);
-        const attackList = charsheet.attacks.attackList;
         for (const item of charsheet.equipment) {
           if (item.source === "custom" && item.feature) {
             const updaterType = "EquipmentFeatureUpdater";
@@ -138,25 +137,29 @@
             const updater = new updaterClasses[updaterType](this, charsheet, updateEvent);
           }
         }
+        const attackList = [...charsheet.attacks.attackList]; // make a shallow copy since we may be deleting some items
         for (const attack of attackList) {
           // FIXME: With a better design maybe I wouldn't need a special case here
           const updaterType = attack.updater;
+          let updater;
           if (updaterType === "UnarmedAttackUpdater") {
-            const updater = new updaterClasses[updaterType](this, charsheet);
+            updater = new updaterClasses[updaterType](this, charsheet);
           } else {
             const feature = findFeatureByHsid(charsheet, attack.powerHsid);
             if (feature === null) {
               this.$delete(attackList, attackList.indexOf(attack));
-              throw new Error(`Invalid power '${attack.powerHsid}' in attack. Will delete the attack.`)
+              console.log(`Invalid power '${attack.powerHsid}' in attack. Will delete the attack.`)
             }
             const updateEvent = { updater: updaterType, power: feature };
             const updaterClass = updaterClasses[updaterType];
             if (updaterClass === undefined) {
               this.$delete(attackList, attackList.indexOf(attack));
-              throw new Error(`Invalid updater type '${updaterType}' in attack. Will delete the attack.`)
+              console.log(`Invalid updater type '${updaterType}' in attack. Will delete the attack.`)
             }
-            new updaterClass(this, charsheet, updateEvent);
+            updater = new updaterClass(this, charsheet, updateEvent);
           }
+          // Use the updater to reinitialize the attack to make sure it's accurate
+          updater.reinitializeTheAttack();
         }
         // For any active effects with an updater, initialize that updater
         for (const activeEffectKey in charsheet.activeEffects) {
