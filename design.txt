@@ -186,3 +186,6 @@ BUG: Custom equipment isn't creating updaters correctly. Try creating one that d
 
 BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another (eg: Damage)
   and it will remove the old attack but NOT create the new one.
+
+BUG: For creating a power, need to disable adding extras and flaws when the effect is
+  set to nothing (like before it's ever set for a new power).
