@@ -30,8 +30,8 @@
           <div v-else-if="attackRollInfo(attack).attackIsDisallowed" class="inapplicable">N/A</div>
           <div v-else>
             D20 +
-            <span v-if="!attackRollInfo(attack).attackIsValid" class="sourced-value" :title="attackRollInfo(attack).sourceDescription">
-              ERR
+            <span v-if="!attackRollInfo(attack).attackIsValid" class="sourced-value error" :title="attackRollInfo(attack).sourceDescription">
+              Err
             </span>
             <span v-else class="sourced-value" :title="attackRollInfo(attack).sourceDescription">
               {{attackRollInfo(attack).attackRoll}}
@@ -47,7 +47,10 @@
           <div v-else-if="attack.effectType === 'damage'">
             D20 + Toughness - Resistance Penalty
             <span class="vs">vs. </span>
-            <span class="sourced-value" title="Ranks">{{attack.ranks}}</span>
+            <span v-if="isNaN(attack.ranks)" class="sourced-value error" title="Ranks">
+              Err
+            </span>
+            <span v-else class="sourced-value" title="Ranks">{{attack.ranks}}</span>
             + 15
           </div>
           <div v-else-if="attack.effectType === 'affliction'" class="under-development">TBD: UNKNOWN</div> <!--FIXME: Real code needed-->
@@ -62,7 +65,7 @@
             <span class="sourced-value" title="Ranks">{{attack.ranks}}</span>
             + 10
           </div>
-          <div v-else>ERROR</div>
+          <div v-else class="error">ERROR</div>
         </div>
 
         <div class="outcome">
@@ -98,7 +101,8 @@
        *   attackIsDisallowed: a boolean telling whether the attack is simply not permitted
        *   sourceDescription if !attackIsDisallowed, a string describing how the roll is computed
        *   attackIsValid: if !attackIsDisallowed, a boolean telling whether the value of the roll be computed
-       *   attackRoll: if attackIsValid, a number which is the bonus to the roll
+       *   attackRollIsError: if attackIsValid, a boolean telling whether the attackRoll is NaN instead of a number
+       *   attackRoll: if !attackRollIsError, a number which is the bonus to the roll
        */
       attackRollInfo: function(attack) {
         if (!["close", "ranged"].includes(attack.range)) {
@@ -116,7 +120,7 @@
         const hasAdjustment = attack.attackCheckAdjustment !== 0;
         const sourceDescription = keyStatDisplay + (hasAdjustment ? " + Skill" : "");
         const keyStatValue = this.getCharsheet().abilities[keyStat].ranks;
-        const attackIsValid = typeof(keyStatValue) === "number";
+        const attackIsValid = typeof(keyStatValue) === "number" && ! isNaN(keyStatValue);
         if (!attackIsValid ) {
           return { attackIsDisallowed, attackIsValid, sourceDescription };
         }
@@ -169,5 +173,9 @@
   }
   .under-development {
     color: var(--under-development-color);
+  }
+  .sourced-value.error {
+    background-color: var(--error-color);
+    padding: 1px;
   }
 </style>
