@@ -1095,6 +1095,7 @@ class ConstraintUpdater extends Updater {
       newV.FortitudeAndWill = constraintValue("FortitudeAndWill");
     }
     for (const hsid in calcs.attacks)  {
+      // FIXME: This got broken and I now need to un-break it.
       const attackCheck = calcs.attacks[hsid].attackCheck;
       const resistanceDC = calcs.attacks[hsid].resistanceDC;
       if (attackCheck + resistanceDC > 2 * calcs.powerLevel) {
