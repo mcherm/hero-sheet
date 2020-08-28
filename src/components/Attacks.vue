@@ -45,13 +45,13 @@
         <div class="resistance-dc">
           <div v-if="attack.range === 'perception' || attackRollInfo(attack).attackIsDisallowed" class="inapplicable">N/A</div>
           <div v-else-if="attack.effectType === 'damage'">
-            D20 + Toughness - Resistance Penalty
-            <span class="vs">vs. </span>
+            D20 + Toughness - Damage Penalty
+            <span class="vs">vs.</span>
+            15 +
             <span v-if="isNaN(attack.ranks)" class="sourced-value error" title="Attack Ranks">
               Err
             </span>
             <span v-else class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
-            + 15
           </div>
           <div v-else-if="attack.effectType === 'affliction'" class="under-development">TBD: UNKNOWN</div> <!--FIXME: Real code needed-->
           <div v-else-if="attack.effectType === 'nullify'">

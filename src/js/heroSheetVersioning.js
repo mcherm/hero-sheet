@@ -5,7 +5,7 @@ const skillsData = require("../data/skillsData.json");
 const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 
-const currentVersion = 19; // Up to this version can be saved
+const currentVersion = 20; // Up to this version can be saved
 const latestVersion = 20; // Might be an experimental version
 
 
@@ -145,19 +145,16 @@ const newBlankCharacter = function(developerMode) {
         ranks: 0,
         attackCheckAdjustment: 0
       },
-      // FIXME: Add this:
-      /*
       {
         hsid: newHsid(),
-        updater: "UnarmedAttackUpdater",
-        name: "Thrown",
+        updater: "ThrownAttackUpdater",
+        name: "Thrown Object",
         effectType: "damage",
         range: "ranged",
         scope: "singleTarget",
         ranks: 0,
         attackCheckAdjustment: 0
       }
-      */
     ]
   };
   const activeEffects = {};
@@ -658,6 +655,18 @@ const upgradeFuncs = {
         }
       }
     });
+    charsheet.attacks.attackList.push(
+      {
+        hsid: newHsid(),
+        updater: "ThrownAttackUpdater",
+        name: "Thrown Object",
+        effectType: "damage",
+        range: "ranged",
+        scope: "singleTarget",
+        ranks: 0,
+        attackCheckAdjustment: 0
+      }
+    );
     charsheet.version = 20;
   }
 

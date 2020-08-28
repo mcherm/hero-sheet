@@ -144,6 +144,8 @@
           let updater;
           if (updaterType === "UnarmedAttackUpdater") {
             updater = new updaterClasses[updaterType](this, charsheet);
+          } else if (updaterType === "ThrownAttackUpdater") {
+              updater = new updaterClasses[updaterType](this, charsheet);
           } else {
             const feature = findFeatureByHsid(charsheet, attack.powerHsid);
             if (feature === null) {
