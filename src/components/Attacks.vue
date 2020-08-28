@@ -53,7 +53,12 @@
             </span>
             <span v-else class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
           </div>
-          <div v-else-if="attack.effectType === 'affliction'" class="under-development">TBD: UNKNOWN</div> <!--FIXME: Real code needed-->
+          <div v-else-if="attack.effectType === 'affliction'">
+            D20 + (Fortitude or Will)
+            <span class="vs">vs. </span>
+            <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
+            + 10
+          </div>
           <div v-else-if="attack.effectType === 'nullify'">
             D20 + <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
             <span class="vs"> vs.</span>
@@ -68,9 +73,8 @@
           <div v-else class="error">ERROR</div>
         </div>
 
-        <div class="outcome">
-          Some Outcome
-        </div>
+        <attacks-result-damage v-if="attack.effectType === 'damage'"/>
+        <div v-else class="under-development">Some Outcome</div>
 
       </div>
       <div class="empty-notice" v-if="getCharsheet().attacks.attackList.length === 0">No Attacks</div>
@@ -82,10 +86,13 @@
   import LocalCostDisplay from "./LocalCostDisplay.vue";
   import {lacksStat} from "../js/heroSheetUtil";
 
+  import AttacksResultDamage from "./AttacksResultDamage.vue"
+
   export default {
     name: "Attacks",
     components: {
-      LocalCostDisplay
+      LocalCostDisplay,
+      AttacksResultDamage,
     },
     inject: ["getCharsheet"],
     methods: {
@@ -144,10 +151,6 @@
     padding: 2px 6px;
   }
   .attack-list .resistance-dc {
-    padding: 2px 6px;
-  }
-  .attack-list .outcome {
-    color: var(--under-development-color);
     padding: 2px 6px;
   }
   .inapplicable {

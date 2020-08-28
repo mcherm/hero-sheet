@@ -81,7 +81,7 @@ On Displaying Attacks:
       * Failure (already Dying): DEAD
   * Affliction Effect:
     * Attack Check = D20 + Attack Bonus  vs  Defense Class
-    * Affliction Resistance = D20 + Toughness - Resistance Penalty  vs  Damage Rank + 15
+    * Affliction Resistance = D20 + (Fortitude or Will)  vs.  Damage Rank + 10
       * Success: no effect
       * Failure (1 degree): some level 1 condition
       * Failure (by 5+): some level 2 condition
