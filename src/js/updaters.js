@@ -370,13 +370,9 @@ class UnarmedAttackUpdater extends AttackUpdater {
   }
 
   applyChanges(newCalculations) {
-    if (newCalculations.lacksStrength || newCalculations.lacksFighting) {
-      this.removeTheAttack();
-    } else {
-      const theAttack = this.findOrCreateTheAttack();
-      theAttack.ranks = newCalculations.strength;
-      theAttack.attackCheckAdjustment = newCalculations.attackCheckAdjustment;
-    }
+    const theAttack = this.findOrCreateTheAttack();
+    theAttack.ranks = newCalculations.lacksStrength ? "lack" : newCalculations.strength;
+    theAttack.attackCheckAdjustment = newCalculations.attackCheckAdjustment;
   }
 }
 

@@ -375,7 +375,7 @@
         "effectType": { "$ref":  "#/definitions/AttackEffectType" },
         "range": { "$ref": "common.schema.json#/definitions/EffectRange" },
         "scope": { "$ref": "#/definitions/AttackScope" },
-        "ranks": { "type":  "integer" },
+        "ranks": { "$ref":  "#/definitions/AbilityValue" },
         "attackCheckAdjustment": { "type": "integer" },
         "powerHsid": { "$ref": "#/definitions/Hsid" }
       },
