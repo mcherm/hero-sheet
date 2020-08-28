@@ -47,22 +47,22 @@
           <div v-else-if="attack.effectType === 'damage'">
             D20 + Toughness - Resistance Penalty
             <span class="vs">vs. </span>
-            <span v-if="isNaN(attack.ranks)" class="sourced-value error" title="Ranks">
+            <span v-if="isNaN(attack.ranks)" class="sourced-value error" title="Attack Ranks">
               Err
             </span>
-            <span v-else class="sourced-value" title="Ranks">{{attack.ranks}}</span>
+            <span v-else class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
             + 15
           </div>
           <div v-else-if="attack.effectType === 'affliction'" class="under-development">TBD: UNKNOWN</div> <!--FIXME: Real code needed-->
           <div v-else-if="attack.effectType === 'nullify'">
-            D20 + <span class="sourced-value" title="Ranks">{{attack.ranks}}</span>
+            D20 + <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
             <span class="vs"> vs.</span>
             (Targeted Rank or Will) + D20
           </div>
           <div v-else-if="attack.effectType === 'weaken'">
             D20 + (Fortitude or Will)
             <span class="vs">vs. </span>
-            <span class="sourced-value" title="Ranks">{{attack.ranks}}</span>
+            <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
             + 10
           </div>
           <div v-else class="error">ERROR</div>

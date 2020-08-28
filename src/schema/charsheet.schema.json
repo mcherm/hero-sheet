@@ -350,7 +350,7 @@
       "type": "string",
       "enum": [
         "motivation", "accident", "addiction", "disability", "enemy", "fame", "hatred", "honor", "identity",
-        "obsession", "phobia", "powerLoss", "predjudice", "quirk", "relationship", "reputation", "responsibility",
+        "obsession", "phobia", "powerLoss", "prejudice", "quirk", "relationship", "reputation", "responsibility",
         "rivalry", "secret", "temper", "weakness", "other"
       ]
     },

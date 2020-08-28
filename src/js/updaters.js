@@ -249,17 +249,74 @@ class AttackUpdater extends Updater {
     return result;
   }
 
-  /*
-   * Subclasses must override this to set the fields of the attack (besides hsid and updater). Specifically,
-   * * Subclass MUST set result.name
-   * * Subclass MUST set result.effectType to one of ["damage", "affliction", "nullify", "weaken"]
-   * * Subclass MUST set result.range to one of ["personal", "close", "ranged", "perception"]
-   * * Subclass MUST set result.scope to one of ["singleTarget", "area"]
-   * * Subclass MUST set result.ranks to an integer
-   * * Subclass MAY set result.powerHsid
-   */
   initializeAttackFields(attack) {
-    throw new Error("Must be overridden");
+    attack.effectType = this.getEffectType();
+    this.applyChanges(this.getCalculations());
+  }
+
+  /*
+   * These fields are common to all Attack updaters.
+   */
+  getCalculations() {
+    return {
+      name: this.getName(),
+      range: this.findRange(),
+      scope: this.findScope(),
+      powerRanks: this.getBaseRanks(),
+      attackCheckAdjustment: this.attackCheckAdjustment(),
+      fighting: this.charsheet.abilities.fighting.ranks,
+      lacksFighting: lacksStat(this.charsheet, "fighting"),
+      dexterity: this.charsheet.abilities.dexterity.ranks,
+      lacksDexterity: lacksStat(this.charsheet, "dexterity"),
+      isStrengthBased: this.isStrengthBased(),
+      strength: this.charsheet.abilities.strength.ranks,
+      lacksStrength: lacksStat(this.charsheet, "strength"),
+    };
+  }
+
+  applyChanges(calc) {
+    this.theAttack.name = calc.name;
+    this.theAttack.range = calc.range;
+    this.theAttack.scope = calc.scope;
+    if (calc.range === 'close' && calc.lacksFighting
+      || calc.range === 'ranged' && calc.lacksDexterity
+      || calc.isStrengthBased && calc.lacksStrength) {
+      this.theAttack.ranks = "lack";
+    } else {
+      this.theAttack.ranks = calc.powerRanks + (calc.isStrengthBased ? calc.strength : 0);
+    }
+    this.theAttack.attackCheckAdjustment = calc.attackCheckAdjustment;
+  }
+
+  getName() {
+    throw new Error("Subclasses must override this.");
+  }
+
+  getEffectType() {
+    throw new Error("Subclasses must override this.");
+  }
+
+  findRange() {
+    throw new Error("Subclasses must override this.");
+  }
+
+  findScope() {
+    throw new Error("Subclasses must override this.");
+  }
+
+  isStrengthBased() {
+    throw new Error("Subclasses must override this.");
+  }
+
+  getBaseRanks() {
+    throw new Error("Subclasses must override this.");
+  }
+
+  /*
+   * Returns the total adjustment due to activeEffects on the check for this attack.
+   */
+  attackCheckAdjustment() {
+    return activeEffectModifier(this.charsheet, `attacks.${this.theAttack.hsid}.check`);
   }
 
   /*
@@ -322,14 +379,6 @@ class AttackUpdater extends Updater {
   }
 
   /*
-   * Returns the total adjustment due to activeEffects on the check for
-   * this attack.
-   */
-  attackCheckAdjustment() {
-    return activeEffectModifier(this.charsheet, `attacks.${this.theAttack.hsid}.check`);
-  }
-
-  /*
    * Gets called when the updater is no longer needed. Everything it
    * created should be eliminated.
    */
@@ -346,34 +395,38 @@ class UnarmedAttackUpdater extends AttackUpdater {
     super(vm, charsheet, ...otherArgs);
   }
 
-  initializeAttackFields(attack) {
-    attack.name = "Unarmed";
-    attack.effectType = "damage";
-    attack.range = "close";
-    attack.scope = "singleTarget";
-    attack.ranks = this.charsheet.abilities.strength.ranks;
-    attack.attackCheckAdjustment = this.attackCheckAdjustment();
+  getName() {
+    return "Unarmed";
+  }
+
+  getEffectType() {
+    return "damage";
+  }
+
+  findRange() {
+    return "close";
+  }
+
+  findScope() {
+    return "singleTarget";
+  }
+
+  isStrengthBased() {
+    return true;
+  }
+
+  getBaseRanks() {
+    return 0;
   }
 
   watchForChange() {
     return {
       identity: {
       },
-      calculations: {
-        strength: this.charsheet.abilities.strength.ranks,
-        fighting: this.charsheet.abilities.fighting.ranks,
-        attackCheckAdjustment: this.attackCheckAdjustment(),
-        lacksStrength: lacksStat(this.charsheet, "strength"),
-        lacksFighting: lacksStat(this.charsheet, "fighting")
-      }
+      calculations: this.getCalculations()
     }
   }
 
-  applyChanges(newCalculations) {
-    const theAttack = this.findOrCreateTheAttack();
-    theAttack.ranks = newCalculations.lacksStrength ? "lack" : newCalculations.strength;
-    theAttack.attackCheckAdjustment = newCalculations.attackCheckAdjustment;
-  }
 }
 
 
@@ -396,82 +449,12 @@ class PowerAttackUpdater extends AttackUpdater {
   }
 
   initializeAttackFields(attack) {
-    attack.name = this.power.name;
-    attack.effectType = this.getEffectType();
-    attack.range = this.findRange(this.power);
-    attack.scope = this.findScope(this.power);
-    if (attack.range === 'close' && lacksStat(this.charsheet, "fighting")
-      || attack.range === 'ranged' && lacksStat(this.charsheet, "dexterity")
-      || this.isStrengthBased(this.power) && lacksStat(this.charsheet, "strength")) {
-      attack.ranks = "lack";
-    } else {
-      attack.ranks = this.power.ranks + this.isStrengthBased(this.power) ? this.charsheet.abilities.strength.ranks : 0;
-    }
-    attack.attackCheckAdjustment = 0; // It is brand new and can't have adjustments yet
+    super.initializeAttackFields(attack);
     attack.powerHsid = this.power.hsid;
   }
 
-  watchForChange() {
-    // -- Test Function for Watch --
-    return {
-      identity: {
-        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
-        powerHsid: this.power.hsid,
-        powerEffect: this.power.effect
-      },
-      calculations: {
-        name: this.power.name,
-        range: this.findRange(this.power),
-        scope: this.findScope(this.power),
-        powerRanks: this.power.ranks,
-        attackCheckAdjustment: this.attackCheckAdjustment(),
-        fighting: this.charsheet.abilities.fighting.ranks,
-        lacksFighting: lacksStat(this.charsheet, "fighting"),
-        dexterity: this.charsheet.abilities.dexterity.ranks,
-        lacksDexterity: lacksStat(this.charsheet, "dexterity"),
-        isStrengthBased: this.isStrengthBased(this.power),
-        strength: this.charsheet.abilities.strength.ranks,
-        lacksStrength: lacksStat(this.charsheet, "strength"),
-      }
-    };
-  }
-
-  applyChanges(calc) {
-    this.theAttack.name = calc.name;
-    this.theAttack.range = calc.range;
-    this.theAttack.scope = calc.scope;
-    if (calc.range === 'close' && calc.lacksFighting
-      || calc.range === 'ranged' && calc.lacksDexterity
-      || calc.isStrengthBased && calc.lacksStrength) {
-      this.theAttack.ranks = "lack";
-    } else {
-      this.theAttack.ranks = calc.powerRanks + (calc.isStrengthBased ? calc.strength : 0);
-    }
-    this.theAttack.attackCheckAdjustment = calc.attackCheckAdjustment;
-  }
-
-  findRange(power) {
-    const baseRange = rangeToInt(standardPowers[power.effect].range);
-    const increasedRange = power.extras.reduce(
-      (sum, mod) => sum + (mod.modifierName === "Increased Range" ? mod.ranks : 0),
-      0
-    );
-    const diminishedRange = power.flaws.reduce(
-      (sum, mod) => sum + (mod.modifierName === "Diminished Range" ? mod.ranks : 0),
-      0
-    );
-    return intToRange(baseRange + increasedRange - diminishedRange);
-  }
-
-  findScope(power) {
-    const hasAreaMod = power.extras.some(mod => mod.modifierName === "Area");
-    return hasAreaMod ? "area" : "singleTarget";
-  }
-
-  isStrengthBased(power) {
-    return power.extras.filter(
-      x => x.modifierSource === "special" && x.modifierName === "Strength Based"
-    ).length > 0;
+  getName() {
+    return this.power.name;
   }
 
   getEffectType() {
@@ -482,6 +465,46 @@ class PowerAttackUpdater extends AttackUpdater {
       "Weaken": "weaken",
     };
     return POWER_TO_ATTACK_MAP[this.power.effect];
+  }
+
+  findRange() {
+    const baseRange = rangeToInt(standardPowers[this.power.effect].range);
+    const increasedRange = this.power.extras.reduce(
+      (sum, mod) => sum + (mod.modifierName === "Increased Range" ? mod.ranks : 0),
+      0
+    );
+    const diminishedRange = this.power.flaws.reduce(
+      (sum, mod) => sum + (mod.modifierName === "Diminished Range" ? mod.ranks : 0),
+      0
+    );
+    return intToRange(baseRange + increasedRange - diminishedRange);
+  }
+
+  findScope() {
+    const hasAreaMod = this.power.extras.some(mod => mod.modifierName === "Area");
+    return hasAreaMod ? "area" : "singleTarget";
+  }
+
+  isStrengthBased() {
+    return this.power.extras.filter(
+      x => x.modifierSource === "special" && x.modifierName === "Strength Based"
+    ).length > 0;
+  }
+
+  getBaseRanks() {
+    return this.power.ranks;
+  }
+
+  watchForChange() {
+    // -- Test Function for Watch --
+    return {
+      identity: {
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
+        powerHsid: this.power.hsid,
+        powerEffect: this.power.effect
+      },
+      calculations: this.getCalculations()
+    };
   }
 
 }
