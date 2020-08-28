@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-07-31: Major work done to improve the descriptions of attacks.</li>
       <li>2020-07-31: Conditions now get saved AND updated properly.</li>
       <li>2020-07-30: Added Conditions tab for viewing (not yet saving) conditions affecting a character.</li>
       <li>2020-07-26: Create a schema for validating characters. This was a prerequisite for release.</li>
@@ -80,6 +81,7 @@
     <h2>Major Features Needed</h2>
     <ul class="scrolling-list">
       <li>Functioning list of attacks <span class="making-progress">(making progress)</span></li>
+      <li>Support case-insensitive user names</li>
       <li>Numerous powers and abilities should impact other fields <span class="making-progress">(making progress)</span></li>
       <li>Support for sidekicks, summons, morphs, and variable powers.</li>
       <li>Printable character sheet</li>

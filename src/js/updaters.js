@@ -390,21 +390,10 @@ class AttackUpdater extends Updater {
 }
 
 
-class UnarmedAttackUpdater extends AttackUpdater {
-  constructor(vm, charsheet, ...otherArgs) {
-    super(vm, charsheet, ...otherArgs);
-  }
-
-  getName() {
-    return "Unarmed";
-  }
+class BuiltInAttackUpdater extends AttackUpdater {
 
   getEffectType() {
     return "damage";
-  }
-
-  findRange() {
-    return "close";
   }
 
   findScope() {
@@ -427,6 +416,27 @@ class UnarmedAttackUpdater extends AttackUpdater {
     }
   }
 
+}
+
+class UnarmedAttackUpdater extends BuiltInAttackUpdater {
+  getName() {
+    return "Unarmed";
+  }
+
+  findRange() {
+    return "close";
+  }
+}
+
+
+class ThrownAttackUpdater extends BuiltInAttackUpdater {
+  getName() {
+    return "Thrown Object";
+  }
+
+  findRange() {
+    return "ranged";
+  }
 }
 
 
@@ -1113,6 +1123,7 @@ const updaterClasses = {
   DefenseUpdater,
   ToughnessUpdater,
   UnarmedAttackUpdater,
+  ThrownAttackUpdater,
   PowerAttackUpdater,
   ImprovedInitiativeUpdater,
   JackOfAllTradesUpdater,
