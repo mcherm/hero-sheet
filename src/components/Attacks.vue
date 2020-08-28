@@ -24,8 +24,9 @@
           <div v-if="attack.range === 'personal'" class="inapplicable">Affects self only</div>
           <div v-else-if="attack.range === 'perception'">Perceiving the target</div>
           <div v-else-if="attack.scope === 'area'">
-            <div>If in the area take half effect by succeeding at:</div>
+            <div>Defenders in the area attempt</div>
             <div>D20 + Dodge <span class="vs">vs.</span> 10 + <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span></div>
+            <div>for half-strength effect.</div>
           </div>
           <div v-else-if="attackRollInfo(attack).attackIsDisallowed" class="inapplicable">N/A</div>
           <div v-else>
@@ -66,7 +67,7 @@
           <div v-else-if="attack.effectType === 'nullify'">
             D20 + <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
             <span class="vs"> vs.</span>
-            (Targeted Rank or Will) + D20
+            D20 + (Targeted Rank or Will)
           </div>
           <div v-else-if="attack.effectType === 'weaken'">
             D20 + (Fortitude or Will)
@@ -78,7 +79,10 @@
         </div>
 
         <attacks-result-damage v-if="attack.effectType === 'damage'"/>
-        <div v-else class="under-development">Some Outcome</div>
+        <attacks-result-affliction v-else-if="attack.effectType === 'affliction'"/>
+        <attacks-result-nullify v-else-if="attack.effectType === 'nullify'"/>
+        <attacks-result-weaken v-else-if="attack.effectType === 'weaken'" :attack="attack"/>
+        <div v-else class="error">ERROR</div>
 
       </div>
       <div class="empty-notice" v-if="getCharsheet().attacks.attackList.length === 0">No Attacks</div>
@@ -91,12 +95,18 @@
   import {lacksStat} from "../js/heroSheetUtil";
 
   import AttacksResultDamage from "./AttacksResultDamage.vue"
+  import AttacksResultAffliction from "./AttacksResultAffliction.vue"
+  import AttacksResultNullify from "./AttacksResultNullify.vue"
+  import AttacksResultWeaken from "./AttacksResultWeaken.vue"
 
   export default {
     name: "Attacks",
     components: {
       LocalCostDisplay,
       AttacksResultDamage,
+      AttacksResultAffliction,
+      AttacksResultNullify,
+      AttacksResultWeaken,
     },
     inject: ["getCharsheet"],
     methods: {
@@ -161,7 +171,7 @@
     background-color: var(--inapplicable-color);
   }
   .attack-type {
-    color: var(--under-development-color);
+    text-transform: capitalize;
     padding: 2px 6px;
   }
   .inapplicable {
@@ -184,5 +194,9 @@
   .sourced-value.error {
     background-color: var(--error-color);
     padding: 1px;
+  }
+  .isOutOfSpec {
+    outline: var(--error-color) solid 4px;
+    outline-offset: -4px;
   }
 </style>

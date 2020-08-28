@@ -68,48 +68,6 @@ Stat Ranks:
    * "lack": means the character lacks this ability
    * "construct" means the character lacks this ability due to being a construct
 
-On Displaying Attacks:
-  * Damage Effect:
-    * Attack Check = D20 + Attack Bonus  vs  Defense Class
-    * Damage Resistance = D20 + Toughness - Resistance Penalty  vs  Damage Rank + 15
-      * Success: no effect
-      * Failure (1 degree): -1 Resistance Penalty
-      * Failure (by 5+): ...and Dazed until next turn
-      * Failure (by 10+): ...and Staggered
-      * Failure (by 15+ or already Staggered): ...and Incapacitated
-      * Failure (already Incapacitated): ...and Dying
-      * Failure (already Dying): DEAD
-  * Affliction Effect:
-    * Attack Check = D20 + Attack Bonus  vs  Defense Class
-    * Affliction Resistance = D20 + (Fortitude or Will)  vs.  Damage Rank + 10
-      * Success: no effect
-      * Failure (1 degree): some level 1 condition
-      * Failure (by 5+): some level 2 condition
-      * Failure (by 10+): some level 3 condition
-  * Nullify Effect:
-    * Attack Check = D20 + Attack Bonus  vs  Defense Class
-    * Nullify Resistance = D20 + Nullify Rank  vs  Max(targeted effect rank, Will) + D20
-      * Success: power is nullified
-      * Failure: no effect
-  * Weaken Effect:
-    * Attack Check = D20 + Attack Bonus  vs  Defense Class
-    * Weaken Resistance = D20 + (Fortitude or Will)  vs  Weaken Rank + 10
-  ERRORS:
-    * Actually, attacks are Close or Ranged. Different defenses apply depending on
-      which it is and that should be stored.
-    * Also attacks are normal OR area effect. IF it's area then PG 190 has rules about
-      making a dodge resistance check for half strength. if perception range then you
-      can't dodge
-    * How Range Works:
-      - personal: not an attack
-      - close: fighting vs parry
-      - ranged: ranged attack vs dodge
-      - perception: no attack roll needed
-  Attack:
-    - effectType: enum[damage, affliction, nullify, weaken]
-    - range:      enum[personal, close, ranged, perception]
-    - scope:      enum[singleTarget, area]
-
 
 Bug List:
 
@@ -189,3 +147,7 @@ BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another
 
 BUG: For creating a power, need to disable adding extras and flaws when the effect is
   set to nothing (like before it's ever set for a new power).
+
+BUG: The Entranced condition should be a level 1 condition in the conditions diagram.
+
+BUG: When I re-did attacks, I broke the ConstraintUpdater and I need to fix that.

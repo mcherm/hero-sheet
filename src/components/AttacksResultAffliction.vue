@@ -1,33 +1,36 @@
 <!--
-  This component shows the outcome of an attack that does damage in a little
+  This component shows the outcome of an attack that does affliction in a little
   folding box.
 -->
 <template>
   <div>
-    <div v-if="!widgetOpened" class="collapsed-header" @click="widgetOpened = true">Damage [+]</div>
+    <div v-if="!widgetOpened" class="collapsed-header" @click="widgetOpened = true">Affliction [+]</div>
     <div v-else class="attacks-result-damage grid-with-lines">
-      <div class="grid-header col-label" @click="widgetOpened = false">Damage [-]</div>
+      <div class="grid-header col-label" @click="widgetOpened = false">Affliction [-]</div>
       <div class="row-label">Success</div>
       <div class="row-data">no effect</div>
       <div class="row-label">Failure</div>
-      <div class="row-data">+1 Damage Penalty</div>
+      <div class="row-data">
+        Target is Dazed, Entranced, Fatigued,<br/>
+        Hindered, Impaired, or Vulnerable
+      </div>
       <div class="row-label">Failure by 6+</div>
-      <div class="row-data">...and Dazed until next turn</div>
+      <div class="row-data">
+        Target is Compelled, Defenseless,<br/>
+        Disabled, Exhausted, Immobile, Prone,<br/>
+        or Stunned</div>
       <div class="row-label">Failure by 11+</div>
-      <div class="row-data">...and Staggered</div>
-      <div class="row-label">Failure by 16+ or is Staggered</div>
-      <div class="row-data">...and Incapacitated</div>
-      <div class="row-label">Failure (if Incapacitated)</div>
-      <div class="row-data">...and Dying</div>
-      <div class="row-label">Failure (already Dying)</div>
-      <div class="row-data">DEAD</div>
+      <div class="row-data">
+        Target is Asleep, Controlled, Incapacitated,<br/>
+        Paralyzed, Transformed, or Unaware
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AttacksResultDamage",
+  name: "AttacksResultAffliction",
   data: function() {
     return {
       widgetOpened: false,
