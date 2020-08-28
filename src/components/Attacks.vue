@@ -21,7 +21,7 @@
         <div class="attack-type">{{attack.range}} {{attack.scope === "area" ? "area" : ""}} rank-{{attack.ranks}} {{attack.effectType}}</div>
 
         <div class="attack-check">
-          <div v-if="attack.range === 'personal'">This is not an attack</div>
+          <div v-if="attack.range === 'personal'" class="inapplicable">Affects self only</div>
           <div v-else-if="attack.range === 'perception'">Perceiving the target</div>
           <div v-else-if="attack.scope === 'area'">
             <div>If in the area take half effect by succeeding at:</div>
@@ -43,7 +43,11 @@
         </div>
 
         <div class="resistance-dc">
-          <div v-if="attack.range === 'perception' || attackRollInfo(attack).attackIsDisallowed" class="inapplicable">N/A</div>
+          <div v-if="attack.range === 'personal'" class="inapplicable">Not Resisted</div>
+          <div
+              v-else-if="['close', 'ranged'].includes(attack.range) && attack.scope === 'singleTarget' && attackRollInfo(attack).attackIsDisallowed"
+              class="inapplicable"
+          >N/A</div>
           <div v-else-if="attack.effectType === 'damage'">
             D20 + Toughness - Damage Penalty
             <span class="vs">vs.</span>

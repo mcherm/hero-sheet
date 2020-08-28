@@ -251,19 +251,22 @@ class AttackUpdater extends Updater {
 
   initializeAttackFields(attack) {
     attack.effectType = this.getEffectType();
-    this.applyChanges(this.getCalculations());
+    this.applyChangesToAttack(attack, this.getCalculations(attack.hsid));
   }
 
   /*
    * These fields are common to all Attack updaters.
+   *
+   * If it is called before this.theAttack is set, then callers must provide
+   * the value of the hsid.
    */
-  getCalculations() {
+  getCalculations(hsid) {
     return {
       name: this.getName(),
       range: this.findRange(),
       scope: this.findScope(),
       powerRanks: this.getBaseRanks(),
-      attackCheckAdjustment: this.attackCheckAdjustment(),
+      attackCheckAdjustment: activeEffectModifier(this.charsheet, `attacks.${hsid}.check`),
       fighting: this.charsheet.abilities.fighting.ranks,
       lacksFighting: lacksStat(this.charsheet, "fighting"),
       dexterity: this.charsheet.abilities.dexterity.ranks,
@@ -275,17 +278,21 @@ class AttackUpdater extends Updater {
   }
 
   applyChanges(calc) {
-    this.theAttack.name = calc.name;
-    this.theAttack.range = calc.range;
-    this.theAttack.scope = calc.scope;
+    this.applyChangesToAttack(this.theAttack, calc);
+  }
+
+  applyChangesToAttack(attack, calc) {
+    attack.name = calc.name;
+    attack.range = calc.range;
+    attack.scope = calc.scope;
     if (calc.range === 'close' && calc.lacksFighting
       || calc.range === 'ranged' && calc.lacksDexterity
       || calc.isStrengthBased && calc.lacksStrength) {
-      this.theAttack.ranks = "lack";
+      attack.ranks = "lack";
     } else {
-      this.theAttack.ranks = calc.powerRanks + (calc.isStrengthBased ? calc.strength : 0);
+      attack.ranks = calc.powerRanks + (calc.isStrengthBased ? calc.strength : 0);
     }
-    this.theAttack.attackCheckAdjustment = calc.attackCheckAdjustment;
+    attack.attackCheckAdjustment = calc.attackCheckAdjustment;
   }
 
   getName() {
@@ -310,13 +317,6 @@ class AttackUpdater extends Updater {
 
   getBaseRanks() {
     throw new Error("Subclasses must override this.");
-  }
-
-  /*
-   * Returns the total adjustment due to activeEffects on the check for this attack.
-   */
-  attackCheckAdjustment() {
-    return activeEffectModifier(this.charsheet, `attacks.${this.theAttack.hsid}.check`);
   }
 
   /*
@@ -412,7 +412,7 @@ class BuiltInAttackUpdater extends AttackUpdater {
     return {
       identity: {
       },
-      calculations: this.getCalculations()
+      calculations: this.getCalculations(this.theAttack.hsid)
     }
   }
 
@@ -484,7 +484,7 @@ class PowerAttackUpdater extends AttackUpdater {
       0
     );
     const diminishedRange = this.power.flaws.reduce(
-      (sum, mod) => sum + (mod.modifierName === "Diminished Range" ? mod.ranks : 0),
+      (sum, mod) => sum + (mod.modifierName === "Reduced Range" ? mod.ranks : 0),
       0
     );
     return intToRange(baseRange + increasedRange - diminishedRange);
@@ -513,7 +513,7 @@ class PowerAttackUpdater extends AttackUpdater {
         powerHsid: this.power.hsid,
         powerEffect: this.power.effect
       },
-      calculations: this.getCalculations()
+      calculations: this.getCalculations(this.theAttack.hsid)
     };
   }
 
