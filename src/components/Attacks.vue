@@ -20,59 +20,49 @@
 
         <div class="attack-type">{{attack.range}} {{attack.scope === "area" ? "area" : ""}} rank-{{attack.ranks}} {{attack.effectType}}</div>
 
-        <div class="attack-check">
-          <div v-if="attack.range === 'personal'" class="inapplicable">Affects self only</div>
-          <div v-else-if="attack.range === 'perception'">Perceiving the target</div>
-          <div v-else-if="attack.scope === 'area'">
+        <div class="attack-check" :class="{'is-out-of-spec': isOutOfSpec(attack)}">
+          <div v-if="!attackRollInfo(attack).isAttack" class="inapplicable">Affects self only</div>
+          <div v-else-if="!attackRollInfo(attack).isAllowed" class="inapplicable">N/A</div>
+          <div v-else-if="attackRollInfo(attack).isPerception">Perceiving the target</div>
+          <div v-else-if="attackRollInfo(attack).isArea">
             <div>Defenders in the area attempt</div>
             <div>D20 + Dodge <span class="vs">vs.</span> 10 + <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span></div>
             <div>for half-strength effect.</div>
           </div>
-          <div v-else-if="attackRollInfo(attack).attackIsDisallowed" class="inapplicable">N/A</div>
           <div v-else>
             D20 +
-            <span v-if="!attackRollInfo(attack).attackIsValid" class="sourced-value error" :title="attackRollInfo(attack).sourceDescription">
-              Err
-            </span>
-            <span v-else class="sourced-value" :title="attackRollInfo(attack).sourceDescription">
-              {{attackRollInfo(attack).attackRoll}}
-            </span>
+            <number-display class="sourced-value" :value="attackRollInfo(attack).attackRoll" :title="attackRollInfo(attack).attackRollSource"/>
             <span class="vs"> vs. </span>
             <span>{{attack.range === 'close' ? 'Parry' : 'Dodge'}}</span>
             + 10
           </div>
         </div>
 
-        <div class="resistance-dc">
-          <div v-if="attack.range === 'personal'" class="inapplicable">Not Resisted</div>
-          <div
-              v-else-if="['close', 'ranged'].includes(attack.range) && attack.scope === 'singleTarget' && attackRollInfo(attack).attackIsDisallowed"
-              class="inapplicable"
-          >N/A</div>
+        <div class="resistance-dc" :class="{'is-out-of-spec': isOutOfSpec(attack)}">
+          <div v-if="!attackRollInfo(attack).isAttack" class="inapplicable">Not Resisted</div>
+          <div v-else-if="!attackRollInfo(attack).isAllowed" class="inapplicable">N/A</div>
           <div v-else-if="attack.effectType === 'damage'">
             D20 + Toughness - Damage Penalty
             <span class="vs">vs.</span>
             15 +
-            <span v-if="isNaN(attack.ranks)" class="sourced-value error" title="Attack Ranks">
-              Err
-            </span>
-            <span v-else class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
+            <number-display class="sourced-value" :value="attackRollInfo(attack).ranks" :title="attackRollInfo(attack).ranksSource"/>
           </div>
           <div v-else-if="attack.effectType === 'affliction'">
             D20 + (Fortitude or Will)
             <span class="vs">vs. </span>
-            <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
+            <number-display class="sourced-value" :value="attackRollInfo(attack).ranks" :title="attackRollInfo(attack).ranksSource"/>
             + 10
           </div>
           <div v-else-if="attack.effectType === 'nullify'">
-            D20 + <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
+            D20 +
+            <number-display class="sourced-value" :value="attackRollInfo(attack).ranks" :title="attackRollInfo(attack).ranksSource"/>
             <span class="vs"> vs.</span>
             D20 + (Targeted Rank or Will)
           </div>
           <div v-else-if="attack.effectType === 'weaken'">
             D20 + (Fortitude or Will)
             <span class="vs">vs. </span>
-            <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
+            <number-display class="sourced-value" :value="attackRollInfo(attack).ranks" :title="attackRollInfo(attack).ranksSource"/>
             + 10
           </div>
           <div v-else class="error">ERROR</div>
@@ -91,15 +81,15 @@
 </template>
 
 <script>
-  import LocalCostDisplay from "./LocalCostDisplay.vue";
-  import {lacksStat} from "../js/heroSheetUtil";
+import LocalCostDisplay from "./LocalCostDisplay.vue";
+import {lacksStat, attackRollInfo} from "../js/heroSheetUtil";
 
-  import AttacksResultDamage from "./AttacksResultDamage.vue"
-  import AttacksResultAffliction from "./AttacksResultAffliction.vue"
-  import AttacksResultNullify from "./AttacksResultNullify.vue"
-  import AttacksResultWeaken from "./AttacksResultWeaken.vue"
+import AttacksResultDamage from "./AttacksResultDamage.vue"
+import AttacksResultAffliction from "./AttacksResultAffliction.vue"
+import AttacksResultNullify from "./AttacksResultNullify.vue"
+import AttacksResultWeaken from "./AttacksResultWeaken.vue"
 
-  export default {
+export default {
     name: "Attacks",
     components: {
       LocalCostDisplay,
@@ -117,36 +107,8 @@
         };
         return activeViolation(`AttackRoll@${attack.hsid}`);
       },
-      /*
-       * This is given a (close or ranged) singleTarget attack and returns an object with a few values:
-       *   attackIsDisallowed: a boolean telling whether the attack is simply not permitted
-       *   sourceDescription if !attackIsDisallowed, a string describing how the roll is computed
-       *   attackIsValid: if !attackIsDisallowed, a boolean telling whether the value of the roll be computed
-       *   attackRollIsError: if attackIsValid, a boolean telling whether the attackRoll is NaN instead of a number
-       *   attackRoll: if !attackRollIsError, a number which is the bonus to the roll
-       */
       attackRollInfo: function(attack) {
-        if (!["close", "ranged"].includes(attack.range)) {
-          throw new Error(`Method allowed only for a close or ranged attack. Was "${attack.range}".`);
-        }
-        if (!["singleTarget"].includes(attack.scope)) {
-          throw new Error(`Method allowed only for singleTarget attacks. Was "${attack.scope}".`);
-        }
-        const [keyStat, keyStatDisplay] = attack.range === 'close' ? ['fighting', 'Fighting'] : ['dexterity', 'Dexterity'];
-        const lacksKeyStat = lacksStat(this.getCharsheet(), keyStat);
-        const attackIsDisallowed = lacksKeyStat;
-        if (attackIsDisallowed) {
-          return { attackIsDisallowed };
-        }
-        const hasAdjustment = attack.attackCheckAdjustment !== 0;
-        const sourceDescription = keyStatDisplay + (hasAdjustment ? " + Skill" : "");
-        const keyStatValue = this.getCharsheet().abilities[keyStat].ranks;
-        const attackIsValid = typeof(keyStatValue) === "number" && ! isNaN(keyStatValue);
-        if (!attackIsValid ) {
-          return { attackIsDisallowed, attackIsValid, sourceDescription };
-        }
-        const attackRoll = keyStatValue + attack.attackCheckAdjustment;
-        return { attackIsDisallowed, attackIsValid, sourceDescription, attackRoll };
+        return attackRollInfo(this.getCharsheet(), attack);
       }
     }
   }
@@ -182,6 +144,10 @@
     font-weight: bold;
     cursor: pointer;
   }
+  .sourced-value.number-display {
+    display: inline;
+    padding: 2px 1px;
+  }
   .col-label.not-capitalized {
     text-transform: none;
   }
@@ -195,7 +161,7 @@
     background-color: var(--error-color);
     padding: 1px;
   }
-  .isOutOfSpec {
+  .is-out-of-spec {
     outline: var(--error-color) solid 4px;
     outline-offset: -4px;
   }

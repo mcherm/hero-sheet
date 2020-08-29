@@ -3,7 +3,7 @@
 //
 
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
-import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt, intToRange} from "./heroSheetUtil.js"
+import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt, intToRange, attackRollInfo} from "./heroSheetUtil.js"
 const standardPowers = require("../data/standardPowers.json");
 
 
@@ -265,15 +265,9 @@ class AttackUpdater extends Updater {
       name: this.getName(),
       range: this.findRange(),
       scope: this.findScope(),
-      powerRanks: this.getBaseRanks(),
-      attackCheckAdjustment: activeEffectModifier(this.charsheet, `attacks.${hsid}.check`),
-      fighting: this.charsheet.abilities.fighting.ranks,
-      lacksFighting: lacksStat(this.charsheet, "fighting"),
-      dexterity: this.charsheet.abilities.dexterity.ranks,
-      lacksDexterity: lacksStat(this.charsheet, "dexterity"),
+      ranks: this.getRanks(),
       isStrengthBased: this.isStrengthBased(),
-      strength: this.charsheet.abilities.strength.ranks,
-      lacksStrength: lacksStat(this.charsheet, "strength"),
+      attackCheckAdjustment: activeEffectModifier(this.charsheet, `attacks.${hsid}.check`),
     };
   }
 
@@ -285,13 +279,8 @@ class AttackUpdater extends Updater {
     attack.name = calc.name;
     attack.range = calc.range;
     attack.scope = calc.scope;
-    if (calc.range === 'close' && calc.lacksFighting
-      || calc.range === 'ranged' && calc.lacksDexterity
-      || calc.isStrengthBased && calc.lacksStrength) {
-      attack.ranks = "lack";
-    } else {
-      attack.ranks = calc.powerRanks + (calc.isStrengthBased ? calc.strength : 0);
-    }
+    attack.ranks = calc.ranks;
+    attack.isStrengthBased = calc.isStrengthBased;
     attack.attackCheckAdjustment = calc.attackCheckAdjustment;
   }
 
@@ -315,7 +304,7 @@ class AttackUpdater extends Updater {
     throw new Error("Subclasses must override this.");
   }
 
-  getBaseRanks() {
+  getRanks() {
     throw new Error("Subclasses must override this.");
   }
 
@@ -404,7 +393,7 @@ class BuiltInAttackUpdater extends AttackUpdater {
     return true;
   }
 
-  getBaseRanks() {
+  getRanks() {
     return 0;
   }
 
@@ -501,7 +490,7 @@ class PowerAttackUpdater extends AttackUpdater {
     ).length > 0;
   }
 
-  getBaseRanks() {
+  getRanks() {
     return this.power.ranks;
   }
 
@@ -1046,10 +1035,7 @@ class ConstraintUpdater extends Updater {
   watchForChange() {
     const attacks = {};
     this.charsheet.attacks.attackList.forEach(attack => {
-      attacks[attack.hsid] = {
-        "attackCheck": attack.attackCheck,
-        "resistanceDC": attack.resistanceDC
-      };
+      attacks[attack.hsid] = attack;
     });
     const normalSkills = {};
     const templateSkills = {};
@@ -1095,12 +1081,27 @@ class ConstraintUpdater extends Updater {
       newV.FortitudeAndWill = constraintValue("FortitudeAndWill");
     }
     for (const hsid in calcs.attacks)  {
-      // FIXME: This got broken and I now need to un-break it.
-      const attackCheck = calcs.attacks[hsid].attackCheck;
-      const resistanceDC = calcs.attacks[hsid].resistanceDC;
-      if (attackCheck + resistanceDC > 2 * calcs.powerLevel) {
-        const key = `AttackRoll@${hsid}`;
-        newV[key] = constraintValue(key);
+      // Handle attacks
+      const attack = calcs.attacks[hsid];
+      const info = attackRollInfo(this.charsheet, attack);
+      if (info.isAttack && info.isAllowed) {
+        if (info.hasAttackRoll) {
+          // Rule: attackCheck + effectRank <= 2 * powerLevel
+          if (!isNaN(info.attackRoll) && !isNaN(info.ranks)) {
+            if (info.attackRoll + info.ranks > 2 * calcs.powerLevel) {
+              const key = `AttackRoll@${hsid}`;
+              newV[key] = constraintValue(key);
+            }
+          }
+        } else {
+          // Rule: effectRank <= powerLevel
+          if (!isNaN(info.ranks)) {
+            if (info.ranks > calcs.powerLevel) {
+              const key = `AttackRoll@${hsid}`;
+              newV[key] = constraintValue(key);
+            }
+          }
+        }
       }
     }
     for (const skillName in calcs.normalSkills) {

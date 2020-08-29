@@ -5,8 +5,8 @@ const skillsData = require("../data/skillsData.json");
 const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 
-const currentVersion = 20; // Up to this version can be saved
-const latestVersion = 20; // Might be an experimental version
+const currentVersion = 21; // Up to this version can be saved
+const latestVersion = 21; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
@@ -664,10 +664,23 @@ const upgradeFuncs = {
         range: "ranged",
         scope: "singleTarget",
         ranks: 0,
+        strengthBased: true,
         attackCheckAdjustment: 0
       }
     );
-    charsheet.version = 20;
+    charsheet.version = 21;
+  },
+
+  upgradeFrom20: function(charsheet) {
+    charsheet.attacks.attackList.forEach(attack => {
+      // Wipe out ALL fields except for hsid, updater, and powerHsid". The updater will re-populate them.
+      for (const field in attack) {
+        if (!["hsid", "updater", "powerHsid"].includes(field)) {
+          delete attack[field];
+        }
+      }
+    });
+    charsheet.version = 21;
   }
 
 };
