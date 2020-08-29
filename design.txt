@@ -88,16 +88,6 @@ TODO: The ability "Ultimate Effort" should be specific to a particular skill
 TODO: For the power "Communication", the extra "Sense-Dependent" isn't really
   a flaw of the power, it is a flaw of any other power
 
-TODO: Campaign power level limits not implemented yet:
-  * TOTAL modifier with any skill <= 10+powerLevel [YES - per skill: NormalSkillLimit / TemplateSkillLimit]
-  * For an attack with an attack roll, (Attack bonus + effect rank) <= powerLevel * 2 [YES - per attack: AttackRoll]
-  * For an attack with resistance, not attack, Effect Rank <= powerLevel [NO - per attack: ResistedAttack]
-  * Dodge + Toughness <= 2 * powerLevel [YES: DodgeAndToughness]
-  * Parry + Toughness <= 2 * powerLevel [YES: ParryAndToughness]
-  * Fortitude + Will <= 2 * powerLevel [YES: FortitudeAndWill]
-  * For all campaign limits, should make a list of them and be able to display
-    it and even make exceptions for individual ones.
-
 TODO: Generate a PDF. See http://raw.githack.com/MrRio/jsPDF/master/docs/index.html
   or https://pdfkit.org/.
 
@@ -130,24 +120,23 @@ TODO: Some way to have enhanced traits that apply to other POWERS like Iron Man
 
 TODO: "Adjustment" and "ActiveEffect" are two names for the same thing. Fix that.
 
-TODO: Really ought to server-side validate the character sheet on updates.
-  [Nearly Done!!]
-
 TODO: Probably track attacks separately as hand-to-hand and ranged
   so I can apply the correct stat (fighting vs dexterity).
 
 TODO: Along with deleting, it would be kind of nice if there were also a way to re-order
   the items in a list like powers.
 
-BUG: Custom equipment isn't creating updaters correctly. Try creating one that does
-  damage to see the problem: it won't create a new attack like it should.
+TODO: Should make sure the Close Combat and Ranged Combat skills pick only from close
+  and ranged attacks respectively.
+
+BUG: Custom equipment isn't creating updaters correctly. Try creating a flamethrower
+  damage to see the problem: it won't create new attacks like it should.
 
 BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another (eg: Damage)
-  and it will remove the old attack but NOT create the new one.
+  and it will remove the old attack but NOT create the new one. Or maybe that's just the bug
+  where things don't update for one cycle.
 
 BUG: For creating a power, need to disable adding extras and flaws when the effect is
   set to nothing (like before it's ever set for a new power).
 
 BUG: The Entranced condition should be a level 1 condition in the conditions diagram.
-
-BUG: When I re-did attacks, I broke the ConstraintUpdater and I need to fix that.
