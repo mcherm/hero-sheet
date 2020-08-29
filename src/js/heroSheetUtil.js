@@ -740,14 +740,14 @@ const attackRollInfo = function(charsheet, attack) {
     return { isAttack, isAllowed };
   }
   const ranks = nullReset(attack.ranks) + (isStrengthBased ? nullReset(charsheet.abilities.strength.ranks) : 0);
-  const ranksSource = isStrengthBased ? "Ranks" : "Ranks + Strength";
+  const ranksSource = isStrengthBased ? "Ranks + Strength" : "Ranks";
   if (!hasAttackRoll) {
     return { isAttack, isAllowed, ranks, ranksSource, hasAttackRoll, isPerception, isArea };
   }
   const keyStatValue = charsheet.abilities[keyStat].ranks;
   const attackRoll = nullReset(keyStatValue) + nullReset(attack.attackCheckAdjustment);
   const hasAdjustment = attack.attackCheckAdjustment !== 0;
-  const attackRollSource = hasAdjustment ? keyStatDisplay : `${keyStatDisplay} + Skill`;
+  const attackRollSource = hasAdjustment ? `${keyStatDisplay} + Skill` : keyStatDisplay;
   return { isAttack, isAllowed, ranks, ranksSource, hasAttackRoll, attackRoll, attackRollSource };
 }
 
