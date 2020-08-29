@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "http://hero-sheet.com/schemas/charsheet.schema.json",
   "type": "object",
-  "title": "Root Schema for a Charsheet - v20",
+  "title": "Root Schema for a Charsheet - v21",
   "description": "The root schema is the schema that comprises the entire JSON document for a charsheet.",
   "properties": {
-    "version": { "type": "integer", "const": 20 },
+    "version": { "type": "integer", "const": 21 },
     "campaign": { "$ref":  "#/definitions/Campaign" },
     "naming": { "$ref":  "#/definitions/Naming" },
-    "effortPoints": { "$ref":  "#/definitions/IntegerOrNull" },
+    "effortPoints": { "$ref":  "#/definitions/FlexibleInteger" },
     "abilities": { "$ref":  "#/definitions/Abilities" },
     "defenses": { "$ref": "#/definitions/Defenses" },
     "misc": { "$ref": "#/definitions/Misc" },
@@ -35,7 +35,7 @@
       "type": "string",
       "pattern": "^HI[ABCDEFGJKLMNPQRSTUVWXYZ123456789]{7}$"
     },
-    "IntegerOrNull": {
+    "FlexibleInteger": {
       "oneOf": [
         {
           "type": "integer"
@@ -48,8 +48,8 @@
     "Campaign": {
       "type": "object",
       "properties": {
-        "powerLevel": { "$ref": "#/definitions/IntegerOrNull" },
-        "xpAwarded": { "$ref": "#/definitions/IntegerOrNull" },
+        "powerLevel": { "$ref": "#/definitions/FlexibleInteger" },
+        "xpAwarded": { "$ref": "#/definitions/FlexibleInteger" },
         "setting": { "type":  "string" }
       },
       "required": ["powerLevel", "xpAwarded", "setting"]
@@ -101,12 +101,7 @@
     },
     "AbilityValue": {
       "anyOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "integer"
-        },
+        { "$ref":  "#/definitions/FlexibleInteger" },
         {
           "type": "string",
           "enum": ["lack", "construct"]
@@ -128,9 +123,9 @@
     "Defense": {
       "type": "object",
       "properties": {
-        "base": { "type": "integer" },
-        "purchased": { "$ref": "#/definitions/IntegerOrNull" },
-        "cost": { "$ref": "#/definitions/IntegerOrNull" },
+        "base": { "$ref": "#/definitions/FlexibleInteger" },
+        "purchased": { "$ref": "#/definitions/FlexibleInteger" },
+        "cost": { "$ref": "#/definitions/FlexibleInteger" },
         "ranks": { "$ref": "#/definitions/AbilityValue" }
       },
       "required": ["purchased", "cost", "ranks"],
@@ -154,7 +149,7 @@
       "type": "object",
       "properties": {
         "name": { "type": "string" },
-        "ranks": { "$ref": "#/definitions/IntegerOrNull" },
+        "ranks": { "$ref": "#/definitions/FlexibleInteger" },
         "description": { "$ref": "common.schema.json#/definitions/Description" },
         "hsid": { "$ref": "#/definitions/Hsid" },
         "allyHsid": { "$ref": "#/definitions/Hsid" }
@@ -171,7 +166,7 @@
       "properties": {
         "hsid": { "$ref": "#/definitions/Hsid" },
         "name": { "type": "string" },
-        "cost": { "$ref": "#/definitions/IntegerOrNull" },
+        "cost": { "$ref": "#/definitions/FlexibleInteger" },
         "source": { "type": "string", "enum": ["standard", "custom", "unselected"] },
         "description": { "$ref": "common.schema.json#/definitions/Description" },
         "feature": {
@@ -194,8 +189,8 @@
         "description": { "$ref": "common.schema.json#/definitions/Description" },
         "extras": { "$ref": "#/definitions/ModifierList" },
         "flaws": { "$ref": "#/definitions/ModifierList" },
-        "ranks": { "type": "integer" },
-        "cost": { "$ref": "#/definitions/IntegerOrNull" },
+        "ranks": { "$ref": "#/definitions/FlexibleInteger" },
+        "cost": { "$ref": "#/definitions/FlexibleInteger" },
         "effectDescription": { "type": "string" },
         "baseCost": { "$ref": "#/definitions/PowerBaseCost" },
         "subpowers": { "$ref": "#/definitions/PowerList" }
@@ -234,7 +229,7 @@
         },
         "ranks": { "type":  "integer" },
         "costType": { "$ref": "common.schema.json#/definitions/CostType" },
-        "cost": { "$ref": "#/definitions/IntegerOrNull" },
+        "cost": { "$ref": "#/definitions/FlexibleInteger" },
         "displayText": { "type": "string" }
       },
       "required": ["modifierSource", "modifierName", "costType", "cost", "displayText"],
@@ -246,19 +241,18 @@
     },
     "PowerBaseCost": {
       "anyOf": [
-        { "type": "integer" },
+        { "$ref": "#/definitions/FlexibleInteger" },
         {
           "type": "number",
           "multipleOf": 0.5
-        },
-        { "type": "null" }
+        }
       ]
     },
     "Skills": {
       "type": "object",
       "properties": {
         "skillList": { "$ref": "#/definitions/SkillList" },
-        "cost": { "$ref": "#/definitions/IntegerOrNull" }
+        "cost": { "$ref": "#/definitions/FlexibleInteger" }
       },
       "required": ["skillList", "cost"],
       "additionalProperties": false
@@ -278,7 +272,7 @@
       "type": "object",
       "properties": {
         "name": { "$ref":  "#/definitions/StandardSkillName" },
-        "ranks": { "$ref": "#/definitions/IntegerOrNull" },
+        "ranks": { "$ref": "#/definitions/FlexibleInteger" },
         "isTemplate": { "const": false },
         "hsid": { "$ref": "#/definitions/Hsid" }
       },
@@ -291,7 +285,7 @@
       "properties": {
         "name": { "$ref":  "#/definitions/TemplateSkillName" },
         "hsid": { "$ref": "#/definitions/Hsid" },
-        "ranks": { "$ref": "#/definitions/IntegerOrNull" },
+        "ranks": { "$ref": "#/definitions/FlexibleInteger" },
         "isTemplate": { "const": true },
         "attackHsid": {
           "oneOf": [
@@ -309,7 +303,7 @@
       "properties": {
         "name": { "type": "string", "const":  "" },
         "hsid": { "$ref": "#/definitions/Hsid" },
-        "ranks": { "$ref": "#/definitions/IntegerOrNull" },
+        "ranks": { "$ref": "#/definitions/FlexibleInteger" },
         "isTemplate": { "const": true }
       }
     },
@@ -376,10 +370,11 @@
         "range": { "$ref": "common.schema.json#/definitions/EffectRange" },
         "scope": { "$ref": "#/definitions/AttackScope" },
         "ranks": { "$ref":  "#/definitions/AbilityValue" },
-        "attackCheckAdjustment": { "type": "integer" },
+        "isStrengthBased": { "type": "boolean" },
+        "attackCheckAdjustment": { "$ref": "#/definitions/FlexibleInteger" },
         "powerHsid": { "$ref": "#/definitions/Hsid" }
       },
-      "required": ["hsid", "updater", "name", "effectType", "range", "scope", "ranks", "attackCheckAdjustment"],
+      "required": ["hsid", "updater", "name", "effectType", "range", "scope", "ranks", "isStrengthBased", "attackCheckAdjustment"],
       "additionalProperties": false
     },
     "AttackEffectType": {
@@ -406,7 +401,7 @@
       "properties": {
         "hsid": { "$ref": "#/definitions/Hsid" },
         "description": { "$ref": "common.schema.json#/definitions/Description" },
-        "value": { "type": "integer" },
+        "value": { "$ref": "#/definitions/FlexibleInteger" },
         "isActive": { "type": "boolean" },
         "updater": { "$ref": "common.schema.json#/definitions/Name" },
         "powerHsid": { "$ref": "#/definitions/Hsid" },

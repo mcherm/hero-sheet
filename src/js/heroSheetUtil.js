@@ -695,6 +695,61 @@ const lacksStat = function(charsheet, statName) {
   }
 }
 
+/*
+ * Given a FlexibleInteger (which can be an integer, NaN, or null) this returns a numeric
+ * value which is either an integer or NaN (by concerting null to NaN). The result is still
+ * a FlexibleInteger, BUT one on which we can perform arithmatic and it behaves as desired.
+ */
+const nullReset = function(x) {
+  return x === null ? NaN : x;
+}
+
+/*
+ * This is given a charsheet and an attack and returns an object with several values:
+ *   isAttack: a boolean telling whether or not it simply isn't an attack (eg: personal range)
+ *   isAllowed: if isAttack, a boolean telling whether the attack is simply not permitted (lacks a needed stat)
+ *   ranks: if isAllowed, a FlexibleInteger (which won't be null) giving the number of ranks of the attack effect (including strength)
+ *   ranksSource: if isAllowed, a string describing the source of the ranks
+ *   hasAttackRoll: if isAllowed, a boolean telling whether the attack has an attack roll (not area or perception)
+ *   attackRoll: if hasAttackRoll, a FlexibleInteger (which won't be null) giving the amount for the attack roll
+ *   attackRollSource: if hasAttackRoll, a string describing the source of the attack roll
+ *   isPerception: if !hasAttackRoll, a boolean telling whether the attack has perception range
+ *   isArea: if !hasAttackRoll, a boolean telling whether the scope is area (= !hasAttackRoll && !isPerception)
+ */
+const attackRollInfo = function(charsheet, attack) {
+  const isAttack = attack.range !== "personal";
+  if (!isAttack) {
+    return { isAttack };
+  }
+  const isPerception = attack.range === "perception";
+  const isArea = attack.scope === "area";
+  const hasAttackRoll = !isPerception && ! isArea;
+  const isStrengthBased = attack.isStrengthBased;
+  const [keyStat, keyStatDisplay] = (attack.range === 'close'
+    ? ['fighting', 'Fighting']
+    : (
+      attack.range === "ranged"
+        ? ['dexterity', 'Dexterity']
+        : [null, null]
+    )
+  );
+  const isAllowed = !(isStrengthBased && lacksStat(charsheet, "strength") || (
+    hasAttackRoll && lacksStat(charsheet, keyStat)
+  ));
+  if (!isAllowed) {
+    return { isAttack, isAllowed };
+  }
+  const ranks = nullReset(attack.ranks) + (isStrengthBased ? nullReset(charsheet.abilities.strength.ranks) : 0);
+  const ranksSource = isStrengthBased ? "Ranks" : "Ranks + Strength";
+  if (!hasAttackRoll) {
+    return { isAttack, isAllowed, ranks, ranksSource, hasAttackRoll, isPerception, isArea };
+  }
+  const keyStatValue = charsheet.abilities[keyStat].ranks;
+  const attackRoll = nullReset(keyStatValue) + nullReset(attack.attackCheckAdjustment);
+  const hasAdjustment = attack.attackCheckAdjustment !== 0;
+  const attackRollSource = hasAdjustment ? keyStatDisplay : `${keyStatDisplay} + Skill`;
+  return { isAttack, isAllowed, ranks, ranksSource, hasAttackRoll, attackRoll, attackRollSource };
+}
 
 
 export {
@@ -733,4 +788,5 @@ export {
   activeEffectModifier,
   isManuallyAdjusted,
   lacksStat,
+  attackRollInfo,
 };
