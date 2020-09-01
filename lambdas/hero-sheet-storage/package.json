@@ -6,8 +6,9 @@
   "scripts": {
     "fetch-schema": "rm -rf schema && mkdir -p schema && cp ../../src/schema/charsheet.schema.json schema && cp ../../src/schema/common.schema.json schema",
     "build": "rm -f hero-sheet-storage.zip && 7z a hero-sheet-storage.zip -r *",
-    "deploy": "aws lambda update-function-code --function-name hero-sheet-storage --zip-file fileb://hero-sheet-storage.zip --publish",
-    "do-all": "npm install && npm run fetch-schema && npm run build && npm run deploy"
+    "deploy": "aws lambda update-function-code --function-name hero-sheet-storage-dev --zip-file fileb://hero-sheet-storage.zip --publish",
+    "do-all": "npm install && npm run fetch-schema && npm run build && npm run deploy",
+    "prod-deploy": "aws lambda update-function-code --function-name hero-sheet-storage --zip-file fileb://hero-sheet-storage.zip --publish"
   },
   "keywords": [],
   "author": "Michael Chermside",

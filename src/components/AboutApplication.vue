@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-09-01: Created separate development environment for doing development without disturbing production.</li>
       <li>2020-08-28: The display of attacks is pretty much working.</li>
       <li>2020-08-27: Major work done to improve the descriptions of attacks.</li>
       <li>2020-07-31: Conditions now get saved AND updated properly.</li>
@@ -92,13 +93,33 @@
       <div class="grid-with-lines-cell">
         <input type="checkbox" id="developerMode" v-model="$globals.developerMode">
       </div>
+      <label for="deployment">Dev Deployment</label>
+      <div class="grid-with-lines-cell">
+        <select id="deployment" :value="$globals.deployment" @change="setDeployment($event.target.value)">
+          <option value="prod">Production</option>
+          <option value="dev">Development</option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {setDeployment} from "../js/api.js";
+
   export default {
-    name: "AboutApplication"
+    name: "AboutApplication",
+    data: function() {
+      return {
+        deployment: "prod"
+      }
+    },
+    methods: {
+      setDeployment: function(newValue) {
+        setDeployment(newValue);
+        this.$globals.deployment = newValue;
+      }
+    }
   }
 </script>
 
@@ -116,6 +137,6 @@
   }
   .global-settings {
     width: min-content;
-    grid-template-columns: max-content max-content max-content;
+    grid-template-columns: max-content max-content;
   }
 </style>
