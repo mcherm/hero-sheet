@@ -2,7 +2,13 @@
 // Code for making API calls
 //
 
-const FIXED_URL_PREFIX = "https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/hero-sheet";
+const FIXED_URL_PREFIX = "https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/";
+
+let deployment = "prod"; // defaults to the production environment
+
+function setDeployment(newDeployment) {
+  deployment = newDeployment;
+}
 
 function getMuffin() {
   const muffin = localStorage.getItem("muffin");
@@ -26,7 +32,11 @@ class NotLoggedInError extends Error {
  */
 async function performAPICall(path, verb, taskDescription, bodyObj=null, prettyPrint=false) {
   try {
-    const url = FIXED_URL_PREFIX + path;
+    const deploymentArgument = {
+      "prod": "hero-sheet",
+      "dev": "hero-sheet-dev",
+    }[deployment];
+    const url = FIXED_URL_PREFIX + deploymentArgument + path;
     const headers = {
     };
     const muffin = getMuffin();
@@ -132,6 +142,7 @@ async function rebuildIndex(user) {
 
 
 export {
+  setDeployment,
   APIError,
   NotLoggedInError,
   restoreSession,

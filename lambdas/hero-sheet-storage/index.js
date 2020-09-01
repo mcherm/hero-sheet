@@ -1,4 +1,4 @@
-console.log("version 3.5");
+console.log("version 0.9.0");
 
 const LOG_REQUESTS = true;
 const DEVELOPER_MODE = true;
@@ -32,7 +32,28 @@ function validateSchema(charsheet) {
 
 console.log("loaded");
 
-async function invalidEndpoint(event) {
+/*
+ * Given a deployment, this returns the correct bucket to use.
+ */
+const getBucket = function(deployment) {
+  const result = {
+    "prod": "hero-sheet-storage",
+    "dev": "hero-sheet-storage-dev"
+  }[deployment];
+  return result;
+}
+
+
+/*
+ * Given a user (or email) string, this returns the folder that user (or email) is
+ * stored in.
+ */
+const getFolderName = function(user) {
+  return user; // FIXME: Later, this should invoke user.toLowerCase() so it can be case insensitive
+}
+
+
+async function invalidEndpoint(event, deployment) {
   console.log("invoked invalidEndpoint");
   return {
     statusCode: 404,
@@ -41,7 +62,7 @@ async function invalidEndpoint(event) {
 }
 
 
-async function optionsEndpoint(event) {
+async function optionsEndpoint(event, deployment) {
   console.log("invoked optionsEndpoint");
   return {
     statusCode: 200,
@@ -65,11 +86,12 @@ async function optionsEndpoint(event) {
  *  sessionId is NOT found then we should read the file anyway just
  *  in case it was updated by a different lambda VM.
  */
-async function readUserSessions(user) {
-  const userSessionsFilename = `mutants/users/${user}/userSessions.json`;
+async function readUserSessions(deployment, user) {
+  const folderName = getFolderName(user);
+  const userSessionsFilename = `mutants/users/${folderName}/userSessions.json`;
   try {
     const response = await s3.getObject({
-      Bucket: "hero-sheet-storage",
+      Bucket: getBucket(deployment),
       Key: userSessionsFilename
     }).promise();
     return JSON.parse(response.Body);
@@ -80,10 +102,11 @@ async function readUserSessions(user) {
 }
 
 
-async function writeUserSessions(user, userSessions) {
-  const userSessionsFilename = `mutants/users/${user}/userSessions.json`;
+async function writeUserSessions(deployment, user, userSessions) {
+  const folderName = getFolderName(user);
+  const userSessionsFilename = `mutants/users/${folderName}/userSessions.json`;
   await s3.putObject({
-    Bucket: "hero-sheet-storage",
+    Bucket: getBucket(deployment),
     Key: userSessionsFilename,
     Body: JSON.stringify(userSessions)
   }).promise();
@@ -96,11 +119,12 @@ async function writeUserSessions(user, userSessions) {
  * a userInfo object. The input can be a user or an email -- if the
  * two are different then the files was stored under both names.
  */
-async function readUserInfo(userOrEmail) {
-  const userInfoFilename = `mutants/users/${userOrEmail}/userInfo.json`;
+async function readUserInfo(deployment, userOrEmail) {
+  const folderName = getFolderName(userOrEmail);
+  const userInfoFilename = `mutants/users/${folderName}/userInfo.json`;
   try {
     const response = await s3.getObject({
-      Bucket: "hero-sheet-storage",
+      Bucket: getBucket(deployment),
       Key: userInfoFilename
     }).promise();
     return JSON.parse(response.Body);
@@ -116,23 +140,25 @@ async function readUserInfo(userOrEmail) {
  * will be null. If they are both strings and are different then we
  * will store the user info under BOTH.
  */
-async function writeUserInfo(user, email, passwordSalt, passwordHash) {
+async function writeUserInfo(deployment, user, email, passwordSalt, passwordHash) {
   const dataObj = {
     user: user,
     email: email,
     passwordSalt: passwordSalt,
     passwordHash: passwordHash
   };
-  const userInfoFilename = `mutants/users/${user}/userInfo.json`;
+  const userFolderName = getFolderName(user);
+  const userInfoFilename = `mutants/users/${userFolderName}/userInfo.json`;
   const response = await s3.putObject({
-    Bucket: "hero-sheet-storage",
+    Bucket: getBucket(deployment),
     Key: userInfoFilename,
     Body: JSON.stringify(dataObj)
   }).promise();
   if (email !== null) {
-    const userInfoFilename2 = `mutants/users/${email}/userInfo.json`;
+    const emailFolderName = getFolderName(email);
+    const userInfoFilename2 = `mutants/users/${emailFolderName}/userInfo.json`;
     const response = await s3.putObject({
-      Bucket: "hero-sheet-storage",
+      Bucket: getBucket(deployment),
       Key: userInfoFilename2,
       Body: JSON.stringify(dataObj)
     }).promise();
@@ -157,8 +183,8 @@ function sessionExpirationDate() {
  *
  * FIXME: See notes on readUserSession for caching that is needed
  */
-async function evaluateSessionId(user, sessionId, updateExpireDate=false) {
-  const userSessions = await readUserSessions(user);
+async function evaluateSessionId(deployment, user, sessionId, updateExpireDate=false) {
+  const userSessions = await readUserSessions(deployment, user);
   const now = Date.now();
   const isValid = userSessions.some(x => x.sessionId === sessionId && new Date(x.expireDate) > now);
   if (updateExpireDate) {
@@ -169,7 +195,7 @@ async function evaluateSessionId(user, sessionId, updateExpireDate=false) {
     // --- Refresh the current one ---
     currentUserSessions.push({sessionId: sessionId, expireDate: sessionExpirationDate()});
     // --- Write it out ---
-    await writeUserSessions(user, currentUserSessions);
+    await writeUserSessions(deployment, user, currentUserSessions);
   }
   return isValid;
 }
@@ -204,7 +230,7 @@ function sessionSetMuffinHeaders(user, sessionId) {
 }
 
 
-async function restoreSessionEndpoint(event) {
+async function restoreSessionEndpoint(event, deployment) {
   console.log("invoked restoreSessionEndpoint");
 
   // --- Get values from request ---
@@ -213,7 +239,7 @@ async function restoreSessionEndpoint(event) {
   const muffinSessionId = muffinFields.sessionId;
 
   // --- Verify sessionId is valid ---
-  const sessionFound = await evaluateSessionId(muffinUser, muffinSessionId, true);
+  const sessionFound = await evaluateSessionId(deployment, muffinUser, muffinSessionId, true);
   const isValid = Boolean(muffinUser) && Boolean(muffinSessionId) && sessionFound;
 
   const responseBody = {
@@ -280,9 +306,9 @@ const testPassword = async function(loginPassword, salt, hash) {
  * object. Pulled into a separate method because we need to share it
  * between loginEndpoint() and createUserEndpoint()
  */
-async function createAndReturnSession(user) {
+async function createAndReturnSession(deployment, user) {
   // --- Read file of user sessions ---
-  const userSessions = await readUserSessions(user);
+  const userSessions = await readUserSessions(deployment, user);
 
   // --- Add new sessionId ---
   const sessionId = newSessionId();
@@ -292,7 +318,7 @@ async function createAndReturnSession(user) {
   );
 
   // --- Write file of user sessions ---
-  await writeUserSessions(user, userSessions);
+  await writeUserSessions(deployment, user, userSessions);
 
   // --- Send response ---
   const responseObj = {loggedIn: true, user: user};
@@ -304,11 +330,12 @@ async function createAndReturnSession(user) {
 }
 
 
-async function loginEndpoint(event) {
+async function loginEndpoint(event, deployment) {
   console.log("invoked loginEndpoint");
 
   // --- Read parameters ---
   const userOrEmailOnPath = event.pathParameters.user;
+  console.log(`Attempt to log in by "${userOrEmailOnPath}".`);
   let userOrEmailInBody, passwordInBody;
   try {
     const requestBody = JSON.parse(event.body);
@@ -336,7 +363,7 @@ async function loginEndpoint(event) {
   const password = passwordInBody;
 
   // --- Get user info ---
-  const userInfo = await readUserInfo(userOrEmail);
+  const userInfo = await readUserInfo(deployment, userOrEmail);
   if (userInfo === null) {
     console.log(`Login failed: "${userOrEmail}" is not a valid user or email.`);
     return {
@@ -357,15 +384,17 @@ async function loginEndpoint(event) {
 
   // --- If that password was right then we know the user ---
   const user = userInfo.user;
+  console.log(`Successful Login by user "${user}"`);
 
   // --- Create the session and return it ---
-  return await createAndReturnSession(user);
+  return await createAndReturnSession(deployment, user);
 }
 
 
 function validateUserCreateFields(user, email, password) {
   const fieldsValid = (
     new RegExp("^|[a-zA-Z0-9$@._+-]+$").test(user) &&
+    !user.includes("..") &&
     new RegExp("^|[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$").test(email) &&
     new RegExp("^.{4,}$").test(password)
   );
@@ -382,7 +411,7 @@ function validateUserCreateFields(user, email, password) {
  * to store it. But if both are defined (and are different) then we store
  * TWO records - one under the email and one under the user.
  */
-async function createUserEndpoint(event) {
+async function createUserEndpoint(event, deployment) {
   console.log("invoked createUserEndpoint");
 
   // --- Read values ---
@@ -419,7 +448,7 @@ async function createUserEndpoint(event) {
   const passwordHash = encoded.hash;
 
   // --- Verify user AND email both do not exist ---
-  const existingUserInfoForUser = await readUserInfo(user);
+  const existingUserInfoForUser = await readUserInfo(deployment, user);
   if (existingUserInfoForUser !== null) {
     return {
       statusCode: 409,
@@ -427,7 +456,7 @@ async function createUserEndpoint(event) {
     };
   }
   if (email !== null) {
-    const existingUserInfoForEmail = await readUserInfo(email);
+    const existingUserInfoForEmail = await readUserInfo(deployment, email);
     if (existingUserInfoForEmail !== null) {
       return {
         statusCode: 409,
@@ -437,14 +466,17 @@ async function createUserEndpoint(event) {
   }
 
   // --- Create user ---
-  await writeUserInfo(user, email, passwordSalt, passwordHash);
+  await writeUserInfo(deployment, user, email, passwordSalt, passwordHash);
 
   // --- Do whatever loginEndpoint() would do ---
-  return await createAndReturnSession(user);
+  return await createAndReturnSession(deployment, user);
 }
 
 
 class NotLoggedInError extends Error {
+}
+
+class InvalidDeploymentError extends Error {
 }
 
 
@@ -454,13 +486,13 @@ class NotLoggedInError extends Error {
  * logged in then it will return the user. It expects the claimed user to be in a
  * path parameter named "user".
  */
-async function getLoggedInUser(event) {
+async function getLoggedInUser(event, deployment) {
   const claimedUser = event.pathParameters.user;
   const muffinFields = parseMuffinHeader(event);
   const muffinUser = muffinFields.user;
   const muffinSessionid = muffinFields.sessionId;
   if (claimedUser === muffinUser) {
-    const sessionIsValid = await evaluateSessionId(claimedUser, muffinSessionid);
+    const sessionIsValid = await evaluateSessionId(deployment, claimedUser, muffinSessionid);
     if (sessionIsValid) {
       return claimedUser;
     }
@@ -473,10 +505,11 @@ async function getLoggedInUser(event) {
  * Rebuilds the index.json file. Can throw an exception. It
  * returns the number of characters.
  */
-async function rebuildIndex(user) {
+async function rebuildIndex(deployment, user) {
+  const folderName = getFolderName(user);
   const params = {
-    Bucket: "hero-sheet-storage",
-    Prefix: `mutants/users/${user}/characters/`
+    Bucket: getBucket(deployment),
+    Prefix: `mutants/users/${folderName}/characters/`
   };
   const listResult = await s3.listObjects(params).promise();
   if (listResult.IsTruncated) {
@@ -493,7 +526,7 @@ async function rebuildIndex(user) {
   }
   const fileFindings = await Promise.all(loadableFilenames.map(async key => {
     const fileResult = await s3.getObject({
-      Bucket: "hero-sheet-storage",
+      Bucket: getBucket(deployment),
       Key: key
     }).promise();
     return {
@@ -511,8 +544,8 @@ async function rebuildIndex(user) {
   };
   const indexAsString = JSON.stringify(indexContents, null, 2) + "\n";
   const writeTo = {
-    Bucket: "hero-sheet-storage",
-    Key: `mutants/users/${user}/index.json`,
+    Bucket: getBucket(deployment),
+    Key: `mutants/users/${folderName}/index.json`,
     Body: indexAsString
   }
   await s3.putObject(writeTo).promise();
@@ -520,19 +553,20 @@ async function rebuildIndex(user) {
 }
 
 
-async function listCharactersEndpoint(event) {
+async function listCharactersEndpoint(event, deployment) {
   console.log("invoked listCharactersEndpoint");
-  const user = await getLoggedInUser(event);
+  const user = await getLoggedInUser(event, deployment);
+  const folderName = getFolderName(user);
   const readFrom = {
-    Bucket: "hero-sheet-storage",
-    Key: `mutants/users/${user}/index.json`
+    Bucket: getBucket(deployment),
+    Key: `mutants/users/${folderName}/index.json`
   };
   let file;
   try {
     file = await s3.getObject(readFrom).promise();
   } catch(err) {
     console.error(`For user "${user}", could not read index.json. Will regenerate.`);
-    await rebuildIndex(user);
+    await rebuildIndex(deployment, user);
     try {
       file = await s3.getObject(readFrom).promise();
     } catch(err2) {
@@ -594,13 +628,14 @@ function extractIndexInfo(key, characterData) {
  * the whole path), and the characterData in JSON form. To delete a
  * record from the index, pass null for the characterData.
  */
-async function updateRecordInIndex(user, characterKey, characterData) {
+async function updateRecordInIndex(deployment, user, characterKey, characterData) {
   console.log("invoked updateRecordInIndex");
-  const filename = `mutants/users/${user}/index.json`;
+  const folderName = getFolderName(user);
+  const filename = `mutants/users/${folderName}/index.json`;
   let currentFile;
   try {
     currentFile = await s3.getObject({
-      Bucket: "hero-sheet-storage",
+      Bucket: getBucket(deployment),
       Key: filename
     }).promise();
   } catch(err) {
@@ -619,7 +654,7 @@ async function updateRecordInIndex(user, characterKey, characterData) {
   fileAsJSON.characters = newCharacters.filter(x => x !== null);
   const newFileAsString = JSON.stringify(fileAsJSON, null, 2) + "\n";
   const writeTo = {
-    Bucket: "hero-sheet-storage",
+    Bucket: getBucket(deployment),
     Key: filename,
     Body: newFileAsString
   }
@@ -627,22 +662,23 @@ async function updateRecordInIndex(user, characterKey, characterData) {
 }
 
 
-async function createCharacterEndpoint(event) {
+async function createCharacterEndpoint(event, deployment) {
   console.log("invoked createCharacterEndpoint");
-  const user = await getLoggedInUser(event);
+  const user = await getLoggedInUser(event, deployment);
   validateSchema(JSON.parse(event.body));
   const characterId = createCharacterId();
-  console.log(`new character ID: ${characterId}`);
-  const filename = `mutants/users/${user}/characters/${characterId}.json`;
+  console.log(`new character ID: ${characterId} for user ${user}`);
+  const folderName = getFolderName(user);
+  const filename = `mutants/users/${folderName}/characters/${characterId}.json`;
   try {
     const writeTo = {
-      Bucket: "hero-sheet-storage",
+      Bucket: getBucket(deployment),
       Key: filename,
       Body: event.body
     };
     await s3.putObject(writeTo).promise();
     const characterData = JSON.parse(event.body.toString("utf-8"));
-    await updateRecordInIndex(user, filename, characterData);
+    await updateRecordInIndex(deployment, user, filename, characterData);
     const responseBody = {
       characterId: characterId
     };
@@ -659,13 +695,14 @@ async function createCharacterEndpoint(event) {
 }
 
 
-async function getCharacterEndpoint(event) {
+async function getCharacterEndpoint(event, deployment) {
   console.log("invoked getCharacterEndpoint");
-  const user = await getLoggedInUser(event);
+  const user = await getLoggedInUser(event, deployment);
+  const folderName = getFolderName(user);
   const characterId = event.pathParameters.characterId;
-  const filename = `mutants/users/${user}/characters/${characterId}.json`;
+  const filename = `mutants/users/${folderName}/characters/${characterId}.json`;
   const file = await s3.getObject({
-    Bucket: "hero-sheet-storage",
+    Bucket: getBucket(deployment),
     Key: filename
   }).promise();
   const responseBody = file.Body.toString('utf-8');
@@ -676,21 +713,22 @@ async function getCharacterEndpoint(event) {
 }
 
 
-async function putCharacterEndpoint(event) {
+async function putCharacterEndpoint(event, deployment) {
   console.log("invoked putCharacterEndpoint");
-  const user = await getLoggedInUser(event);
+  const user = await getLoggedInUser(event, deployment);
   validateSchema(JSON.parse(event.body));
+  const folderName = getFolderName(user);
   const characterId = event.pathParameters.characterId;
-  const filename = `mutants/users/${user}/characters/${characterId}.json`;
+  const filename = `mutants/users/${folderName}/characters/${characterId}.json`;
   try {
     const writeTo = {
-      Bucket: "hero-sheet-storage",
+      Bucket: getBucket(deployment),
       Key: filename,
       Body: event.body
     };
     await s3.putObject(writeTo).promise();
     const characterData = JSON.parse(event.body.toString("utf-8"));
-    await updateRecordInIndex(user, filename, characterData);
+    await updateRecordInIndex(deployment, user, filename, characterData);
     return {
       statusCode: 200,
       body: JSON.stringify("Success")
@@ -704,17 +742,18 @@ async function putCharacterEndpoint(event) {
 }
 
 
-async function deleteCharacterEndpoint(event) {
+async function deleteCharacterEndpoint(event, deployment) {
   console.log("invoked deleteCharacterEndpoint");
-  const user = await getLoggedInUser(event);
+  const user = await getLoggedInUser(event, deployment);
+  const folderName = getFolderName(user);
   const characterId = event.pathParameters.characterId;
-  const filename = `mutants/users/${user}/characters/${characterId}.json`;
+  const filename = `mutants/users/${folderName}/characters/${characterId}.json`;
   try {
     const file = await s3.deleteObject({ // FIXME: Should I be checking the return code?
-      Bucket: "hero-sheet-storage",
+      Bucket: getBucket(deployment),
       Key: filename
     }).promise();
-    await updateRecordInIndex(user, filename, null);
+    await updateRecordInIndex(deployment, user, filename, null);
     return {
       statusCode: 200,
       body: JSON.stringify(`Deleted ${characterId}`)
@@ -728,11 +767,11 @@ async function deleteCharacterEndpoint(event) {
 }
 
 
-async function rebuildIndexEndpoint(event) {
+async function rebuildIndexEndpoint(event, deployment) {
   console.log("invoked rebuildIndexEndpoint");
   const user = event.pathParameters.user;
   try {
-    const numberOfCharacters = await rebuildIndex(user);
+    const numberOfCharacters = await rebuildIndex(deployment, user);
     return {
       statusCode: 200,
       body: JSON.stringify(`Rebuilt index for ${user} with ${numberOfCharacters} characters.`)
@@ -747,28 +786,34 @@ async function rebuildIndexEndpoint(event) {
 }
 
 
+const DEPLOYMENTS = {
+  "/hero-sheet": "prod",
+  "/hero-sheet-dev": "dev",
+};
+
+
 // In addition to this, any OPTIONS request will get optionsEndpoint and anything
 // not found will get invalidEndpoint.
 const ROUTING = {
-  "/hero-sheet/restore-session": {
+  "/restore-session": {
     "GET": restoreSessionEndpoint
   },
-  "/hero-sheet/users/{user}/login": {
+  "/users/{user}/login": {
     "POST": loginEndpoint
   },
-  "/hero-sheet/users": {
+  "/users": {
     "POST": createUserEndpoint,
   },
-  "/hero-sheet/users/{user}/characters": {
+  "/users/{user}/characters": {
     "GET": listCharactersEndpoint,
     "POST": createCharacterEndpoint
   },
-  "/hero-sheet/users/{user}/characters/{characterId}": {
+  "/users/{user}/characters/{characterId}": {
     "GET": getCharacterEndpoint,
     "PUT": putCharacterEndpoint,
     "DELETE": deleteCharacterEndpoint
   },
-  "/hero-sheet/users/{user}/rebuild-index": {
+  "/users/{user}/rebuild-index": {
     "POST": rebuildIndexEndpoint
   }
 };
@@ -789,18 +834,31 @@ exports.handler = async (event) => {
       httpMethod: event.requestContext.httpMethod
     };
 
+    // --- Identify Deployment ---
+    const getRoutePath = function(resourcePath) {
+      for (const deploymentPrefix in DEPLOYMENTS) {
+        if (invoked.resourcePath.startsWith(deploymentPrefix + "/")) {
+          const deployment = DEPLOYMENTS[deploymentPrefix];
+          console.log(`Deployment = ${deployment}`);
+          return [deployment, resourcePath.substring(deploymentPrefix.length)];
+        }
+      }
+      throw new InvalidDeploymentError();
+    };
+    const [deployment, routePath] = getRoutePath(invoked.resourcePath);
+
     // --- Routing ---
     const endpointFunction =
-      invoked.resourcePath in ROUTING
-        ? invoked.httpMethod in ROUTING[invoked.resourcePath]
-        ? ROUTING[invoked.resourcePath][invoked.httpMethod]
+      routePath in ROUTING
+        ? invoked.httpMethod in ROUTING[routePath]
+        ? ROUTING[routePath][invoked.httpMethod]
         : invoked.httpMethod === "OPTIONS"
           ? optionsEndpoint
           : invalidEndpoint
         : invalidEndpoint;
 
     // --- Call endpoint function ---
-    response = await endpointFunction(event);
+    response = await endpointFunction(event, deployment);
 
   } catch(err) {
     // --- Return error response ---
@@ -810,6 +868,13 @@ exports.handler = async (event) => {
       response = {
         statusCode: 401,
         body: JSON.stringify("Not Logged In")
+      };
+    } else if (err instanceof InvalidDeploymentError) {
+      // --- Invalid Deployment Error ---
+      console.log("Returning 404 error (Not a valid deployment).");
+      response = {
+        statusCode: 404,
+        body: JSON.stringify("Not Found")
       };
     } else {
       // --- Unexpected Error ---
