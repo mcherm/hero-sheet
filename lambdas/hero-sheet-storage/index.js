@@ -49,7 +49,7 @@ const getBucket = function(deployment) {
  * stored in.
  */
 const getFolderName = function(user) {
-  return user; // FIXME: Later, this should invoke user.toLowerCase() so it can be case insensitive
+  return user.toLowerCase();
 }
 
 
