@@ -1,6 +1,6 @@
 {
   "name": "hero-sheet",
-  "version": "0.4.0",
+  "version": "0.9.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,9 @@
     "build": "vue-cli-service build",
     "deploy": "s3-easy-deploy --public-root ./dist --bucket hero-sheet.com",
     "deploy-lambda": "cd lambdas/hero-sheet-storage && npm run do-all",
-    "download": "aws s3 sync s3://hero-sheet-storage download --delete"
+    "download": "aws s3 sync s3://hero-sheet-storage download --delete",
+    "download-dev": "aws s3 sync s3://hero-sheet-storage-dev download-dev --delete",
+    "upload-dev": "aws s3 sync download-dev s3://hero-sheet-storage-dev"
   },
   "keywords": [],
   "author": "Michael Chermside",
