@@ -6,7 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
-      <li>2020-09-07: Delete invalid attacks on reload; show which attacks use strength; apply close and ranged combat skills to the right attacks.</li>
+      <li>2020-09-07: Delete invalid attacks on reload; show which attacks use strength; apply close and ranged combat skills to the right attack; allow taking enhanced toughness.</li>
       <li>2020-09-01: Make usernames and emails case insensitive.</li>
       <li>2020-09-01: Created separate development environment for doing development without disturbing production.</li>
       <li>2020-08-28: The display of attacks is pretty much working.</li>
