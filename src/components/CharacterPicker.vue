@@ -27,13 +27,15 @@
       <button v-if="characters !== null && !isDeleting" v-on:click="createNewCharacter()" class="new-character-button">New Character</button>
       <button v-if="characters !== null && !isDeleting" v-on:click="isDeleting=true">Delete</button>
       <button v-if="characters !== null && isDeleting" v-on:click="isDeleting=false">Done Deleting</button>
+      <button v-if="this.$globals.developerMode" v-on:click="loadData()">Reload</button>
+      <button v-if="this.$globals.developerMode" v-on:click="rebuildIndex()">Rebuild Index</button>
     </div>
   </boxed-section>
 </template>
 
 <script>
   import {newBlankCharacter} from "../js/heroSheetVersioning.js";
-  import {NotLoggedInError, listCharacters, createCharacter, deleteCharacter} from "../js/api.js";
+  import {NotLoggedInError, listCharacters, createCharacter, deleteCharacter, rebuildIndex} from "../js/api.js";
 
   export default {
     name: "CharacterPicker",
@@ -48,26 +50,29 @@
       }
     },
     created: async function() {
-      try {
-        const response = await listCharacters(this.user);
-        const characterList = response.characters;
-        // FIXME: Move the sorting onto the server side!
-        characterList.sort((a,b) => {
-          const campaignDelta = a.campaign.localeCompare(b.campaign);
-          return campaignDelta ? campaignDelta : a.name.localeCompare(b.name);
-        });
-        this.characters = characterList;
-      } catch(err) {
-        if (err instanceof NotLoggedInError) {
-          this.$emit("not-logged-in");
-        } else {
-          // FIXME: Need to display the error to the user
-          console.log("Failed to list characters", err);
-          throw err;
-        }
-      }
+      await this.loadData();
     },
     methods: {
+      loadData: async function() {
+        try {
+          const response = await listCharacters(this.user);
+          const characterList = response.characters;
+          // FIXME: Move the sorting onto the server side!
+          characterList.sort((a,b) => {
+            const campaignDelta = a.campaign.localeCompare(b.campaign);
+            return campaignDelta ? campaignDelta : a.name.localeCompare(b.name);
+          });
+          this.characters = characterList;
+        } catch(err) {
+          if (err instanceof NotLoggedInError) {
+            this.$emit("not-logged-in");
+          } else {
+            // FIXME: Need to display the error to the user
+            console.log("Failed to list characters", err);
+            throw err;
+          }
+        }
+      },
       idFromKey: function(key) {
         return key.match("mutants/users/[^/]+/characters/(.*)\.json")[1];
       },
@@ -108,6 +113,10 @@
             console.log(`Failed to delete character ${characterId}`);
           }
         }
+      },
+      rebuildIndex: async function() {
+        await rebuildIndex(this.user);
+        await this.loadData();
       }
     }
   }

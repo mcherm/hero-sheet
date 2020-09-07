@@ -149,13 +149,13 @@
           } else {
             const feature = findFeatureByHsid(charsheet, attack.powerHsid);
             if (feature === null) {
-              this.$delete(attackList, attackList.indexOf(attack));
+              this.$delete(charsheet.attacks.attackList, attackList.indexOf(attack));
               console.log(`Invalid power '${attack.powerHsid}' in attack. Will delete the attack.`)
             }
             const updateEvent = { updater: updaterType, power: feature };
             const updaterClass = updaterClasses[updaterType];
             if (updaterClass === undefined) {
-              this.$delete(attackList, attackList.indexOf(attack));
+              this.$delete(charsheet.attacks.attackList, attackList.indexOf(attack));
               console.log(`Invalid updater type '${updaterType}' in attack. Will delete the attack.`)
             }
             updater = new updaterClass(this, charsheet, updateEvent);
