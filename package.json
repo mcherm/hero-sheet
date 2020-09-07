@@ -27,7 +27,7 @@
   "postcss": {},
   "devDependencies": {
     "@vue/cli-service": "^4.5.4",
-    "ajv-cli": "^3.2.1",
+    "ajv-cli": "^3.3.0",
     "vue-template-compiler": "^2.6.12"
   }
 }

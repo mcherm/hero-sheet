@@ -8,7 +8,7 @@
 
     <div v-if="typeof(attack.attackCheck) === 'string'" class="inapplicable">N/A</div>
 
-    <div class="attack-type">{{attack.range}} {{attack.scope === "area" ? "area" : ""}} rank-{{attack.ranks}} {{attack.effectType}}</div>
+    <div class="attack-type">{{attack.range}} {{attack.scope === "area" ? "area" : ""}}  {{attack.isStrengthBased ? "strength and" : ""}} rank-{{attack.ranks}} {{attack.effectType}}</div>
 
     <div class="attack-check" :class="{'is-out-of-spec': isOutOfSpec}">
       <div v-if="!info.isAttack" class="inapplicable">Affects self only</div>
