@@ -702,6 +702,7 @@ class EnhancedTraitUpdater extends Updater {
       "Enhanced Initiative": "initiative",
       "Enhanced Fortitude": "defenses.fortitude.ranks",
       "Enhanced Parry": "defenses.parry.ranks",
+      "Enhanced Toughness": "defenses.toughness.ranks",
       "Enhanced Will": "defenses.will.ranks",
       "Enhanced Acrobatics": "skills.skillList@acrobatics",
       "Enhanced Athletics": "skills.skillList@athletics",

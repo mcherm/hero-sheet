@@ -665,6 +665,11 @@
         "baseCost": 1,
         "description": "You enhance your Parry defense."
       },
+      "Enhanced Toughness": {
+        "name": "Enhanced Toughness",
+        "baseCost": 1,
+        "description": "You enhance your Toughness defense."
+      },
       "Enhanced Will": {
         "name": "Enhanced Will",
         "baseCost": 1,

@@ -105,8 +105,6 @@ TODO: A few powers really should have their own custom way of being created.
 TODO: Some enhanced traits, like Power-Lifting, shouldn't be applied to the
   trait.
 
-TODO: You can't take enhanced Toughness
-
 TODO: Maybe throwing should be a default attack like unarmed is.
 
 TODO: When a description is long enough that it wraps, it should wrap and then if
