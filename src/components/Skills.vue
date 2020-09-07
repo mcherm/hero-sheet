@@ -159,7 +159,7 @@
         const customization = this.skillData(skill).customization;
         if (customization === "description") {
           this.$set(skill, "specialization", "");
-        } else if (customization === "selectAttack") {
+        } else if (["selectCloseAttack", "selectRangedAttack"].includes(customization)) {
           this.$set(skill, "attackHsid", "");
         }
         this.sortSkills();

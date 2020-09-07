@@ -1,11 +1,13 @@
 <template>
   <div class="display-contents">
     <string-entry v-if="skill.isTemplate && skillData.customization === 'description'" v-model="skill.specialization" class="grid-with-lines-cell"/>
-    <div v-else-if="skill.isTemplate && skillData.customization === 'selectAttack'" class="attack-picker grid-with-lines-cell">
+    <div v-else-if="skill.isTemplate && ['selectCloseAttack','selectRangedAttack'].includes(skillData.customization)" class="attack-picker grid-with-lines-cell">
       <select :value="skill.attackHsid" @change="setAttackHsid($event.target.value)">
         <option disabled value="">Select One</option>
         <option
-            v-for="attack in getCharsheet().attacks.attackList"
+            v-for="attack in getCharsheet().attacks.attackList.filter(
+              x => skillData.customization === 'selectCloseAttack' ? x.range === 'close' : x.range === 'ranged'
+            )"
             :key="attack.hsid"
             :value="attack.hsid"
         >{{attack.name}}</option>

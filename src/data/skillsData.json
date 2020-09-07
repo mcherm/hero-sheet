@@ -70,7 +70,7 @@
     "close combat": {
       "ability": "fighting",
       "useUntrained": true,
-      "customization": "selectAttack",
+      "customization": "selectCloseAttack",
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-CLOSE-COMBAT"
     },
     "expertise": {
@@ -82,7 +82,7 @@
     "ranged combat": {
       "ability": "dexterity",
       "useUntrained": true,
-      "customization": "selectAttack",
+      "customization": "selectRangedAttack",
       "docsURL": "https://www.d20herosrd.com/4-skills#TOC-RANGED-COMBAT"
     }
   }
