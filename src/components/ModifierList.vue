@@ -11,7 +11,7 @@
       </div>
     </div>
     <button
-        v-if="mutable && !isAdding && !isDeleting"
+        v-if="mutable && !isAdding && !isDeleting && power.effect !== ''"
         v-on:click="isAdding = true"
         class="plus-minus-button"
     >+</button>

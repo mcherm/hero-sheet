@@ -342,7 +342,12 @@ const getStandardPower = function(power) {
 const getPowerOption = function(power) {
   const standardPower = getStandardPower(power);
   if (standardPower && standardPower.powerOptions) {
-    return standardPower.powerOptions[power.option];
+    const result = standardPower.powerOptions[power.option];
+    if (result === undefined) {
+      return null;
+    } else {
+      return result;
+    }
   } else {
     return null;
   }
@@ -408,16 +413,7 @@ const setPowerEffect = function(power, effect) {
   } else {
     power.effectDescription = standardPower.description;
     if (standardPower.powerOptions) {
-      // FIXME: Consider switching to prefill with "Select One" rather than the first option
-      if (!power.option || !(power.option in standardPower.powerOptions)) {
-        // Current option is invalid, so re-assign to the first option
-        let nameOfFirstPower = null;
-        for (let powerName in standardPower.powerOptions) {
-          nameOfFirstPower = powerName;
-          break;
-        }
-        power.option = nameOfFirstPower;
-      }
+      power.option = "";
     } else {
       power.option = null;
     }
