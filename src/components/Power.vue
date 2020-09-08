@@ -24,6 +24,7 @@
           <label class="row-label">Option</label>
           <div>
             <select :value="power.option" v-on:change="setPowerOption($event.target.value)">
+              <option disabled value="">Select One</option>
               <option
                   v-for="powerOption in getStandardPower().powerOptions"
                   :key="powerOption.name"
@@ -35,7 +36,8 @@
           </div>
 
           <label class="row-label">Option Desc</label>
-          <div>{{theOption().description}}</div>
+          <div v-if="theOption() === null" class="inapplicable"></div>
+          <div v-else>{{theOption().description}}</div>
         </div>
 
         <label class="row-label">Extras</label>
@@ -168,9 +170,11 @@
         }
       },
       potentiallyCreateNewUpdaters: function() {
-        const event = powerUpdaterEvent(this.getCharsheet(), this.power);
-        if (event !== null) {
-          this.$globals.eventBus.$emit("new-updater", event);
+        if (this.power.effect !== "" && getPowerOption(this.power) !== null) {
+          const event = powerUpdaterEvent(this.getCharsheet(), this.power);
+          if (event !== null) {
+            this.$globals.eventBus.$emit("new-updater", event);
+          }
         }
       }
     }

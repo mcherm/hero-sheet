@@ -116,14 +116,10 @@ TODO: Some way to have enhanced traits that apply to other POWERS like Iron Man
 
 TODO: "Adjustment" and "ActiveEffect" are two names for the same thing. Fix that.
 
-TODO: Probably track attacks separately as hand-to-hand and ranged
-  so I can apply the correct stat (fighting vs dexterity).
-
 TODO: Along with deleting, it would be kind of nice if there were also a way to re-order
   the items in a list like powers.
 
-TODO: Should make sure the Close Combat and Ranged Combat skills pick only from close
-  and ranged attacks respectively.
+TODO: Allow viewing other people's characters (if made visible).
 
 BUG: Custom equipment isn't creating updaters correctly. Try creating a flamethrower
   damage to see the problem: it won't create new attacks like it should.
@@ -131,8 +127,5 @@ BUG: Custom equipment isn't creating updaters correctly. Try creating a flamethr
 BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another (eg: Damage)
   and it will remove the old attack but NOT create the new one. Or maybe that's just the bug
   where things don't update for one cycle.
-
-BUG: For creating a power, need to disable adding extras and flaws when the effect is
-  set to nothing (like before it's ever set for a new power).
 
 BUG: The Entranced condition should be a level 1 condition in the conditions diagram.
