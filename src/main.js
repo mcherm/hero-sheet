@@ -14,8 +14,6 @@ import NumberEntry from "./components/NumberEntry.vue"
 Vue.component("NumberEntry", NumberEntry);
 import StringEntry from "./components/StringEntry.vue"
 Vue.component("StringEntry", StringEntry);
-import MultilineStringEntry from "./components/MultilineStringEntry.vue";
-Vue.component("MultilineStringEntry", MultilineStringEntry);
 import YesNoToggle from "./components/YesNoToggle.vue";
 Vue.component("YesNoToggle", YesNoToggle);
 import BoxedSection from "./components/BoxedSection.vue"
