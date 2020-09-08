@@ -45,7 +45,7 @@
     </div>
     <div class="background">
       <label>Background / Bio / Story</label>
-      <multiline-string-entry v-model="charsheet.background"/>
+      <string-entry v-model="charsheet.background"/>
     </div>
   </boxed-section>
 </template>
