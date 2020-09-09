@@ -126,6 +126,3 @@ BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another
   where things don't update for one cycle.
 
 BUG: The Entranced condition should be a level 1 condition in the conditions diagram.
-
-BUG: Can't rename a power in a (custom) piece of equipment. To fix, go to Equipment near line
-  61 where the <power> element is and add a v-on:update:name link how PowerList has.
