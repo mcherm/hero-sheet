@@ -170,7 +170,10 @@
         }
       },
       potentiallyCreateNewUpdaters: function() {
-        if (this.power.effect !== "" && getPowerOption(this.power) !== null) {
+        const powerOptions = getStandardPower(this.power).powerOptions;
+        const noOptionNeeded = (!powerOptions) || powerOptions.length === 0;
+        const powerIsFullySpecified = this.power.effect !== "" && (noOptionNeeded || getPowerOption(this.power) !== null);
+        if (powerIsFullySpecified) {
           const event = powerUpdaterEvent(this.getCharsheet(), this.power);
           if (event !== null) {
             this.$globals.eventBus.$emit("new-updater", event);

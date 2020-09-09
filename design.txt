@@ -121,11 +121,11 @@ TODO: Along with deleting, it would be kind of nice if there were also a way to 
 
 TODO: Allow viewing other people's characters (if made visible).
 
-BUG: Custom equipment isn't creating updaters correctly. Try creating a flamethrower
-  damage to see the problem: it won't create new attacks like it should.
-
 BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another (eg: Damage)
   and it will remove the old attack but NOT create the new one. Or maybe that's just the bug
   where things don't update for one cycle.
 
 BUG: The Entranced condition should be a level 1 condition in the conditions diagram.
+
+BUG: Can't rename a power in a (custom) piece of equipment. To fix, go to Equipment near line
+  61 where the <power> element is and add a v-on:update:name link how PowerList has.

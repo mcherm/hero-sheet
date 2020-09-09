@@ -568,6 +568,15 @@ const powerUpdaterEvent = function(charsheet, power) {
 }
 
 
+const createUpdatersForFeature = function($globals, charsheet, feature) {
+  const event = powerUpdaterEvent(charsheet, feature);
+  if (event !== null) {
+    $globals.eventBus.$emit("new-updater", event);
+  }
+  feature.subpowers.forEach(x => createUpdatersForFeature($globals, charsheet, x));
+}
+
+
 /*
  * This adds a given activeEffect to the charsheet under the specified activeEffectKey.
  */
@@ -778,6 +787,7 @@ export {
   modifierDisplayText,
   buildNewModifier,
   powerUpdaterEvent,
+  createUpdatersForFeature,
   addActiveEffect,
   removeActiveEffects,
   findOrCreateActiveEffect,
