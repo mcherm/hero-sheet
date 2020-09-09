@@ -58,7 +58,11 @@
           <trash-icon/>
         </button>
         <div v-if="showFeatureDetails[item.hsid]" class="feature-details">
-          <power :power="item.feature" :mutable="item.source === 'custom'" />
+          <power
+              :power="item.feature"
+              :mutable="item.source === 'custom'"
+              v-on:update:name="renameFeature(item.feature, $event)"
+          />
         </div>
       </div>
       <div class="empty-notice" v-if="equipment.length === 0">No Equipment</div>
@@ -149,8 +153,12 @@
           this.deleteIsVisible = false;
         }
       },
-      toggleMechanics: function (item) {
+      toggleMechanics: function(item) {
         this.$set(this.showFeatureDetails, item.hsid, !this.showFeatureDetails[item.hsid]);
+      },
+      renameFeature: function(feature, newName) {
+        const cleanedNewName = newName.replace(/\|/g, ""); // replace all "|"s with "".
+        feature.name = cleanedNewName;
       }
     }
   }
