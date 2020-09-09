@@ -77,7 +77,7 @@
   import LocalCostDisplay from "./LocalCostDisplay.vue";
   import MechanicsIcon from "./MechanicsIcon.vue";
   import {newBlankEquipment, newBlankPower} from "../js/heroSheetVersioning.js";
-  import {buildFeature, equipmentCost, powerUpdaterEvent} from "../js/heroSheetUtil.js";
+  import {buildFeature, equipmentCost, createUpdatersForFeature} from "../js/heroSheetUtil.js";
 
   const standardEquipment = require("../data/standardEquipment.json");
 
@@ -116,10 +116,7 @@
             if (item.cost === undefined || item.cost === null) {
               item.cost = item.feature.cost; // Default to the feature cost if item cost is not specified
             }
-            const event = powerUpdaterEvent(this.getCharsheet(), item.feature);
-            if (event !== null) {
-              this.$globals.eventBus.$emit("new-updater", event);
-            }
+            createUpdatersForFeature(this.$globals, this.getCharsheet(), item.feature);
           } else {
             this.$delete(item, "feature");
           }
