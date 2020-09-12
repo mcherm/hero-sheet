@@ -1,5 +1,9 @@
 Design Notes for MnMSheet
 
+== Tag Policy: ==
+  hero-sheet
+  environment: [dev | prod]
+
 == The Document Tree: ==
 
 I have several different trees of data, each of which could be expressed
@@ -67,6 +71,31 @@ Stat Ranks:
    * NaN: for any non-numeric input or errors
    * "lack": means the character lacks this ability
    * "construct" means the character lacks this ability due to being a construct
+
+=== Design for public characters ===
+How about this idea?
+ * A user can mark certain characters as "public".
+ * A user can "follow" a list of users.
+ * If a user follows another user then that user's public characters are
+   available to them in read-only format. They can "duplicate" them if
+   desired.
+ * A user can retrieve a list of all players who have any public
+   characters.
+  ------------------------------------------
+  To support this I would need the following:
+   * Characters get a "sharing" section with an "isPublic" boolean (more to come later).
+   * The "index.json" file starts listing the "isPublic" field.
+   * We provide an API for accessing just the public characters of another user.
+   * We allow the API to get a character to work for characters that are public even if
+     the user is not the owner. No change to the update API.
+   * In the top level of a user, add a new file with the list of what other players they
+     can view. For NOW I'll edit this file by hand, but eventually I'll need an API to
+     edit it.
+   * In the UI we build the ability to render a list of the public characters of the
+     other players you can view.
+   * In the UI we build the ability to view someone else's character in a read-only mode.
+   * ISSUE: if the other character has not been upgraded it might not be possible to
+     render it. I'll deal with that later.
 
 
 Bug List:
