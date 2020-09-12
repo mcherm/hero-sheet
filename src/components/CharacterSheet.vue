@@ -7,7 +7,7 @@
     <tab-display v-if="charsheet !== null">
       <template slot="background">
         <div class="h-box">
-          <campaign :campaign="charsheet.campaign"/>
+          <campaign/>
           <background/>
           <overall-costs/>
         </div>

@@ -5,13 +5,13 @@ const skillsData = require("../data/skillsData.json");
 const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 
-const currentVersion = 21; // Up to this version can be saved
-const latestVersion = 21; // Might be an experimental version
+const currentVersion = 22; // Up to this version can be saved
+const latestVersion = 22; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
   "advantages", "equipment", "skills", "powers", "complications", "background", "attacks", "activeEffects",
-  "constraintViolations", "status", "allies"];
+  "constraintViolations", "status", "allies", "sharing"];
 
 /*
  * Given a charsheet, this re-orders the fields so they are in the preferred order.
@@ -163,6 +163,9 @@ const newBlankCharacter = function(developerMode) {
     "conditions": blankConditions()
   };
   const allies = [];
+  const sharing = {
+    isPublic: false,
+  };
   return {
     version,
     campaign,
@@ -182,6 +185,7 @@ const newBlankCharacter = function(developerMode) {
     constraintViolations,
     status,
     allies,
+    sharing,
   }
 };
 
@@ -681,7 +685,12 @@ const upgradeFuncs = {
       }
     });
     charsheet.version = 21;
-  }
+  },
+
+  upgradeFrom21: function(charsheet) {
+    charsheet.sharing = { isPublic: false };
+    charsheet.version = 22;
+  },
 
 };
 
