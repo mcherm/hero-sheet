@@ -17,6 +17,8 @@
       </div>
       <label class="row-label">Setting</label>
       <string-entry v-model="campaign.setting" :mutable="!editModes.isAlly"/>
+      <label class="row-label">Make Public</label>
+      <yes-no-toggle class="grid-with-lines-cell" v-model="getCharsheet().sharing.isPublic"/>
     </div>
   </boxed-section>
 </template>
@@ -26,13 +28,11 @@
 
   export default {
     name: "Campaign",
-    inject: ["editModes"],
-    props: {
-      campaign: { type: Object, required: true }
-    },
+    inject: ["getCharsheet", "editModes"],
     data: function() {
       return {
-        campaignData
+        campaignData,
+        campaign: this.getCharsheet().campaign
       }
     }
   }
