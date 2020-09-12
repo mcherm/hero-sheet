@@ -6,7 +6,8 @@
       <tr>
         <th>Campaign</th>
         <th>Name</th>
-        <th>Id</th>
+        <th>Public</th>
+        <th v-if="$globals.developerMode">Id</th>
         <th></th>
       </tr>
       </thead>
@@ -15,7 +16,8 @@
       <tr v-for="character in characters">
         <td>{{character.campaign}}</td>
         <td>{{character.name}}</td>
-        <td>{{idFromKey(character.key)}}</td>
+        <td>{{character.isPublic ? "Yes" : "No"}}</td>
+        <td  v-if="$globals.developerMode">{{idFromKey(character.key)}}</td>
         <td>
           <div v-if="isDeleting" v-on:click="deleteCharacter(character)"><trash-icon/></div>
           <button v-if="!isDeleting" v-on:click="selectCharacter(character)">Open</button>
