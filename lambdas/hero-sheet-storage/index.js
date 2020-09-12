@@ -615,10 +615,17 @@ function extractIndexInfo(key, characterData) {
   } catch(err) {
     name = "";
   }
+  let isPublic;
+  try {
+    isPublic = characterData.sharing.isPublic;
+  } catch(err) {
+    isPublic = false;
+  }
   return {
     key,
     campaign,
-    name
+    name,
+    isPublic,
   };
 }
 
