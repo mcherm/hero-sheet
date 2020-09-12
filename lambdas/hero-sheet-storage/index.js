@@ -547,15 +547,22 @@ async function rebuildIndex(deployment, user) {
     Bucket: getBucket(deployment),
     Key: `mutants/users/${folderName}/index.json`,
     Body: indexAsString
-  }
+  };
   await s3.putObject(writeTo).promise();
   return listOfResults.length;
 }
 
 
-async function listCharactersEndpoint(event, deployment) {
-  console.log("invoked listCharactersEndpoint");
-  const user = await getLoggedInUser(event, deployment);
+class CannotRebuildFileError extends Error {
+}
+
+
+/*
+ * Used in listCharactersEndpoint and others, this reads the index.json file for
+ * the specified user and returns it, or throws a CannotRebuildFileError exception if
+ * the file cannot be read and the problems cannot be fixed.
+ */
+async function readUserIndexFile(deployment, user) {
   const folderName = getFolderName(user);
   const readFrom = {
     Bucket: getBucket(deployment),
@@ -569,17 +576,75 @@ async function listCharactersEndpoint(event, deployment) {
     await rebuildIndex(deployment, user);
     try {
       file = await s3.getObject(readFrom).promise();
-    } catch(err2) {
+    } catch (err2) {
       console.error(`For user "${user}", rebuilding index.json did not help.`);
+      throw new CannotRebuildFileError();
+    }
+  }
+  return file;
+}
+
+
+async function listCharactersEndpoint(event, deployment) {
+  console.log("invoked listCharactersEndpoint");
+  const user = await getLoggedInUser(event, deployment);
+  let file;
+  try {
+    file = await readUserIndexFile(deployment, user);
+  } catch(err) {
+    if (err instanceof CannotRebuildFileError) {
       return {
         statusCode: 500,
         body: JSON.stringify("Could not read index.json.")
       };
+    } else {
+      throw err;
     }
   }
   return {
     statusCode: 200,
     body: file.Body.toString('utf-8')
+  };
+}
+
+
+/*
+ * Like listCharactersEndpoint, but it doesn't verify that the data retrieved is from the
+ * logged-in user and it returns only the characters for whom isPublic is true.
+ */
+async function listPublicCharactersEndpoint(event, deployment) {
+  console.log("invoked listPublicCharactersEndpoint");
+  const user = event.pathParameters.user;
+  let allCharactersFile;
+  try {
+    allCharactersFile = await readUserIndexFile(deployment, user);
+  } catch(err) {
+    if (err instanceof CannotRebuildFileError) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify("Could not read index.json.")
+      };
+    } else {
+      throw err;
+    }
+  }
+  let allCharacters;
+  try {
+    allCharacters = JSON.parse(allCharactersFile.Body.toString('utf-8')).characters;
+  } catch(err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify("Syntax error reading index.json.")
+    };
+  }
+  const publicCharacters = allCharacters.filter(x => x.isPublic);
+  const responseJSON = {
+    "characters": publicCharacters
+  };
+  const responseBody = JSON.stringify(responseJSON);
+  return {
+    statusCode: 200,
+    body: responseBody
   };
 }
 
@@ -704,7 +769,23 @@ async function createCharacterEndpoint(event, deployment) {
 
 async function getCharacterEndpoint(event, deployment) {
   console.log("invoked getCharacterEndpoint");
-  const user = await getLoggedInUser(event, deployment);
+  let user;
+  let mustBePublic;
+  let notLoggedInErr;
+  try {
+    user = await getLoggedInUser(event, deployment);
+    mustBePublic = false;
+    notLoggedInErr = null;
+  } catch(err) {
+    if (err instanceof NotLoggedInError) {
+      // It's ALSO OK not to be logged in if the character is public
+      user = event.pathParameters.user;
+      mustBePublic = true;
+      notLoggedInErr = err;
+    } else {
+      throw err;
+    }
+  }
   const folderName = getFolderName(user);
   const characterId = event.pathParameters.characterId;
   const filename = `mutants/users/${folderName}/characters/${characterId}.json`;
@@ -713,6 +794,17 @@ async function getCharacterEndpoint(event, deployment) {
     Key: filename
   }).promise();
   const responseBody = file.Body.toString('utf-8');
+  if (mustBePublic) {
+    // We must verify that the character is public; if not we will throw the notLoggedInErr
+    try {
+      const isPublic = JSON.parse(responseBody).sharing.isPublic
+      if (!isPublic) {
+        throw notLoggedInErr;
+      }
+    } catch(err) {
+      throw notLoggedInErr;
+    }
+  }
   return {
     statusCode: 200,
     body: responseBody
@@ -782,7 +874,7 @@ async function rebuildIndexEndpoint(event, deployment) {
     return {
       statusCode: 200,
       body: JSON.stringify(`Rebuilt index for ${user} with ${numberOfCharacters} characters.`)
-    }
+    };
   } catch(err) {
     console.log("Had error:", err);
     return {
@@ -819,6 +911,9 @@ const ROUTING = {
     "GET": getCharacterEndpoint,
     "PUT": putCharacterEndpoint,
     "DELETE": deleteCharacterEndpoint
+  },
+  "/users/{user}/public-characters": {
+    "GET": listPublicCharactersEndpoint,
   },
   "/users/{user}/rebuild-index": {
     "POST": rebuildIndexEndpoint

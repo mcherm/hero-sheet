@@ -85,8 +85,8 @@ How about this idea?
   To support this I would need the following:
    + Characters get a "sharing" section with an "isPublic" boolean (more to come later).
    + The "index.json" file starts listing the "isPublic" field.
-   * We provide an API for accessing just the public characters of another user.
-   * We allow the API to get a character to work for characters that are public even if
+   + We provide an API for accessing just the public characters of another user.
+   + We allow the API to get a character to work for characters that are public even if
      the user is not the owner. No change to the update API.
    * In the top level of a user, add a new file with the list of what other players they
      can view. For NOW I'll edit this file by hand, but eventually I'll need an API to

@@ -96,6 +96,10 @@ async function listCharacters(user) {
   return await performAPICall(path, "GET", "list characters");
 }
 
+async function listPublicCharacters(user) {
+  const path = `/users/${user}/public-characters`;
+  return await performAPICall(path, "GET", "list public characters");
+}
 
 async function getCharacter(user, characterId) {
   const path = `/users/${user}/characters/${characterId}`;
@@ -148,6 +152,7 @@ export {
   restoreSession,
   endSession,
   listCharacters,
+  listPublicCharacters,
   getCharacter,
   saveCharacter,
   createCharacter,
