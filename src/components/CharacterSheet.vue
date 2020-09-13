@@ -52,6 +52,7 @@
       <character-sheet
         :charsheet="findAllyByHsid(charsheet, allyShown).charsheet"
         :is-ally="true"
+        :is-read-only="isReadOnly"
       />
     </modal-lightbox>
   </div>
@@ -97,6 +98,7 @@
     },
     props: {
       charsheet: { type: Object, required: true },
+      isReadOnly: { type: Boolean, required: false, default: false },
       isAlly: { type: Boolean, required: false, default: false }
     },
     data: function() {
@@ -108,6 +110,7 @@
       return {
         getCharsheet: () => this.charsheet,
         editModes: {
+          isReadOnly: this.isReadOnly,
           isAlly: this.isAlly
         }
       };

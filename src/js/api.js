@@ -144,6 +144,10 @@ async function rebuildIndex(user) {
   return await performAPICall(path, "POST", "rebuild index", bodyObj);
 }
 
+async function getViewing(user) {
+  const path = `/users/${user}/viewing`;
+  return await performAPICall(path, "GET", "list users being viewed");
+}
 
 export {
   setDeployment,
@@ -160,4 +164,5 @@ export {
   login,
   createUser,
   rebuildIndex,
+  getViewing,
 };

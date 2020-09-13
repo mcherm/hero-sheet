@@ -29,13 +29,14 @@
         v-if="userSelected && !characterSelected"
         :user="user"
         :characterId="characterId"
-        v-on:change-character="setCharacterId($event)"
+        v-on:change-character="changeCharacter($event)"
         v-on:not-logged-in="resetUser()"
     />
     <character-container
         v-if="userSelected && characterSelected"
         :user="user"
         :characterId="characterId"
+        :owningUser="owningUser"
         v-on:change-character-name="characterName = $event"
         v-on:not-logged-in="resetUser()"
     />
@@ -64,6 +65,7 @@
         user: "",
         characterSelected: false,
         characterId: "",
+        owningUser: null, // when characterSelected, this is null if owned by the current user, or a user name of the owner
         characterName: "",
         showingAbout: false
       }
@@ -88,9 +90,10 @@
         this.user = newUser;
         this.userSelected = true;
       },
-      setCharacterId: function(newCharacter) {
+      changeCharacter: function(newCharacter) {
         this.characterId = newCharacter.characterId;
         this.characterName = newCharacter.name;
+        this.owningUser = newCharacter.owningUser;
         this.characterSelected = true;
       },
       resetUser: async function() {

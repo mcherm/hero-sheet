@@ -12,7 +12,7 @@
     class="number-entry"
     :class="{ 'nan': isNaNValue, 'negative': isNegative }"
     type="number"
-    :disabled="!mutable"
+    :disabled="!isReallyMutable"
   />
 </template>
 
@@ -21,6 +21,7 @@
 
   export default {
     name: "NumberEntry",
+    inject: ["editModes"],
     props: {
       value: { required: true, validator: x => x === undefined || x === null || typeof x === "number" },
       mutable: { type: Boolean, required: false, default: true }
@@ -31,6 +32,10 @@
       },
       isNaNValue: function() {
         return this.value === undefined || this.value === null || Number.isNaN(this.value);
+      },
+      isReallyMutable: function() {
+        const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
+        return this.mutable && !globalReadOnly;
       }
     },
     methods: {

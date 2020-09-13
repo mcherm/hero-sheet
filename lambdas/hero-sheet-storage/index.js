@@ -885,6 +885,33 @@ async function rebuildIndexEndpoint(event, deployment) {
 }
 
 
+async function getViewingEndpoint(event, deployment) {
+  console.log("invoked getViewingEndpoint");
+  const user = await getLoggedInUser(event, deployment);
+  const folderName = getFolderName(user);
+  const readFrom = {
+    Bucket: getBucket(deployment),
+    Key: `mutants/users/${folderName}/viewing.json`
+  };
+  let responseBody;
+  try {
+    const file = await s3.getObject(readFrom).promise();
+    responseBody = file.Body.toString("utf-8");
+  } catch(err) {
+    if (err.toString() === "NoSuchKey: The specified key does not exist.") {
+      // If the file isn't there it defaults to not sharing anything
+      responseBody = '{"publicViewedUsers":[]}\n';
+    } else {
+      throw err;
+    }
+  }
+  return {
+    statusCode: 200,
+    body: responseBody,
+  };
+}
+
+
 const DEPLOYMENTS = {
   "/hero-sheet": "prod",
   "/hero-sheet-dev": "dev",
@@ -895,29 +922,40 @@ const DEPLOYMENTS = {
 // not found will get invalidEndpoint.
 const ROUTING = {
   "/restore-session": {
-    "GET": restoreSessionEndpoint
+    "GET": restoreSessionEndpoint,
+    "OPTIONS": optionsEndpoint,
   },
   "/users/{user}/login": {
-    "POST": loginEndpoint
+    "POST": loginEndpoint,
+    "OPTIONS": optionsEndpoint,
   },
   "/users": {
     "POST": createUserEndpoint,
+    "OPTIONS": optionsEndpoint,
   },
   "/users/{user}/characters": {
     "GET": listCharactersEndpoint,
-    "POST": createCharacterEndpoint
+    "POST": createCharacterEndpoint,
+    "OPTIONS": optionsEndpoint,
   },
   "/users/{user}/characters/{characterId}": {
     "GET": getCharacterEndpoint,
     "PUT": putCharacterEndpoint,
-    "DELETE": deleteCharacterEndpoint
+    "DELETE": deleteCharacterEndpoint,
+    "OPTIONS": optionsEndpoint,
   },
   "/users/{user}/public-characters": {
     "GET": listPublicCharactersEndpoint,
+    "OPTIONS": optionsEndpoint,
   },
   "/users/{user}/rebuild-index": {
-    "POST": rebuildIndexEndpoint
-  }
+    "POST": rebuildIndexEndpoint,
+    "OPTIONS": optionsEndpoint,
+  },
+  "/users/{user}/viewing": {
+    "GET": getViewingEndpoint,
+    "OPTIONS": optionsEndpoint,
+  },
 };
 
 
@@ -950,14 +988,11 @@ exports.handler = async (event) => {
     const [deployment, routePath] = getRoutePath(invoked.resourcePath);
 
     // --- Routing ---
-    const endpointFunction =
-      routePath in ROUTING
-        ? invoked.httpMethod in ROUTING[routePath]
+    const endpointFunction = routePath in ROUTING
+      ? invoked.httpMethod in ROUTING[routePath]
         ? ROUTING[routePath][invoked.httpMethod]
-        : invoked.httpMethod === "OPTIONS"
-          ? optionsEndpoint
-          : invalidEndpoint
-        : invalidEndpoint;
+        : invalidEndpoint
+      : invalidEndpoint;
 
     // --- Call endpoint function ---
     response = await endpointFunction(event, deployment);
