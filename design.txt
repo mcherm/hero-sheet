@@ -88,14 +88,14 @@ How about this idea?
    + We provide an API for accessing just the public characters of another user.
    + We allow the API to get a character to work for characters that are public even if
      the user is not the owner. No change to the update API.
-   * In the top level of a user, add a new file with the list of what other players they
+   + In the top level of a user, add a new file with the list of what other players they
      can view. For NOW I'll edit this file by hand, but eventually I'll need an API to
      edit it.
-   * In the UI we build the ability to render a list of the public characters of the
+   + Add an API to retrieve that file.
+   + In the UI we build the ability to render a list of the public characters of the
      other players you can view.
-   * In the UI we build the ability to view someone else's character in a read-only mode.
-   * ISSUE: if the other character has not been upgraded it might not be possible to
-     render it. I'll deal with that later.
+   + In the UI we build the ability to view someone else's character in a read-only mode.
+   * Block ALL of the ways to edit a character.
 
 
 Bug List:

@@ -7,7 +7,7 @@
     v-on:input="resize()"
     v-on:change="$emit('input', $event.target.value)"
     class="string-entry"
-    :disabled="!mutable"
+    :disabled="!isReallyMutable"
     rows="1"
   ></textarea>
 </template>
@@ -15,6 +15,7 @@
 <script>
   export default {
     name: "StringEntry",
+    inject: ["editModes"],
     props: {
       value: { type: String, required: true },
       mutable: { type: Boolean, required: false, default: true }
@@ -28,6 +29,12 @@
       // NOTE: The -2 avoids extra padding at the bottom, although I don't know exactly why
       this.offset = this.$el.offsetHeight - this.$el.clientHeight - 2;
       this.resize();
+    },
+    computed: {
+      isReallyMutable: function() {
+        const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
+        return this.mutable && !globalReadOnly;
+      }
     },
     methods: {
       resize: function() {

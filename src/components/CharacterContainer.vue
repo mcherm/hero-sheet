@@ -7,7 +7,7 @@
     <div v-if="charsheet === null" class="character-loading">
       Loading...
     </div>
-    <character-sheet v-else :charsheet="charsheet"/>
+    <character-sheet v-else :charsheet="charsheet" :isReadOnly="owningUser !== null"/>
     <div v-if="this.$globals.developerMode" id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
     </div>
@@ -40,7 +40,8 @@
     },
     props: {
       user: { type: String, required: true },
-      characterId: { type: String, required: true }
+      characterId: { type: String, required: true },
+      owningUser: { required: true, default: null },
     },
     data: function() {
       return {
@@ -69,14 +70,17 @@
     methods: {
       loadCharacter: async function() {
         try {
-          const json = await getCharacter(this.user, this.characterId);
+          const userOwningTheCharacter = this.owningUser === null ? this.user : this.owningUser;
+          const json = await getCharacter(userOwningTheCharacter, this.characterId);
           const initialVersion = json.version;
           upgradeVersion(json, this.$globals.developerMode);
           this.charsheet = json;
           if (json.version !== initialVersion) {
             console.log(`Version has been upgraded from ${initialVersion} to ${json.version}.`);
-            this.hasUnsavedChanges = true;
-            this.scheduleSave();
+            if (this.owningUser === null) {
+              this.hasUnsavedChanges = true;
+              this.scheduleSave();
+            }
           }
           this.installUpdaters(this.charsheet);
         } catch(err) {
@@ -89,6 +93,10 @@
       },
       saveCharacter: async function() {
         this.activeSaveTimeout = null; // It has triggered so it is no longer active
+        if (this.owningUser !== null) {
+          console.error(`Attempted to save character that was owned by another user.`);
+          throw new Error("Attempted to save character that was owned by another user.");
+        }
         const isExperimentalVersion = this.charsheet.version > currentVersion;
         if (isExperimentalVersion) {
           console.log(`Not saving as ${this.charsheet.version} is an experimental version of the charsheet.`);
