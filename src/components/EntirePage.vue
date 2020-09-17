@@ -1,12 +1,6 @@
 <template>
   <div>
-    <div class="logo-section">
-      <div class="text-logo">
-        <span class="level-1">Hero-Sheet</span>
-        <span class="level-3"> : Mutants and Masterminds</span>
-        <span class="level-2"> : Open for Alpha Testing</span>
-      </div>
-    </div>
+    <logo-section/>
     <div class="header">
       <button v-on:click="showingAbout = true">About</button>
       <div class="title">
@@ -48,12 +42,14 @@
   import CharacterPicker from "./CharacterPicker.vue";
   import CharacterContainer from "./CharacterContainer.vue";
   import UserLogin from "./UserLogin";
+  import LogoSection from "@/components/LogoSection";
 
-  import {restoreSession, endSession} from "../js/api.js";
+  import {endSession, restoreSession} from "../js/api.js";
 
   export default {
     name: "EntirePage",
     components: {
+      LogoSection,
       UserLogin,
       AboutApplication,
       CharacterPicker,
@@ -128,28 +124,5 @@
     flex-grow: 1;
     font-size: x-large;
     padding: 2px;
-  }
-  .logo-section {
-    background-color: var(--title-color);
-    color: rgb(255, 255, 255);
-    border: solid 1px var(--box-border-color);
-    padding-top: 4px;
-    padding-left: 4px;
-    padding-right: 4px;
-    padding-bottom: 2px;
-  }
-  .text-logo {
-    text-align: center;
-    font-size: x-large;
-  }
-  @media (max-width: 750px) {
-    .level-3 {
-      display: none;
-    }
-  }
-  @media (max-width: 500px) {
-    .level-2 {
-      display: none;
-    }
   }
 </style>

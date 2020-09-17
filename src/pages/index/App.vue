@@ -11,7 +11,7 @@
 
 <script>
   import Vue from 'vue';
-  import EntirePage from "./components/EntirePage.vue";
+  import EntirePage from "@/components/EntirePage.vue";
 
   // Create a global "$globals" available on all vue instances. (NOT reactive).
   const globals = {
@@ -79,7 +79,7 @@
     border: 1px solid var(--grid-line-color);
   }
   .grid-with-lines .grid-with-lines-no-lines {
-    border: 0px;
+    border: 0;
   }
   .grid-with-lines .empty-notice {
     grid-column: 1/-1;
