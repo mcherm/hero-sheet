@@ -150,6 +150,8 @@ TODO: Along with deleting, it would be kind of nice if there were also a way to 
 
 TODO: Allow viewing other people's characters (if made visible).
 
+TODO: Remove the "Equipment" advantage now that there's an equipment tab.
+
 BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another (eg: Damage)
   and it will remove the old attack but NOT create the new one. Or maybe that's just the bug
   where things don't update for one cycle.
