@@ -28,7 +28,7 @@ import DocsLookup from "@/components/DocsLookup.vue";
 Vue.component("DocsLookup", DocsLookup);
 
 const app = new Vue({
-  el: "#reset-password",
+  el: "#app",
   render: h => h(App)
 });
 Vue.config.devtools = true;

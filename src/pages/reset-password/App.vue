@@ -1,40 +1,75 @@
 <template>
   <div id="app">
     <logo-section/>
-    <h1>Reset Password</h1>
-    <p>This is the thing that does it.</p>
+    <header-section
+        title-if-logged-out="Reset Password"
+        character-name=""
+        :character-selected="false"
+        user=""
+        :user-selected="false"
+    />
+    <boxed-section title="Reset Password" class="password-reset-form">
+      <label>Username or Email</label>
+      <input v-model="userOrEmail"/>
+      <label>New Password</label>
+      <input v-model="newPassword" @keyup.enter="changePassword()"/>
+      <button v-on:click="changePassword()">Reset Password</button>
+    </boxed-section>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue';
   import LogoSection from "@/components/LogoSection.vue";
+  import HeaderSection from "@/components/HeaderSection";
+
+  // Create a global "$globals" available on all vue instances. (NOT reactive).
+  const globals = {
+    eventBus: new Vue({}),
+    developerMode: false,
+    deployment: "prod",
+  };
+  Vue.prototype.$globals = globals;
 
   export default {
     name: "reset-password",
     components: {
       LogoSection,
+      HeaderSection,
     },
+    data: function() {
+      return {
+        userOrEmail: "need-to-populate-this-from-url",
+        newPassword: "",
+      };
+    },
+    methods: {
+      changePassword: function() {
+        console.log(`I will now change the password to '${this.newPassword}'.`); // FIXME: Write real code
+      }
+    }
   }
 </script>
 
 <style>
-  #app {
-    color: red;
+  .password-reset-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  #app {
-    --paper-color: rgb(247, 247, 247);
-    --entry-field: rgb(146, 240, 105);
-    --error-color: rgb(217, 111, 111);
-    --section-color: rgb(219, 250, 255);
-    --subsection-color: rgb(221, 219, 255);
-    --grid-line-color: rgb(0, 0, 0);
-    --box-border-color: rgb(0, 0, 0);
-    --inapplicable-color: rgb(144, 144, 144);
-    --lightbox-shade-color: rgba(0, 0, 0, 0.5);
-    --under-development-color: rgb(255, 148, 77);
-    --title-color: rgb(148, 9, 218);
-    --status-color: rgb(247, 247, 17);
-    font-family: sans-serif;
-    font-size: small;
+  .boxed-section.password-reset-form label {
+    background-color: var(--section-color);
+  }
+  .boxed-section label {
+    background-color: inherit;
+    margin-top: 3px;
+    margin-left: 3px;
+  }
+  input {
+    font-size: inherit;
+    margin: 3px;
+  }
+  button {
+    margin: 3px;
   }
 </style>

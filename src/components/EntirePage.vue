@@ -1,19 +1,15 @@
 <template>
   <div>
     <logo-section/>
-    <div class="header">
-      <button v-on:click="showingAbout = true">About</button>
-      <div class="title">
-        <span v-if="userSelected">{{user}}</span>
-        <span v-else>Log In</span>
-        <span v-if="characterSelected && characterName !== ''"> : {{characterName}}</span>
-      </div>
-      <button v-if="characterSelected" @click="resetCharacter()" class="character-display">{{characterName}}</button>
-      <button v-if="userSelected" @click="resetUser()" class="user-display">{{user}}</button>
-    </div>
-    <modal-lightbox v-if="showingAbout" v-on:exit="showingAbout = false">
-      <about-application/>
-    </modal-lightbox>
+    <header-section
+        title-if-logged-out="Log In"
+        :character-name="characterName"
+        :character-selected="characterSelected"
+        :user="user"
+        :user-selected="userSelected"
+        @reset-character="resetCharacter()"
+        @reset-user="resetUser()"
+    />
     <user-login
         v-if="!userSelected"
         :prefillUser="user"
@@ -38,11 +34,11 @@
 </template>
 
 <script>
-  import AboutApplication from "./AboutApplication";
   import CharacterPicker from "./CharacterPicker.vue";
   import CharacterContainer from "./CharacterContainer.vue";
   import UserLogin from "./UserLogin";
   import LogoSection from "@/components/LogoSection";
+  import HeaderSection from "@/components/HeaderSection";
 
   import {endSession, restoreSession} from "../js/api.js";
 
@@ -50,8 +46,8 @@
     name: "EntirePage",
     components: {
       LogoSection,
+      HeaderSection,
       UserLogin,
-      AboutApplication,
       CharacterPicker,
       CharacterContainer
     },
@@ -63,7 +59,6 @@
         characterId: "",
         owningUser: null, // when characterSelected, this is null if owned by the current user, or a user name of the owner
         characterName: "",
-        showingAbout: false
       }
     },
     created: async function() {
@@ -107,22 +102,9 @@
 </script>
 
 <style scoped>
-  .header {
-    border-bottom: solid 1px var(--box-border-color);
-    margin-bottom: 5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
   .header button {
     border: solid 1px var(--box-border-color);
     padding: 2px;
     margin: 4px 2px;
-  }
-  .title {
-    text-align: center;
-    flex-grow: 1;
-    font-size: x-large;
-    padding: 2px;
   }
 </style>
