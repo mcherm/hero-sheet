@@ -391,12 +391,17 @@ async function loginEndpoint(event, deployment) {
 }
 
 
+function validatePassword(password) {
+  return new RegExp("^(.{4,})$").test(password)
+}
+
+
 function validateUserCreateFields(user, email, password) {
   const fieldsValid = (
     new RegExp("^(|[a-zA-Z0-9$@._+-]+)$").test(user) &&
     !user.includes("..") &&
     new RegExp("^(|[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})$").test(email) &&
-    new RegExp("^(.{4,})$").test(password)
+    validatePassword(password)
   );
   const hasUserOrEmail = user !== "" || email !== "";
   const onlyEmailsHaveAt = user === email || !user.includes("@");
@@ -912,6 +917,85 @@ async function getViewingEndpoint(event, deployment) {
 }
 
 
+/*
+ * If a user has already requested a password reset then this (which can be called when the user is
+ * NOT logged in) can reset it to a new value if the correct authToken is provided and is not
+ * expired. Calling this successfully will disable that authToken.
+ */
+async function resetPasswordEndpoint(event, deployment) {
+  console.log("invoked resetPasswordEndpoint");
+
+  // --- Extract Request Info ---
+  let requestBody = null;
+  try {
+    requestBody = JSON.parse(event.body);
+  } catch(err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Request Format Error")
+    };
+  }
+  const providedAuthToken = requestBody.authToken;
+  const newPassword = requestBody.newPassword;
+  if (!validatePassword(newPassword)) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Request Format Error")
+    };
+  }
+
+  // --- Obtain Current User Info ---
+  const user = event.pathParameters.user;
+  const existingUserInfo = await readUserInfo(deployment, user);
+  const existingUser = existingUserInfo.user;
+  const existingEmail = existingUserInfo.email;
+  const expectedAuthToken = existingUserInfo.passwordResetAuthToken;
+  const authTokenExpireDate = existingUserInfo.passwordResetAuthExpire;
+  if (user !== existingUser) {
+    return {
+      statusCode: 403,
+      body: JSON.stringify("Password reset not permitted.")
+    }
+  }
+
+  // --- Verify Auth Token Exists, is Not Expired and Matches ---
+  if (expectedAuthToken === undefined || authTokenExpireDate === undefined) {
+    return {
+      statusCode: 403,
+      body: JSON.stringify("Password reset not permitted.")
+    }
+  }
+  const parsedDate = Date.parse(authTokenExpireDate);
+  const now = Date.now();
+  if (now > parsedDate) {
+    return {
+      statusCode: 403,
+      body: JSON.stringify("Password reset has expired.")
+    }
+  }
+  if (providedAuthToken !== expectedAuthToken) {
+    return {
+      statusCode: 403,
+      body: JSON.stringify("Password reset not permitted.")
+    }
+  }
+
+  // --- Encode Password ---
+  const encoded = await encodePassword(newPassword);
+  const passwordSalt = encoded.salt;
+  const passwordHash = encoded.hash;
+
+  // --- Write New Values ---
+  await writeUserInfo(deployment, user, existingEmail, passwordSalt, passwordHash);
+
+  // --- Return Success Response ---
+  return {
+    statusCode: 200,
+    body: JSON.stringify("Success."),
+  };
+}
+
+
 const DEPLOYMENTS = {
   "/hero-sheet": "prod",
   "/hero-sheet-dev": "dev",
@@ -950,6 +1034,10 @@ const ROUTING = {
   },
   "/users/{user}/rebuild-index": {
     "POST": rebuildIndexEndpoint,
+    "OPTIONS": optionsEndpoint,
+  },
+  "/users/{user}/reset-password": {
+    "POST": resetPasswordEndpoint,
     "OPTIONS": optionsEndpoint,
   },
   "/users/{user}/viewing": {
