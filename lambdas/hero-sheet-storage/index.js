@@ -393,10 +393,10 @@ async function loginEndpoint(event, deployment) {
 
 function validateUserCreateFields(user, email, password) {
   const fieldsValid = (
-    new RegExp("^|[a-zA-Z0-9$@._+-]+$").test(user) &&
+    new RegExp("^(|[a-zA-Z0-9$@._+-]+)$").test(user) &&
     !user.includes("..") &&
-    new RegExp("^|[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$").test(email) &&
-    new RegExp("^.{4,}$").test(password)
+    new RegExp("^(|[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})$").test(email) &&
+    new RegExp("^(.{4,})$").test(password)
   );
   const hasUserOrEmail = user !== "" || email !== "";
   const onlyEmailsHaveAt = user === email || !user.includes("@");

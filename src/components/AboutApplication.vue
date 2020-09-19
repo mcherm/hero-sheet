@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-09-18: Validate fields creating a new character.</li>
       <li>2020-09-13: Support making characters publicly viewable (not yet available to all users).</li>
       <li>2020-09-08: Support equipment with arrays (like Flamethrower). Fixed bug I introduced yesterday that broke powers that create attacks.</li>
       <li>2020-09-07: Allowed long (multi-line) entries in all text fields.</li>

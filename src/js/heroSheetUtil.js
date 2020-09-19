@@ -7,6 +7,12 @@ const modifiersData = require("../data/modifiersData.json");
 const skillsData = require("../data/skillsData.json");
 
 
+const fieldAllowedRegEx = {
+  user: "^(|[a-zA-Z0-9$@._+-]+)$",
+  email: "^(|[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})$",
+  password: "^(.{4,})$"
+};
+
 function isArray(power) {
   if (power.effect === "") { // dummy used for new powers that don't have an effect set yet
     return false;
@@ -758,6 +764,7 @@ const attackRollInfo = function(charsheet, attack) {
 
 
 export {
+  fieldAllowedRegEx,
   powerCostCalculate,
   rangeToInt,
   intToRange,
