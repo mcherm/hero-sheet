@@ -10,10 +10,10 @@
     />
     <boxed-section title="Reset Password" class="password-reset-form">
       <label>Username or Email</label>
-      <input v-model="userOrEmail"/>
+      <input v-model="userOrEmail" readonly/>
       <label>New Password</label>
-      <input v-model="newPassword" @keyup.enter="changePassword()"/>
-      <button v-on:click="changePassword()">Reset Password</button>
+      <input v-model="newPassword" @keyup.enter="changePassword()" :pattern="allowedRegEx.password"/>
+      <button v-on:click="changePassword()" :disabled="!fieldsAreValid">Reset Password</button>
     </boxed-section>
   </div>
 </template>
@@ -22,6 +22,7 @@
   import Vue from 'vue';
   import LogoSection from "@/components/LogoSection.vue";
   import HeaderSection from "@/components/HeaderSection";
+  import {fieldAllowedRegEx} from "@/js/heroSheetUtil.js";
 
   // Create a global "$globals" available on all vue instances. (NOT reactive).
   const globals = {
@@ -31,6 +32,8 @@
   };
   Vue.prototype.$globals = globals;
 
+  const pageUrl = new URL(location.href);
+
   export default {
     name: "reset-password",
     components: {
@@ -39,13 +42,20 @@
     },
     data: function() {
       return {
-        userOrEmail: "need-to-populate-this-from-url",
+        allowedRegEx: fieldAllowedRegEx,
+        userOrEmail: pageUrl.searchParams.get("user"),
+        authToken: pageUrl.searchParams.get("auth"),
         newPassword: "",
       };
     },
+    computed: {
+      fieldsAreValid: function() {
+        return Boolean(this.newPassword.match(fieldAllowedRegEx.password));
+      }
+    },
     methods: {
       changePassword: function() {
-        console.log(`I will now change the password to '${this.newPassword}'.`); // FIXME: Write real code
+        console.log(`I will now change the password to '${this.newPassword}'. The user is '${this.userOrEmail}' and the authToken is '${this.authToken}'.`); // FIXME: Write real code
       }
     }
   }

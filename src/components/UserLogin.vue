@@ -29,14 +29,14 @@
         </div>
         <div class="explanation">A password to log into your account (minimum length 4).</div>
       </div>
-      <button v-on:click="attemptCreateUser()">Create User</button>
+      <button v-on:click="attemptCreateUser()" :disabled="!userCreateFieldsAreValid">Create User</button>
     </boxed-section>
   </div>
 </template>
 
 <script>
-  import {login, createUser} from "../js/api.js";
-  import {NotLoggedInError} from "../js/api";
+  import {NotLoggedInError, login, createUser} from "../js/api.js";
+  import {fieldAllowedRegEx} from "../js/heroSheetUtil.js";
 
   export default {
     name: "UserLogin",
@@ -50,15 +50,23 @@
         newUser: "",
         newEmail: "",
         newPassword: "",
-        allowedRegEx: {
-          user: "^|[a-zA-Z0-9$@._+-]+$",
-          email: "^|[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-          password: "^.{4,}$"
-        }
+        allowedRegEx: fieldAllowedRegEx
       }
     },
     created: function() {
       this.loginUserOrEmail = this.prefillUser;
+    },
+    computed: {
+      userCreateFieldsAreValid: function() {
+        const fieldsValid = (
+            new RegExp(this.allowedRegEx.user).test(this.newUser) &&
+            new RegExp(this.allowedRegEx.email).test(this.newEmail) &&
+            new RegExp(this.allowedRegEx.password).test(this.newPassword)
+        );
+        const hasUserOrEmail = this.newUser !== "" || this.newEmail !== "";
+        const onlyEmailsHaveAt = this.newUser === this.newEmail || !this.newUser.includes("@");
+        return fieldsValid && hasUserOrEmail && onlyEmailsHaveAt;
+      }
     },
     methods: {
       attemptLogin: async function() {
@@ -82,18 +90,8 @@
           }
         }
       },
-      validateUserCreateFields: function() {
-        const fieldsValid = (
-          new RegExp(this.allowedRegEx.user).test(this.newUser) &&
-          new RegExp(this.allowedRegEx.email).test(this.newEmail) &&
-          new RegExp(this.allowedRegEx.password).test(this.newPassword)
-        );
-        const hasUserOrEmail = this.newUser !== "" || this.newEmail !== "";
-        const onlyEmailsHaveAt = this.newUser === this.newEmail || !this.newUser.includes("@");
-        return fieldsValid && hasUserOrEmail && onlyEmailsHaveAt;
-      },
       attemptCreateUser: async function() {
-        if (!this.validateUserCreateFields()) {
+        if (!this.userCreateFieldsAreValid) {
           // FIXME: Need to display the error to the user
           console.log("Fields are invalid.");
           return;
