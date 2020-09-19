@@ -12,7 +12,8 @@
     class="number-entry"
     :class="{ 'nan': isNaNValue, 'negative': isNegative }"
     type="number"
-    :disabled="!isReallyMutable"
+    :disabled="isDisabled"
+    :readonly="isReadOnly"
   />
 </template>
 
@@ -33,9 +34,12 @@
       isNaNValue: function() {
         return this.value === undefined || this.value === null || Number.isNaN(this.value);
       },
-      isReallyMutable: function() {
+      isDisabled: function() {
+        return !this.mutable;
+      },
+      isReadOnly: function() {
         const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
-        return this.mutable && !globalReadOnly;
+        return globalReadOnly;
       }
     },
     methods: {
@@ -66,6 +70,9 @@
     background-color: var(--error-color);
   }
   .number-entry:disabled {
-    background-color: inherit;
+    background-color: var(--paper-color);
+  }
+  .number-entry:read-only {
+    background-color: var(--paper-color);
   }
 </style>

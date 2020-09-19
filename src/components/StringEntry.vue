@@ -7,7 +7,8 @@
     v-on:input="resize()"
     v-on:change="$emit('input', $event.target.value)"
     class="string-entry"
-    :disabled="!isReallyMutable"
+    :disabled="isDisabled"
+    :readonly="isReadOnly"
     rows="1"
   ></textarea>
 </template>
@@ -31,9 +32,12 @@
       this.resize();
     },
     computed: {
-      isReallyMutable: function() {
+      isDisabled: function() {
+        return !this.mutable;
+      },
+      isReadOnly: function() {
         const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
-        return this.mutable && !globalReadOnly;
+        return globalReadOnly;
       }
     },
     methods: {
@@ -55,6 +59,9 @@
     margin-bottom: 0;
   }
   .string-entry:disabled {
-    background-color: inherit;
+    background-color: var(--paper-color);
+  }
+  .string-entry:read-only {
+    background-color: var(--paper-color);
   }
 </style>
