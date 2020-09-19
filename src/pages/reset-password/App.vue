@@ -23,6 +23,7 @@
   import LogoSection from "@/components/LogoSection.vue";
   import HeaderSection from "@/components/HeaderSection";
   import {fieldAllowedRegEx} from "@/js/heroSheetUtil.js";
+  import {resetPassword} from "@/js/api.js";
 
   // Create a global "$globals" available on all vue instances. (NOT reactive).
   const globals = {
@@ -54,8 +55,15 @@
       }
     },
     methods: {
-      changePassword: function() {
+      changePassword: async function() {
         console.log(`I will now change the password to '${this.newPassword}'. The user is '${this.userOrEmail}' and the authToken is '${this.authToken}'.`); // FIXME: Write real code
+        try {
+          const resetPasswordResponse = await resetPassword(this.userOrEmail, this.authToken, this.newPassword);
+          window.location.href = "/";
+        } catch(err) {
+          // FIXME: Need to display the error to the user
+          console.log("Failure when attempting to reset password.", err);
+        }
       }
     }
   }

@@ -144,6 +144,12 @@ async function rebuildIndex(user) {
   return await performAPICall(path, "POST", "rebuild index", bodyObj);
 }
 
+async function resetPassword(user, authToken, newPassword) {
+  const path = `/users/${user}/reset-password`
+  const bodyObj = {authToken, newPassword};
+  return await performAPICall(path, "POST", "reset password", bodyObj);
+}
+
 async function getViewing(user) {
   const path = `/users/${user}/viewing`;
   return await performAPICall(path, "GET", "list users being viewed");
@@ -164,5 +170,6 @@ export {
   login,
   createUser,
   rebuildIndex,
+  resetPassword,
   getViewing,
 };
