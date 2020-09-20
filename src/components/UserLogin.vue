@@ -5,7 +5,15 @@
       <input v-model="loginUserOrEmail"/>
       <label>Password</label>
       <input v-model="loginPassword" @keyup.enter="attemptLogin()"/>
-      <button v-on:click="attemptLogin()">Log In</button>
+      <button v-on:click="attemptLogin()" :disabled="!loginFieldsAreValid">Log In</button>
+      <collapsing-section class="ten-px-top-margin" title="Forgot Password">
+        <div class="forgot-password-form">
+          <div class="forgot-password-note">You can request an email with a link to reset your password.</div>
+          <label>Email</label>
+          <input v-model="emailForResetPassword" :pattern="allowedRegEx.email">
+          <button :disabled="!forgotPasswordFieldsAreValid" @click="requestPasswordReset">Send Email</button>
+        </div>
+      </collapsing-section>
     </boxed-section>
     <boxed-section title="New Users" class="user-creation">
       <div class="new-user-fields">
@@ -13,21 +21,27 @@
           <label>Username</label>
           <input v-model="newUser" :pattern="allowedRegEx.user" class="user-entry"/>
         </div>
-        <div class="explanation">A name you want to use for logging in. This is optional if
-        you provide an email address.</div>
+        <div class="explanation">
+          The name that will be displayed in the application. Leave blank just use your
+          email address as a username.
+        </div>
         <div>
           <label>Email</label>
           <input v-model="newEmail" :pattern="allowedRegEx.email"/>
         </div>
-        <div class="explanation">An email address. Optional, but if you do not provide an email
-        address then you will be completely anonymous -- there will be no way to restore access
-        if you lose your password and you will definitely not be warned if action is needed to
-        preserve your data. We will NOT sell your email or send spam to it.</div>
+        <div class="explanation">
+          Your email address. You can leave this blank to be completely anonymous, but
+          if you do so then there will be no way to reset your password nor any way for
+          the site to communicate with you if action is needed to preserve your data.
+          We will NOT sell your email or send spam to it.
+        </div>
         <div>
           <label>Password</label>
           <input v-model="newPassword" :pattern="allowedRegEx.password" @keyup.enter="attemptLogin()"/>
         </div>
-        <div class="explanation">A password to log into your account (minimum length 4).</div>
+        <div class="explanation">
+          A password to log into your account (minimum length 4).
+        </div>
       </div>
       <button v-on:click="attemptCreateUser()" :disabled="!userCreateFieldsAreValid">Create User</button>
     </boxed-section>
@@ -35,7 +49,7 @@
 </template>
 
 <script>
-  import {NotLoggedInError, login, createUser} from "../js/api.js";
+  import {NotLoggedInError, login, createUser, requestPasswordReset} from "../js/api.js";
   import {fieldAllowedRegEx} from "../js/heroSheetUtil.js";
 
   export default {
@@ -50,13 +64,17 @@
         newUser: "",
         newEmail: "",
         newPassword: "",
-        allowedRegEx: fieldAllowedRegEx
+        allowedRegEx: fieldAllowedRegEx,
+        emailForResetPassword: "",
       }
     },
     created: function() {
       this.loginUserOrEmail = this.prefillUser;
     },
     computed: {
+      loginFieldsAreValid: function() {
+        return this.loginUserOrEmail !== "" && this.loginPassword !== "";
+      },
       userCreateFieldsAreValid: function() {
         const fieldsValid = (
             new RegExp(this.allowedRegEx.user).test(this.newUser) &&
@@ -66,6 +84,10 @@
         const hasUserOrEmail = this.newUser !== "" || this.newEmail !== "";
         const onlyEmailsHaveAt = this.newUser === this.newEmail || !this.newUser.includes("@");
         return fieldsValid && hasUserOrEmail && onlyEmailsHaveAt;
+      },
+      forgotPasswordFieldsAreValid: function() {
+        return this.emailForResetPassword !== "" &&
+            new RegExp(this.allowedRegEx.email).test(this.emailForResetPassword);
       }
     },
     methods: {
@@ -111,6 +133,11 @@
           // FIXME: Need to display the error to the user
           console.log("Failure when attempting to create a new user.", err);
         }
+      },
+      requestPasswordReset: async function() {
+        const passwordResetResponse = await requestPasswordReset(this.emailForResetPassword);
+        this.emailForResetPassword = "";
+        // FIXME: Should probably provide some indicator to the user that it worked
       }
     }
   }
@@ -159,5 +186,16 @@
   }
   .user-creation input {
     background-color: var(--paper-color);
+  }
+  .ten-px-top-margin {
+    margin-top: 10px;
+  }
+  .forgot-password-form {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+  }
+  .forgot-password-note {
+    margin-bottom: 5px;
   }
 </style>

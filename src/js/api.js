@@ -79,6 +79,11 @@ async function performAPICall(path, verb, taskDescription, bodyObj=null, prettyP
 }
 
 
+async function requestPasswordReset(email) {
+  const path = `/request-password-reset`;
+  const bodyObj = {email};
+  return await performAPICall(path, "POST", "request password reset", bodyObj);
+}
 
 async function restoreSession() {
   const path = `/restore-session`;
@@ -159,6 +164,7 @@ export {
   setDeployment,
   APIError,
   NotLoggedInError,
+  requestPasswordReset,
   restoreSession,
   endSession,
   listCharacters,

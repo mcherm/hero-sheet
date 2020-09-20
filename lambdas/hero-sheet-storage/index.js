@@ -139,14 +139,17 @@ async function readUserInfo(deployment, userOrEmail) {
  * email or have no "@" in it; email will either be a valid email or
  * will be null. If they are both strings and are different then we
  * will store the user info under BOTH.
+ *
+ * The fields authToken and expirationDate are optional. If used, both must
+ * be provided.
  */
-async function writeUserInfo(deployment, user, email, passwordSalt, passwordHash) {
-  const dataObj = {
-    user: user,
-    email: email,
-    passwordSalt: passwordSalt,
-    passwordHash: passwordHash
-  };
+async function writeUserInfo(deployment, user, email, passwordSalt, passwordHash, passwordResetAuthToken=undefined, passwordResetAuthExpire=undefined) {
+  let dataObj;
+  if (passwordResetAuthToken && passwordResetAuthExpire) {
+    dataObj = {user, email, passwordSalt, passwordHash, passwordResetAuthToken, passwordResetAuthExpire};
+  } else {
+    dataObj = {user, email, passwordSalt, passwordHash};
+  }
   const userFolderName = getFolderName(user);
   const userInfoFilename = `mutants/users/${userFolderName}/userInfo.json`;
   const response = await s3.putObject({
@@ -918,6 +921,106 @@ async function getViewingEndpoint(event, deployment) {
 
 
 /*
+ * Generate a new random auth token.
+ */
+function newAuthToken() {
+  const randomData = crypto.randomBytes(4);
+  const firstPart = randomData.readUInt16BE(0).toString(16);
+  const secondPart = randomData.readUInt16BE(2).toString(16);
+  return `auth_${firstPart}${secondPart}`;
+}
+
+
+/*
+ * For a given email, schedule a password reset and send the auth code to them via email. Will return
+ * an error if that user doesn't have an email, or if the attempt to send email fails.
+ */
+async function requestPasswordResetEndpoint(event, deployment) {
+  console.log("invoked requestPasswordResetEndpoint");
+
+  // --- Extract Request Info ---
+  let requestBody = null;
+  try {
+    requestBody = JSON.parse(event.body);
+  } catch(err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Request Format Error")
+    };
+  }
+  const email = requestBody.email;
+
+  // --- Look up the email ---
+  const userInfoFromEmail = await readUserInfo(deployment, email);
+  if (userInfoFromEmail === null) {
+    console.log(`Password reset for non-existent email: "${email}".`);
+    // Return a success so people can't tell whether the email is in use
+    return {
+      statusCode: 200,
+      body: JSON.stringify("Success")
+    };
+  }
+  const user = userInfoFromEmail.user;
+  let userInfoFromUser;
+  if (user === email) {
+    // This person ONLY has email, no separate username
+    userInfoFromUser = userInfoFromEmail;
+  } else {
+    // This person's data is stored under their username
+    userInfoFromUser = await readUserInfo(deployment, user);
+  }
+  if (userInfoFromUser.email !== email) { // just a sanity check
+    throw new Error(`User for email ${email} has a different email: ${userInfoFromUser.email}.`);
+  }
+  const passwordSalt = userInfoFromUser.passwordSalt;
+  const passwordHash = userInfoFromUser.passwordHash;
+
+  // --- Generate an Auth Token ---
+  const authToken = newAuthToken();
+  console.log(`Generated authToken = "${authToken}".`); // FIXME: Remove
+
+  // --- Determine Expiration Date ---
+  const date = new Date();
+  date.setDate(date.getDate() + 3); // Tokens remain valid for 3 days
+  const expirationDate = date.toISOString();
+
+  // --- Write the Updated User Info ---
+  await writeUserInfo(deployment, user, email, passwordSalt, passwordHash, authToken, expirationDate);
+
+  // --- Send an email ---
+  const ses = new AWS.SES();
+  const resetUrl = `http://hero-sheet.com/reset-password.html?user=${user}&auth=${authToken}`;
+  const emailParams = {
+    Destination: {
+      ToAddresses: [ email ]
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: `We received a request to reset your password on <a href="https://hero-sheet.com">Hero-Sheet</a>. To reset your password, visit <a href="${resetUrl}">${resetUrl}</a>. If you do not want to reset your password simply ignore this message.`
+        }
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: "Password Reset for Hero-Sheet.com"
+      }
+    },
+    Source: "system@hero-sheet.com"
+  };
+  console.log(`about to send email with ${JSON.stringify(emailParams)}`); // FIXME: Remove
+  const sendEmailResult = await ses.sendEmail(emailParams).promise();
+  console.log(`sent email. result = ${JSON.stringify(sendEmailResult)}`); // FIXME: Remove
+
+  // --- Return Success ---
+  return {
+    statusCode: 200,
+    body: JSON.stringify("Success")
+  };
+}
+
+
+/*
  * If a user has already requested a password reset then this (which can be called when the user is
  * NOT logged in) can reset it to a new value if the correct authToken is provided and is not
  * expired. Calling this successfully will disable that authToken.
@@ -1005,6 +1108,10 @@ const DEPLOYMENTS = {
 // In addition to this, any OPTIONS request will get optionsEndpoint and anything
 // not found will get invalidEndpoint.
 const ROUTING = {
+  "/request-password-reset": {
+    "POST": requestPasswordResetEndpoint,
+    "OPTIONS": optionsEndpoint,
+  },
   "/restore-session": {
     "GET": restoreSessionEndpoint,
     "OPTIONS": optionsEndpoint,
