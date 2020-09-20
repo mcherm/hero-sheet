@@ -18,6 +18,8 @@ import YesNoToggle from "@/components/YesNoToggle.vue";
 Vue.component("YesNoToggle", YesNoToggle);
 import BoxedSection from "@/components/BoxedSection.vue"
 Vue.component("BoxedSection", BoxedSection);
+import CollapsingSection from "@/components/CollapsingSection.vue";
+Vue.component("CollapsingSection", CollapsingSection);
 import ModalLightbox from "@/components/ModalLightbox.vue";
 Vue.component("ModalLightbox", ModalLightbox);
 import PencilIcon from "@/components/PencilIcon.vue";

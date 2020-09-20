@@ -3,9 +3,7 @@
   being a construct or lacking certain abilities.
 -->
 <template>
-  <div class="stats-extras grid-with-lines">
-    <div class="grid-header col-label" @click="widgetOpened = !widgetOpened">Ability Extras [{{widgetOpened ? "-" : "+"}}]</div>
-    <div class="display-contents" v-if="widgetOpened">
+  <CollapsingSection class="stats-extras" title="Ability Extras" :columns="2">
       <label class="row-label" for="is-mindless-construct">Mindless Construct</label>
       <div class="grid-with-lines-cell">
         <input type="checkbox" id="is-mindless-construct" :checked="charsheet.misc.isMindlessConstruct" @change="toggleIsConstruct('isMindlessConstruct')">
@@ -23,8 +21,7 @@
           <input type="checkbox" :id="`lacks-{statName}`" :checked="lacksStat(charsheet, statName)" @change="toggleLacksStat(statName)">
         </div>
       </div>
-    </div>
-  </div>
+  </CollapsingSection>
 </template>
 
 <script>
@@ -39,7 +36,6 @@
         statsData,
         lacksStat,
         charsheet: this.getCharsheet(),
-        widgetOpened: false,
       }
     },
     methods: {
@@ -89,11 +85,8 @@
 
 <style scoped>
   .stats-extras {
-    grid-template-columns: max-content max-content;
     margin-top: 10px;
     display: inline grid;
-  }
-  .grid-header {
-    grid-column-end: span 2;
+    background-color: var(--paper-color);
   }
 </style>
