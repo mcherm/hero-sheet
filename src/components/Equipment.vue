@@ -17,6 +17,7 @@
         <div :class="{'feature-control': true, 'open': showFeatureDetails[item.hsid]}"><button v-if="item.feature" class="invisible" @click="toggleMechanics(item)"><mechanics-icon/></button></div>
 
         <div v-if="item.source === 'unselected'">
+          <!-- FIXME: Needs a custom widget to do the equipment picker -->
           <select @change="selectItem(item, $event.target.value)">
             <option disabled selected value="">Select Item</option>
             <optgroup label="Custom">
