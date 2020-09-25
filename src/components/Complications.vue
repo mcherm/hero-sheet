@@ -16,14 +16,13 @@
            :key="index"
       >
         <div class="complication-type" :class="{'isOutOfSpec': isOutOfSpec(complication)}">
-          <select v-model="complication.complicationType">
-            <option value="" disabled>Select One</option>
-            <option
-                v-for="(complicationType, complicationTypeName) in complicationsData.complicationTypes"
-                :key="complicationTypeName"
-                :value="complicationTypeName"
-            >{{complicationType.name}}</option>
-          </select>
+          <select-entry
+              v-model="complication.complicationType"
+              :options="Object.entries(complicationsData.complicationTypes)"
+              unselected-item="Select One"
+              :getValue="x => x[0]"
+              :getDisplay="x => x[1].name"
+          />
         </div>
         <string-entry v-model="complication.description" class="grid-with-lines-cell"/>
         <button
@@ -97,9 +96,6 @@
     background-color: var(--section-color);
     text-align: center;
     margin-top: 5px;
-  }
-  .complication-type {
-    background-color: var(--entry-field);
   }
   .isOutOfSpec {
     outline: var(--error-color) solid 4px;

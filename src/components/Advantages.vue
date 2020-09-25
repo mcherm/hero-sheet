@@ -16,15 +16,12 @@
           class="display-contents"
       >
         <div class="advantage-type" :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
-          <select :value="advantage.name" @change="setAdvantageName(advantage, $event.target.value)">
-            <option v-if="advantage.name === ''" disabled value="">Select One</option>
-            <option v-else :value="advantage.name">{{advantage.name}}</option>
-            <option
-                v-for="standardAdvantage in unusedStandardAdvantages"
-                :key="standardAdvantage.name"
-                :value="standardAdvantage.name"
-            >{{standardAdvantage.name}}</option>
-          </select>
+          <select-entry
+              :value="advantage.name"
+              @input="setAdvantageName(advantage, $event)"
+              unselectedItem="Select One"
+              :options="(advantage.name === '' ? [] : [advantage.name]).concat(unusedStandardAdvantages.map(x => x.name))"
+          />
         </div>
         <number-entry v-if="advantageIsRanked(advantage)" v-model="advantage.ranks" :mutable="!allyAdvantages.includes(advantage.name)"/>
         <div v-else class="inapplicable"></div>
@@ -88,7 +85,8 @@
           advantageInUse[advantage.name] = true;
         }
         return Object.values(standardAdvantages).filter(
-          x => !advantageInUse[x.name]);
+          x => !advantageInUse[x.name]
+        );
       }
     },
     methods: {

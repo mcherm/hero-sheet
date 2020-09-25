@@ -24,15 +24,15 @@
         >
           <label class="row-label" :class="{isOutOfSpec: !skill.name}">
             <span v-if="skillData(skill).ability">{{skill.name}}</span>
-            <select v-else :value="skill.name" @change="setSkillName(skill, $event.target.value)">
-              <option disabled value="">Select Skill</option>
-              <option
-                  v-for="(templateSkill, templateSkillName) in skillsData.templateSkills"
-                  :key="templateSkillName"
-                  :value="templateSkillName"
-              >{{templateSkillName}}</option>
-            </select>
-            <span v-else>CHOOSE</span>
+            <select-entry
+                v-else
+                style="display: inline"
+                :value="skill.name"
+                @input="setSkillName(skill, $event)"
+                unselectedItem="Select Skill"
+                :options="Object.keys(skillsData.templateSkills)"
+                :getDisplay="x => x.charAt(0).toUpperCase() + x.slice(1)"
+            />
           </label>
 
           <div v-if="lacksSkill(skill)" class="inapplicable">N/A</div>

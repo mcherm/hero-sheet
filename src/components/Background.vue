@@ -7,13 +7,11 @@
       <string-entry v-model="naming.player" :mutable="!editModes.isAlly"/>
       <label class="row-label">Identity</label>
       <div class="vert-stack">
-        <div class="spacer">
-          <select v-model="naming.identityType">
-            <option value="secret">Secret</option>
-            <option value="public">Public</option>
-            <option value="none">None</option>
-          </select>
-        </div>
+        <select-entry
+            v-model="naming.identityType"
+            :options="identityValues"
+            :getDisplay="x => x.charAt(0).toUpperCase() + x.slice(1)"
+        />
         <string-entry v-model="naming.identity"/>
       </div>
       <label class="row-label">Gender</label>
@@ -37,12 +35,15 @@
 </template>
 
 <script>
+  const backgroundData = require("../data/backgroundData.json");
+
   export default {
-    name: "Naming",
+    name: "Background",
     inject: ["getCharsheet", "editModes"],
     data: function() {
       return {
-        naming: this.getCharsheet().naming
+        naming: this.getCharsheet().naming,
+        identityValues: backgroundData.identityValues,
       };
     }
   }
