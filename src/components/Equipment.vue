@@ -15,7 +15,11 @@
           class="display-contents"
       >
         <div :class="{'feature-control': true, 'open': showFeatureDetails[item.hsid]}">
-          <edit-button v-if="item.feature" class="invisible" :onClick="() => toggleMechanics(item)">
+          <edit-button
+              v-if="item.feature"
+              class="invisible"
+              :onClick="() => toggleMechanics(item)"
+              :isNavigation="true">
             <mechanics-icon/>
           </edit-button>
         </div>
@@ -196,7 +200,7 @@
   .error {
     background-color: var(--error-color);
   }
-  button.invisible {
+  .invisible {
     background: transparent;
     border: none;
   }

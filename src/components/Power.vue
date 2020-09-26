@@ -23,16 +23,13 @@
         <div v-if="hasOptions()" class="display-contents">
           <label class="row-label">Option</label>
           <div>
-            <select :value="power.option" v-on:change="setPowerOption($event.target.value)">
-              <option disabled value="">Select One</option>
-              <option
-                  v-for="powerOption in getStandardPower().powerOptions"
-                  :key="powerOption.name"
-                  :value="powerOption.name"
-              >
-               {{powerOption.name}}
-              </option>
-            </select>
+            <select-entry
+                style="display: inline-block"
+                :value="power.option"
+                :options="Object.values(getStandardPower().powerOptions).map(x => x.name)"
+                unselectedItem="Select One"
+                @input="setPowerOption($event)"
+            />
           </div>
 
           <label class="row-label">Option Desc</label>
