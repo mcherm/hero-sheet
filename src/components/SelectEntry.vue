@@ -47,7 +47,7 @@
 <style scoped>
   .select-background {
     background-color: var(--entry-field);
-    padding: 1px;
+    padding: 2px;
   }
   .select-background.read-only {
     background-color: var(--paper-color);
