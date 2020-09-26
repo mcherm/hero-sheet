@@ -7,6 +7,7 @@ import NumberEntry from "@/components/NumberEntry.vue";
 import StringEntry from "@/components/StringEntry.vue";
 import SelectEntry from "@/components/SelectEntry.vue";
 import YesNoToggle from "@/components/YesNoToggle.vue";
+import EditButton from "@/components/EditButton.vue";
 import BoxedSection from "@/components/BoxedSection.vue"
 import CollapsingSection from "@/components/CollapsingSection.vue";
 import ModalLightbox from "@/components/ModalLightbox.vue";
@@ -25,6 +26,7 @@ const registerStandardComponents = function() {
   Vue.component("StringEntry", StringEntry);
   Vue.component("SelectEntry", SelectEntry);
   Vue.component("YesNoToggle", YesNoToggle);
+  Vue.component("EditButton", EditButton);
   Vue.component("BoxedSection", BoxedSection);
   Vue.component("CollapsingSection", CollapsingSection);
   Vue.component("ModalLightbox", ModalLightbox);

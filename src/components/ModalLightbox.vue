@@ -18,10 +18,11 @@
     <div class="modal-content" @click.stop="">
       <slot/>
       <div class="button-row">
-        <button
+        <edit-button
           v-for="buttonName in buttonNames"
-          @click="$emit('exit', buttonName)"
-        >{{buttonName}}</button>
+          :onClick="() => $emit('exit', buttonName)"
+          :isNavigation="true"
+        >{{buttonName}}</edit-button>
       </div>
     </div>
   </div>

@@ -5,13 +5,13 @@
       <input v-model="loginUserOrEmail"/>
       <label>Password</label>
       <input v-model="loginPassword" @keyup.enter="attemptLogin()"/>
-      <button v-on:click="attemptLogin()" :disabled="!loginFieldsAreValid">Log In</button>
+      <edit-button :onClick="attemptLogin" :disabled="!loginFieldsAreValid" class="button">Log In</edit-button>
       <collapsing-section class="ten-px-top-margin" title="Forgot Password">
         <div class="forgot-password-form">
           <div class="forgot-password-note">You can request an email with a link to reset your password.</div>
           <label>Email</label>
           <input v-model="emailForResetPassword" :pattern="allowedRegEx.email">
-          <button :disabled="!forgotPasswordFieldsAreValid" @click="requestPasswordReset">Send Email</button>
+          <edit-button :disabled="!forgotPasswordFieldsAreValid" :onClick="requestPasswordReset">Send Email</edit-button>
         </div>
       </collapsing-section>
     </boxed-section>
@@ -43,7 +43,7 @@
           A password to log into your account (minimum length 4).
         </div>
       </div>
-      <button v-on:click="attemptCreateUser()" :disabled="!userCreateFieldsAreValid">Create User</button>
+      <edit-button :onClick="attemptCreateUser" :disabled="!userCreateFieldsAreValid" class="button">Create User</edit-button>
     </boxed-section>
   </div>
 </template>
@@ -197,5 +197,8 @@
   }
   .forgot-password-note {
     margin-bottom: 5px;
+  }
+  button.button {
+    background-color: var(--button-color);
   }
 </style>

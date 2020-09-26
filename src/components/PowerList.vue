@@ -8,18 +8,18 @@
             :mutable="mutable"
             v-on:update:name="renamePower(power, $event)"
           />
-          <button class="trash-button" v-if="deleteIsVisible" v-on:click="deletePower(powerIndex)">
+          <edit-button class="trash-button" v-if="deleteIsVisible" :onClick="() => deletePower(powerIndex)">
             <trash-icon/>
-          </button>
+          </edit-button>
         </div>
       </li>
     </ul>
     <div class="scrolling-list-footer">
-      <button v-on:click="addPower()" :disabled="!mutable">Add Power</button>
-      <button v-if="powers.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible" :disabled="!mutable">
+      <edit-button :onClick="addPower" :disabled="!mutable">Add Power</edit-button>
+      <edit-button v-if="powers.length > 0" :onClick="() => deleteIsVisible = !deleteIsVisible" :disabled="!mutable">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
-      </button>
+      </edit-button>
     </div>
   </div>
 </template>
@@ -125,7 +125,7 @@
     flex: 1;
   }
   .trash-button {
+    background-color: var(--paper-color);
     margin: 5px;
-    flex: 0;
   }
 </style>

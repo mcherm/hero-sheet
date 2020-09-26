@@ -18,14 +18,14 @@
           <div class="grid-with-lines-cell campaign">{{character.campaign}}</div>
           <div class="grid-with-lines-cell name">{{character.name}}</div>
           <div class="grid-with-lines-cell open">
-            <button @click="selectCharacter(viewedUser, character)">Open</button>
+            <edit-button :onClick="() => selectCharacter(viewedUser, character)">Open</edit-button>
           </div>
         </div>
       </div>
     </div>
     <div v-if="viewing !== null && viewing.publicViewedUsers.length > 0"  class="buttons">
-      <button v-if="this.$globals.developerMode" @click="notImplemented">Add User</button>
-      <button v-if="this.$globals.developerMode" @click="notImplemented">Delete User</button>
+      <edit-button v-if="this.$globals.developerMode" :onClick="notImplemented">Add User</edit-button>
+      <edit-button v-if="this.$globals.developerMode" :onClick="notImplemented">Delete User</edit-button>
     </div>
   </div>
 </template>
@@ -87,7 +87,7 @@
 </script>
 
 <style scoped>
-  .character-picker-viewing * {
+  .character-picker-viewing > * {
     background-color: var(--paper-color);
   }
   .viewing {

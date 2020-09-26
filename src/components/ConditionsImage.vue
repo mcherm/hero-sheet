@@ -589,7 +589,7 @@
 
   export default {
     name: "ConditionsImage.vue",
-    inject: ["getCharsheet"],
+    inject: ["getCharsheet", "editModes"],
     data: function() {
       return {
         conditions: this.getCharsheet().status.conditions,
@@ -629,6 +629,10 @@
         }
       },
       onClickCondition: function(button) {
+        const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
+        if (globalReadOnly) {
+          return;
+        }
         const thisCondition = this.conditions[button];
         if (thisCondition.superseded) {
           return;

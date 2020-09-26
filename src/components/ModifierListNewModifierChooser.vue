@@ -41,8 +41,8 @@
     </div>
     <div>{{modifierDisplaySign(selectedItem, ranks)}}</div>
     <div class="buttons">
-      <button :disabled="!isFullySelected" v-on:click="emitSelection()">Create</button>
-      <button v-on:click="cancelCreateModifier()">Cancel</button>
+      <edit-button :disabled="!isFullySelected" :onClick="emitSelection">Create</edit-button>
+      <edit-button :onClick="cancelCreateModifier">Cancel</edit-button>
     </div>
     <div class="description">{{selectedDescription}}</div>
     <docs-lookup :docsURL="isItemSelected ? selectedItem.docsURL : null" />
