@@ -19,18 +19,18 @@
           <td>{{character.isPublic ? "Yes" : "No"}}</td>
           <td  v-if="$globals.developerMode">{{idFromKey(character.key)}}</td>
           <td>
-            <div v-if="isDeleting" v-on:click="deleteCharacter(character)"><trash-icon/></div>
-            <button v-if="!isDeleting" v-on:click="selectCharacter(character)">Open</button>
+            <edit-button v-if="isDeleting" :onClick="() => deleteCharacter(character)" class="trash-button"><trash-icon/></edit-button>
+            <edit-button v-if="!isDeleting" :onClick="() => selectCharacter(character)">Open</edit-button>
           </td>
         </tr>
       </tbody>
     </table>
     <div v-if="characters !== null" class="buttons">
-      <button v-if="characters !== null && !isDeleting" v-on:click="createNewCharacter()" class="new-character-button">New Character</button>
-      <button v-if="characters !== null && !isDeleting" v-on:click="isDeleting=true">Delete</button>
-      <button v-if="characters !== null && isDeleting" v-on:click="isDeleting=false">Done Deleting</button>
-      <button v-if="this.$globals.developerMode" v-on:click="loadCharacterData()">Reload</button>
-      <button v-if="this.$globals.developerMode" v-on:click="rebuildIndex()">Rebuild Index</button>
+      <edit-button v-if="characters !== null && !isDeleting" :onClick="createNewCharacter" class="new-character-button">New Character</edit-button>
+      <edit-button v-if="characters !== null && !isDeleting" :onClick="() => isDeleting=true">Delete</edit-button>
+      <edit-button v-if="characters !== null && isDeleting" :onClick="() => isDeleting=false">Done Deleting</edit-button>
+      <edit-button v-if="this.$globals.developerMode" :onClick="loadCharacterData">Reload</edit-button>
+      <edit-button v-if="this.$globals.developerMode" :onClick="rebuildIndex">Rebuild Index</edit-button>
     </div>
   </div>
 </template>
@@ -125,7 +125,7 @@
 </script>
 
 <style scoped>
-  .character-picker-own-characters * {
+  .character-picker-own-characters > * {
     background-color: var(--paper-color);
   }
   th {
@@ -146,5 +146,11 @@
   .buttons {
     margin-top: 5px;
     background-color: inherit;
+  }
+  .trash-button {
+    background-color: var(--paper-color);
+    padding: 0;
+    border: none;
+    margin: 0;
   }
 </style>

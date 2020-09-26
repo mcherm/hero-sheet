@@ -55,21 +55,21 @@
           <docs-lookup :docsURL="skillData(skill).docsURL"/>
 
           <div v-if="deleteIsVisible && !skill.isTemplate" class="grid-with-lines-no-lines"></div>
-          <button
+          <edit-button
               v-if="deleteIsVisible && skill.isTemplate"
               class="trash-button grid-with-lines-no-lines"
-              @click="deleteSkill(skill)"
+              :onClick="() => deleteSkill(skill)"
           >
             <trash-icon/>
-          </button>
+          </edit-button>
         </div>
       </div>
       <div class="scrolling-list-footer">
-        <button v-on:click="addSkill()">Add Skill</button>
-        <button v-on:click="deleteIsVisible = !deleteIsVisible">
+        <edit-button :onClick="addSkill">Add Skill</edit-button>
+        <edit-button :onClick="() => deleteIsVisible = !deleteIsVisible">
           <span v-if="deleteIsVisible">Done Deleting</span>
           <span v-else>Delete</span>
-        </button>
+        </edit-button>
       </div>
     </div>
   </boxed-section>
@@ -223,5 +223,8 @@
   .inapplicable {
     background-color: var(--inapplicable-color);
     padding: 2px 6px;
+  }
+  .trash-button {
+    background-color: var(--paper-color);
   }
 </style>

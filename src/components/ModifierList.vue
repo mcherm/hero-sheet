@@ -10,11 +10,11 @@
         <trash-icon/>
       </div>
     </div>
-    <button
+    <edit-button
         v-if="mutable && !isAdding && !isDeleting && power.effect !== ''"
-        v-on:click="isAdding = true"
+        :onClick="() => isAdding = true"
         class="plus-minus-button"
-    >+</button>
+    >+</edit-button>
     <modifier-list-new-modifier-chooser
         v-if="isAdding"
         :modifier-type="modifierType"
@@ -22,15 +22,15 @@
         :power-effect-name="standardPower.name"
         v-on:choose-modifier="finishChoosingNewModifier($event)"
     />
-    <button
+    <edit-button
         v-if="mutable && modifiers.length > 0 && !isAdding && !isDeleting"
-        v-on:click="isDeleting = true"
+        :onClick="() => isDeleting = true"
         class="plus-minus-button"
-    >-</button>
-    <button
+    >-</edit-button>
+    <edit-button
         v-if="isDeleting"
-        v-on:click="isDeleting = false"
-    >Done Deleting</button>
+        :onClick="() => isDeleting = false"
+    >Done Deleting</edit-button>
   </div>
 </template>
 
@@ -112,7 +112,7 @@
     margin-left: 2px;
   }
   .plus-minus-button {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 3px;
+    padding-right: 3px;
   }
 </style>

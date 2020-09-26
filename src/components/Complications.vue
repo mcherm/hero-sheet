@@ -25,22 +25,22 @@
           />
         </div>
         <string-entry v-model="complication.description" class="grid-with-lines-cell"/>
-        <button
+        <edit-button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="onDelete(complication)"
+            :onClick="() => onDelete(complication)"
         >
           <trash-icon/>
-        </button>
+        </edit-button>
       </div>
       <div class="empty-notice" v-if="charsheet.complications.length === 0">No Complications</div>
     </div>
     <div class="scrolling-list-footer">
-      <button v-on:click="addComplication()">Add Complication</button>
-      <button v-if="charsheet.complications.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible">
+      <edit-button :onClick="addComplication">Add Complication</edit-button>
+      <edit-button v-if="charsheet.complications.length > 0" :onClick="() => deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
-      </button>
+      </edit-button>
     </div>
     <div class="background">
       <label>Background / Bio / Story</label>
@@ -108,11 +108,17 @@
     border: solid 2px var(--box-border-color);
     padding: 2px;
     min-height: 10em;
+    margin-top: 4px;
   }
   .background label {
     font-weight: bold;
   }
   .background textarea {
     flex-grow: 1;
+  }
+  .trash-button {
+    background-color: var(--paper-color);
+    padding: 0;
+    margin: 0;
   }
 </style>

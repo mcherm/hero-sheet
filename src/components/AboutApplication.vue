@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-09-25: Created consistent buttons across the whole interface (helps with sharable characters).</li>
       <li>2020-09-23: Rewrite drop-down menus (helps toward making characters sharable).</li>
       <li>2020-09-20: Players can now reset their passwords (via email).</li>
       <li>2020-09-18: Validate fields creating a new character.</li>

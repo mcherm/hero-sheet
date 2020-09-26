@@ -14,7 +14,11 @@
           :key="item.hsid"
           class="display-contents"
       >
-        <div :class="{'feature-control': true, 'open': showFeatureDetails[item.hsid]}"><button v-if="item.feature" class="invisible" @click="toggleMechanics(item)"><mechanics-icon/></button></div>
+        <div :class="{'feature-control': true, 'open': showFeatureDetails[item.hsid]}">
+          <edit-button v-if="item.feature" class="invisible" :onClick="() => toggleMechanics(item)">
+            <mechanics-icon/>
+          </edit-button>
+        </div>
 
         <div v-if="item.source === 'unselected'">
           <!-- FIXME: Needs a custom widget to do the equipment picker -->
@@ -50,14 +54,14 @@
         <number-entry v-else-if="item.source === 'custom'" class="equipment-cost" v-model="item.cost"/>
         <div v-else class="error">ERROR: '{{item.source}}' not supported</div>
 
-        <button
+        <edit-button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
             :class="{'open': showFeatureDetails[item.hsid]}"
-            v-on:click="onDelete(item)"
+            :onClick="() => onDelete(item)"
         >
           <trash-icon/>
-        </button>
+        </edit-button>
         <div v-if="showFeatureDetails[item.hsid]" class="feature-details">
           <power
               :power="item.feature"
@@ -69,11 +73,11 @@
       <div class="empty-notice" v-if="equipment.length === 0">No Equipment</div>
     </div>
     <div class="scrolling-list-footer">
-      <button v-on:click="addEquipment()">Add Equipment</button>
-      <button v-if="equipment.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible">
+      <edit-button :onClick="addEquipment">Add Equipment</edit-button>
+      <edit-button v-if="equipment.length > 0" :onClick="() => deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
-      </button>
+      </edit-button>
     </div>
   </boxed-section>
 </template>
@@ -183,10 +187,6 @@
   .inapplicable {
     background-color: var(--inapplicable-color);
   }
-  .trash-button {
-    margin: 1px 5px;
-    flex: 0;
-  }
   .name {
     padding: 2px;
   }
@@ -211,6 +211,9 @@
   }
   .feature-control.open {
     grid-row-end: span 2;
+  }
+  .trash-button {
+    background-color: var(--paper-color);
   }
   .trash-button.open {
     grid-row-end: span 2;

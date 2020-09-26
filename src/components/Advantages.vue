@@ -28,30 +28,31 @@
         <div :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
           {{standardAdvantage(advantage).description}}
           <docs-lookup :docsURL="standardAdvantage(advantage).docsURL"/>
-          <button
+          <edit-button
             v-if="allyAdvantages.includes(advantage.name)"
             class="show-ally"
-            @click="$emit('show-ally', advantage.allyHsid)"
-          >{{advantage.name}}</button>
+            :onClick="() => $emit('show-ally', advantage.allyHsid)"
+            :isNavigation="true"
+          >{{advantage.name}}</edit-button>
         </div>
         <string-entry v-model="advantage.description"/>
-        <button
+        <edit-button
             v-if="deleteIsVisible"
             class="trash-button grid-with-lines-no-lines"
-            v-on:click="onDelete(advantage)"
+            :onClick="() => onDelete(advantage)"
         >
           <trash-icon/>
-        </button>
+        </edit-button>
       </div>
 
       <div class="empty-notice" v-if="advantages.length === 0">No Advantages</div>
     </div>
     <div class="scrolling-list-footer">
-      <button v-on:click="addAdvantage()">Add Advantage</button>
-      <button v-if="advantages.length > 0" v-on:click="deleteIsVisible = !deleteIsVisible">
+      <edit-button :onClick="addAdvantage">Add Advantage</edit-button>
+      <edit-button v-if="advantages.length > 0" :onClick="() => deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
-      </button>
+      </edit-button>
     </div>
   </boxed-section>
 </template>
@@ -190,8 +191,8 @@
     margin-top: 5px;
   }
   .trash-button {
-    margin: 5px;
-    flex: 0;
+    margin: 0;
+    background-color: var(--paper-color);
   }
   .inapplicable {
     background-color: var(--inapplicable-color);
