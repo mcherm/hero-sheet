@@ -395,7 +395,7 @@ async function loginEndpoint(event, deployment) {
 
 
 function validatePassword(password) {
-  return new RegExp("^(.{4,})$").test(password)
+  return new RegExp("^(.{4,})$").test(password);
 }
 
 
@@ -557,6 +557,7 @@ async function rebuildIndex(deployment, user) {
     Body: indexAsString
   };
   await s3.putObject(writeTo).promise();
+  await updatePublicUsersFromCharacterInfos(deployment, user, listOfResults);
   return listOfResults.length;
 }
 
@@ -703,6 +704,85 @@ function extractIndexInfo(key, characterData) {
 }
 
 /*
+ * Returns true if the two character data objects are identical; false if not.
+ */
+function indexInfoMatches(characterData1, characterData2) {
+  return (
+    characterData1.key === characterData2.key
+    && characterData1.campaign === characterData2.campaign
+    && characterData1.name === characterData2.name
+    && characterData1.isPublic === characterData2.isPublic
+  );
+}
+
+/*
+ * This invokes updatePublicUsers but takes as input a list of the characters that will
+ * go in a user's index.json file.
+ */
+const updatePublicUsersFromCharacterInfos = async function(deployment, user, characterInfos) {
+  const numPublicCharacters = characterInfos.reduce((count, x) => count + (x.isPublic ? 1 : 0), 0);
+  const publicUserInfo = {
+    user: user,
+    publicCharacters: numPublicCharacters
+  };
+  await updatePublicUsers(deployment, publicUserInfo);
+};
+
+/*
+ * Function for updating the public list of user. publicUserInfo is the data for a single
+ * user which is being added or updated; the remaining data is left as-is.
+ *
+ * DESIGN NOTE: There is a problematic race condition here. I'm not too concerned about race
+ * conditions when updating a single user's information (like "index.json") because the
+ * contention for a single user is likely to be low (you'd have to be logged in on two devices
+ * at once or have TERRIBLE delays). But THIS updates a single file shared by all users of
+ * the site. So a "read-then-rewrite" approach like we use here isn't a good design.
+ *
+ * A better approach would be to record the updates needed (could just write them someplace
+ * or use a queue), then fire off an asynchronous process (in a different lambda) to update
+ * the file where the asynchronous process uses a lock to ensure that only one copy of itself
+ * runs at a time. BUT, until the site scales a bit it probably isn't worth worrying about
+ * that particular optimization so FOR NOW I will just use read-then-rewrite, realizing that
+ * it means sometimes an update will get lost. (The data will be fixed the next time that
+ * user modifies a public character.)
+ */
+const updatePublicUsers = async function(deployment, publicUserInfo) {
+  console.log(`updatePublicUsers()`);
+
+  // --- Read the file ---
+  const filename = `mutants/publicUsers.json`;
+  let currentFile;
+  try {
+    currentFile = await s3.getObject({
+      Bucket: getBucket(deployment),
+      Key: filename
+    }).promise();
+  } catch(err) {
+    console.error(`Could not read publicUsers.json. Will not update it.`, err);
+    return;
+  }
+  const currentFileAsString = currentFile.Body.toString('utf-8');
+  const fileAsJSON = JSON.parse(currentFileAsString);
+  const currentPublicUsers = fileAsJSON.publicUsers;
+
+  // --- Modify the data ---
+  const newPublicUsers = currentPublicUsers.filter(x => x.user !== publicUserInfo.user);
+  newPublicUsers.push(publicUserInfo);
+  newPublicUsers.sort((x,y) => x.publicCharacters - y.publicCharacters);
+  fileAsJSON.publicUsers = newPublicUsers;
+
+
+  // --- Rewrite the file ---
+  const newFileAsString = JSON.stringify(fileAsJSON, null, 2) + "\n";
+  const writeTo = {
+    Bucket: getBucket(deployment),
+    Key: filename,
+    Body: newFileAsString
+  };
+  await s3.putObject(writeTo).promise();
+};
+
+/*
  * This will update the index.json file for the user by modifying a
  * single record. Provide the user, the key for the character (that's
  * the whole path), and the characterData in JSON form. To delete a
@@ -710,6 +790,8 @@ function extractIndexInfo(key, characterData) {
  */
 async function updateRecordInIndex(deployment, user, characterKey, characterData) {
   console.log("invoked updateRecordInIndex");
+
+  // --- Read existing index.json file ---
   const folderName = getFolderName(user);
   const filename = `mutants/users/${folderName}/index.json`;
   let currentFile;
@@ -725,20 +807,68 @@ async function updateRecordInIndex(deployment, user, characterKey, characterData
   const currentFileAsString = currentFile.Body.toString('utf-8');
   const fileAsJSON = JSON.parse(currentFileAsString);
   const currentCharacters = fileAsJSON.characters;
-  const newCharacters = currentCharacters.map(character => {
-    return character.key === characterKey ? null: character;
-  });
-  if (characterData !== null) {
-    newCharacters.push(extractIndexInfo(characterKey, characterData));
+
+  // --- Obtain index data for the new info ---
+  const newIndexInfo = characterData === null ? null : extractIndexInfo(characterKey, characterData);
+
+  // --- Determine what changed ---
+  const matchingCharacters = currentCharacters.filter(x => x.key === characterKey);
+  if (matchingCharacters.length > 1) {
+    throw new Error("Existing index.json had a duplicate entry.");
   }
-  fileAsJSON.characters = newCharacters.filter(x => x !== null);
+  let somethingChanged;
+  let somethingPublicChanged;
+  if (characterData === null) {
+    // Deleting a character
+    if (matchingCharacters.length === 1) {
+      somethingChanged = true;
+      somethingPublicChanged = matchingCharacters[0].isPublic;
+    } else {
+      somethingChanged = false;
+      somethingPublicChanged = false;
+    }
+  } else {
+    if (matchingCharacters.length === 1) {
+      // Modifying a character
+      if (indexInfoMatches(matchingCharacters[0], newIndexInfo)) {
+        somethingChanged = false;
+        somethingPublicChanged = false;
+      } else {
+        somethingChanged = true;
+        somethingPublicChanged = matchingCharacters[0].isPublic || newIndexInfo.isPublic;
+      }
+    } else {
+      // Adding a character
+      somethingChanged = true;
+      somethingPublicChanged = newIndexInfo.isPublic;
+    }
+  }
+
+  // --- Early exit if nothing changed ---
+  if (!somethingChanged) {
+    return;
+  }
+
+  // --- Determine the new list of characters ---
+  const newCharacters = currentCharacters.filter(x => x.key !== characterKey);
+  if (newIndexInfo !== null) {
+    newCharacters.push(newIndexInfo);
+  }
+
+  // --- Write out index.json file ---
+  fileAsJSON.characters = newCharacters;
   const newFileAsString = JSON.stringify(fileAsJSON, null, 2) + "\n";
   const writeTo = {
     Bucket: getBucket(deployment),
     Key: filename,
     Body: newFileAsString
-  }
+  };
   await s3.putObject(writeTo).promise();
+
+  // --- Update publicUsers.json ---
+  if (somethingPublicChanged) {
+    await updatePublicUsersFromCharacterInfos(deployment, user, newCharacters);
+  }
 }
 
 
@@ -767,6 +897,7 @@ async function createCharacterEndpoint(event, deployment) {
       body: JSON.stringify(responseBody)
     };
   } catch(err) {
+    console.error("Could not save new character:", err);
     return {
       statusCode: 500,
       body: JSON.stringify("Could not save.")
@@ -805,7 +936,7 @@ async function getCharacterEndpoint(event, deployment) {
   if (mustBePublic) {
     // We must verify that the character is public; if not we will throw the notLoggedInErr
     try {
-      const isPublic = JSON.parse(responseBody).sharing.isPublic
+      const isPublic = JSON.parse(responseBody).sharing.isPublic;
       if (!isPublic) {
         throw notLoggedInErr;
       }
@@ -841,6 +972,7 @@ async function putCharacterEndpoint(event, deployment) {
       body: JSON.stringify("Success")
     };
   } catch(err) {
+    console.error(`Error attempting to save character:`, err);
     return {
       statusCode: 500,
       body: JSON.stringify("Could not save.")
@@ -866,6 +998,7 @@ async function deleteCharacterEndpoint(event, deployment) {
       body: JSON.stringify(`Deleted ${characterId}`)
     };
   } catch(err) {
+    console.error(`Could not delete ${characterId}:`, err);
     return {
       statusCode: 500,
       body: JSON.stringify(`Could not delete ${characterId}.`)
@@ -884,7 +1017,7 @@ async function rebuildIndexEndpoint(event, deployment) {
       body: JSON.stringify(`Rebuilt index for ${user} with ${numberOfCharacters} characters.`)
     };
   } catch(err) {
-    console.log("Had error:", err);
+    console.error("Had error:", err);
     return {
       statusCode: 500,
       body: JSON.stringify("Error rebuilding index.")
@@ -1008,9 +1141,7 @@ async function requestPasswordResetEndpoint(event, deployment) {
     },
     Source: "system@hero-sheet.com"
   };
-  console.log(`about to send email with ${JSON.stringify(emailParams)}`); // FIXME: Remove
   const sendEmailResult = await ses.sendEmail(emailParams).promise();
-  console.log(`sent email. result = ${JSON.stringify(sendEmailResult)}`); // FIXME: Remove
 
   // --- Return Success ---
   return {
@@ -1058,7 +1189,7 @@ async function resetPasswordEndpoint(event, deployment) {
     return {
       statusCode: 403,
       body: JSON.stringify("Password reset not permitted.")
-    }
+    };
   }
 
   // --- Verify Auth Token Exists, is Not Expired and Matches ---
@@ -1066,7 +1197,7 @@ async function resetPasswordEndpoint(event, deployment) {
     return {
       statusCode: 403,
       body: JSON.stringify("Password reset not permitted.")
-    }
+    };
   }
   const parsedDate = Date.parse(authTokenExpireDate);
   const now = Date.now();
@@ -1074,13 +1205,13 @@ async function resetPasswordEndpoint(event, deployment) {
     return {
       statusCode: 403,
       body: JSON.stringify("Password reset has expired.")
-    }
+    };
   }
   if (providedAuthToken !== expectedAuthToken) {
     return {
       statusCode: 403,
       body: JSON.stringify("Password reset not permitted.")
-    }
+    };
   }
 
   // --- Encode Password ---
@@ -1151,6 +1282,11 @@ const ROUTING = {
     "GET": getViewingEndpoint,
     "OPTIONS": optionsEndpoint,
   },
+  // FIXME: This will be added after we write the data. It will read publicUsers.json.
+  // "/viewable-users": {
+  //   "GET": getViewableUsersEndpoint,
+  //   "OPTIONS": optionsEndpoint,
+  // },
 };
 
 
@@ -1210,7 +1346,7 @@ exports.handler = async (event) => {
       };
     } else {
       // --- Unexpected Error ---
-      console.log("Returning 500 error due to:", err);
+      console.error("Returning 500 error due to:", err);
       response = {
         statusCode: 500,
         body: JSON.stringify(err.toString())
