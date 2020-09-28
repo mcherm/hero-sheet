@@ -24,7 +24,7 @@
       </div>
     </div>
     <div v-if="viewing !== null"  class="buttons">
-      <edit-button v-if="this.$globals.developerMode" :onClick="() => showingViewedUserPicker = true">Choose Users</edit-button>
+      <edit-button :onClick="() => showingViewedUserPicker = true">Choose Users</edit-button>
     </div>
     <modal-lightbox
         v-if="showingViewedUserPicker"
