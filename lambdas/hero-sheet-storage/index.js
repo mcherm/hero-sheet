@@ -12,7 +12,7 @@ const s3 = new AWS.S3();
 
 // Initialize the schema validator
 const ajv = Ajv({allErrors: true});
-for (const schemaName of ["common", "charsheet"]) {
+for (const schemaName of ["common", "charsheet", "viewing"]) {
   const schema = require(`schema/${schemaName}.schema.json`);
   ajv.addSchema(schema, schemaName);
 }
@@ -21,7 +21,7 @@ for (const schemaName of ["common", "charsheet"]) {
  * Attempts to validate the schema. Returns REGARDLESS of whether it is successful,
  * but will log failures.
  */
-function validateSchema(charsheet) {
+function validateCharsheetSchema(charsheet) {
   console.log('Schema Validation Running'); // FIXME: Remove
   const isValid = ajv.validate("charsheet", charsheet);
   if (!isValid) {
@@ -30,12 +30,27 @@ function validateSchema(charsheet) {
   }
 }
 
+class InvalidViewingError extends Error {
+}
+
+/*
+ * Attempts to validate the schema. Raises an InvalidViewingError exception if it fails.
+ */
+function validateViewingSchema(viewing) {
+  const isValid = ajv.validate("viewing", viewing);
+  if (!isValid) {
+    console.error("Schema Validation of Viewing Failed");
+    console.error(`Viewing Schema Validation Errors: ${JSON.stringify(ajv.errors, null, 2)}`);
+    throw new InvalidViewingError();
+  }
+}
+
 console.log("loaded");
 
 /*
  * Given a deployment, this returns the correct bucket to use.
  */
-const getBucket = function(deployment) {
+function getBucket(deployment) {
   const result = {
     "prod": "hero-sheet-storage",
     "dev": "hero-sheet-storage-dev"
@@ -48,7 +63,7 @@ const getBucket = function(deployment) {
  * Given a user (or email) string, this returns the folder that user (or email) is
  * stored in.
  */
-const getFolderName = function(user) {
+function getFolderName(user) {
   return user.toLowerCase();
 }
 
@@ -274,7 +289,7 @@ const KEY_LEN = 64;
  * object with keys "salt" and "hash", each of which is an 88-character-long
  * base-64-encoded string.
  */
-const encodePassword = async function(newPassword) {
+async function encodePassword(newPassword) {
   const salt = crypto.randomBytes(SALT_LEN);
   const hash = await new Promise((resolve, reject) =>
     crypto.scrypt(newPassword, salt, KEY_LEN, (err, hash) =>
@@ -286,14 +301,14 @@ const encodePassword = async function(newPassword) {
     hash: hash.toString("base64")
   };
   return result;
-};
+}
 
 /*
  * Given a password used to log in and the salt and hash that were encoded
  * when the user created or updated their password, this returns true if
  * the password is correct and false if it is not.
  */
-const testPassword = async function(loginPassword, salt, hash) {
+async function testPassword(loginPassword, salt, hash) {
   const saltBuffer = new Buffer(salt, "base64");
   const computedHash = await new Promise((resolve, reject) =>
     crypto.scrypt(loginPassword, saltBuffer, KEY_LEN, (err, hash) =>
@@ -301,7 +316,7 @@ const testPassword = async function(loginPassword, salt, hash) {
     )
   );
   return computedHash.toString("base64") === hash;
-};
+}
 
 
 /*
@@ -719,14 +734,14 @@ function indexInfoMatches(characterData1, characterData2) {
  * This invokes updatePublicUsers but takes as input a list of the characters that will
  * go in a user's index.json file.
  */
-const updatePublicUsersFromCharacterInfos = async function(deployment, user, characterInfos) {
+async function updatePublicUsersFromCharacterInfos(deployment, user, characterInfos) {
   const numPublicCharacters = characterInfos.reduce((count, x) => count + (x.isPublic ? 1 : 0), 0);
   const publicUserInfo = {
     user: user,
     publicCharacters: numPublicCharacters
   };
   await updatePublicUsers(deployment, publicUserInfo);
-};
+}
 
 /*
  * Function for updating the public list of user. publicUserInfo is the data for a single
@@ -746,7 +761,7 @@ const updatePublicUsersFromCharacterInfos = async function(deployment, user, cha
  * it means sometimes an update will get lost. (The data will be fixed the next time that
  * user modifies a public character.)
  */
-const updatePublicUsers = async function(deployment, publicUserInfo) {
+async function updatePublicUsers(deployment, publicUserInfo) {
   console.log(`updatePublicUsers()`);
 
   // --- Read the file ---
@@ -768,7 +783,7 @@ const updatePublicUsers = async function(deployment, publicUserInfo) {
   // --- Modify the data ---
   const newPublicUsers = currentPublicUsers.filter(x => x.user !== publicUserInfo.user);
   newPublicUsers.push(publicUserInfo);
-  newPublicUsers.sort((x,y) => x.publicCharacters - y.publicCharacters);
+  newPublicUsers.sort((x,y) => y.publicCharacters - x.publicCharacters);
   fileAsJSON.publicUsers = newPublicUsers;
 
 
@@ -780,7 +795,7 @@ const updatePublicUsers = async function(deployment, publicUserInfo) {
     Body: newFileAsString
   };
   await s3.putObject(writeTo).promise();
-};
+}
 
 /*
  * This will update the index.json file for the user by modifying a
@@ -875,7 +890,7 @@ async function updateRecordInIndex(deployment, user, characterKey, characterData
 async function createCharacterEndpoint(event, deployment) {
   console.log("invoked createCharacterEndpoint");
   const user = await getLoggedInUser(event, deployment);
-  validateSchema(JSON.parse(event.body));
+  validateCharsheetSchema(JSON.parse(event.body));
   const characterId = createCharacterId();
   console.log(`new character ID: ${characterId} for user ${user}`);
   const folderName = getFolderName(user);
@@ -932,7 +947,7 @@ async function getCharacterEndpoint(event, deployment) {
     Bucket: getBucket(deployment),
     Key: filename
   }).promise();
-  const responseBody = file.Body.toString('utf-8');
+  const responseBody = file.Body.toString("utf-8");
   if (mustBePublic) {
     // We must verify that the character is public; if not we will throw the notLoggedInErr
     try {
@@ -954,7 +969,7 @@ async function getCharacterEndpoint(event, deployment) {
 async function putCharacterEndpoint(event, deployment) {
   console.log("invoked putCharacterEndpoint");
   const user = await getLoggedInUser(event, deployment);
-  validateSchema(JSON.parse(event.body));
+  validateCharsheetSchema(JSON.parse(event.body));
   const folderName = getFolderName(user);
   const characterId = event.pathParameters.characterId;
   const filename = `mutants/users/${folderName}/characters/${characterId}.json`;
@@ -1049,6 +1064,52 @@ async function getViewingEndpoint(event, deployment) {
   return {
     statusCode: 200,
     body: responseBody,
+  };
+}
+
+async function putViewingEndpoint(event, deployment) {
+  console.log("invoked putViewingEndpoint");
+  const user = await getLoggedInUser(event, deployment);
+  const viewingJson = JSON.parse(event.body);
+  validateViewingSchema(viewingJson);
+
+  const folderName = getFolderName(user);
+  const filename = `mutants/users/${folderName}/viewing.json`;
+  try {
+    const writeTo = {
+      Bucket: getBucket(deployment),
+      Key: filename,
+      Body: event.body
+    };
+    await s3.putObject(writeTo).promise();
+    return {
+      statusCode: 200,
+      body: JSON.stringify("Success")
+    };
+  } catch(err) {
+    console.error(`Error attempting to update viewing preferences:`, err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify("Error attempting to update viewing preferences.")
+    };
+  }
+}
+
+
+async function getViewableUsersEndpoint(event, deployment) {
+  console.log("invoked getViewableUsersEndpoint");
+  // Design Note: we will insist you be logged in to get this. For now it's just a global fixed
+  //  resource, but perhaps someday it will be customized to the user.
+  const user = await getLoggedInUser(event, deployment);
+  const filename = `mutants/publicUsers.json`;
+  const file = await s3.getObject({
+    Bucket: getBucket(deployment),
+    Key: filename
+  }).promise();
+  const responseBody = file.Body.toString("utf-8");
+  return {
+    statusCode: 200,
+    body: responseBody
   };
 }
 
@@ -1278,15 +1339,15 @@ const ROUTING = {
     "POST": resetPasswordEndpoint,
     "OPTIONS": optionsEndpoint,
   },
-  "/users/{user}/viewing": {
-    "GET": getViewingEndpoint,
+  "/users/{user}/viewable-users": {
+    "GET": getViewableUsersEndpoint,
     "OPTIONS": optionsEndpoint,
   },
-  // FIXME: This will be added after we write the data. It will read publicUsers.json.
-  // "/viewable-users": {
-  //   "GET": getViewableUsersEndpoint,
-  //   "OPTIONS": optionsEndpoint,
-  // },
+  "/users/{user}/viewing": {
+    "GET": getViewingEndpoint,
+    "PUT": putViewingEndpoint,
+    "OPTIONS": optionsEndpoint,
+  },
 };
 
 

@@ -6,6 +6,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-09-28: Checkboxes can be non-editable AND (big deal) users can now subscribe to view public characters of other users!</li>
       <li>2020-09-25: Other players' characters are now fully immutable when viewed.</li>
       <li>2020-09-25: Created consistent buttons across the whole interface (helps with sharable characters).</li>
       <li>2020-09-23: Rewrite drop-down menus (helps toward making characters sharable).</li>
@@ -92,8 +93,7 @@
     </ul>
     <h2>Major Features Needed</h2>
     <ul class="scrolling-list">
-      <li>Numerous powers and abilities should impact other fields <span class="making-progress">(making progress)</span></li>
-      <li>Support for sidekicks, summons, morphs, and variable powers.</li>
+      <li>Support for summons, morphs, and variable powers.</li>
       <li>Printable character sheet</li>
     </ul>
     <h2>Special Settings</h2>

@@ -6,7 +6,7 @@
 <template>
   <div class="character-picker-viewing">
     <div v-if="viewing === null" class="placeholder">Loading...</div>
-    <div v-if="viewing !== null && viewing.publicViewedUsers.length === 0" class="no-data">No access to public characters</div>
+    <div v-if="viewing !== null && viewing.publicViewedUsers.length === 0" class="placeholder">Not viewing any public characters</div>
     <div v-if="viewing !== null && viewing.publicViewedUsers.length > 0" class="grid-with-lines viewing">
       <div v-for="(viewedUser, index) of viewing.publicViewedUsers" :key="viewedUser"  class="display-contents">
         <div v-if="index !== 0" class="user-divider"></div>
@@ -23,25 +23,36 @@
         </div>
       </div>
     </div>
-    <div v-if="viewing !== null && viewing.publicViewedUsers.length > 0"  class="buttons">
-      <edit-button v-if="this.$globals.developerMode" :onClick="notImplemented">Add User</edit-button>
-      <edit-button v-if="this.$globals.developerMode" :onClick="notImplemented">Delete User</edit-button>
+    <div v-if="viewing !== null"  class="buttons">
+      <edit-button v-if="this.$globals.developerMode" :onClick="() => showingViewedUserPicker = true">Choose Users</edit-button>
     </div>
+    <modal-lightbox
+        v-if="showingViewedUserPicker"
+        :button-names="['Cancel', 'Done']"
+        v-on:exit="exitPickViewedUsers($event)">
+      <viewed-user-picker :user="user" :viewed-users-map="viewedUsersMapBeingEdited"/>
+    </modal-lightbox>
   </div>
 </template>
 
 <script>
-  import {NotLoggedInError, getViewing, listPublicCharacters} from "../js/api.js";
+  import {NotLoggedInError, getViewing, putViewing, listPublicCharacters} from "../js/api.js";
+  import ViewedUserPicker from "@/components/ViewedUserPicker.vue";
 
   export default {
     name: "CharacterPickerViewing",
+    components: {
+      ViewedUserPicker
+    },
     props: {
       user: { type: String, required: true },
     },
     data: function() {
       return {
         viewing: null,
+        viewedUsersMapBeingEdited: null,
         publicCharacters: {},
+        showingViewedUserPicker: false,
       }
     },
     created: async function() {
@@ -53,7 +64,8 @@
           this.viewing = null;
           this.publicCharacters = {};
           this.viewing = await getViewing(this.user);
-          await Promise.allSettled(this.viewing.publicViewedUsers.map(this.loadCharactersForUser));
+          this.resetMapBeingEdited();
+          await this.loadCharactersForAllUsers();
         } catch(err) {
           if (err instanceof NotLoggedInError) {
             this.$emit("not-logged-in");
@@ -63,6 +75,9 @@
             throw err;
           }
         }
+      },
+      loadCharactersForAllUsers: async function() {
+        await Promise.allSettled(this.viewing.publicViewedUsers.map(this.loadCharactersForUser));
       },
       loadCharactersForUser: async function(viewedUser) {
         const response = await listPublicCharacters(viewedUser); // Retrieve characters (or can throw exception instead)
@@ -79,8 +94,29 @@
       idFromKey: function(key) {
         return key.match("mutants/users/[^/]+/characters/(.*)\.json")[1];
       },
-      notImplemented: function() {
-        alert("Under Development");
+      resetMapBeingEdited: function() {
+        this.viewedUsersMapBeingEdited = Object.fromEntries(
+            this.viewing.publicViewedUsers.map(x => [x,true])
+        );
+      },
+      exitPickViewedUsers: async function(buttonClicked) {
+        this.showingViewedUserPicker = false;
+        if (buttonClicked === "Done") {
+          const publicViewedUsers = [];
+          for (const name in this.viewedUsersMapBeingEdited) {
+            if (this.viewedUsersMapBeingEdited[name]) {
+              publicViewedUsers.push(name);
+            }
+          }
+          const viewing = { publicViewedUsers };
+          const update = await putViewing(this.user, viewing); // FIXME: Should check for errors and report
+          this.viewing = viewing;
+          this.resetMapBeingEdited();
+          await this.loadCharactersForAllUsers();
+        } else {
+          // The user cancelled the modal, so just reset the map.
+          this.resetMapBeingEdited();
+        }
       }
     }
   }
@@ -92,6 +128,10 @@
   }
   .viewing {
     grid-template-columns: max-content max-content max-content;
+  }
+  .placeholder {
+    padding: 2px;
+    border: 2px solid var(--grid-line-color);
   }
   .user-divider {
     grid-column-end: span 3;

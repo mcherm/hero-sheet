@@ -6,11 +6,11 @@
   <CollapsingSection class="stats-extras" title="Ability Extras" :columns="2">
       <label class="row-label" for="is-mindless-construct">Mindless Construct</label>
       <div class="grid-with-lines-cell">
-        <input type="checkbox" id="is-mindless-construct" :checked="charsheet.misc.isMindlessConstruct" @change="toggleIsConstruct('isMindlessConstruct')">
+        <edit-checkbox id="is-mindless-construct" :value="charsheet.misc.isMindlessConstruct" @input="toggleIsConstruct('isMindlessConstruct')"/>
       </div>
       <label class="row-label" for="is-immobile-construct">Immobile Construct</label>
       <div class="grid-with-lines-cell">
-        <input type="checkbox" id="is-immobile-construct" :checked="charsheet.misc.isImmobileConstruct" @change="toggleIsConstruct('isImmobileConstruct')">
+        <edit-checkbox id="is-immobile-construct" :value="charsheet.misc.isImmobileConstruct" @input="toggleIsConstruct('isImmobileConstruct')"/>
       </div>
       <div class="display-contents"
            v-for="(statData, statName) in statsData"
@@ -18,7 +18,7 @@
       >
         <label class="row-label grid-with-lines-cell" :for="`lacks-{statName}`">Lacks {{statName}}</label>
         <div class="grid-with-lines-cell">
-          <input type="checkbox" :id="`lacks-{statName}`" :checked="lacksStat(charsheet, statName)" @change="toggleLacksStat(statName)">
+          <edit-checkbox :id="`lacks-${statName}`" :value="lacksStat(charsheet, statName)" @input="toggleLacksStat(statName)"/>
         </div>
       </div>
   </CollapsingSection>
