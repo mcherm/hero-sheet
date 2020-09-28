@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fetch-schema": "rm -rf schema && mkdir -p schema && cp ../../src/schema/charsheet.schema.json schema && cp ../../src/schema/common.schema.json schema",
+    "fetch-schema": "rm -rf schema && mkdir -p schema && cp ../../src/schema/charsheet.schema.json schema && cp ../../src/schema/common.schema.json schema && cp ../../src/schema/viewing.schema.json schema",
     "build": "rm -f hero-sheet-storage.zip && 7z a hero-sheet-storage.zip -r *",
     "deploy": "aws lambda update-function-code --function-name hero-sheet-storage-dev --zip-file fileb://hero-sheet-storage.zip --publish",
     "do-all": "npm install && npm run fetch-schema && npm run build && npm run deploy",

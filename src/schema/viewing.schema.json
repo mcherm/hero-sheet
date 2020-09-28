@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/viewing.schema.json",
+  "type": "object",
+  "title": "Root Schema for viewing.json",
+  "description": "The file that contains info on what a user can view from other people.",
+  "properties": {
+    "publicViewedUsers": { "$ref":  "#/definitions/PublicViewedUsers" }
+  },
+  "required": ["publicViewedUsers"],
+  "additionalProperties": false,
+  "definitions": {
+    "PublicViewedUsers": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

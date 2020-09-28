@@ -160,6 +160,17 @@ async function getViewing(user) {
   return await performAPICall(path, "GET", "list users being viewed");
 }
 
+async function putViewing(user, viewing) {
+  const path = `/users/${user}/viewing`;
+  return await performAPICall(path, "PUT", "update the list of users being viewed", viewing, true);
+}
+
+async function getViewableUsers(user) {
+  const path = `/users/${user}/viewable-users`;
+  return await performAPICall(path, "GET", "get the list of users with public characters");
+}
+
+
 export {
   setDeployment,
   APIError,
@@ -178,4 +189,6 @@ export {
   rebuildIndex,
   resetPassword,
   getViewing,
+  putViewing,
+  getViewableUsers,
 };
