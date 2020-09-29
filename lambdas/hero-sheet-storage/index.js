@@ -256,10 +256,16 @@ async function restoreSessionEndpoint(event, deployment) {
   const muffinUser = muffinFields.user;
   const muffinSessionId = muffinFields.sessionId;
 
-  // --- Verify sessionId is valid ---
-  const sessionFound = await evaluateSessionId(deployment, muffinUser, muffinSessionId, true);
-  const isValid = Boolean(muffinUser) && Boolean(muffinSessionId) && sessionFound;
+  // --- Check whether sessionId is valid ---
+  let isValid;
+  if (muffinUser && muffinSessionId) {
+    const sessionFound = await evaluateSessionId(deployment, muffinUser, muffinSessionId, true);
+    isValid = Boolean(muffinUser) && Boolean(muffinSessionId) && sessionFound;
+  } else {
+    isValid = false;
+  }
 
+  // --- Return response ---
   const responseBody = {
     "isValid": isValid,
     "user": muffinUser

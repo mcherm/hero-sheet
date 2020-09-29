@@ -1,11 +1,20 @@
 <template>
   <div class="about-box-contents">
     <h1>About Hero-Sheet</h1>
-    <p>Hero-Sheet is a web application for making character sheets in the game Mutants and Masterminds.</p>
+    <p>
+      Hero-Sheet is a web application for making character sheets in the game Mutants and Masterminds.
+      It was created by Michael Chermside (<a href="https://mcherm.com">mcherm.com</a>).
+    </p>
+    <h2>Open Beta Test</h2>
+    <p>
+      Hero-Sheet is currently in an open Beta test. That means you are invited to use it, but we believe there
+      is still a bit of work to do before we could consider it to be complete.
+    </p>
     <h2>Feedback</h2>
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-09-29: <b>Version 1.0 Released!</b></li>
       <li>2020-09-28: Checkboxes can be non-editable AND (big deal) users can now subscribe to view public characters of other users!</li>
       <li>2020-09-25: Other players' characters are now fully immutable when viewed.</li>
       <li>2020-09-25: Created consistent buttons across the whole interface (helps with sharable characters).</li>
