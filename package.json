@@ -19,14 +19,14 @@
   "author": "Michael Chermside",
   "license": "ISC",
   "dependencies": {
-    "ajv": "^6.12.4",
+    "ajv": "^6.12.5",
     "get-random-values": "^1.2.2",
     "s3-easy-deploy": "^1.1.0",
     "vue": "^2.6.12"
   },
   "postcss": {},
   "devDependencies": {
-    "@vue/cli-service": "^4.5.4",
+    "@vue/cli-service": "^4.5.6",
     "ajv-cli": "^3.3.0",
     "vue-template-compiler": "^2.6.12"
   }
