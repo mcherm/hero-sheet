@@ -1,6 +1,6 @@
 {
   "name": "hero-sheet",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "A website providing a character sheet for the game Mutants and Masterminds.",
   "main": "index.js",
   "scripts": {

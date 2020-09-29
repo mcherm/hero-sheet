@@ -107,12 +107,6 @@
     "isRanked": false,
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-EIDETIC-MEMORY-GENERAL-"
   },
-  "Equipment": {
-    "name": "Equipment",
-    "description": "5 points of equipment per rank.",
-    "isRanked": true,
-    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-EQUIPMENT-GENERAL-RANKED-"
-  },
   "Evasion": {
     "name": "Evasion",
     "description": "Circumstance bonus to avoid area effects.",

@@ -3,7 +3,7 @@
     <div class="text-logo">
       <span class="level-1">Hero-Sheet</span>
       <span class="level-3"> : Mutants and Masterminds</span>
-      <span class="level-2"> : Open for Alpha Testing</span>
+      <span class="level-2"> : Open Beta Test</span>
     </div>
   </div>
 </template>
