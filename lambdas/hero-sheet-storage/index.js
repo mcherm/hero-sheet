@@ -788,10 +788,11 @@ async function updatePublicUsers(deployment, publicUserInfo) {
 
   // --- Modify the data ---
   const newPublicUsers = currentPublicUsers.filter(x => x.user !== publicUserInfo.user);
-  newPublicUsers.push(publicUserInfo);
-  newPublicUsers.sort((x,y) => y.publicCharacters - x.publicCharacters);
+  if (publicUserInfo.publicCharacters > 0) {
+    newPublicUsers.push(publicUserInfo);
+    newPublicUsers.sort((x,y) => y.publicCharacters - x.publicCharacters);
+  }
   fileAsJSON.publicUsers = newPublicUsers;
-
 
   // --- Rewrite the file ---
   const newFileAsString = JSON.stringify(fileAsJSON, null, 2) + "\n";

@@ -4,7 +4,7 @@
       <label>Username or Email</label>
       <input v-model="loginUserOrEmail"/>
       <label>Password</label>
-      <input v-model="loginPassword" @keyup.enter="attemptLogin()"/>
+      <input type="password" v-model="loginPassword" @keyup.enter="attemptLogin()"/>
       <edit-button :onClick="attemptLogin" :disabled="!loginFieldsAreValid" class="button">Log In</edit-button>
       <collapsing-section class="ten-px-top-margin" title="Forgot Password">
         <div class="forgot-password-form">
@@ -37,7 +37,7 @@
         </div>
         <div>
           <label>Password</label>
-          <input v-model="newPassword" :pattern="allowedRegEx.password" @keyup.enter="attemptLogin()"/>
+          <input type="password" v-model="newPassword" :pattern="allowedRegEx.password" @keyup.enter="attemptLogin()"/>
         </div>
         <div class="explanation">
           A password to log into your account (minimum length 4).

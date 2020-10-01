@@ -39,6 +39,19 @@
     created: async function() {
       const viewableUsers = await getViewableUsers(this.user);
       this.publicUsers = viewableUsers.publicUsers;
+      await this.dropViewedUsersWithNoPublicCharacters()
+    },
+    methods: {
+      // A user might remove all of their public characters. If we notice this has
+      // happened to a user we are viewing, we should stop viewing that user
+      dropViewedUsersWithNoPublicCharacters: async function() {
+        const setOfPublicUserNames = Object.fromEntries(this.publicUsers.map(x => [x.user, true]));
+        for (const viewedUser in this.viewedUsersMap) {
+          if (!setOfPublicUserNames[viewedUser]) {
+            this.viewedUsersMap[viewedUser] = false;
+          }
+        }
+      }
     },
   }
 </script>

@@ -14,6 +14,8 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-09-30: Stop displaying other users who have 0 public characters.</li>
+      <li>2020-09-30: Mask passwords in the UI.</li>
       <li>2020-09-29: <b>Version 1.0 Released!</b></li>
       <li>2020-09-28: Checkboxes can be non-editable AND (big deal) users can now subscribe to view public characters of other users!</li>
       <li>2020-09-25: Other players' characters are now fully immutable when viewed.</li>
