@@ -219,10 +219,17 @@
         }
         // ally-type specific things
         if (allyAdvantagesLowercase.includes(ally.type)) {
-          const allyAdvantage = parentCharsheet.advantages.find(x => x.allyHsid = allyHsid);
-          if (allyAdvantage === undefined) {
-            console.log(`Ally ${allyHsid} has no source. Probably need to handle that case. Maybe delete the ally?`);
+          const allyAdvantages = parentCharsheet.advantages.filter(x => x.allyHsid === allyHsid);
+          if (allyAdvantages.length === 0) {
+            const message = `Ally ${allyHsid} has no source. Probably need to handle that case. Maybe delete the ally?`;
+            console.log(message);
+            throw Error(message);
+          } else if (allyAdvantages.length > 1) {
+            const message = `Ally ${allyHsid} has MORE THAN 1 source. That's definitely a bug!`;
+            console.log(message);
+            throw Error(message);
           }
+          const allyAdvantage = allyAdvantages[0];
           const newUpdaterEvent = {
             charsheet: parentCharsheet,
             updater: "AllyUpdater",
