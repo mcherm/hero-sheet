@@ -261,13 +261,17 @@ class AttackUpdater extends Updater {
    * the value of the hsid.
    */
   getCalculations(hsid) {
+    const range = this.findRange();
+    const adjustmentForDistance = activeEffectModifier(this.charsheet, `attacks@${range}.check`);
+    const adjustmentForSpecificAttack = activeEffectModifier(this.charsheet, `attacks.${hsid}.check`);
+    const attackCheckAdjustment = adjustmentForDistance + adjustmentForSpecificAttack;
     return {
       name: this.getName(),
-      range: this.findRange(),
+      range: range,
       scope: this.findScope(),
       ranks: this.getRanks(),
       isStrengthBased: this.isStrengthBased(),
-      attackCheckAdjustment: activeEffectModifier(this.charsheet, `attacks.${hsid}.check`),
+      attackCheckAdjustment: attackCheckAdjustment,
     };
   }
 
@@ -634,6 +638,36 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
 }
 
 
+class CloseAttackUpdater extends ActiveEffectFromAdvantageUpdater {
+  getActiveEffectKey() {
+    return "attacks@close.check";
+  }
+
+  activeEffectValue() {
+    return this.advantage.ranks;
+  }
+
+  getDescription() {
+    return "Close Attack Advantage";
+  }
+}
+
+
+class DefensiveRollUpdater extends ActiveEffectFromAdvantageUpdater {
+  getActiveEffectKey() {
+    return "defenses.toughness.ranks";
+  }
+
+  activeEffectValue() {
+    return this.advantage.ranks;
+  }
+
+  getDescription() {
+    return "Defensive Roll Advantage";
+  }
+}
+
+
 class ImprovedInitiativeUpdater extends ActiveEffectFromAdvantageUpdater {
   getActiveEffectKey() {
     return "initiative";
@@ -660,6 +694,21 @@ class JackOfAllTradesUpdater extends ActiveEffectFromAdvantageUpdater {
 
   getDescription() {
     return "Jack of All Trades Advantage";
+  }
+}
+
+
+class RangedAttackUpdater extends ActiveEffectFromAdvantageUpdater {
+  getActiveEffectKey() {
+    return "attacks@ranged.check";
+  }
+
+  activeEffectValue() {
+    return this.advantage.ranks;
+  }
+
+  getDescription() {
+    return "Ranged Attack Advantage";
   }
 }
 
@@ -1128,8 +1177,11 @@ const updaterClasses = {
   UnarmedAttackUpdater,
   ThrownAttackUpdater,
   PowerAttackUpdater,
+  CloseAttackUpdater,
+  DefensiveRollUpdater,
   ImprovedInitiativeUpdater,
   JackOfAllTradesUpdater,
+  RangedAttackUpdater,
   EnhancedTraitUpdater,
   ProtectionUpdater,
   CombatSkillUpdater,

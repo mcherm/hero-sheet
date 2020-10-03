@@ -72,6 +72,22 @@ Stat Ranks:
    * "lack": means the character lacks this ability
    * "construct" means the character lacks this ability due to being a construct
 
+Active Effects:
+  When something in one part of the charsheet alters values in a different part, that's
+  an Active Effect. The user is able to view the active effects and suppress applying
+  them.
+
+  We have a list of active effects and a set of patterns for describing them. The list
+  of active effects supported in the application is (I hope this is complete):
+   * initiative
+   * jackOfAllTrades
+   * defenses.<dodge|fortitude|parry|toughness|will>.ranks
+   * abilities.<strength|stamina|agility|dexterity|fighting|intellect|awareness|presence>.ranks
+   * skills.skillList@<acrobatics|athletics|deception|insight|intimidation|investigation|perception|persuasion|slight of hand|stealth|technology|treatment|vehicles>
+   * attacks.<HSID>.check
+   * attacks@close.check
+   * attacks@ranged.check
+
 === Design for public characters ===
 How about this idea?
  * A user can mark certain characters as "public".

@@ -15,7 +15,8 @@
         "name": { "$ref": "common.schema.json#/definitions/Name" },
         "description": { "$ref": "common.schema.json#/definitions/Description" },
         "isRanked": { "type": "boolean" },
-        "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL"}
+        "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL"},
+        "advantageUpdater": { "type": "string" }
       },
       "required": [ "name", "description", "isRanked", "docsURL" ],
       "additionalProperties": false
