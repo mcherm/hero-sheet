@@ -63,7 +63,8 @@
     "name": "Close Attack",
     "description": "+1 bonus to close attack checks per rank.",
     "isRanked": true,
-    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-CLOSE-ATTACK-COMBAT-RANKED-"
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-CLOSE-ATTACK-COMBAT-RANKED-",
+    "advantageUpdater": "CloseAttackUpdater"
   },
   "Connected": {
     "name": "Connected",
@@ -93,7 +94,8 @@
     "name": "Defensive Roll",
     "description": "+1 active defense bonus to Toughness per rank.",
     "isRanked": true,
-    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-DEFENSIVE-ROLL-COMBAT-RANKED-"
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-DEFENSIVE-ROLL-COMBAT-RANKED-",
+    "advantageUpdater": "DefensiveRollUpdater"
   },
   "Diehard": {
     "name": "Diehard",
@@ -207,7 +209,8 @@
     "name": "Improved Initiative",
     "description": "+4 bonus to initiative checks per rank.",
     "isRanked": true,
-    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-INITIATIVE-COMBAT-RANKED-"
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-IMPROVED-INITIATIVE-COMBAT-RANKED-",
+    "advantageUpdater": "ImprovedInitiativeUpdater"
   },
   "Improved Smash": {
     "name": "Improved Smash",
@@ -261,7 +264,8 @@
     "name": "Jack-of-All-Trades",
     "description": "Use any skill untrained.",
     "isRanked": false,
-    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-JACK-OF-ALL-TRADES-SKILL-"
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-JACK-OF-ALL-TRADES-SKILL-",
+    "advantageUpdater":  "JackOfAllTradesUpdater"
   },
   "Languages": {
     "name": "Languages",
@@ -321,7 +325,8 @@
     "name": "Ranged Attack",
     "description": "+1 bonus to ranged attack checks per rank.",
     "isRanked": true,
-    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-RANGED-ATTACK-COMBAT-RANKED-"
+    "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-RANGED-ATTACK-COMBAT-RANKED-",
+    "advantageUpdater":  "RangedAttackUpdater"
   },
   "Redirect": {
     "name": "Redirect",

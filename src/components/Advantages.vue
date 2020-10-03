@@ -127,21 +127,16 @@
           }
         }
         // -- Create an updater or special features if appropriate --
-        if (advantage.name === "Improved Initiative") {
+        const advantageUpdaterName = standardAdvantages[advantage.name].advantageUpdater;
+        if (advantageUpdaterName) {
           const updaterEvent = {
             charsheet: this.getCharsheet(),
-            updater: "ImprovedInitiativeUpdater",
+            updater: advantageUpdaterName,
             advantage: advantage
           };
           this.$globals.eventBus.$emit("new-updater", updaterEvent);
-        } else if (advantage.name === "Jack-of-All-Trades") {
-          let updaterEvent = {
-            charsheet: this.getCharsheet(),
-            updater: "JackOfAllTradesUpdater",
-            advantage: advantage
-          };
-          this.$globals.eventBus.$emit("new-updater", updaterEvent);
-        } else if (allyAdvantages.includes(advantage.name)) {
+        }
+        if (allyAdvantages.includes(advantage.name)) {
           const newAlly = makeNewAlly(this.getCharsheet(), advantage.name.toLowerCase());
           this.$set(advantage, "allyHsid", newAlly.hsid);
           const newAllyInfo = {
