@@ -4,7 +4,7 @@
   <svg
     xmlns="http://www.w3.org/2000/svg"
     id="conditions"
-    viewBox="0 0 520 380"
+    viewBox="0 0 490 380"
   >
   <defs>
     <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
@@ -14,358 +14,371 @@
   <g>
             <rect id="bar0" class="colorBar"
                x="0" y="0"
-               width="520" height="60"
+               width="490" height="60"
             />
             <rect id="bar1" class="colorBar"
                x="0" y="60"
-               width="520" height="60"
+               width="490" height="60"
             />
             <rect id="bar2" class="colorBar"
                x="0" y="120"
-               width="520" height="100"
+               width="490" height="100"
             />
             <rect id="bar3" class="colorBar"
                x="0" y="220"
-               width="520" height="100"
+               width="490" height="100"
             />
             <rect id="bar4" class="colorBar"
                x="0" y="320"
-               width="520" height="60"
+               width="490" height="60"
             />
-            <line x1="85" y1="104" x2="85" y2="126" class="connector" marker-end="url(#arrowhead)"/>
-            <line x1="165" y1="104" x2="165" y2="126" class="connector" marker-end="url(#arrowhead)"/>
-            <line x1="245" y1="104" x2="245" y2="126" class="connector" marker-end="url(#arrowhead)"/>
-            <line x1="325" y1="104" x2="325" y2="126" class="connector" marker-end="url(#arrowhead)"/>
-            <line x1="405" y1="104" x2="405" y2="126" class="connector" marker-end="url(#arrowhead)"/>
-            <line x1="365" y1="204" x2="365" y2="226" class="connector" marker-end="url(#arrowhead)"/>
-            <line x1="485" y1="164" x2="485" y2="226" class="connector" marker-end="url(#arrowhead)"/>
-            <line x1="285" y1="204" x2="285" y2="266" class="connector" marker-end="url(#arrowhead)"/>
-            <line x1="325" y1="164" x2="325" y2="228" class="connector" />
+            <line x1="45" y1="104" x2="45" y2="126" class="connector" marker-end="url(#arrowhead)"/>
+            <line x1="125" y1="104" x2="125" y2="126" class="connector" marker-end="url(#arrowhead)"/>
+            <line x1="205" y1="104" x2="205" y2="126" class="connector" marker-end="url(#arrowhead)"/>
+            <line x1="285" y1="104" x2="285" y2="126" class="connector" marker-end="url(#arrowhead)"/>
+            <line x1="365" y1="104" x2="365" y2="126" class="connector" marker-end="url(#arrowhead)"/>
+            <line x1="405" y1="204" x2="405" y2="266" class="connector" marker-end="url(#arrowhead)"/>
+            <line x1="445" y1="164" x2="445" y2="226" class="connector" marker-end="url(#arrowhead)"/>
+            <line x1="285" y1="164" x2="285" y2="266" class="connector" marker-end="url(#arrowhead)"/>
+            <line x1="325" y1="204" x2="325" y2="228" class="connector" />
             <line x1="325" y1="228" x2="285" y2="228" class="connector" />
             <line x1="165" y1="264" x2="205" y2="276" class="connector" />
             <line x1="245" y1="264" x2="205" y2="276" class="connector" />
+            <g transform="translate(85, 30)">
+              <rect class="damageTextBox" x="-29" y="-5" width="26" height="18"/>
+              <text class="damageDescription" x="0" y="-12">Damage Penalty</text>
+              <text class="damageText" x="-16" y="4">{{getCharsheet().status.damagePenalty}}</text>
+              <g @click="onClickDamageButton('recover')">
+                <rect class="damageButton" x="5" y="-6" width="30" height="9" rx="2.5" ry="2.5"/>
+                <text class="damageButtonText" x="20" y="-1.5">Recover</text>
+              </g>
+              <g @click="onClickDamageButton('damaged')">
+                <rect class="damageButton" x="5" y="6" width="30" height="9" rx="2.5" ry="2.5"/>
+                <text class="damageButtonText" x="20" y="10.5">Damaged</text>
+              </g>
+            </g>
             <g id="condition_normal" class="condition" :class="conditions.normal" @click="onClickCondition('normal')">
                 <rect class="conditionBorder"
-                    x="240" y="16"
+                    x="220" y="16"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="242" y="18"
+                    x="222" y="18"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="265" y="30"
+                    x="245" y="30"
                 >Normal</text>
                 <text class="conditionDesc"
-                    x="265" y="37"
+                    x="245" y="37"
                 >No Conditions</text>
             </g>
             <g id="condition_dazed" class="condition" :class="conditions.dazed" @click="onClickCondition('dazed')">
                 <rect class="conditionBorder"
-                    x="60" y="76"
+                    x="20" y="76"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="62" y="78"
+                    x="22" y="78"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="85" y="90"
+                    x="45" y="90"
                 >Dazed</text>
                 <text class="conditionDesc"
-                    x="85" y="97"
+                    x="45" y="97"
                 >Single Action</text>
             </g>
             <g id="condition_hindered" class="condition" :class="conditions.hindered" @click="onClickCondition('hindered')">
                 <rect class="conditionBorder"
-                    x="140" y="76"
+                    x="100" y="76"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="142" y="78"
+                    x="102" y="78"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="165" y="90"
+                    x="125" y="90"
                 >Hindered</text>
                 <text class="conditionDesc"
-                    x="165" y="97"
+                    x="125" y="97"
                 >Half Move</text>
             </g>
             <g id="condition_vulnerable" class="condition" :class="conditions.vulnerable" @click="onClickCondition('vulnerable')">
                 <rect class="conditionBorder"
-                    x="220" y="76"
+                    x="180" y="76"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="222" y="78"
+                    x="182" y="78"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="245" y="90"
+                    x="205" y="90"
                 >Vulnerable</text>
                 <text class="conditionDesc"
-                    x="245" y="97"
+                    x="205" y="97"
                 >Half Active Def</text>
             </g>
             <g id="condition_impaired" class="condition" :class="conditions.impaired" @click="onClickCondition('impaired')">
                 <rect class="conditionBorder"
-                    x="300" y="76"
+                    x="260" y="76"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="302" y="78"
+                    x="262" y="78"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="325" y="90"
+                    x="285" y="90"
                 >Impaired(stat)</text>
                 <text class="conditionDesc"
-                    x="325" y="97"
+                    x="285" y="97"
                 >-1 on checks</text>
             </g>
             <g id="condition_fatigued" class="condition" :class="conditions.fatigued" @click="onClickCondition('fatigued')">
                 <rect class="conditionBorder"
-                    x="380" y="76"
+                    x="340" y="76"
                     width="50" height="28"
                     
                 />
                 <rect class="conditionBox"
-                    x="382" y="78"
+                    x="342" y="78"
                     width="46" height="24"
                     
                 />
                 <text class="conditionName"
-                    x="405" y="90"
+                    x="365" y="90"
                 >Fatigued</text>
                 <text class="conditionDesc"
-                    x="405" y="97"
+                    x="365" y="97"
                 >-1 on checks</text>
+            </g>
+            <g id="condition_entranced" class="condition" :class="conditions.entranced" @click="onClickCondition('entranced')">
+                <rect class="conditionBorder"
+                    x="420" y="76"
+                    width="50" height="28"
+                    
+                />
+                <rect class="conditionBox"
+                    x="422" y="78"
+                    width="46" height="24"
+                    
+                />
+                <text class="conditionName"
+                    x="445" y="90"
+                >Entranced</text>
+                <text class="conditionDesc"
+                    x="445" y="97"
+                ></text>
             </g>
             <g id="condition_staggered" class="condition" :class="conditions.staggered" @click="onClickCondition('staggered')">
                 <rect class="conditionBorder"
-                    x="20" y="176"
+                    x="60" y="176"
                     width="50" height="28"
                     
                 />
                 <rect class="conditionBox"
-                    x="22" y="178"
+                    x="62" y="178"
                     width="46" height="24"
                     
                 />
                 <text class="conditionName"
-                    x="45" y="190"
+                    x="85" y="190"
                 >Staggered</text>
                 <text class="conditionDesc"
-                    x="45" y="197"
+                    x="85" y="197"
                 ></text>
             </g>
             <g id="condition_stunned" class="condition" :class="conditions.stunned" @click="onClickCondition('stunned')">
                 <rect class="conditionBorder"
-                    x="60" y="136"
+                    x="20" y="136"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="62" y="138"
+                    x="22" y="138"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="85" y="150"
+                    x="45" y="150"
                 >Stunned</text>
                 <text class="conditionDesc"
-                    x="85" y="157"
+                    x="45" y="157"
                 >No Actions</text>
             </g>
             <g id="condition_prone" class="condition" :class="conditions.prone" @click="onClickCondition('prone')">
                 <rect class="conditionBorder"
-                    x="100" y="176"
+                    x="140" y="176"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="102" y="178"
+                    x="142" y="178"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="125" y="190"
+                    x="165" y="190"
                 >Prone</text>
                 <text class="conditionDesc"
-                    x="125" y="197"
+                    x="165" y="197"
                 >+/-5 attacks</text>
             </g>
             <g id="condition_immobile" class="condition" :class="conditions.immobile" @click="onClickCondition('immobile')">
                 <rect class="conditionBorder"
-                    x="140" y="136"
+                    x="100" y="136"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="142" y="138"
+                    x="102" y="138"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="165" y="150"
+                    x="125" y="150"
                 >Immobile</text>
                 <text class="conditionDesc"
-                    x="165" y="157"
+                    x="125" y="157"
                 >No Move</text>
             </g>
             <g id="condition_surprised" class="condition" :class="conditions.surprised" @click="onClickCondition('surprised')">
                 <rect class="conditionBorder"
-                    x="180" y="176"
+                    x="220" y="176"
                     width="50" height="28"
                     
                 />
                 <rect class="conditionBox"
-                    x="182" y="178"
+                    x="222" y="178"
                     width="46" height="24"
                     
                 />
                 <text class="conditionName"
-                    x="205" y="190"
+                    x="245" y="190"
                 >Surprised</text>
                 <text class="conditionDesc"
-                    x="205" y="197"
+                    x="245" y="197"
                 ></text>
             </g>
             <g id="condition_defenseless" class="condition" :class="conditions.defenseless" @click="onClickCondition('defenseless')">
                 <rect class="conditionBorder"
-                    x="220" y="136"
+                    x="180" y="136"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="222" y="138"
+                    x="182" y="138"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="245" y="150"
+                    x="205" y="150"
                 >Defenseless</text>
                 <text class="conditionDesc"
-                    x="245" y="157"
+                    x="205" y="157"
                 >Active Def = 0</text>
             </g>
             <g id="condition_weakened" class="condition" :class="conditions.weakened" @click="onClickCondition('weakened')">
                 <rect class="conditionBorder"
-                    x="260" y="176"
+                    x="300" y="176"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="262" y="178"
+                    x="302" y="178"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="285" y="190"
+                    x="325" y="190"
                 >Weakened(pwr)</text>
                 <text class="conditionDesc"
-                    x="285" y="197"
+                    x="325" y="197"
                 >-X on power/stat</text>
             </g>
             <g id="condition_disabled" class="condition" :class="conditions.disabled" @click="onClickCondition('disabled')">
                 <rect class="conditionBorder"
-                    x="300" y="136"
+                    x="260" y="136"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="302" y="138"
+                    x="262" y="138"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="325" y="150"
+                    x="285" y="150"
                 >Disabled(stat)</text>
                 <text class="conditionDesc"
-                    x="325" y="157"
+                    x="285" y="157"
                 >-5 on checks</text>
             </g>
             <g id="condition_compelled" class="condition" :class="conditions.compelled" @click="onClickCondition('compelled')">
                 <rect class="conditionBorder"
-                    x="340" y="176"
+                    x="380" y="176"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="342" y="178"
+                    x="382" y="178"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="365" y="190"
+                    x="405" y="190"
                 >Compelled</text>
                 <text class="conditionDesc"
-                    x="365" y="197"
+                    x="405" y="197"
                 >1 forced action</text>
             </g>
             <g id="condition_exhausted" class="condition" :class="conditions.exhausted" @click="onClickCondition('exhausted')">
                 <rect class="conditionBorder"
-                    x="380" y="136"
+                    x="340" y="136"
                     width="50" height="28"
                     
                 />
                 <rect class="conditionBox"
-                    x="382" y="138"
+                    x="342" y="138"
                     width="46" height="24"
                     
                 />
                 <text class="conditionName"
-                    x="405" y="150"
+                    x="365" y="150"
                 >Exhausted</text>
                 <text class="conditionDesc"
-                    x="405" y="157"
-                ></text>
-            </g>
-            <g id="condition_entranced" class="condition" :class="conditions.entranced" @click="onClickCondition('entranced')">
-                <rect class="conditionBorder"
-                    x="420" y="176"
-                    width="50" height="28"
-                    
-                />
-                <rect class="conditionBox"
-                    x="422" y="178"
-                    width="46" height="24"
-                    
-                />
-                <text class="conditionName"
-                    x="445" y="190"
-                >Entranced</text>
-                <text class="conditionDesc"
-                    x="445" y="197"
+                    x="365" y="157"
                 ></text>
             </g>
             <g id="condition_restrained" class="condition" :class="conditions.restrained" @click="onClickCondition('restrained')">
                 <rect class="conditionBorder"
-                    x="460" y="136"
+                    x="420" y="136"
                     width="50" height="28"
                     
                 />
                 <rect class="conditionBox"
-                    x="462" y="138"
+                    x="422" y="138"
                     width="46" height="24"
                     
                 />
                 <text class="conditionName"
-                    x="485" y="150"
+                    x="445" y="150"
                 >Restrained</text>
                 <text class="conditionDesc"
-                    x="485" y="157"
+                    x="445" y="157"
                 ></text>
             </g>
             <g id="condition_incapacitated" class="condition" :class="conditions.incapacitated" @click="onClickCondition('incapacitated')">
@@ -496,24 +509,6 @@
             </g>
             <g id="condition_controlled" class="condition" :class="conditions.controlled" @click="onClickCondition('controlled')">
                 <rect class="conditionBorder"
-                    x="340" y="236"
-                    width="50" height="28"
-                    rx="7" ry="7"
-                />
-                <rect class="conditionBox"
-                    x="342" y="238"
-                    width="46" height="24"
-                    rx="5" ry="5"
-                />
-                <text class="conditionName"
-                    x="365" y="250"
-                >Controlled</text>
-                <text class="conditionDesc"
-                    x="365" y="257"
-                >Forced actions</text>
-            </g>
-            <g id="condition_transformed" class="condition" :class="conditions.transformed" @click="onClickCondition('transformed')">
-                <rect class="conditionBorder"
                     x="380" y="276"
                     width="50" height="28"
                     rx="7" ry="7"
@@ -525,45 +520,63 @@
                 />
                 <text class="conditionName"
                     x="405" y="290"
-                >Transformed</text>
+                >Controlled</text>
                 <text class="conditionDesc"
                     x="405" y="297"
-                >Alternate Form</text>
+                >Forced actions</text>
             </g>
-            <g id="condition_bound" class="condition" :class="conditions.bound" @click="onClickCondition('bound')">
+            <g id="condition_transformed" class="condition" :class="conditions.transformed" @click="onClickCondition('transformed')">
                 <rect class="conditionBorder"
-                    x="460" y="236"
-                    width="50" height="28"
-                    
-                />
-                <rect class="conditionBox"
-                    x="462" y="238"
-                    width="46" height="24"
-                    
-                />
-                <text class="conditionName"
-                    x="485" y="250"
-                >Bound</text>
-                <text class="conditionDesc"
-                    x="485" y="257"
-                ></text>
-            </g>
-            <g id="condition_dying" class="condition" :class="conditions.dying" @click="onClickCondition('dying')">
-                <rect class="conditionBorder"
-                    x="240" y="336"
+                    x="340" y="236"
                     width="50" height="28"
                     rx="7" ry="7"
                 />
                 <rect class="conditionBox"
-                    x="242" y="338"
+                    x="342" y="238"
                     width="46" height="24"
                     rx="5" ry="5"
                 />
                 <text class="conditionName"
-                    x="265" y="350"
+                    x="365" y="250"
+                >Transformed</text>
+                <text class="conditionDesc"
+                    x="365" y="257"
+                >Alternate Form</text>
+            </g>
+            <g id="condition_bound" class="condition" :class="conditions.bound" @click="onClickCondition('bound')">
+                <rect class="conditionBorder"
+                    x="420" y="236"
+                    width="50" height="28"
+                    
+                />
+                <rect class="conditionBox"
+                    x="422" y="238"
+                    width="46" height="24"
+                    
+                />
+                <text class="conditionName"
+                    x="445" y="250"
+                >Bound</text>
+                <text class="conditionDesc"
+                    x="445" y="257"
+                ></text>
+            </g>
+            <g id="condition_dying" class="condition" :class="conditions.dying" @click="onClickCondition('dying')">
+                <rect class="conditionBorder"
+                    x="220" y="336"
+                    width="50" height="28"
+                    rx="7" ry="7"
+                />
+                <rect class="conditionBox"
+                    x="222" y="338"
+                    width="46" height="24"
+                    rx="5" ry="5"
+                />
+                <text class="conditionName"
+                    x="245" y="350"
                 >Dying</text>
                 <text class="conditionDesc"
-                    x="265" y="357"
+                    x="245" y="357"
                 >Fort Checks</text>
             </g>
   </g>
@@ -589,7 +602,7 @@
 
   export default {
     name: "ConditionsImage.vue",
-    inject: ["getCharsheet", "editModes"],
+    inject: ["getCharsheet"],
     data: function() {
       return {
         conditions: this.getCharsheet().status.conditions,
@@ -629,10 +642,6 @@
         }
       },
       onClickCondition: function(button) {
-        const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
-        if (globalReadOnly) {
-          return;
-        }
         const thisCondition = this.conditions[button];
         if (thisCondition.superseded) {
           return;
@@ -647,6 +656,7 @@
                 this.conditions[condition].superseded = false;
               }
             }
+            this.getCharsheet().status.damagePenalty = 0;
           } else {
             thisCondition.active = false;
           }
@@ -661,7 +671,15 @@
           this.fixTriggers(button);
           this.fixSupersedes(button);
         }
-      }
+      },
+      onClickDamageButton: function(button) {
+        const delta = {"recover": +1, "damaged": -1}[button];
+        this.getCharsheet().status.damagePenalty = Math.min(0, this.getCharsheet().status.damagePenalty + delta);
+        if (this.getCharsheet().status.damagePenalty !== 0) {
+          this.conditions.normal.selected = false;
+          this.conditions.normal.active = false;
+        }
+      },
     }
   }
 </script>
@@ -707,6 +725,29 @@
   .connector {
     stroke: #000000;
     stroke-width: 1;
+  }
+  .damageTextBox {
+    fill: #FFFFFF;
+    stroke: #000000;
+  }
+  .damageText {
+    dominant-baseline: middle;
+    text-anchor: middle;
+  }
+  .damageDescription {
+    dominant-baseline: middle;
+    text-anchor: middle;
+    font-size: 6px;
+    font-weight: bold;
+  }
+  .damageButton {
+    fill: #FFFFFF;
+    stroke: #000000;
+  }
+  .damageButtonText {
+    dominant-baseline: middle;
+    text-anchor: middle;
+    font-size: 6px;
   }
 
   svg {

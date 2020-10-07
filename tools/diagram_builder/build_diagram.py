@@ -2,7 +2,7 @@
 # This outputs a svg file we will use for displaying conditions.
 #
 
-FULL_WIDTH = 520
+FULL_WIDTH = 490
 FULL_HEIGHT = 380
 CONDITION_WIDTH = 50
 CONDITION_HEIGHT = 28
@@ -117,6 +117,7 @@ MIDDLE_OF_VUE = """\
                 this.conditions[condition].superseded = false;
               }
             }
+            this.getCharsheet().status.damagePenalty = 0;
           } else {
             thisCondition.active = false;
           }
@@ -131,7 +132,15 @@ MIDDLE_OF_VUE = """\
           this.fixTriggers(button);
           this.fixSupersedes(button);
         }
-      }
+      },
+      onClickDamageButton: function(button) {
+        const delta = {"recover": +1, "damaged": -1}[button];
+        this.getCharsheet().status.damagePenalty = Math.min(0, this.getCharsheet().status.damagePenalty + delta);
+        if (this.getCharsheet().status.damagePenalty !== 0) {
+          this.conditions.normal.selected = false;
+          this.conditions.normal.active = false;
+        }
+      },
     }
   }
 </script>
@@ -180,6 +189,29 @@ STYLESHEET = """\
     stroke: #000000;
     stroke-width: 1;
   }
+  .damageTextBox {
+    fill: #FFFFFF;
+    stroke: #000000;
+  }
+  .damageText {
+    dominant-baseline: middle;
+    text-anchor: middle;
+  }
+  .damageDescription {
+    dominant-baseline: middle;
+    text-anchor: middle;
+    font-size: 6px;
+    font-weight: bold;
+  }
+  .damageButton {
+    fill: #FFFFFF;
+    stroke: #000000;
+  }
+  .damageButtonText {
+    dominant-baseline: middle;
+    text-anchor: middle;
+    font-size: 6px;
+  }
 """
 
 SVG_STYLESHEET = f"""\
@@ -222,9 +254,9 @@ def ff(f):
 
 LEFT_MARGIN = 20
 X_SUB_SPACING = 40
-RIGHTMOST = LEFT_MARGIN + X_SUB_SPACING * 12
-C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12 = range(LEFT_MARGIN, RIGHTMOST, X_SUB_SPACING)
-CMID = (C6 + C7) / 2
+RIGHTMOST = LEFT_MARGIN + X_SUB_SPACING * 11
+C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11 = range(LEFT_MARGIN, RIGHTMOST, X_SUB_SPACING)
+CMID = C6
 
 BAR_BOUNDS = [
     0, 60, 120, 220, 320, FULL_HEIGHT
@@ -249,23 +281,23 @@ R4 = center_of_bar_minus_half_condition(4)
 
 CONDITION_DATA = [
     ("Normal", "", "No Conditions", "",                                   CMID, R0,  "basic"),
-    ("Dazed", "", "Single Action", "",                                      C2, R1,  "basic"),
-    ("Hindered", "", "Half Move", "",                                       C4, R1,  "basic"),
-    ("Vulnerable", "", "Half Active Def", "",                               C6, R1,  "basic"),
-    ("Impaired", "(stat)", "-1 on checks", "",                              C8, R1,  "basic"),
-    ("Fatigued", "", "-1 on checks", "",                                   C10, R1,  "combined"),
-    ("Staggered", "", "", "{Dazed + Hindered}",                             C1, R2b, "combined"),
-    ("Stunned", "", "No Actions", "",                                       C2, R2a, "basic"),
-    ("Prone", "", "+/-5 attacks", "{hindered}",                             C3, R2b, "dual"),
-    ("Immobile", "", "No Move", "",                                         C4, R2a, "basic"),
-    ("Surprised", "", "", "{Stunned + Vulnerable}",                         C5, R2b, "combined"),
-    ("Defenseless", "", "Active Def = 0", "",                               C6, R2a, "basic"),
-    ("Weakened", "(pwr)", "-X on power/stat", "",                           C7, R2b, "basic"),
-    ("Disabled", "(stat)", "-5 on checks", "",                              C8, R2a, "basic"),
-    ("Compelled", "", "1 forced action", "",                                C9, R2b, "basic"),
-    ("Exhausted", "", "", "{Impaired + Hindered}",                         C10, R2a, "combined"),
-    ("Entranced", "", "", "{Stunned}",                                     C11, R2b, "combined"),
-    ("Restrained", "", "", "{Vulnerable + Hindered/Immobile}",             C12, R2a, "combined"),
+    ("Dazed", "", "Single Action", "",                                      C1, R1,  "basic"),
+    ("Hindered", "", "Half Move", "",                                       C3, R1,  "basic"),
+    ("Vulnerable", "", "Half Active Def", "",                               C5, R1,  "basic"),
+    ("Impaired", "(stat)", "-1 on checks", "",                              C7, R1,  "basic"),
+    ("Fatigued", "", "-1 on checks", "",                                    C9, R1,  "combined"),
+    ("Entranced", "", "", "{Stunned}",                                     C11, R1,  "combined"),
+    ("Staggered", "", "", "{Dazed + Hindered}",                             C2, R2b, "combined"),
+    ("Stunned", "", "No Actions", "",                                       C1, R2a, "basic"),
+    ("Prone", "", "+/-5 attacks", "{hindered}",                             C4, R2b, "dual"),
+    ("Immobile", "", "No Move", "",                                         C3, R2a, "basic"),
+    ("Surprised", "", "", "{Stunned + Vulnerable}",                         C6, R2b, "combined"),
+    ("Defenseless", "", "Active Def = 0", "",                               C5, R2a, "basic"),
+    ("Weakened", "(pwr)", "-X on power/stat", "",                           C8, R2b, "basic"),
+    ("Disabled", "(stat)", "-5 on checks", "",                              C7, R2a, "basic"),
+    ("Compelled", "", "1 forced action", "",                               C10, R2b, "basic"),
+    ("Exhausted", "", "", "{Impaired + Hindered}",                          C9, R2a, "combined"),
+    ("Restrained", "", "", "{Vulnerable + Hindered/Immobile}",             C11, R2a, "combined"),
     ("Incapacitated", "", "", "{Defenseless + Stunned + Unaware + Prone}",  C1, R3b, "combined"),
     ("Asleep", "", "", "{Defenseless + Stunned + Unaware}",                 C2, R3a, "combined"),
     ("Paralyzed", "", "", "{Defenseless + Immobile + Stunned(physical)}",   C3, R3b, "combined"),
@@ -273,12 +305,14 @@ CONDITION_DATA = [
     ("Unaware", "(sense)", "Can't Perceive", "",                            C5, R3b, "basic"),
     ("Deaf", "", "", "Unaware(hear)",                                       C6, R3a, "combined"),
     ("Debilitated", "(stat)", "Varies by Stat", "",                         C7, R3b, "basic"),
-    ("Controlled", "", "Forced actions", "",                                C9, R3a, "basic"),
-    ("Transformed", "", "Alternate Form", "",                              C10, R3b, "basic"),
-    ("Bound", "", "", "{Defenseless + Immobile + Impaired}",               C12, R3a, "combined"),
+    ("Controlled", "", "Forced actions", "",                               C10, R3b, "basic"),
+    ("Transformed", "", "Alternate Form", "",                               C9, R3a, "basic"),
+    ("Bound", "", "", "{Defenseless + Immobile + Impaired}",               C11, R3a, "combined"),
     ("Dying", "", "Fort Checks", "{Incapacitated}",                       CMID, R4,  "dual"),
 ]
 
+
+COUNTER_PLACEMENT = (C2 + (CONDITION_WIDTH / 2), R0 + (CONDITION_HEIGHT / 2))
 
 H_X = CONDITION_WIDTH / 2
 H_Y = CONDITION_HEIGHT / 2
@@ -286,15 +320,15 @@ A_Y = CONDITION_HEIGHT
 AR = 10 # Arrowhead length
 
 CONNECTOR_DATA = [
-    ( C2 + H_X,  R1 + A_Y,  C2 + H_X, R2a - AR, True), # Dazed -> Stunned
-    ( C4 + H_X,  R1 + A_Y,  C4 + H_X, R2a - AR, True), # Hindered -> Immobile
-    ( C6 + H_X,  R1 + A_Y,  C6 + H_X, R2a - AR, True), # Vulnerable -> Defenseless
-    ( C8 + H_X,  R1 + A_Y,  C8 + H_X, R2a - AR, True), # Impaired -> Disabled
-    (C10 + H_X,  R1 + A_Y, C10 + H_X, R2a - AR, True), # Fatigued -> Exhausted
-    ( C9 + H_X, R2b + A_Y,  C9 + H_X, R3a - AR, True), # Compelled -> Controlled
-    (C12 + H_X, R2a + A_Y, C12 + H_X, R3a - AR, True), # Restrained -> Bound
-    ( C7 + H_X, R2b + A_Y,  C7 + H_X, R3b - AR, True), # Weakened -> Debilitated
-    ( C8 + H_X, R2a + A_Y,  C8 + H_X, R3a - 8,  False), # Disabled -> point-A
+    ( C1 + H_X,  R1 + A_Y,  C1 + H_X, R2a - AR, True),  # Dazed -> Stunned
+    ( C3 + H_X,  R1 + A_Y,  C3 + H_X, R2a - AR, True),  # Hindered -> Immobile
+    ( C5 + H_X,  R1 + A_Y,  C5 + H_X, R2a - AR, True),  # Vulnerable -> Defenseless
+    ( C7 + H_X,  R1 + A_Y,  C7 + H_X, R2a - AR, True),  # Impaired -> Disabled
+    ( C9 + H_X,  R1 + A_Y,  C9 + H_X, R2a - AR, True),  # Fatigued -> Exhausted
+    (C10 + H_X, R2b + A_Y, C10 + H_X, R3b - AR, True),  # Compelled -> Controlled
+    (C11 + H_X, R2a + A_Y, C11 + H_X, R3a - AR, True),  # Restrained -> Bound
+    ( C7 + H_X, R2a + A_Y,  C7 + H_X, R3b - AR, True),  # Disabled -> Debilitated
+    ( C8 + H_X, R2b + A_Y,  C8 + H_X, R3a - 8,  False), # Weakened -> point-A
     ( C8 + H_X, R3a - 8,    C7 + H_X, R3a - 8,  False), # point-A -> point-B
     ( C4 + H_X, R3a + A_Y,  C5 + H_X, R3b,      False), # Blind -> Unaware
     ( C6 + H_X, R3a + A_Y,  C5 + H_X, R3b,      False), # Deaf -> Unaware
@@ -321,6 +355,39 @@ class CommonWriter:
     def write_bars(self):
         for i in range(5):
             self.write_bar(i)
+
+    def damage_button_extras(self, name):
+        """Subclasses override this to insert attributes in the buttons."""
+        return ""
+
+    def damage_penalty_value(self):
+        """Subclasses override this to provide the value to show for the damage penalty."""
+        return "0"
+
+    def write_damage_penalty(self):
+        TEXT_H_OFFSET = 3
+        TEXT_V_OFFSET = -5
+        TEXT_WIDTH = 26
+        TEXT_HEIGHT = 18
+        DESCRIPTION_V_OFFSET = 12
+        BUTTON_H_OFFSET = 5
+        BUTTON_V_OFFSET = 6
+        BUTTON_WIDTH = 30
+        BUTTON_HEIGHT = 9
+        self.write(f"""\
+            <g transform="translate({ff(COUNTER_PLACEMENT[0])}, {ff(COUNTER_PLACEMENT[1])})">
+              <rect class="damageTextBox" x="{ff(-TEXT_H_OFFSET - TEXT_WIDTH)}" y="{ff(TEXT_V_OFFSET)}" width="{ff(TEXT_WIDTH)}" height="{ff(TEXT_HEIGHT)}"/>
+              <text class="damageDescription" x="0" y="{ff(-DESCRIPTION_V_OFFSET)}">Damage Penalty</text>
+              <text class="damageText" x="{ff(-TEXT_H_OFFSET - TEXT_WIDTH/2)}" y="{ff(TEXT_V_OFFSET + TEXT_HEIGHT/2)}">{self.damage_penalty_value()}</text>
+              <g{self.damage_button_extras('Recover')}>
+                <rect class="damageButton" x="{ff(BUTTON_H_OFFSET)}" y="{ff(-BUTTON_V_OFFSET)}" width="{BUTTON_WIDTH}" height="{BUTTON_HEIGHT}" rx="2.5" ry="2.5"/>
+                <text class="damageButtonText" x="{ff(BUTTON_H_OFFSET + BUTTON_WIDTH/2)}" y="{ff(-BUTTON_V_OFFSET + BUTTON_HEIGHT/2)}">Recover</text>
+              </g>
+              <g{self.damage_button_extras('Damaged')}>
+                <rect class="damageButton" x="{ff(BUTTON_H_OFFSET)}" y="{ff(BUTTON_V_OFFSET)}" width="{BUTTON_WIDTH}" height="{BUTTON_HEIGHT}" rx="2.5" ry="2.5"/>
+                <text class="damageButtonText" x="{ff(BUTTON_H_OFFSET + BUTTON_WIDTH/2)}" y="{ff(BUTTON_V_OFFSET + BUTTON_HEIGHT/2)}">Damaged</text>
+              </g>
+            </g>\n""")
 
     def condition_extras(self, name):
         """Returns a string to be inserted as an attribute of the g tag. Defaults to an
@@ -376,11 +443,18 @@ class SVGFileWriter(CommonWriter):
         self.write(SVG_STYLESHEET)
         self.write_bars()
         self.write_lines()
+        self.write_damage_penalty()
         self.write_conditions()
         self.write(END_CONTENT)
 
 
 class VueFileWriter(CommonWriter):
+    def damage_button_extras(self, name):
+        return f" @click=\"onClickDamageButton('{name.lower()}')\""
+
+    def damage_penalty_value(self):
+        return "{{getCharsheet().status.damagePenalty}}"
+
     def condition_extras(self, name):
         return f" :class=\"conditions.{name.lower()}\" @click=\"onClickCondition('{name.lower()}')\""
 
@@ -389,6 +463,7 @@ class VueFileWriter(CommonWriter):
         self.write(BEGIN_CONTENT)
         self.write_bars()
         self.write_lines()
+        self.write_damage_penalty()
         self.write_conditions()
         self.write(END_CONTENT)
         self.write(MIDDLE_OF_VUE)
