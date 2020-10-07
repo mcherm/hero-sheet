@@ -5,8 +5,8 @@ const skillsData = require("../data/skillsData.json");
 const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 
-const currentVersion = 22; // Up to this version can be saved
-const latestVersion = 22; // Might be an experimental version
+const currentVersion = 23; // Up to this version can be saved
+const latestVersion = 23; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
@@ -160,7 +160,8 @@ const newBlankCharacter = function(developerMode) {
   const activeEffects = {};
   const constraintViolations = {};
   const status = {
-    "conditions": blankConditions()
+    conditions: blankConditions(),
+    damagePenalty: 0,
   };
   const allies = [];
   const sharing = {
@@ -691,6 +692,11 @@ const upgradeFuncs = {
     charsheet.sharing = { isPublic: false };
     charsheet.version = 22;
   },
+
+  upgradeFrom22: function(charsheet) {
+    charsheet.status.damagePenalty = 0;
+    charsheet.version = 23;
+  }
 
 };
 
