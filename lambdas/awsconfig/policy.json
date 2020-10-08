@@ -45,8 +45,10 @@
       ],
       "Resource": [
         "arn:aws:s3:::hero-sheet-storage",
+        "arn:aws:s3:::hero-sheet-storage-dev",
         "arn:aws:s3:::hero-sheet.com",
         "arn:aws:s3:::hero-sheet-storage/*",
+        "arn:aws:s3:::hero-sheet-storage-dev/*",
         "arn:aws:s3:::hero-sheet.com/*"
       ]
     },
@@ -82,7 +84,8 @@
         "lambda:GetPolicy"
       ],
       "Resource": [
-        "arn:aws:lambda:us-east-1:402673111584:function:hero-sheet-storage"
+        "arn:aws:lambda:us-east-1:402673111584:function:hero-sheet-storage",
+        "arn:aws:lambda:us-east-1:402673111584:function:hero-sheet-storage-dev"
       ]
     },
     {
@@ -92,6 +95,15 @@
       ],
       "Resource": [
         "arn:aws:apigateway:us-east-1::hero-sheet"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudfront:CreateInvalidation"
+      ],
+      "Resource": [
+        "arn:aws:cloudfront::402673111584:distribution/E2A08DSJYHU8J9"
       ]
     }
   ]
