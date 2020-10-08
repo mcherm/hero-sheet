@@ -147,12 +147,6 @@ TODO: A few powers really should have their own custom way of being created.
    calculate the cost
  * Affliction - should be able to select the affliction and what resists it
 
-TODO: Some enhanced traits, like Power-Lifting, shouldn't be applied to the
-  trait.
-
-TODO: When a description is long enough that it wraps, it should wrap and then if
-  necessary grow the field so that it is all visible.
-
 TODO: The cost of the Impervious says "+1 flat" but it should be +1/rank. Is that
   actually the RIGHT way to do it? I'm not sure.
 

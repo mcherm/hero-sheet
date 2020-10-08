@@ -9,7 +9,7 @@
     "validate-downloads": "node scripts/validateDownloads.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "s3-easy-deploy --public-root ./dist --bucket hero-sheet.com",
+    "deploy": "s3-easy-deploy --public-root ./dist --bucket hero-sheet.com --cloud-front-id E2A08DSJYHU8J9",
     "deploy-lambda": "cd lambdas/hero-sheet-storage && npm run do-all",
     "download-prod": "aws s3 sync s3://hero-sheet-storage download --delete",
     "download-dev": "aws s3 sync s3://hero-sheet-storage-dev download-dev --delete",
