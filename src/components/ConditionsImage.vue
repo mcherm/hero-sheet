@@ -602,7 +602,10 @@
 
   export default {
     name: "ConditionsImage.vue",
-    inject: ["getCharsheet"],
+    inject: {
+      getCharsheet: {},
+      editModes: { default: {} },
+    },
     data: function() {
       return {
         conditions: this.getCharsheet().status.conditions,
@@ -642,6 +645,9 @@
         }
       },
       onClickCondition: function(button) {
+        if (this.editModes.isReadOnly) {
+          return;
+        }
         const thisCondition = this.conditions[button];
         if (thisCondition.superseded) {
           return;
@@ -673,6 +679,9 @@
         }
       },
       onClickDamageButton: function(button) {
+        if (this.editModes.isReadOnly) {
+          return;
+        }
         const delta = {"recover": +1, "damaged": -1}[button];
         this.getCharsheet().status.damagePenalty = Math.min(0, this.getCharsheet().status.damagePenalty + delta);
         if (this.getCharsheet().status.damagePenalty !== 0) {
