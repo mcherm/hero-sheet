@@ -88,6 +88,14 @@ Active Effects:
    * attacks@close.check
    * attacks@ranged.check
 
+Alerts:
+  The alert object has the following fields:
+   * message - a short descriptive message
+   * lifetime - one of "short", "long", "manual"; controls how long until it is cleared
+   * format - one of "error", "info". Defaults to "error". Controls format.
+   * hsid - a unique ID for this error
+
+
 === Design for public characters ===
 How about this idea?
  * A user can mark certain characters as "public".
@@ -125,6 +133,8 @@ TODO: I can't enter the modifiers for the extra "Area" because it depends on
 TODO: I said that the Impervious advantage used "flatPointsPerRankOfModifier".
   I'm not sure that was correct. But then again, I don't know what else it
   would be.
+TODO: The cost of the Impervious says "+1 flat" but it should be +1/rank. Is that
+  actually the RIGHT way to do it? I'm not sure.
 
 TODO: The ability "Ultimate Effort" should be specific to a particular skill
   (and can be taken multiple times). Also Improved Critical should apply
@@ -147,9 +157,6 @@ TODO: A few powers really should have their own custom way of being created.
    calculate the cost
  * Affliction - should be able to select the affliction and what resists it
 
-TODO: The cost of the Impervious says "+1 flat" but it should be +1/rank. Is that
-  actually the RIGHT way to do it? I'm not sure.
-
 TODO: Some way to have enhanced traits that apply to other POWERS like Iron Man
   using it to boost his blast.
 
@@ -165,7 +172,5 @@ BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another
 TODO: Move Object with the Damaging extra should be an attack.
 
 TODO: Custom Modifiers (or at LEAST a generic +1 modifier).
-
-TODO: Really need to display error messages.
 
 BUG: When you delete or alter a minion or sidekick advantage, it should remove the ally from your charsheet.

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {newBlankPower} from "./heroSheetVersioning.js";
+import {newBlankPower, newHsid} from "./heroSheetVersioning.js";
 
 const standardAdvantages = require("../data/standardAdvantages.json");
 const standardPowers = require("../data/standardPowers.json");
@@ -763,6 +763,27 @@ const attackRollInfo = function(charsheet, attack) {
 }
 
 
+/*
+ * Common function which creates a new error message and sends it to the even queue
+ * to be displayed.
+ */
+const showAlert = function({message, lifetime, format}) {
+  if (!["short", "long", "manual"].includes(lifetime)) {
+    lifetime = "short";
+  }
+  if (!["error", "info"].includes(format)) {
+    format = "error";
+  }
+  const alertObject = {
+    message: message,
+    lifetime: lifetime,
+    format: format,
+    hsid: newHsid(),
+  }
+  Vue.prototype.$globals.eventBus.$emit("show-alert", alertObject);
+}
+
+
 export {
   fieldAllowedRegEx,
   powerCostCalculate,
@@ -802,4 +823,5 @@ export {
   isManuallyAdjusted,
   lacksStat,
   attackRollInfo,
+  showAlert,
 };

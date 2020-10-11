@@ -50,6 +50,7 @@
 
 <script>
   import {NotLoggedInError, login, createUser, requestPasswordReset} from "../js/api.js";
+  import {showAlert} from "../js/heroSheetUtil.js";
   import {fieldAllowedRegEx} from "../js/heroSheetUtil.js";
 
   export default {
@@ -96,26 +97,21 @@
           const loginResponse = await login(this.loginUserOrEmail, this.loginPassword);
           if (loginResponse.loggedIn === true) {
             const user = loginResponse.user;
-            console.log(`Login successful. Will change user to ${user}.`); // FIXME: Remove
             this.$emit('change-user', user);
           } else {
-            // FIXME: Need to have actual UI response to this failure!
-            console.log("Login was not successful. NEED TO TELL THE USER IT WAS WRONG.");
+            showAlert({message: "Login Failed", lifetime: "long"});
           }
         } catch(err) {
           if (err instanceof NotLoggedInError) {
-            // FIXME: Need to display the error to the user
-            console.log("Login Failed.");
+            showAlert({message: "Login Failed", lifetime: "long"});
           } else {
-            // FIXME: Need to display the error to the user
-            console.log("Failure when attempting to login.", err);
+            showAlert({message: "Login Failed for Unknown Reason", lifetime: "long"});
           }
         }
       },
       attemptCreateUser: async function() {
         if (!this.userCreateFieldsAreValid) {
-          // FIXME: Need to display the error to the user
-          console.log("Fields are invalid.");
+          showAlert({message: "Invalid Values for New User", lifetime: "short"});
           return;
         }
         try {
@@ -123,21 +119,18 @@
 
           if (createUserResponse.loggedIn === true) {
             const user = createUserResponse.user;
-            console.log(`create user successful. Will change user to ${user}.`); // FIXME: Remove
             this.$emit('change-user', user);
           } else {
-            // FIXME: Need to have actual UI response to this failure!
-            console.log("Create User was not successful. NEED TO TELL THE USER IT FAILED.");
+            showAlert({message: "Create user was not successful.", lifetime: "long"});
           }
         } catch(err) {
-          // FIXME: Need to display the error to the user
-          console.log("Failure when attempting to create a new user.", err);
+          showAlert({message: "Failure when attempting to create a new user.", lifetime: "long"});
         }
       },
       requestPasswordReset: async function() {
         const passwordResetResponse = await requestPasswordReset(this.emailForResetPassword);
         this.emailForResetPassword = "";
-        // FIXME: Should probably provide some indicator to the user that it worked
+        showAlert({message: "Password reset will be sent by email.", lifetime: "manual", format: "info"});
       }
     }
   }

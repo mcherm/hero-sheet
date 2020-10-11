@@ -1,6 +1,7 @@
 <template>
   <div>
     <logo-section/>
+    <alert-bar :alert-list="alertList"/>
     <header-section
         title-if-logged-out="Log In"
         :character-name="characterName"
@@ -39,6 +40,7 @@
   import UserLogin from "./UserLogin";
   import LogoSection from "@/components/LogoSection";
   import HeaderSection from "@/components/HeaderSection";
+  import AlertBar from "@/components/AlertBar.vue";
 
   import {endSession, restoreSession} from "../js/api.js";
 
@@ -46,6 +48,7 @@
     name: "EntirePage",
     components: {
       LogoSection,
+      AlertBar,
       HeaderSection,
       UserLogin,
       CharacterPicker,
@@ -59,9 +62,15 @@
         characterId: "",
         owningUser: null, // when characterSelected, this is null if owned by the current user, or a user name of the owner
         characterName: "",
+        alertList: [],
       }
     },
     created: async function() {
+      // --- Begin processing alerts ---
+      this.$globals.eventBus.$on("show-alert", this.showAlert);
+      this.$globals.eventBus.$on("clear-alert", this.clearAlert);
+
+      // --- Restore session ---
       try {
         const restoreSessionResponse = await restoreSession();
         if (restoreSessionResponse.isValid) {
@@ -77,6 +86,16 @@
       }
     },
     methods: {
+      showAlert: function(alert) {
+        this.alertList.push(alert);
+        if (alert.lifetime === "short" || alert.lifetime === "long") {
+          const millisToShow = alert.lifetime === "short" ? 3500 : 15000;
+          setTimeout(this.clearAlert, millisToShow, alert.hsid);
+        }
+      },
+      clearAlert: function(alertHsid) {
+        this.alertList = this.alertList.filter(x => x.hsid !== alertHsid);
+      },
       setUser: function(newUser) {
         this.user = newUser;
         this.userSelected = true;

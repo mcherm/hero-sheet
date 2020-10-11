@@ -38,6 +38,7 @@
 <script>
   import {NotLoggedInError, getViewing, putViewing, listPublicCharacters} from "../js/api.js";
   import ViewedUserPicker from "@/components/ViewedUserPicker.vue";
+  import {showAlert} from "@/js/heroSheetUtil.js";
 
   export default {
     name: "CharacterPickerViewing",
@@ -70,8 +71,7 @@
           if (err instanceof NotLoggedInError) {
             this.$emit("not-logged-in");
           } else {
-            // FIXME: Need to display the error to the user
-            console.log("Failed to retrieve viewing users", err);
+            showAlert({message: "Failed to retrieve viewing users.", lifetime: "short"});
             throw err;
           }
         }
