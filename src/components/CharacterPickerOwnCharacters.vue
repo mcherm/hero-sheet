@@ -38,6 +38,7 @@
 <script>
   import {createCharacter, deleteCharacter, listCharacters, NotLoggedInError, rebuildIndex} from "../js/api.js";
   import {newBlankCharacter} from "../js/heroSheetVersioning.js";
+  import {showAlert} from "../js/heroSheetUtil.js";
 
   export default {
     name: "CharacterPickerOwnCharacters",
@@ -68,8 +69,7 @@
           if (err instanceof NotLoggedInError) {
             this.$emit("not-logged-in");
           } else {
-            // FIXME: Need to display the error to the user
-            console.log("Failed to list characters", err);
+            showAlert({message: "Failed to list characters.", lifetime: "short"});
             throw err;
           }
         }
@@ -97,8 +97,7 @@
           if (err instanceof NotLoggedInError) {
             this.$emit("not-logged-in");
           } else {
-            // FIXME: Need to display the error to the user
-            console.log("Failed to create character", err);
+            showAlert({message: "Failed to create character.", lifetime: "short"});
           }
         }
       },
@@ -111,8 +110,7 @@
           if (err instanceof NotLoggedInError) {
             this.$emit("not-logged-in");
           } else {
-            // FIXME: Need to display the error to the user
-            console.log(`Failed to delete character ${characterId}`);
+            showAlert({message: `Failed to delete character ${characterId}`, lifetime: "short"});
           }
         }
       },
