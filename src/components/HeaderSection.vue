@@ -1,13 +1,17 @@
 <template>
   <div class="header">
-    <button v-on:click="showingAbout = true">About</button>
+    <button class="about-button" v-on:click="showingAbout = true">About</button>
     <div class="title">
       <span v-if="userSelected">{{user}}</span>
       <span v-else>{{titleIfLoggedOut}}</span>
       <span v-if="characterSelected && characterName !== ''"> : {{characterName}}</span>
     </div>
-    <button v-if="characterSelected" @click="$emit('reset-character')" class="character-display">{{characterName}}</button>
-    <button v-if="userSelected" @click="$emit('reset-user')" class="user-display">{{user}}</button>
+    <activity-button v-if="characterSelected" :label="characterName" key="character">
+      <edit-button :on-click="() => {$emit('reset-character')}">Close Character</edit-button>
+    </activity-button>
+    <activity-button v-if="userSelected" :label="user" key="user">
+      <edit-button :on-click="() => {$emit('reset-user')}">Log Out</edit-button>
+    </activity-button>
     <modal-lightbox v-if="showingAbout" v-on:exit="showingAbout = false">
       <about-application/>
     </modal-lightbox>
@@ -16,11 +20,13 @@
 
 <script>
   import AboutApplication from "./AboutApplication.vue"
+  import ActivityButton from "./ActivityButton.vue"
 
   export default {
     name: 'header-section',
     components: {
-      AboutApplication
+      AboutApplication,
+      ActivityButton,
     },
     props: {
       titleIfLoggedOut: { type: String, required: true },
@@ -46,10 +52,11 @@
     justify-content: flex-end;
   }
 
-  .header button {
+  .about-button {
     border: solid 1px var(--box-border-color);
     padding: 2px;
     margin: 4px 2px;
+    background-color: var(--button-color);
   }
 
   .title {
