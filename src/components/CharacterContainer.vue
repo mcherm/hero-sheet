@@ -22,7 +22,7 @@
   import {currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid, allyAdvantagesLowercase} from "../js/heroSheetVersioning.js";
   import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "../js/updaters.js";
   import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
-  import {removeActiveEffects} from "../js/heroSheetUtil.js";
+  import {removeActiveEffects, showAlert} from "../js/heroSheetUtil.js";
 
   // FIXME: Begin continuous validation
   const Ajv = require('ajv');
@@ -94,12 +94,14 @@
       saveCharacter: async function() {
         this.activeSaveTimeout = null; // It has triggered so it is no longer active
         if (this.owningUser !== null) {
-          console.error(`Attempted to save character that was owned by another user.`);
+          showAlert({message: "Cannot save a character belonging to someone else.", lifetime: "short"});
           throw new Error("Attempted to save character that was owned by another user.");
         }
         const isExperimentalVersion = this.charsheet.version > currentVersion;
         if (isExperimentalVersion) {
-          console.log(`Not saving as ${this.charsheet.version} is an experimental version of the charsheet.`);
+          const message = `Not saving as ${this.charsheet.version} is an experimental version of the charsheet.`;
+          showAlert({message, lifetime: "long"});
+          console.log(message);
         } else {
           this.hasUnsavedChanges = false; // Assume the request will save the changes. If it fails, we'll handle that below.
           try {
@@ -114,6 +116,8 @@
                 // We marked it as saved but it wasn't done; better schedule a re-try
                 this.hasUnsavedChanges = true;
                 this.scheduleSave();
+                // And let the user know
+                showAlert({message: "Failed to save changes", lifetime: "short"});
               }
             }
           }
