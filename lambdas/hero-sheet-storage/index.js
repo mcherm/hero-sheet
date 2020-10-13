@@ -1210,6 +1210,7 @@ async function requestPasswordResetEndpoint(event, deployment) {
     Source: "system@hero-sheet.com"
   };
   const sendEmailResult = await ses.sendEmail(emailParams).promise();
+  console.info(`Sent password reset email to ${email}.`);
 
   // --- Return Success ---
   return {
