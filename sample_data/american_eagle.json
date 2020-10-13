@@ -1,20 +1,20 @@
 {
-  "version": 17,
+  "version": 23,
   "campaign": {
     "powerLevel": 8,
     "xpAwarded": 0,
-    "setting": "Heros High"
+    "setting": "Shared Campaign"
   },
   "naming": {
     "name": "American Eagle",
     "player": "Michael Chermside",
     "identityType": "secret",
-    "identity": "Ernie Eagle",
+    "identity": "Ernie Edgar",
     "gender": "Male",
     "age": "17",
     "heightWeight": "",
     "eyesHair": "",
-    "costume": "",
+    "costume": "It looks like an American Flag exploded all over his spandex.",
     "groupAffiliation": "",
     "baseOfOperations": ""
   },
@@ -108,6 +108,12 @@
       "hsid": "HICWUDZXC",
       "ranks": null,
       "description": "Has contacts in the government that he can contact for favors."
+    },
+    {
+      "name": "Fast Grab",
+      "hsid": "HICFJ1VR1",
+      "ranks": null,
+      "description": ""
     },
     {
       "name": "Improved Disarm",
@@ -269,7 +275,7 @@
     "skillList": [
       {
         "name": "acrobatics",
-        "ranks": 1,
+        "ranks": 2,
         "isTemplate": false
       },
       {
@@ -303,7 +309,7 @@
       },
       {
         "name": "intimidation",
-        "ranks": 0,
+        "ranks": 2,
         "isTemplate": false
       },
       {
@@ -318,7 +324,7 @@
       },
       {
         "name": "persuasion",
-        "ranks": 2,
+        "ranks": 4,
         "isTemplate": false
       },
       {
@@ -347,7 +353,7 @@
         "isTemplate": false
       }
     ],
-    "cost": 5
+    "cost": 7
   },
   "powers": [
     {
@@ -452,7 +458,7 @@
       "name": "Step Through Mirror",
       "hsid": "HI4SWEFKK",
       "effect": "Teleport",
-      "description": "",
+      "description": "Only works for a pair of mirrors large enough to step or crawl through. Will be prone if crawls through.",
       "extras": [
         {
           "modifierSource": "special",
@@ -509,7 +515,7 @@
       "name": "Restore status",
       "hsid": "HIT3MCJLL",
       "effect": "Regeneration",
-      "description": "Every second round he recovers one penalty to toughness checks, or if that is zero then one other penalty.",
+      "description": "Every second round he recovers one penalty to toughness checks, or if that is zero then one other penalty. This is because only his mirror image was harmed, his original is untouched.",
       "extras": [],
       "flaws": [],
       "ranks": 5,
@@ -518,66 +524,143 @@
       "baseCost": 1,
       "subpowers": [],
       "option": null
+    },
+    {
+      "name": "Travel to Mirror Dimension",
+      "hsid": "HIP67X687",
+      "effect": "Movement",
+      "description": "He has no control over it, but sometimes (at GM's option) he gets involved in shenanigans moving to and from the mirror dimension. This affects his other powers.",
+      "extras": [],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Uncontrolled",
+          "optionName": null,
+          "ranks": 1,
+          "costType": "pointsOfMultiplier",
+          "cost": -1,
+          "displayText": "Uncontrolled (-1)"
+        }
+      ],
+      "ranks": 1,
+      "cost": 1,
+      "effectDescription": "You have a special form of movement.",
+      "baseCost": 2,
+      "subpowers": [],
+      "option": "Dimension Travel"
+    },
+    {
+      "name": "Peer through mirrors",
+      "hsid": "HIE9BXYVU",
+      "effect": "Remote Sensing",
+      "description": "Can look out of mirrors.",
+      "extras": [],
+      "flaws": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Medium",
+          "optionName": null,
+          "ranks": 1,
+          "costType": "pointsOfMultiplier",
+          "cost": -1,
+          "displayText": "Medium (-1)"
+        }
+      ],
+      "ranks": 5,
+      "cost": 5,
+      "effectDescription": "You can displace one or more of your senses over a distance of 60ft * 2 per rank above 1.",
+      "baseCost": 2,
+      "subpowers": [],
+      "option": "Two Sense Types"
     }
   ],
   "complications": [
     {
       "complicationType": "motivation",
-      "description": "Patriotism: he wants to prove America great. Frequently uses the \"Make America Great Again\" and \"Keep America Great\" slogans."
+      "description": "Patriotism: he wants to prove America great. Frequently uses the \"Make America Great Again\" and \"Keep America Great\" slogans.",
+      "hsid": "HIYNJL3JY"
     },
     {
       "hsid": "HI7SCZ2DW",
       "complicationType": "honor",
-      "description": "He has a strong sense of the \"right\" way to fight, and he upholds the constitutional rights of his enemies. He'll only use fisticuffs except if someone is threatening"
+      "description": "He has a strong sense of the \"right\" way to fight, and he upholds the constitutional rights of his enemies. He'll only use fisticuffs except if someone is threatening lives."
     },
     {
       "hsid": "HIVUZTZMX",
-      "complicationType": "predjudice",
+      "complicationType": "prejudice",
       "description": "He takes a strongly conservative political point of view. This gives many people a bad impression of him, even when it isn't deserved"
     },
     {
       "hsid": "HIA72Y74L",
       "complicationType": "accident",
       "description": "Occasionally he or his companions get sucked into the mirror dimension."
+    },
+    {
+      "hsid": "HIA2S8Y54",
+      "complicationType": "prejudice",
+      "description": "He HAS a prejudice against immigrants. Liberals are sometimes prejudiced against him."
     }
   ],
-  "background": "Ernie Eagle was an eagle scout and an all-around American kid. He was (still is!) extremely patriotic a consumer of Fox News a proud supporter of President Trump. He is a natural at fighting and did great at judo but wasn't well-known. He finally decided to put on a costume and become a teenaged superhero. He made a US-flag based costume and went out sporting a MAGA hat. He was successful enough to make the news and then his secret identity was discovered by his Uncle Elton. Uncle Elton is well-placed in the administration and he proposed that they officially support this kid superhero who embodied the best America had to offer. They supplied him with some equipment (a personal-sized jetpack) and official support.\n\nShortly after that,",
+  "background": "Ernie Eagle was an eagle scout and an all-around American kid. He was (still is!) extremely patriotic a consumer of Fox News a proud supporter of President Trump. He is a natural at fighting and did great at judo but wasn't well-known. He finally decided to put on a costume and become a teenaged superhero. He made a US-flag based costume and went out sporting a MAGA hat. He was successful enough to make the news and then his secret identity was discovered by his Uncle Elton. Uncle Elton is well-placed in the administration and he proposed that they officially support this kid superhero who embodied the best America had to offer. They supplied him with some equipment (a personal-sized jetpack) and official support.\n\nShortly after that, he was fighting the villain Professor Specchio, when the villain's device had an accident and it sucked American Eagle into the Mirror Dimension. Eventually he was able to figure out how to project himself back out. So his true body is always stuck in the mirror dimension, but he can project himself into the real world. He has even figured out how to project himself MULTIPLE times.\n\nOTHER CHARACTERS:\n * Grew up admiring Blockbuster and the Fearless Five.\n * He's skeptical of Pendragon. He doesn't really believe in magic.",
   "attacks": {
     "attackList": [
       {
         "hsid": "HIGZRKPMW",
         "updater": "UnarmedAttackUpdater",
-        "name": "Unarmed",
-        "attackCheck": 10,
         "effectType": "damage",
-        "resistanceDC": 4
+        "name": "Unarmed",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 2
       },
       {
         "hsid": "HIN2JWDR5",
-        "updater": "DamagePowerAttackUpdater",
+        "updater": "PowerAttackUpdater",
         "powerHsid": "HIJ3P7EYZ",
-        "name": "Jetpack Missles",
-        "attackCheck": 8,
         "effectType": "damage",
-        "resistanceDC": 6
+        "name": "Jetpack Missles",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 6,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
       },
       {
         "hsid": "HIYSU6L6M",
-        "updater": "DamagePowerAttackUpdater",
+        "updater": "PowerAttackUpdater",
         "powerHsid": "HIQQSXD8A",
-        "name": "Club",
-        "attackCheck": 10,
         "effectType": "damage",
-        "resistanceDC": 6
+        "name": "Club",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 2,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 2
       },
       {
         "hsid": "HI6R22EX5",
-        "updater": "AfflictionPowerAttackUpdater",
+        "updater": "PowerAttackUpdater",
         "powerHsid": "HIX2ZX455",
-        "name": "Bolos",
-        "attackCheck": 8,
         "effectType": "affliction",
-        "resistanceDC": 3
+        "name": "Bolos",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 3,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
+      },
+      {
+        "hsid": "HIMGWW5KW",
+        "updater": "ThrownAttackUpdater",
+        "effectType": "damage",
+        "name": "Thrown Object",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 0
       }
     ]
   },
@@ -614,5 +697,158 @@
     ]
   },
   "constraintViolations": {},
-  "allies": []
+  "status": {
+    "conditions": {
+      "compelled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "controlled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "debilitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "defenseless": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "disabled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "fatigued": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "hindered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "immobile": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "impaired": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "normal": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "stunned": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "transformed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "unaware": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "vulnerable": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "weakened": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "asleep": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "blind": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "bound": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "deaf": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dying": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "entranced": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "exhausted": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "incapacitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "paralyzed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "prone": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "restrained": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "staggered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "surprised": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      }
+    },
+    "damagePenalty": 0
+  },
+  "allies": [],
+  "sharing": {
+    "isPublic": true
+  }
 }
