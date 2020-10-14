@@ -102,10 +102,13 @@
         this.userSelected = true;
       },
       changeCharacter: function(newCharacter) {
-        this.characterId = newCharacter.characterId;
-        this.characterName = newCharacter.name;
-        this.owningUser = newCharacter.owningUser;
-        this.characterSelected = true;
+        this.characterSelected = false;
+        this.$nextTick(() => {
+          this.characterId = newCharacter.characterId;
+          this.characterName = newCharacter.name;
+          this.owningUser = newCharacter.owningUser;
+          this.characterSelected = true;
+        });
       },
       resetUser: async function() {
         await endSession();
