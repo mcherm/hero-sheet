@@ -6,11 +6,12 @@
       <span v-else>{{titleIfLoggedOut}}</span>
       <span v-if="characterSelected && characterName !== ''"> : {{characterName}}</span>
     </div>
-    <activity-button v-if="characterSelected" :label="characterName" key="character">
-      <edit-button :on-click="() => {$emit('reset-character')}">Close Character</edit-button>
+    <activity-button v-if="characterSelected" :label="characterName" key="character" ref="characterButton">
+      <edit-button :on-click="() => {$refs.characterButton.concealContents(); $globals.eventBus.$emit('duplicate-current-character')}">Duplicate</edit-button>
+      <edit-button :on-click="() => {$refs.characterButton.concealContents(); $emit('close-character')}">Close Character</edit-button>
     </activity-button>
-    <activity-button v-if="userSelected" :label="user" key="user">
-      <edit-button :on-click="() => {$emit('reset-user')}">Log Out</edit-button>
+    <activity-button v-if="userSelected" :label="user" key="user" ref="userButton">
+      <edit-button :on-click="() => {$refs.userButton.concealContents(); $emit('reset-user')}">Log Out</edit-button>
     </activity-button>
     <modal-lightbox v-if="showingAbout" v-on:exit="showingAbout = false">
       <about-application/>
