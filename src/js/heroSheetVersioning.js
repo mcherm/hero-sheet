@@ -418,6 +418,66 @@ const _recreateUnarmedAttack = function(charsheet) {
 };
 
 
+const hsidFieldNames = ["hsid", "allyHsid", "attackHsid", "powerHsid", "skillHsid", "advantageHsid"];
+
+/*
+ * This function goes through an entire charsheet and creates a duplicate of it which has
+ * all the same values EXCEPT that th HSIDs have all been re-assigned. It is used when
+ * duplicating a charsheet.
+ *
+ * IMPLEMENTATION NOTE: the best way to do this would be to use the schema to scan through and
+ * identify all the HSID fields. But the shortcut being used instead is a list ("hsidFieldNames")
+ * of field names -- all of which contain HSIDs and all HSIDs are in a field of this name.
+ */
+const renumberHsids = function(charsheet) {
+  const hsidReplacements = {}; // a mapping from old HSID to new HSID
+  const renumberField = function(value) {
+    const type = typeof(value);
+    if (type === "string" || type === "object" && value instanceof String) {
+      return value;
+    } else if (type === "number") {
+      return value;
+    } else if (type === "boolean") {
+      return value;
+    } else if (type === "object" && value === null) {
+      return value;
+    } else if (type === "object" && Array.isArray(value)) {
+      return renumberArray(value);
+    } else if (type === "object") {
+      return renumberObject(value);
+    }
+  }
+  const renumberObject = function(obj) {
+    const newObj = {};
+    for (const field in obj) {
+      const value = obj[field];
+      if (hsidFieldNames.includes(field)) {
+        const previousReplacement = hsidReplacements[value];
+        let replacement;
+        if (previousReplacement === undefined) {
+          replacement = newHsid();
+          hsidReplacements[value] = replacement;
+        } else {
+          replacement = previousReplacement;
+        }
+        newObj[field] = replacement;
+      } else {
+        newObj[field] = renumberField(value);
+      }
+    }
+    return newObj;
+  };
+  const renumberArray = function(array) {
+    const newArray = [];
+    for (const value of array) {
+      newArray.push(renumberField(value));
+    }
+    return newArray;
+  }
+  return renumberObject(charsheet);
+};
+
+
 const upgradeFuncs = {
 
   upgradeFrom1: function(charsheet) {
@@ -752,5 +812,6 @@ module.exports = {
   findSkillByHsid,
   findAllyByHsid,
   newHsid,
+  renumberHsids,
   upgradeVersion
 };

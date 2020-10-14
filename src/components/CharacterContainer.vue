@@ -19,9 +19,9 @@
 
   const statsData = require("../data/statsData.json");
 
-  import {currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid, allyAdvantagesLowercase} from "../js/heroSheetVersioning.js";
+  import {currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid, allyAdvantagesLowercase, renumberHsids} from "../js/heroSheetVersioning.js";
   import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "../js/updaters.js";
-  import {getCharacter, saveCharacter, NotLoggedInError} from "../js/api.js";
+  import {getCharacter, saveCharacter, createCharacter, NotLoggedInError} from "../js/api.js";
   import {removeActiveEffects, showAlert} from "../js/heroSheetUtil.js";
 
   // FIXME: Begin continuous validation
@@ -66,6 +66,7 @@
     mounted: function() {
       this.$globals.eventBus.$on("new-updater", this.createUpdater);
       this.$globals.eventBus.$on("new-ally", this.initializeAlly);
+      this.$globals.eventBus.$on("duplicate-current-character", this.duplicateCurrentCharacter);
     },
     methods: {
       loadCharacter: async function() {
@@ -244,6 +245,36 @@
         } else {
           throw Error(`Ally type of ${ally.type} is not supported.`);
         }
+      },
+      /*
+       * When called, make a duplicate of the current character, then close it and
+       * emit a select-new-character event.
+       */
+      duplicateCurrentCharacter: async function() {
+        const newCharsheet = renumberHsids(this.charsheet);
+        let characterId;
+        try {
+          const createResponse = await createCharacter(this.user, newCharsheet);
+          characterId = createResponse.characterId;
+        } catch(err) {
+          if (err instanceof NotLoggedInError) {
+            this.$emit("not-logged-in");
+          } else {
+            showAlert({message: "Failed to duplicate character.", lifetime: "short"});
+          }
+          return;
+        }
+        // Succeeded in creating it; so we should go ahead and switch to it
+        if (this.hasUnsavedChanges) {
+          await this.saveCharacter();
+        }
+        showAlert({message: "Duplicate character created", lifetime: "manual", format: "info"});
+        const changeCharacterData = {
+          characterId: characterId,
+          name: newCharsheet.naming.name,
+          owningUser: null, // owned by the current user
+        };
+        this.$emit('change-character', changeCharacterData);
       }
     },
     computed: {

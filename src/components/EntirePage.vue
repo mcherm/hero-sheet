@@ -8,7 +8,7 @@
         :character-selected="characterSelected"
         :user="user"
         :user-selected="userSelected"
-        @reset-character="resetCharacter()"
+        @close-character="closeCharacter()"
         @reset-user="resetUser()"
     />
     <user-login
@@ -30,6 +30,7 @@
         :owningUser="owningUser"
         v-on:change-character-name="characterName = $event"
         v-on:not-logged-in="resetUser()"
+        v-on:change-character="changeCharacter($event)"
     />
   </div>
 </template>
@@ -113,7 +114,7 @@
         this.characterId = "";
         this.characterName = "";
       },
-      resetCharacter: function() {
+      closeCharacter: function() {
         this.characterSelected = false;
       }
     }
