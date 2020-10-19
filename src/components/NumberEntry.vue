@@ -10,7 +10,7 @@
     v-bind:value="value"
     v-on:input="onInput($event.target.value)"
     class="number-entry"
-    :class="{ 'nan': isNaNValue, 'negative': isNegative }"
+    :class="{ 'nan': isNaNValue, 'negative': isNegative, 'used-in-play': usedInPlay}"
     type="number"
     :disabled="isDisabled"
     :readonly="isReadOnly"
@@ -25,7 +25,8 @@
     inject: ["editModes"],
     props: {
       value: { required: true, validator: x => x === undefined || x === null || typeof x === "number" },
-      mutable: { type: Boolean, required: false, default: true }
+      mutable: { type: Boolean, required: false, default: true },
+      usedInPlay: { type: Boolean, required: false, default: false },
     },
     computed: {
       isNegative: function() {
@@ -38,7 +39,10 @@
         return !this.mutable;
       },
       isReadOnly: function() {
-        const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
+        const globalReadOnly = this.editModes && (
+            this.editModes.editMode === "READ_ONLY" ||
+            this.editModes.editMode === "PLAYING" && !this.usedInPlay
+        );
         return globalReadOnly;
       }
     },
@@ -63,16 +67,19 @@
     width: 3em; /* Works in table columns < 3m wide and in grid layouts */
     font-size: inherit;
   }
-  .number-entry.negative {
-    color: var(--error-color);
+  .number-entry.used-in-play {
+    background-color: var(--in-play-entry-field);
   }
-  .number-entry.nan {
-    background-color: var(--error-color);
+  .number-entry:read-only {
+    background-color: var(--paper-color);
   }
   .number-entry:disabled {
     background-color: var(--paper-color);
   }
-  .number-entry:read-only {
-    background-color: var(--paper-color);
+  .number-entry.nan {
+    background-color: var(--error-color);
+  }
+  .number-entry.negative {
+    color: var(--error-color);
   }
 </style>

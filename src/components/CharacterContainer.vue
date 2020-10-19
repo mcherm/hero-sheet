@@ -7,7 +7,7 @@
     <div v-if="charsheet === null" class="character-loading">
       Loading...
     </div>
-    <character-sheet v-else :charsheet="charsheet" :isReadOnly="owningUser !== null"/>
+    <character-sheet v-else :charsheet="charsheet" :edit-mode="editMode"/>
     <div v-if="this.$globals.developerMode" id="data-dump">
       <textarea v-model="character_json" readonly></textarea>
     </div>
@@ -42,6 +42,7 @@
       user: { type: String, required: true },
       characterId: { type: String, required: true },
       owningUser: { required: true, default: null },
+      editMode: { type: String, required: true }
     },
     data: function() {
       return {

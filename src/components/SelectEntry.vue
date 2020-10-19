@@ -4,7 +4,7 @@
   or read-only just like other data entry fields and is rendered accordingly.
 -->
 <template>
-  <div class="select-background" :class="{'read-only': isReadOnly}">
+  <div class="select-background" :class="{'read-only': isReadOnly, 'used-in-play': usedInPlay}">
     <select v-on:change="$emit('input', $event.target.value)" :disabled="isReadOnly">
       <option v-if="unselectedItem !== null" disabled value="" :selected="value === ''">
         {{unselectedItem}}
@@ -29,6 +29,7 @@
     inject: ["editModes"],
     props: {
       mutable: { type: Boolean, required: false, default: true },
+      usedInPlay: { type: Boolean, required: false, default: false },
       value: { type: String, required: true },
       options: { type: Array, required: true },
       unselectedItem: {type: String, required: false, default: null }, // value to show if none is chosen
@@ -37,8 +38,11 @@
     },
     computed: {
       isReadOnly: function() {
-        const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
-        return globalReadOnly;
+        const globalReadOnly = this.editModes && (
+            this.editModes.editMode === "READ_ONLY" ||
+            this.editModes.editMode === "PLAYING" && !this.usedInPlay
+        );
+        return globalReadOnly || !this.mutable;
       }
     }
   }
@@ -48,6 +52,9 @@
   .select-background {
     background-color: var(--entry-field);
     padding: 2px;
+  }
+  .select-background.used-in-play {
+    background-color: var(--in-play-entry-field);
   }
   .select-background.read-only {
     background-color: var(--paper-color);

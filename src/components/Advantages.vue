@@ -196,9 +196,6 @@
     outline: var(--error-color) solid 4px;
     outline-offset: -4px;
   }
-  .advantage-type {
-    background-color: var(--entry-field);
-  }
   button.show-ally {
     margin: 3px 5px;
   }

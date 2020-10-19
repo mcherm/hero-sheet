@@ -1,5 +1,5 @@
 <template>
-  <div class="select-background" :class="{'read-only': isReadOnly}">
+  <div class="select-background" :class="{'read-only': isReadOnly, 'used-in-play': usedInPlay}">
     <select :value="`standard|${value}`" @input="$emit('input', $event.target.value)" class="effect-select" :disabled="isReadOnly">
       <option disabled value="standard:">Select One</option>
       <optgroup label="Power Effects">
@@ -36,7 +36,8 @@
     inject: ["editModes"],
     props: {
       value: { type: String, required: true },
-      mutable: { type: Boolean, required: false, default: true }
+      mutable: { type: Boolean, required: false, default: true },
+      usedInPlay: { type: Boolean, required: false, default: false },
     },
     methods: {
       powersFilteredFor: function(filter) {
@@ -48,7 +49,10 @@
     },
     computed: {
       isReadOnly: function() {
-        const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
+        const globalReadOnly = this.editModes && (
+            this.editModes.editMode === "READ_ONLY" ||
+            this.editModes.editMode === "PLAYING" && !this.usedInPlay
+        );
         return globalReadOnly || !this.mutable;
       }
     },
@@ -60,6 +64,9 @@
     background-color: var(--entry-field);
     padding: 2px;
     display: inline-block;
+  }
+  .select-background.used-in-play {
+    background-color: var(--in-play-entry-field);
   }
   .select-background.read-only {
     background-color: var(--paper-color);

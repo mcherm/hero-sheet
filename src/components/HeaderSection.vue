@@ -7,6 +7,11 @@
       <span v-if="characterSelected && characterName !== ''"> : {{characterName}}</span>
     </div>
     <activity-button v-if="characterSelected" :label="characterName" key="character" ref="characterButton">
+      <select v-if="canChangeEditMode"  :value="editMode" @change="$emit('set-edit-mode', $event.target.value)">
+        <option value="DESIGNING">Designing</option>
+        <option value="PLAYING">Playing</option>
+        <option value="READ_ONLY">Read Only</option>
+      </select>
       <edit-button :on-click="() => {$refs.characterButton.concealContents(); $globals.eventBus.$emit('duplicate-current-character')}">Duplicate</edit-button>
       <edit-button :on-click="() => {$refs.characterButton.concealContents(); $emit('close-character')}">Close Character</edit-button>
     </activity-button>
@@ -35,12 +40,14 @@
       characterName: { type: String, required: false, default: "" },
       userSelected: { type: Boolean, required: true },
       user: { type: String, required: false, default: "" },
+      canChangeEditMode: { type: Boolean, required: true },
+      editMode: { type: String, required: true },
     },
     data: function() {
       return {
         showingAbout: false,
       };
-    }
+    },
   }
 </script>
 

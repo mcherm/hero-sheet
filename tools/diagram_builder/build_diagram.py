@@ -63,7 +63,10 @@ MIDDLE_OF_VUE = """\
 
   export default {
     name: "ConditionsImage.vue",
-    inject: ["getCharsheet"],
+    inject: {
+      getCharsheet: {},
+      editModes: { editMode: "READ_ONLY" },
+    },
     data: function() {
       return {
         conditions: this.getCharsheet().status.conditions,
@@ -103,6 +106,9 @@ MIDDLE_OF_VUE = """\
         }
       },
       onClickCondition: function(button) {
+        if (this.editModes.editMode === "READ_ONLY") {
+          return;
+        }
         const thisCondition = this.conditions[button];
         if (thisCondition.superseded) {
           return;
@@ -134,6 +140,9 @@ MIDDLE_OF_VUE = """\
         }
       },
       onClickDamageButton: function(button) {
+        if (this.editModes.editMode === "READ_ONLY") {
+          return;
+        }
         const delta = {"recover": +1, "damaged": -1}[button];
         this.getCharsheet().status.damagePenalty = Math.min(0, this.getCharsheet().status.damagePenalty + delta);
         if (this.getCharsheet().status.damagePenalty !== 0) {
@@ -227,14 +236,17 @@ VUE_STYLESHEET = f"""\
     width: 100%;
     height: auto;
   }}
+  .damageTextBox.damaged {{
+    fill: var(--in-play-entry-field);
+  }}
   .selected .conditionBorder {{
-    fill: var(--status-color);
+    fill: var(--in-play-entry-field);
   }}
   .selected .conditionBox {{
-    fill: var(--status-color);
+    fill: var(--in-play-entry-field);
   }}
   .active .conditionBox {{
-    fill: var(--status-color);
+    fill: var(--in-play-entry-field);
   }}
   .superseded .conditionBox {{
     fill: var(--inapplicable-color);
@@ -364,6 +376,10 @@ class CommonWriter:
         """Subclasses override this to provide the value to show for the damage penalty."""
         return "0"
 
+    def damage_text_box_extras(self):
+        """Subclasses override this to provide the value to show for the damage penalty."""
+        return ""
+
     def write_damage_penalty(self):
         TEXT_H_OFFSET = 3
         TEXT_V_OFFSET = -5
@@ -376,7 +392,7 @@ class CommonWriter:
         BUTTON_HEIGHT = 9
         self.write(f"""\
             <g transform="translate({ff(COUNTER_PLACEMENT[0])}, {ff(COUNTER_PLACEMENT[1])})">
-              <rect class="damageTextBox" x="{ff(-TEXT_H_OFFSET - TEXT_WIDTH)}" y="{ff(TEXT_V_OFFSET)}" width="{ff(TEXT_WIDTH)}" height="{ff(TEXT_HEIGHT)}"/>
+              <rect class="damageTextBox"{self.damage_text_box_extras()} x="{ff(-TEXT_H_OFFSET - TEXT_WIDTH)}" y="{ff(TEXT_V_OFFSET)}" width="{ff(TEXT_WIDTH)}" height="{ff(TEXT_HEIGHT)}"/>
               <text class="damageDescription" x="0" y="{ff(-DESCRIPTION_V_OFFSET)}">Damage Penalty</text>
               <text class="damageText" x="{ff(-TEXT_H_OFFSET - TEXT_WIDTH/2)}" y="{ff(TEXT_V_OFFSET + TEXT_HEIGHT/2)}">{self.damage_penalty_value()}</text>
               <g{self.damage_button_extras('Recover')}>
@@ -457,6 +473,9 @@ class VueFileWriter(CommonWriter):
 
     def condition_extras(self, name):
         return f" :class=\"conditions.{name.lower()}\" @click=\"onClickCondition('{name.lower()}')\""
+
+    def damage_text_box_extras(self):
+        return " :class=\"{'damaged': getCharsheet().status.damagePenalty !== 0}\""
 
     def write_file(self):
         self.write(TOP_OF_VUE)

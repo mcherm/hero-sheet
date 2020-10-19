@@ -17,7 +17,10 @@
     },
     computed: {
       isDisabled: function() {
-        const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
+        const globalReadOnly = this.editModes && (
+            this.editModes.editMode === "READ_ONLY" ||
+            this.editModes.editMode === "PLAYING"
+        );
         return globalReadOnly;
       }
     },

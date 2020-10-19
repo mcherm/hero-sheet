@@ -13,7 +13,7 @@
           <div class="grid-with-lines-cell affected-trait">{{affectedTrait}}</div>
           <div class="grid-with-lines-cell">{{entry.description}}</div>
           <number-display class="value-display grid-with-lines-cell" :value="entry.value"/>
-          <yes-no-toggle class="grid-with-lines-cell" v-model="entry.isActive"/>
+          <yes-no-toggle class="grid-with-lines-cell" v-model="entry.isActive" :used-in-play="true"/>
         </div>
       </div>
       <div class="empty-notice" v-if="Object.keys(getCharsheet().activeEffects).length === 0">No Adjustments</div>
