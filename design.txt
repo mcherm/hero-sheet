@@ -95,6 +95,15 @@ Alerts:
    * format - one of "error", "info". Defaults to "error". Controls format.
    * hsid - a unique ID for this error
 
+Edit Modes:
+  There is an edit mode. It is conceptually managed at the character level, but is actually managed
+  at the EntirePage level. It can take on 3 different values:
+    DESIGNING
+    PLAYING
+    READ_ONLY
+  When viewing someone else's character it can ONLY take on the value READ_ONLY.
+
+  These control what can be edited.
 
 === Design for public characters ===
 How about this idea?

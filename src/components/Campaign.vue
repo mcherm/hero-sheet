@@ -18,7 +18,7 @@
       <label class="row-label">Setting</label>
       <string-entry v-model="campaign.setting" :mutable="!editModes.isAlly"/>
       <label class="row-label">Make Public</label>
-      <yes-no-toggle class="grid-with-lines-cell" v-model="getCharsheet().sharing.isPublic"/>
+      <yes-no-toggle class="grid-with-lines-cell" v-model="getCharsheet().sharing.isPublic" :mutable="!editModes.isAlly"/>
     </div>
   </boxed-section>
 </template>

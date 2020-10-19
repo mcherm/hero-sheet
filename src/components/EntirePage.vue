@@ -8,6 +8,9 @@
         :character-selected="characterSelected"
         :user="user"
         :user-selected="userSelected"
+        :can-change-edit-mode="owningUser === null"
+        :edit-mode="editMode"
+        @set-edit-mode="(value) => editMode = value"
         @close-character="closeCharacter()"
         @reset-user="resetUser()"
     />
@@ -28,6 +31,7 @@
         :user="user"
         :characterId="characterId"
         :owningUser="owningUser"
+        :editMode="editMode"
         v-on:change-character-name="characterName = $event"
         v-on:not-logged-in="resetUser()"
         v-on:change-character="changeCharacter($event)"
@@ -63,6 +67,7 @@
         characterId: "",
         owningUser: null, // when characterSelected, this is null if owned by the current user, or a user name of the owner
         characterName: "",
+        editMode: "DESIGNING",
         alertList: [],
       }
     },
@@ -108,6 +113,7 @@
           this.characterName = newCharacter.name;
           this.owningUser = newCharacter.owningUser;
           this.characterSelected = true;
+          this.editMode = this.owningUser === null ? "DESIGNING" : "READ_ONLY";
         });
       },
       resetUser: async function() {

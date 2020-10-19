@@ -45,7 +45,7 @@
             <line x1="165" y1="264" x2="205" y2="276" class="connector" />
             <line x1="245" y1="264" x2="205" y2="276" class="connector" />
             <g transform="translate(85, 30)">
-              <rect class="damageTextBox" x="-29" y="-5" width="26" height="18"/>
+              <rect class="damageTextBox" :class="{'damaged': getCharsheet().status.damagePenalty !== 0}" x="-29" y="-5" width="26" height="18"/>
               <text class="damageDescription" x="0" y="-12">Damage Penalty</text>
               <text class="damageText" x="-16" y="4">{{getCharsheet().status.damagePenalty}}</text>
               <g @click="onClickDamageButton('recover')">
@@ -604,7 +604,7 @@
     name: "ConditionsImage.vue",
     inject: {
       getCharsheet: {},
-      editModes: { default: {} },
+      editModes: { editMode: "READ_ONLY" },
     },
     data: function() {
       return {
@@ -645,7 +645,7 @@
         }
       },
       onClickCondition: function(button) {
-        if (this.editModes.isReadOnly) {
+        if (this.editModes.editMode === "READ_ONLY") {
           return;
         }
         const thisCondition = this.conditions[button];
@@ -679,7 +679,7 @@
         }
       },
       onClickDamageButton: function(button) {
-        if (this.editModes.isReadOnly) {
+        if (this.editModes.editMode === "READ_ONLY") {
           return;
         }
         const delta = {"recover": +1, "damaged": -1}[button];
@@ -763,14 +763,17 @@
     width: 100%;
     height: auto;
   }
+  .damageTextBox.damaged {
+    fill: var(--in-play-entry-field);
+  }
   .selected .conditionBorder {
-    fill: var(--status-color);
+    fill: var(--in-play-entry-field);
   }
   .selected .conditionBox {
-    fill: var(--status-color);
+    fill: var(--in-play-entry-field);
   }
   .active .conditionBox {
-    fill: var(--status-color);
+    fill: var(--in-play-entry-field);
   }
   .superseded .conditionBox {
     fill: var(--inapplicable-color);

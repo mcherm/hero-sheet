@@ -7,6 +7,7 @@
     v-on:input="resize()"
     v-on:change="$emit('input', $event.target.value)"
     class="string-entry"
+    :class="{'used-in-play': usedInPlay}"
     :disabled="isDisabled"
     :readonly="isReadOnly"
     rows="1"
@@ -19,7 +20,8 @@
     inject: ["editModes"],
     props: {
       value: { type: String, required: true },
-      mutable: { type: Boolean, required: false, default: true }
+      mutable: { type: Boolean, required: false, default: true },
+      usedInPlay: { type: Boolean, requried: false, default: false },
     },
     data: function() {
       return {
@@ -36,7 +38,10 @@
         return !this.mutable;
       },
       isReadOnly: function() {
-        const globalReadOnly = this.editModes && ("isReadOnly" in this.editModes) && this.editModes.isReadOnly;
+        const globalReadOnly = this.editModes && (
+            this.editModes.editMode === "READ_ONLY" ||
+            this.editModes.editMode === "PLAYING" && !this.usedInPlay
+        );
         return globalReadOnly;
       }
     },
@@ -57,6 +62,9 @@
     resize: none;
     margin-top: 0;
     margin-bottom: 0;
+  }
+  .string-entry.used-in-play {
+    background-color: var(--in-play-entry-field);
   }
   .string-entry:disabled {
     background-color: var(--paper-color);

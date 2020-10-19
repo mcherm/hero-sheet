@@ -3,11 +3,7 @@
     <div class="flex-row">
       <div class="power-features">
         <label class="row-label">Name</label>
-        <string-entry
-            :value="power.name"
-            :mutable="mutable"
-            @input="$emit('update:name', $event)"
-        />
+        <string-entry :value="power.name" :mutable="mutable" @input="$emit('update:name', $event)"/>
 
         <label class="row-label">Effect</label>
         <div>
