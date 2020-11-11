@@ -132,7 +132,6 @@ How about this idea?
 
 
 Bug List:
-Adding text
 
 TODO: Some powers (like Invisiblity or Concealment and maybe Morph) don't have
   ranks. I should probably categorize those and hide the rank selector for them.
