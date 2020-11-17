@@ -12,7 +12,6 @@
         <option value="PLAYING">Playing</option>
         <option value="READ_ONLY">Read Only</option>
       </select>
-      <edit-button v-if="this.$globals.developerMode" :on-click="() => {showingSummary = true}"> Summary</edit-button>
       <edit-button :on-click="() => {$refs.characterButton.concealContents(); $globals.eventBus.$emit('duplicate-current-character')}">Duplicate</edit-button>
       <edit-button :on-click="() => {$refs.characterButton.concealContents(); $emit('close-character')}">Close Character</edit-button>
     </activity-button>
@@ -22,23 +21,18 @@
     <modal-lightbox v-if="showingAbout" v-on:exit="showingAbout = false">
       <about-application/>
     </modal-lightbox>
-    <modal-lightbox v-if="showingSummary" v-on:exit="showingSummary = false">
-      <character-summary/>
-    </modal-lightbox>
   </div>
 </template>
 
 <script>
   import AboutApplication from "./AboutApplication.vue"
   import ActivityButton from "./ActivityButton.vue"
-  import CharacterSummary from "./CharacterSummary.vue";
 
   export default {
     name: 'header-section',
     components: {
       AboutApplication,
       ActivityButton,
-      CharacterSummary,
     },
     props: {
       titleIfLoggedOut: { type: String, required: true },
@@ -52,7 +46,6 @@
     data: function() {
       return {
         showingAbout: false,
-        showingSummary: false,
       };
     },
   }
