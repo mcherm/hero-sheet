@@ -184,3 +184,16 @@ TODO: Move Object with the Damaging extra should be an attack.
 TODO: Custom Modifiers (or at LEAST a generic +1 modifier).
 
 BUG: When you delete or alter a minion or sidekick advantage, it should remove the ally from your charsheet.
+
+DONE: The powers Growth and Shrinking should both generate stat adjustments.
+ * Growth: each rank adds +1 to strength
+ * Growth: each rank adds +1 to stamina; if they lack stamina it still adds +1 to toughness
+ * Growth: every full 2 ranks add +1 to intimidation
+ * Growth: every rank adds -1 to stealth skill
+ * Growth: every 2 ranks rounded up adds -1 to dodge
+ * Growth: every 2 ranks rounded up adds -1 to parry
+ * Shrinking: every 4 ranks adds -1 to strength
+ * Shrinking: every 2 full ranks add +1 to dodge
+ * Shrinking: every 2 full ranks add +1 to parry
+ * Shrinking: every rank adds +1 to stealth skill
+ * Shrinking: every 2 full ranks add -1 to intimidation

@@ -830,7 +830,14 @@ class EnhancedTraitUpdater extends Updater {
 }
 
 
-class ProtectionUpdater extends Updater {
+/*
+ * Abstract parent class for updaters that create an ActiveEffect based on
+ * some Power.
+ *
+ * FIXME: This was introduced late and I doubt everything that COULD be based
+ *  on it IS based on it.
+ */
+class ActiveEffectFromPowerUpdater extends Updater {
   constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super(vm, charsheet, newUpdaterEvent, ...otherArgs);
   }
@@ -851,29 +858,47 @@ class ProtectionUpdater extends Updater {
     return {updater: activeEffect.updater, power: feature};
   }
 
+
   /*
-   * Subclasses should override this to return the key their active effect is stored under.
+   * Subclasses must override this to return the key their active effect is stored under.
    */
   getActiveEffectKey() {
-    return "defenses.toughness.ranks";
+    throw Error("Subclasses must override this.");
   }
 
   /*
    * Given an ActiveEffect entry for an updater of this class, this returns
-   * a boolean indicating whether it is the one belonging to this updater.
+   * a boolean indicating whether it is the one belonging to this updater. We
+   * only need to check if it's the right power.
    */
   isMyActiveEffect(activeEffect) {
     return activeEffect.powerHsid === this.power.hsid
   }
 
+  /*
+   * Subclasses must override this to return the result of a call to newAdjustment().
+   */
+  makeNewActiveEffect() {
+    throw Error("Subclasses must override this.");
+  }
+
+  /*
+   * Given the ranks of the power, this calculates the size of the effect. The
+   * default implementation just uses the ranks of the power but subclasses may
+   * override this.
+   */
+  effectSizeFromRanks(powerRanks) {
+    return powerRanks;
+  }
+
   makeNewActiveEffect() {
     return newAdjustment(
-        "Protection",
-        this.power.ranks,
-        {
-          updater: this.className(),
-          powerHsid: this.power.hsid,
-        }
+      "Protection",
+      this.effectSizeFromRanks(this.power.ranks),
+      {
+        updater: this.className(),
+        powerHsid: this.power.hsid,
+      }
     );
   }
 
@@ -890,8 +915,11 @@ class ProtectionUpdater extends Updater {
     };
   }
 
+  /*
+   * Calculates this.activeEffect.value, typically from the power ranks.
+   */
   applyChanges(newCalculations) {
-    this.activeEffect.value = newCalculations.powerRanks;
+    this.activeEffect.value = this.effectSizeFromRanks(newCalculations.powerRanks);
   }
 
   destroy() {
@@ -910,6 +938,106 @@ class ProtectionUpdater extends Updater {
     super.destroy();
   }
 }
+
+
+class ProtectionUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "defenses.toughness.ranks";
+  }
+}
+
+
+class StrengthFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "abilities.strength.ranks";
+  }
+}
+
+class StaminaFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "abilities.stamina.ranks";
+  }
+}
+
+class IntimidationFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "skills.skillList@intimidation";
+  }
+  effectSizeFromRanks(powerRanks) {
+    return Math.floor(powerRanks / 2);
+  }
+}
+
+class StealthFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "skills.skillList@stealth";
+  }
+  effectSizeFromRanks(powerRanks) {
+    return -powerRanks;
+  }
+}
+
+class DodgeFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "defenses.dodge.ranks";
+  }
+  effectSizeFromRanks(powerRanks) {
+    return -Math.ceil(powerRanks / 2);
+  }
+}
+
+class ParryFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "defenses.parry.ranks";
+  }
+  effectSizeFromRanks(powerRanks) {
+    return -Math.ceil(powerRanks / 2);
+  }
+}
+
+class StrengthFromShrinkingUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "abilities.strength.ranks";
+  }
+  effectSizeFromRanks(powerRanks) {
+    return -powerRanks;
+  }
+}
+
+class DodgeFromShrinkingUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "defenses.dodge.ranks";
+  }
+  effectSizeFromRanks(powerRanks) {
+    return Math.floor(powerRanks / 2);
+  }
+}
+
+class ParryFromShrinkingUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "defenses.parry.ranks";
+  }
+  effectSizeFromRanks(powerRanks) {
+    return Math.floor(powerRanks / 2);
+  }
+}
+
+class StealthFromShrinkingthUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "skills.skillList@stealth";
+  }
+}
+
+class IntimidationFromShrinkingUpdater extends ActiveEffectFromPowerUpdater {
+  getActiveEffectKey() {
+    return "skills.skillList@intimidation";
+  }
+  effectSizeFromRanks(powerRanks) {
+    return -Math.floor(powerRanks / 2);
+  }
+}
+
+
 
 
 class CombatSkillUpdater extends Updater {
@@ -1184,6 +1312,17 @@ const updaterClasses = {
   RangedAttackUpdater,
   EnhancedTraitUpdater,
   ProtectionUpdater,
+  StrengthFromGrowthUpdater,
+  StaminaFromGrowthUpdater,
+  IntimidationFromGrowthUpdater,
+  DodgeFromGrowthUpdater,
+  ParryFromGrowthUpdater,
+  StealthFromGrowthUpdater,
+  StrengthFromShrinkingUpdater,
+  DodgeFromShrinkingUpdater,
+  ParryFromShrinkingUpdater,
+  StealthFromShrinkingthUpdater,
+  IntimidationFromShrinkingUpdater,
   CombatSkillUpdater,
   EquipmentFeatureUpdater,
   AllyUpdater,
