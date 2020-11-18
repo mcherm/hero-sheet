@@ -20,19 +20,30 @@
       <label class="row-label">Make Public</label>
       <yes-no-toggle class="grid-with-lines-cell" v-model="getCharsheet().sharing.isPublic" :mutable="!editModes.isAlly"/>
     </div>
+    <div>
+      <edit-button v-if="this.$globals.developerMode" :on-click="() => {showingSummary = true}"> Summary</edit-button>
+    </div>
+    <modal-lightbox v-if="showingSummary" v-on:exit="showingSummary = false">
+      <character-summary/>
+    </modal-lightbox>
   </boxed-section>
 </template>
 
 <script>
+  import CharacterSummary from "./CharacterSummary.vue";
   const campaignData = require("../data/campaignData.json");
 
   export default {
     name: "Campaign",
     inject: ["getCharsheet", "editModes"],
+    components: {
+      CharacterSummary,
+    },
     data: function() {
       return {
         campaignData,
-        campaign: this.getCharsheet().campaign
+        campaign: this.getCharsheet().campaign,
+        showingSummary: false,
       }
     }
   }
