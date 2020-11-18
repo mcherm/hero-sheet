@@ -14,6 +14,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-11-17: Shrinking and Growth will now affect other stats appropriately (need to re-enter them for existing characters).</li>
       <li>2020-10-19: Now there's an edit mode for designing characters, using it in play, or being read-only.</li>
       <li>2020-10-13: Users can now duplicate characters (including public characters from other users).</li>
       <li>2020-10-11: Better UI for logging out and closing characters.</li>

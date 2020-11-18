@@ -547,13 +547,28 @@ const buildNewModifier = function(inputFields) {
   };
 }
 
-const POWER_TO_UPDATER_MAP = {
-  "Damage": "PowerAttackUpdater",
-  "Affliction": "PowerAttackUpdater",
-  "Nullify": "PowerAttackUpdater",
-  "Weaken": "PowerAttackUpdater",
-  "Enhanced Trait": "EnhancedTraitUpdater",
-  "Protection": "ProtectionUpdater",
+const POWER_TO_UPDATERS_MAP = { // FIXME: Growth and Shrinking will require me to create multiple updaters.
+  "Damage": ["PowerAttackUpdater"],
+  "Affliction": ["PowerAttackUpdater"],
+  "Nullify": ["PowerAttackUpdater"],
+  "Weaken": ["PowerAttackUpdater"],
+  "Enhanced Trait": ["EnhancedTraitUpdater"],
+  "Protection": ["ProtectionUpdater"],
+  "Growth": [
+    "StrengthFromGrowthUpdater",
+    "StaminaFromGrowthUpdater",
+    "IntimidationFromGrowthUpdater",
+    "DodgeFromGrowthUpdater",
+    "ParryFromGrowthUpdater",
+    "StealthFromGrowthUpdater",
+  ],
+  "Shrinking": [
+    "StrengthFromShrinkingUpdater",
+    "DodgeFromShrinkingUpdater",
+    "ParryFromShrinkingUpdater",
+    "StealthFromShrinkingthUpdater",
+    "IntimidationFromShrinkingUpdater",
+  ],
 };
 
 /*
@@ -561,22 +576,24 @@ const POWER_TO_UPDATER_MAP = {
  * a new updater for that power, or returns null if this power does not require
  * any updater.
  */
-const powerUpdaterEvent = function(charsheet, power) {
-  const updater = POWER_TO_UPDATER_MAP[power.effect];
-  if (updater === undefined) {
-    return null;
+const powerUpdaterEvents = function(charsheet, power) {
+  const updaters = POWER_TO_UPDATERS_MAP[power.effect];
+  if (updaters === undefined) {
+    return [];
   }
-  return {
-    charsheet,
-    updater,
-    power,
-  };
+  return updaters.map(updater => {
+    return {
+      charsheet,
+      updater,
+      power,
+    };
+  });
 }
 
 
 const createUpdatersForFeature = function($globals, charsheet, feature) {
-  const event = powerUpdaterEvent(charsheet, feature);
-  if (event !== null) {
+  const events = powerUpdaterEvents(charsheet, feature);
+  for (const event of events) {
     $globals.eventBus.$emit("new-updater", event);
   }
   feature.subpowers.forEach(x => createUpdatersForFeature($globals, charsheet, x));
@@ -814,7 +831,7 @@ export {
   modifierDisplaySign,
   modifierDisplayText,
   buildNewModifier,
-  powerUpdaterEvent,
+  powerUpdaterEvents,
   createUpdatersForFeature,
   addActiveEffect,
   removeActiveEffects,

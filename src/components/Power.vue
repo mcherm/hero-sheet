@@ -73,7 +73,7 @@
   import ModifierList from "./ModifierList.vue";
   import PowerEffectSelect from "./PowerEffectSelect.vue";
   import {STARTING_POWER_NAME} from "../js/heroSheetVersioning.js";
-  import {powerCostCalculate, getStandardPower, getPowerOption, recalculatePowerBaseCost, setPowerEffect, setPowerOption, powerUpdaterEvent, buildFeature, replacePower} from "../js/heroSheetUtil.js";
+  import {powerCostCalculate, getStandardPower, getPowerOption, recalculatePowerBaseCost, setPowerEffect, setPowerOption, powerUpdaterEvents, buildFeature, replacePower} from "../js/heroSheetUtil.js";
   const samplePowers = require("../data/samplePowers.json");
 
   export default {
@@ -130,8 +130,8 @@
           replacePower(this.power, newFeature);
           const recursivelyCreateNewUpdaters = powerList => {
             for (const power of powerList) {
-              const event = powerUpdaterEvent(this.getCharsheet(), power);
-              if (event !== null) {
+              const events = powerUpdaterEvents(this.getCharsheet(), power);
+              for (const event of events) {
                 this.$globals.eventBus.$emit("new-updater", event);
               }
               if (power.subpowers.length > 0) {
@@ -167,8 +167,8 @@
         const noOptionNeeded = (!powerOptions) || powerOptions.length === 0;
         const powerIsFullySpecified = this.power.effect !== "" && (noOptionNeeded || getPowerOption(this.power) !== null);
         if (powerIsFullySpecified) {
-          const event = powerUpdaterEvent(this.getCharsheet(), this.power);
-          if (event !== null) {
+          const events = powerUpdaterEvents(this.getCharsheet(), this.power);
+          for (const event of events) {
             this.$globals.eventBus.$emit("new-updater", event);
           }
         }
