@@ -21,6 +21,7 @@
   "dependencies": {
     "ajv": "^6.12.5",
     "get-random-values": "^1.2.2",
+    "pdfmake": "^0.1.68",
     "s3-easy-deploy": "^1.1.0",
     "vue": "^2.6.12"
   },
