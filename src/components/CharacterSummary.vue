@@ -15,6 +15,8 @@
   import {documentDefinition} from "../js/pdf.js";
 
   const pdfMake = require("pdfmake/build/pdfmake.js");
+  const pdfFonts = require("pdfmake/build/vfs_fonts.js");
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
   export default {
     name: "CharacterSummary",
