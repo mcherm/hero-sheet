@@ -1,0 +1,721 @@
+{
+  "version": 23,
+  "campaign": {
+    "powerLevel": 10,
+    "xpAwarded": 0,
+    "setting": "Sample-Characters"
+  },
+  "naming": {
+    "name": "Powerhouse",
+    "player": "",
+    "identityType": "none",
+    "identity": "",
+    "gender": "",
+    "age": "",
+    "heightWeight": "",
+    "eyesHair": "",
+    "costume": "",
+    "groupAffiliation": "",
+    "baseOfOperations": ""
+  },
+  "effortPoints": 1,
+  "abilities": {
+    "strength": {
+      "entered": 4,
+      "ranks": 12
+    },
+    "stamina": {
+      "entered": 4,
+      "ranks": 14
+    },
+    "agility": {
+      "entered": 1,
+      "ranks": 1
+    },
+    "dexterity": {
+      "entered": 1,
+      "ranks": 1
+    },
+    "fighting": {
+      "entered": 6,
+      "ranks": 6
+    },
+    "intellect": {
+      "entered": 0,
+      "ranks": 0
+    },
+    "awareness": {
+      "entered": 1,
+      "ranks": 1
+    },
+    "presence": {
+      "entered": 1,
+      "ranks": 1
+    }
+  },
+  "defenses": {
+    "dodge": {
+      "base": 0,
+      "purchased": 5,
+      "cost": 5,
+      "ranks": 6
+    },
+    "fortitude": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 14
+    },
+    "parry": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 6
+    },
+    "toughness": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 14
+    },
+    "will": {
+      "base": 0,
+      "purchased": 5,
+      "cost": 5,
+      "ranks": 6
+    }
+  },
+  "misc": {
+    "initiative": 1,
+    "isMindlessConstruct": false,
+    "isImmobileConstruct": false
+  },
+  "advantages": [
+    {
+      "name": "All-out Attack",
+      "hsid": "HIF1XD5XD",
+      "ranks": null,
+      "description": "All-out Attack: You can subtract up to 5 from your Dodge and Parry toadd the same number to you attack bonus for a round."
+    },
+    {
+      "name": "Power Attack",
+      "hsid": "HIDTAU4TN",
+      "ranks": null,
+      "description": "Power Attack: You can subtract up to 5 from your attack roll and add the same number to your Damage bonus."
+    },
+    {
+      "name": "Ultimate Effort",
+      "hsid": "HIWA9Y46V",
+      "ranks": null,
+      "description": "Ultimate Effort (Toughness checks): You can spend a hero point on a Toughness check and treat the roll as 20."
+    }
+  ],
+  "equipment": [],
+  "skills": {
+    "skillList": [
+      {
+        "name": "acrobatics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "athletics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "close combat",
+        "hsid": "HIR8FL76T",
+        "ranks": 2,
+        "isTemplate": true,
+        "attackHsid": "HIMXB7LFX"
+      },
+      {
+        "name": "deception",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "expertise",
+        "hsid": "HIKU19FBL",
+        "ranks": 6,
+        "isTemplate": true,
+        "specialization": "Criminal"
+      },
+      {
+        "name": "insight",
+        "ranks": 5,
+        "isTemplate": false
+      },
+      {
+        "name": "intimidation",
+        "ranks": 7,
+        "isTemplate": false
+      },
+      {
+        "name": "investigation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "perception",
+        "ranks": 5,
+        "isTemplate": false
+      },
+      {
+        "name": "persuasion",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "ranged combat",
+        "hsid": "HIZBWPVL2",
+        "ranks": 7,
+        "isTemplate": true,
+        "attackHsid": ""
+      },
+      {
+        "name": "slight of hand",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "stealth",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "technology",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "treatment",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "vehicles",
+        "ranks": 0,
+        "isTemplate": false
+      }
+    ],
+    "cost": 16
+  },
+  "powers": [
+    {
+      "name": "Shockwave",
+      "hsid": "HIJ3BVYB4",
+      "effect": "Alternate",
+      "description": "Shockwave: Burst Area Damage 10, Limited: Both you and targets must be touching the ground. Targets within 30 ft of you make a DC 20 Dodge Resistance check. Failure make DC 25 Toughness, success make DC 20.",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Burst Area",
+          "ranks": 1,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1,
+          "displayText": "Burst Area (+1)"
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Limited",
+          "optionName": null,
+          "ranks": 1,
+          "costType": "pointsOfMultiplier",
+          "cost": -1,
+          "displayText": "Limited (-1)"
+        }
+      ],
+      "ranks": 10,
+      "cost": 11,
+      "effectDescription": "Several different effects together.",
+      "baseCost": null,
+      "subpowers": [
+        {
+          "name": "Shockwave",
+          "hsid": "HIWY8XN8Y",
+          "effect": "Damage",
+          "description": "Shockwave: Burst Area Damage 10, Limited: Both you and targets must be touching the ground. Targets within 30 ft of you make a DC 20 Dodge Resistance check. Failure make DC 25 Toughness, success make DC 20.",
+          "extras": [],
+          "flaws": [],
+          "ranks": 10,
+          "cost": 10,
+          "effectDescription": "You can inflict damage by making a close attack.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Groundstrike",
+          "hsid": "HICDPVS58",
+          "effect": "Affliction",
+          "description": "Ground Strike: Burst Area Affliction 10, Instant Recovery, Limited Degree, Limited: Both you and targets mustbetouching the ground. Targets within 30 ft of you must make a DC 20 Dodge Resistance check. Failure make DC 20Fortitude, success DC 15. Failure one degree on 2nd check = vulnerable. Two degrees = defenseless.",
+          "extras": [],
+          "flaws": [
+            {
+              "modifierSource": "special",
+              "modifierName": "Instant Recovery",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "pointsOfMultiplier",
+              "cost": -1,
+              "displayText": "Instant Recovery (-1)"
+            },
+            {
+              "modifierSource": "special",
+              "modifierName": "Limited Degree",
+              "optionName": "Limited to two degrees of effect",
+              "ranks": 1,
+              "costType": "pointsOfMultiplier",
+              "cost": -1,
+              "displayText": "Limited to two degrees of effect (-1)"
+            }
+          ],
+          "ranks": 10,
+          "cost": 4,
+          "effectDescription": "Impose some debilitating condition(s) on a target.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        }
+      ],
+      "option": null
+    },
+    {
+      "name": "Leaping",
+      "hsid": "HIZR1BPWQ",
+      "effect": "Leaping",
+      "description": "Leaping: 10 You can leap up to a mile and take no damage.",
+      "extras": [],
+      "flaws": [],
+      "ranks": 10,
+      "cost": 10,
+      "effectDescription": "You can make prodigious leaps, far more than even a skilled athlete.",
+      "baseCost": 1,
+      "subpowers": [],
+      "option": null
+    },
+    {
+      "name": "Super Stamina",
+      "hsid": "HI8EUEJ8Q",
+      "effect": "Linked",
+      "description": "Super Stamina: Enhanced Stamina 10, Immunity 12 (cold & heat damage,  fatigue, pressure), Impervious Toughness 12 (Ignore Damage Rank 6 and below)",
+      "extras": [],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 50,
+      "effectDescription": "Several different effects together.",
+      "baseCost": null,
+      "subpowers": [
+        {
+          "name": "Enhanced Stamina",
+          "hsid": "HI81ACLRR",
+          "effect": "Enhanced Trait",
+          "description": "Enhanced Stamina 10",
+          "extras": [],
+          "flaws": [],
+          "ranks": 10,
+          "cost": 20,
+          "effectDescription": "You can temporarily improve one of your existing traits.",
+          "baseCost": 2,
+          "subpowers": [],
+          "option": "Enhanced Stamina"
+        },
+        {
+          "name": "Immunity to Temperature",
+          "hsid": "HIBZWDUEQ",
+          "effect": "Immunity",
+          "description": "Immunity 12 (cold & heat damage,  fatigue, pressure)",
+          "extras": [],
+          "flaws": [],
+          "ranks": 12,
+          "cost": 12,
+          "effectDescription": "You are immune to certain effects.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Impervious Toughness",
+          "hsid": "HIN18K9SK",
+          "effect": "Enhanced Trait",
+          "description": "Impervious Toughness 12 (Ignore Damage Rank 6 and below)",
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Impervious",
+              "optionName": null,
+              "ranks": 6,
+              "costType": "flatPointsPerRankOfModifier",
+              "cost": 1,
+              "displayText": "Impervious (+6 flat)"
+            }
+          ],
+          "flaws": [],
+          "ranks": 12,
+          "cost": 18,
+          "effectDescription": "You can temporarily improve one of your existing traits.",
+          "baseCost": 1,
+          "subpowers": [],
+          "option": "Enhanced Will"
+        }
+      ],
+      "option": null
+    },
+    {
+      "name": "Super Strength",
+      "hsid": "HIFY2A3RC",
+      "effect": "Linked",
+      "description": "Super Strength: Enhanced Strength 8 plus Enhanced Strength 4 Limited to Lifting. When you lift an object your Strength is 16 which means you can lift 1,600 tons.",
+      "extras": [],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 20,
+      "effectDescription": "Several different effects together.",
+      "baseCost": null,
+      "subpowers": [
+        {
+          "name": "Super Strength",
+          "hsid": "HIYURF3RK",
+          "effect": "Enhanced Trait",
+          "description": "Enhanced Strength 8",
+          "extras": [],
+          "flaws": [],
+          "ranks": 8,
+          "cost": 16,
+          "effectDescription": "You can temporarily improve one of your existing traits.",
+          "baseCost": 2,
+          "subpowers": [],
+          "option": "Enhanced Strength"
+        },
+        {
+          "name": "Enhanced Strength 4 Limited to Lifting",
+          "hsid": "HI96JWFUE",
+          "effect": "Enhanced Trait",
+          "description": "Enhanced Strength 4 Limited to Lifting. When you lift an object your Strength is 16 which means you can lift 1,600 tons.",
+          "extras": [],
+          "flaws": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Limited",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "pointsOfMultiplier",
+              "cost": -1,
+              "displayText": "Limited (-1)"
+            }
+          ],
+          "ranks": 4,
+          "cost": 4,
+          "effectDescription": "You can temporarily improve one of your existing traits.",
+          "baseCost": 2,
+          "subpowers": [],
+          "option": "Enhanced Strength"
+        }
+      ],
+      "option": null
+    }
+  ],
+  "complications": [
+    {
+      "hsid": "HINBLJ6J3",
+      "complicationType": "motivation",
+      "description": "Acceptance: You feel different or isolated and do good to gain the trust andacceptance of others."
+    },
+    {
+      "hsid": "HI8VPQU8Y",
+      "complicationType": "phobia",
+      "description": "Phobia: You’re irrationally afraid of something. When confronted with it you have to fight to control your fear, causing you to hesitate, flee, or act irrationally."
+    }
+  ],
+  "background": "NOTE: The book quotes the Super Stamina as being 44 points; I calculate it at 50. I don't know what the discrepancy is.",
+  "attacks": {
+    "attackList": [
+      {
+        "hsid": "HIMXB7LFX",
+        "updater": "UnarmedAttackUpdater",
+        "effectType": "damage",
+        "name": "Unarmed",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 2
+      },
+      {
+        "hsid": "HIEAGEPFJ",
+        "updater": "PowerAttackUpdater",
+        "powerHsid": "HIWY8XN8Y",
+        "effectType": "damage",
+        "name": "Shockwave",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 10,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
+      },
+      {
+        "hsid": "HILSFXG6S",
+        "updater": "PowerAttackUpdater",
+        "powerHsid": "HICDPVS58",
+        "effectType": "affliction",
+        "name": "Groundstrike",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 10,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
+      },
+      {
+        "hsid": "HIZSF9K53",
+        "updater": "ThrownAttackUpdater",
+        "effectType": "damage",
+        "name": "Thrown Object",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 0
+      }
+    ]
+  },
+  "activeEffects": {
+    "abilities.stamina.ranks": [
+      {
+        "hsid": "HIQA9355R",
+        "description": "Enhanced Stamina from Power",
+        "value": 10,
+        "isActive": true,
+        "updater": "EnhancedTraitUpdater",
+        "powerHsid": "HI81ACLRR"
+      }
+    ],
+    "defenses.fortitude.ranks": [
+      {
+        "hsid": "HI44LKDBA",
+        "description": "Enhanced Fortitude from Power",
+        "value": 12,
+        "isActive": false,
+        "updater": "EnhancedTraitUpdater",
+        "powerHsid": "HIN18K9SK"
+      }
+    ],
+    "abilities.strength.ranks": [
+      {
+        "hsid": "HI4WC9NLW",
+        "description": "Enhanced Strength from Power",
+        "value": 8,
+        "isActive": true,
+        "updater": "EnhancedTraitUpdater",
+        "powerHsid": "HIYURF3RK"
+      },
+      {
+        "hsid": "HI4GR3DY2",
+        "description": "Enhanced Strength from Power",
+        "value": 4,
+        "isActive": false,
+        "updater": "EnhancedTraitUpdater",
+        "powerHsid": "HI96JWFUE"
+      }
+    ],
+    "attacks.HIMXB7LFX.check": [
+      {
+        "hsid": "HID5ZQB57",
+        "description": "Close Combat Skill",
+        "value": 2,
+        "isActive": true,
+        "updater": "CombatSkillUpdater",
+        "skillHsid": "HIR8FL76T"
+      }
+    ],
+    "defenses.dodge.ranks": [
+      {
+        "hsid": "HI88C6APW",
+        "description": "Enhanced Dodge from Power",
+        "value": 12,
+        "isActive": false,
+        "updater": "EnhancedTraitUpdater",
+        "powerHsid": "HIN18K9SK"
+      }
+    ],
+    "skills.skillList@athletics": [
+      {
+        "hsid": "HILWBU176",
+        "description": "Enhanced Athletics from Power",
+        "value": 12,
+        "isActive": false,
+        "updater": "EnhancedTraitUpdater",
+        "powerHsid": "HIN18K9SK"
+      }
+    ],
+    "defenses.will.ranks": [
+      {
+        "hsid": "HIWXF8VGY",
+        "description": "Enhanced Will from Power",
+        "value": 12,
+        "isActive": false,
+        "updater": "EnhancedTraitUpdater",
+        "powerHsid": "HIN18K9SK"
+      }
+    ]
+  },
+  "constraintViolations": {},
+  "status": {
+    "conditions": {
+      "compelled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "controlled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "debilitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "defenseless": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "disabled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "fatigued": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "hindered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "immobile": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "impaired": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "normal": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "stunned": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "transformed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "unaware": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "vulnerable": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "weakened": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "asleep": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "blind": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "bound": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "deaf": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dying": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "entranced": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "exhausted": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "incapacitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "paralyzed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "prone": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "restrained": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "staggered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "surprised": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      }
+    },
+    "damagePenalty": 0
+  },
+  "allies": [],
+  "sharing": {
+    "isPublic": true
+  }
+}

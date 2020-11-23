@@ -1,13 +1,13 @@
 {
-  "version": 17,
+  "version": 23,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
-    "setting": ""
+    "setting": "Test"
   },
   "naming": {
-    "name": "Blanko-a43",
-    "player": "ab",
+    "name": "Blanko",
+    "player": "",
     "identityType": "none",
     "identity": "",
     "gender": "",
@@ -86,18 +86,11 @@
     }
   },
   "misc": {
-    "initiative": 0,
+    "initiative": null,
     "isMindlessConstruct": false,
     "isImmobileConstruct": false
   },
-  "advantages": [
-    {
-      "name": "Improved Critical",
-      "hsid": "HIFUF4JDY",
-      "ranks": 1,
-      "description": ""
-    }
-  ],
+  "advantages": [],
   "equipment": [],
   "skills": {
     "skillList": [
@@ -172,6 +165,7 @@
   "powers": [],
   "complications": [
     {
+      "hsid": "HICALVV6T",
       "complicationType": "motivation",
       "description": ""
     }
@@ -180,16 +174,183 @@
   "attacks": {
     "attackList": [
       {
-        "hsid": "HIV9CEAFM",
+        "hsid": "HITBKLPS5",
         "updater": "UnarmedAttackUpdater",
         "name": "Unarmed",
-        "attackCheck": 0,
         "effectType": "damage",
-        "resistanceDC": 0
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "attackCheckAdjustment": 0,
+        "isStrengthBased": true
+      },
+      {
+        "hsid": "HIX67VPKN",
+        "updater": "ThrownAttackUpdater",
+        "name": "Thrown Object",
+        "effectType": "damage",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "attackCheckAdjustment": 0,
+        "isStrengthBased": true
       }
     ]
   },
   "activeEffects": {},
   "constraintViolations": {},
-  "allies": []
+  "status": {
+    "conditions": {
+      "compelled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "controlled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "debilitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "defenseless": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "disabled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "fatigued": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "hindered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "immobile": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "impaired": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "normal": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "stunned": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "transformed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "unaware": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "vulnerable": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "weakened": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "asleep": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "blind": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "bound": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "deaf": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dying": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "entranced": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "exhausted": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "incapacitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "paralyzed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "prone": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "restrained": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "staggered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "surprised": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      }
+    },
+    "damagePenalty": 0
+  },
+  "allies": [],
+  "sharing": {
+    "isPublic": false
+  }
 }

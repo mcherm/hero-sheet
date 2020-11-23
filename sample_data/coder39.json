@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 23,
   "campaign": {
     "powerLevel": 13,
     "xpAwarded": 0,
@@ -22,42 +22,34 @@
   "abilities": {
     "strength": {
       "entered": 2,
-      "cost": 4,
       "ranks": 2
     },
     "stamina": {
       "entered": 5,
-      "cost": 10,
       "ranks": 5
     },
     "agility": {
       "entered": 15,
-      "cost": 30,
       "ranks": 15
     },
     "dexterity": {
       "entered": 16,
-      "cost": 32,
       "ranks": 16
     },
     "fighting": {
       "entered": 4,
-      "cost": 8,
       "ranks": 4
     },
     "intellect": {
       "entered": 17,
-      "cost": 34,
       "ranks": 17
     },
     "awareness": {
       "entered": 3,
-      "cost": 6,
       "ranks": 3
     },
     "presence": {
       "entered": 1,
-      "cost": 2,
       "ranks": 1
     }
   },
@@ -88,44 +80,44 @@
       "ranks": 3
     }
   },
-  "initiative": 15,
+  "misc": {
+    "initiative": 15,
+    "isMindlessConstruct": false,
+    "isImmobileConstruct": false
+  },
   "advantages": [
     {
       "name": "Accurate Attack",
       "ranks": null,
       "description": "",
-      "effect": "Trade effect DC for attack bonus.",
-      "isRanked": false
+      "hsid": "HIB4PS57J"
     },
     {
       "name": "Beginner's Luck",
       "ranks": null,
       "description": "",
-      "effect": "Spend a hero point to gain 5 temporary ranks in a skill.",
-      "isRanked": false
+      "hsid": "HIAV8ZSLA"
     },
     {
       "name": "Great Endurance",
       "ranks": null,
       "description": "",
-      "effect": "+5 checks involving endurance.",
-      "isRanked": false
+      "hsid": "HIP936SZY"
     },
     {
       "name": "Inventor",
       "ranks": null,
       "description": "",
-      "effect": "Use Technology to create temporary devices.",
-      "isRanked": false
+      "hsid": "HIWVJDBLB"
     },
     {
       "name": "Minion",
       "ranks": 17,
       "description": "",
-      "effect": "Gain a follower or minion with (15 x rank) power points.",
-      "isRanked": true
+      "hsid": "HIL6NPYWC"
     }
   ],
+  "equipment": [],
   "skills": {
     "skillList": [
       {
@@ -142,7 +134,8 @@
         "name": "close combat",
         "ranks": 0,
         "isTemplate": true,
-        "specialization": "Unarmed"
+        "specialization": "Unarmed",
+        "hsid": "HI95N6Q9M"
       },
       {
         "name": "deception",
@@ -213,7 +206,8 @@
       "cost": 15,
       "subpowers": [],
       "effectDescription": "One or more of your senses are improved or you have additional sensory abilities beyond the normal five senses.",
-      "baseCost": 1
+      "baseCost": 1,
+      "hsid": "HI36PXFCF"
     },
     {
       "name": "Exta Eyes",
@@ -225,7 +219,8 @@
       "cost": 4,
       "subpowers": [],
       "effectDescription": "You have extra manipulative limbs, such as arms, tentacles, or even prehensile hair or a tail.",
-      "baseCost": 1
+      "baseCost": 1,
+      "hsid": "HIBYLN16Q"
     },
     {
       "name": "Bracelet",
@@ -238,14 +233,16 @@
           "optionName": "Easily Removable",
           "costType": "flatPointsPer5PointsOfFinalCost",
           "cost": -2,
-          "displayText": "Easily Removable (-2)"
+          "displayText": "Easily Removable (-2)",
+          "modifierSource": "standard"
         }
       ],
       "ranks": 5,
       "cost": 21,
       "subpowers": [],
       "effectDescription": "You can gain or use potentially any effect of the appropriate type and descriptor!",
-      "baseCost": 7
+      "baseCost": 7,
+      "hsid": "HI1BSEUJU"
     },
     {
       "name": "test",
@@ -257,28 +254,204 @@
       "cost": 1,
       "subpowers": [],
       "effectDescription": "You can inflict damage by making a close attack.",
-      "baseCost": 1
+      "baseCost": 1,
+      "hsid": "HI851UKB9"
     }
   ],
   "complications": [
     {
       "complicationType": "motivation",
-      "description": "Became a hero becuase of my dog."
+      "description": "Became a hero becuase of my dog.",
+      "hsid": "HIVYWE6KE"
     },
     {
       "complicationType": "phobia",
-      "description": "Is extremly shy."
+      "description": "Is extremly shy.",
+      "hsid": "HIRW8978K"
     }
   ],
+  "background": "",
   "attacks": {
     "attackList": [
       {
-        "type": "unarmed",
-        "name": "Unarmed",
-        "attackCheck": 4,
+        "updater": "UnarmedAttackUpdater",
+        "hsid": "HI9FYSWXK",
         "effectType": "damage",
-        "resistanceDC": 2
+        "name": "Unarmed",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 0
+      },
+      {
+        "hsid": "HISQZGP9T",
+        "updater": "ThrownAttackUpdater",
+        "name": "Thrown Object",
+        "effectType": "damage",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "strengthBased": true,
+        "attackCheckAdjustment": 0,
+        "isStrengthBased": true
       }
     ]
+  },
+  "activeEffects": {},
+  "constraintViolations": {},
+  "status": {
+    "conditions": {
+      "compelled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "controlled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "debilitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "defenseless": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "disabled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "fatigued": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "hindered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "immobile": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "impaired": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "normal": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "stunned": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "transformed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "unaware": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "vulnerable": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "weakened": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "asleep": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "blind": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "bound": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "deaf": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dying": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "entranced": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "exhausted": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "incapacitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "paralyzed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "prone": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "restrained": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "staggered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "surprised": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      }
+    },
+    "damagePenalty": 0
+  },
+  "allies": [],
+  "sharing": {
+    "isPublic": false
   }
 }
