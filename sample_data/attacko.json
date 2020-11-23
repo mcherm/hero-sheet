@@ -1,12 +1,12 @@
 {
-  "version": 20,
+  "version": 23,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
     "setting": "Test"
   },
   "naming": {
-    "name": "Attacko-2",
+    "name": "Attacko",
     "player": "Michael",
     "identityType": "none",
     "identity": "",
@@ -37,8 +37,8 @@
       "ranks": 4
     },
     "fighting": {
-      "entered": 6,
-      "ranks": 6
+      "entered": 7,
+      "ranks": 7
     },
     "intellect": {
       "entered": 0,
@@ -70,7 +70,7 @@
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 6
+      "ranks": 7
     },
     "toughness": {
       "base": 0,
@@ -263,7 +263,7 @@
       {
         "name": "close combat",
         "hsid": "HIGYATNSR",
-        "ranks": 4,
+        "ranks": 5,
         "isTemplate": true,
         "attackHsid": "HIYJUAPYW"
       },
@@ -323,7 +323,7 @@
         "isTemplate": false
       }
     ],
-    "cost": 2
+    "cost": 3
   },
   "powers": [
     {
@@ -453,6 +453,78 @@
       "baseCost": 1,
       "subpowers": [],
       "option": null
+    },
+    {
+      "name": "Overpowered Area Attack",
+      "hsid": "HI5SJ1MKC",
+      "effect": "Damage",
+      "description": "",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Area",
+          "optionName": "Cloud Area",
+          "ranks": 1,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1,
+          "displayText": "Cloud Area (+1)"
+        }
+      ],
+      "flaws": [],
+      "ranks": 11,
+      "cost": 22,
+      "effectDescription": "You can inflict damage by making a close attack.",
+      "baseCost": 1,
+      "subpowers": [],
+      "option": null
+    },
+    {
+      "name": "Strength-Based Attack",
+      "hsid": "HIEWWLPCM",
+      "effect": "Damage",
+      "description": "",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Strength Based",
+          "optionName": null,
+          "ranks": 1,
+          "costType": "pointsOfMultiplier",
+          "cost": 0,
+          "displayText": "Strength Based (0)"
+        }
+      ],
+      "flaws": [],
+      "ranks": 6,
+      "cost": 6,
+      "effectDescription": "You can inflict damage by making a close attack.",
+      "baseCost": 1,
+      "subpowers": [],
+      "option": null
+    },
+    {
+      "name": "Move Object Attack",
+      "hsid": "HI1TUKLE4",
+      "effect": "Move Object",
+      "description": "",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Throwing Mastery",
+          "optionName": null,
+          "ranks": 2,
+          "costType": "flatPointsPerRankOfModifier",
+          "cost": 1,
+          "displayText": "Throwing Mastery (+2 flat)"
+        }
+      ],
+      "flaws": [],
+      "ranks": 4,
+      "cost": 10,
+      "effectDescription": "You can move objects at a distance without touching them.",
+      "baseCost": 2,
+      "subpowers": [],
+      "option": null
     }
   ],
   "complications": [
@@ -472,7 +544,8 @@
         "name": "Unarmed",
         "range": "close",
         "scope": "singleTarget",
-        "ranks": 2,
+        "ranks": 0,
+        "isStrengthBased": true,
         "attackCheckAdjustment": 0
       },
       {
@@ -483,8 +556,9 @@
         "name": "Sword",
         "range": "close",
         "scope": "singleTarget",
-        "ranks": 5,
-        "attackCheckAdjustment": 4
+        "ranks": 3,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 5
       },
       {
         "hsid": "HI8DA5PZA",
@@ -495,6 +569,7 @@
         "range": "ranged",
         "scope": "singleTarget",
         "ranks": 3,
+        "isStrengthBased": false,
         "attackCheckAdjustment": 0
       },
       {
@@ -506,6 +581,7 @@
         "range": "close",
         "scope": "singleTarget",
         "ranks": 3,
+        "isStrengthBased": false,
         "attackCheckAdjustment": 0
       },
       {
@@ -517,6 +593,7 @@
         "range": "close",
         "scope": "singleTarget",
         "ranks": 4,
+        "isStrengthBased": false,
         "attackCheckAdjustment": 0
       },
       {
@@ -528,6 +605,7 @@
         "range": "ranged",
         "scope": "singleTarget",
         "ranks": 5,
+        "isStrengthBased": false,
         "attackCheckAdjustment": 0
       },
       {
@@ -539,61 +617,103 @@
         "range": "close",
         "scope": "singleTarget",
         "ranks": 6,
+        "isStrengthBased": false,
         "attackCheckAdjustment": 0
       },
       {
         "hsid": "HIKMLDY8S",
         "updater": "ThrownAttackUpdater",
-        "name": "Thrown Object",
         "effectType": "damage",
+        "name": "Thrown Object",
         "range": "ranged",
         "scope": "singleTarget",
-        "ranks": 2,
+        "ranks": 0,
+        "isStrengthBased": true,
         "attackCheckAdjustment": 0
       },
       {
         "hsid": "HI54R817U",
         "updater": "PowerAttackUpdater",
+        "powerHsid": "HIMYAYGFY",
         "effectType": "affliction",
         "name": "Area Affliction",
         "range": "close",
         "scope": "area",
         "ranks": 3,
-        "attackCheckAdjustment": 0,
-        "powerHsid": "HIMYAYGFY"
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
       },
       {
         "hsid": "HIZZ8MPTY",
         "updater": "PowerAttackUpdater",
+        "powerHsid": "HIZBQK5U9",
         "effectType": "damage",
         "name": "Personal-Range Damage",
         "range": "personal",
         "scope": "singleTarget",
         "ranks": 4,
-        "attackCheckAdjustment": 0,
-        "powerHsid": "HIZBQK5U9"
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
       },
       {
         "hsid": "HIA51S8PD",
         "updater": "PowerAttackUpdater",
+        "powerHsid": "HINLG9863",
         "effectType": "damage",
         "name": "Perception-Range Damage",
         "range": "perception",
         "scope": "singleTarget",
         "ranks": 2,
-        "attackCheckAdjustment": 0,
-        "powerHsid": "HINLG9863"
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
       },
       {
         "hsid": "HILSBPJRP",
         "updater": "PowerAttackUpdater",
+        "powerHsid": "HIG6FWC6T",
         "effectType": "affliction",
         "name": "Taser",
         "range": "ranged",
         "scope": "singleTarget",
         "ranks": 5,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
+      },
+      {
+        "hsid": "HI6NQR9KV",
+        "updater": "PowerAttackUpdater",
+        "effectType": "damage",
+        "name": "Overpowered Area Attack",
+        "range": "close",
+        "scope": "area",
+        "ranks": 11,
+        "isStrengthBased": false,
         "attackCheckAdjustment": 0,
-        "powerHsid": "HIG6FWC6T"
+        "powerHsid": "HI5SJ1MKC"
+      },
+      {
+        "hsid": "HIDB5WW1T",
+        "updater": "PowerAttackUpdater",
+        "effectType": "damage",
+        "name": "Strength-Based Attack",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 6,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 0,
+        "powerHsid": "HIEWWLPCM"
+      },
+      {
+        "hsid": "HIUSE6WP5",
+        "updater": "PowerAttackUpdater",
+        "effectType": "damage",
+        "name": "Thrown using Move Object Attack",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 6,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0,
+        "powerHsid": "HI1TUKLE4"
       }
     ]
   },
@@ -602,14 +722,18 @@
       {
         "hsid": "HING6Z19T",
         "description": "Close Combat Skill",
-        "value": 4,
+        "value": 5,
         "isActive": true,
         "updater": "CombatSkillUpdater",
         "skillHsid": "HIGYATNSR"
       }
     ]
   },
-  "constraintViolations": {},
+  "constraintViolations": {
+    "AttackRoll@HI6NQR9KV": {
+      "gmApproval": false
+    }
+  },
   "status": {
     "conditions": {
       "compelled": {
@@ -757,7 +881,11 @@
         "selected": false,
         "superseded": false
       }
-    }
+    },
+    "damagePenalty": 0
   },
-  "allies": []
+  "allies": [],
+  "sharing": {
+    "isPublic": true
+  }
 }

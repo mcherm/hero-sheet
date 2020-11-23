@@ -1,8 +1,8 @@
 {
-  "version": 17,
+  "version": 23,
   "campaign": {
     "powerLevel": 13,
-    "xpAwarded": 71,
+    "xpAwarded": 29,
     "setting": "Marvel Comics"
   },
   "naming": {
@@ -109,12 +109,6 @@
       "ranks": null,
       "description": "",
       "hsid": "HIYJCADB9"
-    },
-    {
-      "name": "Equipment",
-      "ranks": 1,
-      "description": "",
-      "hsid": "HIWYV71SD"
     },
     {
       "name": "Evasion",
@@ -245,75 +239,64 @@
       {
         "name": "deception",
         "ranks": 2,
-        "isTemplate": false,
-        "hsid": "HICCXCVT6"
+        "isTemplate": false
       },
       {
         "name": "expertise",
         "ranks": 6,
         "isTemplate": true,
-        "specialization": "Photography",
+        "specialization": "Newspaper Photography",
         "hsid": "HIQYS6TP5"
       },
       {
         "name": "insight",
         "ranks": 2,
-        "isTemplate": false,
-        "hsid": "HITL9FZAK"
+        "isTemplate": false
       },
       {
         "name": "intimidation",
         "ranks": 2,
-        "isTemplate": false,
-        "hsid": "HI7MMZGMW"
+        "isTemplate": false
       },
       {
         "name": "investigation",
         "ranks": 2,
-        "isTemplate": false,
-        "hsid": "HIRMNQRKE"
+        "isTemplate": false
       },
       {
         "name": "perception",
         "ranks": 4,
-        "isTemplate": false,
-        "hsid": "HIJFJE4SW"
+        "isTemplate": false
       },
       {
         "name": "persuasion",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIPPJFPD8"
+        "isTemplate": false
       },
       {
         "name": "slight of hand",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HI6PLY4KG"
+        "isTemplate": false
       },
       {
         "name": "stealth",
         "ranks": 2,
-        "isTemplate": false,
-        "hsid": "HIPTBVL7C"
+        "isTemplate": false
       },
       {
         "name": "technology",
         "ranks": 6,
-        "isTemplate": false,
-        "hsid": "HIKM5DS49"
+        "isTemplate": false
       },
       {
         "name": "treatment",
         "ranks": 2,
-        "isTemplate": false,
-        "hsid": "HIJ4GQTXY"
+        "isTemplate": false
       },
       {
         "name": "vehicles",
         "ranks": 1,
-        "isTemplate": false,
-        "hsid": "HITA272GW"
+        "isTemplate": false
       }
     ],
     "cost": 23
@@ -372,6 +355,40 @@
       "baseCost": 2,
       "subpowers": [],
       "option": "Swinging"
+    },
+    {
+      "name": "Web Shooters",
+      "hsid": "HI3XUDM6U",
+      "effect": "Affliction",
+      "description": "Applies Hindered, then Immobile.",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "optionName": null,
+          "ranks": 1,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1,
+          "displayText": "Increased Range (+1)"
+        }
+      ],
+      "flaws": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Limited Degree",
+          "optionName": "Limited to two degrees of effect",
+          "ranks": 1,
+          "costType": "pointsOfMultiplier",
+          "cost": -1,
+          "displayText": "Limited to two degrees of effect (-1)"
+        }
+      ],
+      "ranks": 8,
+      "cost": 8,
+      "effectDescription": "Impose some debilitating condition(s) on a target.",
+      "baseCost": 1,
+      "subpowers": [],
+      "option": null
     }
   ],
   "complications": [
@@ -395,12 +412,38 @@
   "attacks": {
     "attackList": [
       {
-        "name": "Unarmed",
-        "attackCheck": 12,
-        "effectType": "damage",
-        "resistanceDC": 9,
         "updater": "UnarmedAttackUpdater",
-        "hsid": "HI2KJVBLR"
+        "hsid": "HI2KJVBLR",
+        "effectType": "damage",
+        "name": "Unarmed",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 3
+      },
+      {
+        "hsid": "HIEN225UD",
+        "updater": "ThrownAttackUpdater",
+        "effectType": "damage",
+        "name": "Thrown Object",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 0
+      },
+      {
+        "hsid": "HI4S3ZN9M",
+        "updater": "PowerAttackUpdater",
+        "effectType": "affliction",
+        "name": "Web Shooters",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 8,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0,
+        "powerHsid": "HI3XUDM6U"
       }
     ]
   },
@@ -411,7 +454,8 @@
         "value": 8,
         "updater": "ImprovedInitiativeUpdater",
         "advantageHsid": "HID48D3TJ",
-        "isActive": true
+        "isActive": true,
+        "description": ""
       }
     ],
     "attacks.HI2KJVBLR.check": [
@@ -420,10 +464,164 @@
         "value": 3,
         "updater": "CombatSkillUpdater",
         "skillHsid": "HILZ41YR9",
-        "isActive": true
+        "isActive": true,
+        "description": ""
       }
     ]
   },
   "constraintViolations": {},
-  "allies": []
+  "status": {
+    "conditions": {
+      "compelled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "controlled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "debilitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "defenseless": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "disabled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "fatigued": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "hindered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "immobile": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "impaired": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "normal": {
+        "active": false,
+        "selected": true,
+        "superseded": false
+      },
+      "stunned": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "transformed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "unaware": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "vulnerable": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "weakened": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "asleep": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "blind": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "bound": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "deaf": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dying": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "entranced": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "exhausted": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "incapacitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "paralyzed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "prone": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "restrained": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "staggered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "surprised": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      }
+    },
+    "damagePenalty": 0
+  },
+  "allies": [],
+  "sharing": {
+    "isPublic": true
+  }
 }

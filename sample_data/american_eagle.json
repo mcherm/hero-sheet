@@ -18,7 +18,7 @@
     "groupAffiliation": "",
     "baseOfOperations": ""
   },
-  "effortPoints": 1,
+  "effortPoints": 0,
   "abilities": {
     "strength": {
       "entered": 4,
@@ -405,9 +405,18 @@
           "costType": "pointsOfMultiplier",
           "cost": -1,
           "displayText": "Limited (-1)"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Removable",
+          "optionName": "Removable",
+          "ranks": 1,
+          "costType": "flatPointsPer5PointsOfFinalCost",
+          "cost": -1,
+          "displayText": "Removable (-1 fifths)"
         }
       ],
-      "ranks": 6,
+      "ranks": 7,
       "cost": 6,
       "effectDescription": "You can inflict damage by making a close attack.",
       "baseCost": 1,
@@ -623,7 +632,7 @@
         "name": "Jetpack Missles",
         "range": "ranged",
         "scope": "singleTarget",
-        "ranks": 6,
+        "ranks": 7,
         "isStrengthBased": false,
         "attackCheckAdjustment": 0
       },
@@ -845,7 +854,7 @@
         "superseded": false
       }
     },
-    "damagePenalty": 0
+    "damagePenalty": -1
   },
   "allies": [],
   "sharing": {
