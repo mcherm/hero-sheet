@@ -547,11 +547,12 @@ const buildNewModifier = function(inputFields) {
   };
 }
 
-const POWER_TO_UPDATERS_MAP = { // FIXME: Growth and Shrinking will require me to create multiple updaters.
+const POWER_TO_UPDATERS_MAP = {
   "Damage": ["PowerAttackUpdater"],
   "Affliction": ["PowerAttackUpdater"],
   "Nullify": ["PowerAttackUpdater"],
   "Weaken": ["PowerAttackUpdater"],
+  "Move Object": ["MoveObjectThrownAttackUpdater"],
   "Enhanced Trait": ["EnhancedTraitUpdater"],
   "Protection": ["ProtectionUpdater"],
   "Growth": [
