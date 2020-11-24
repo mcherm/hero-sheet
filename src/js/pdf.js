@@ -3,6 +3,24 @@
  */
 
 const documentDefinition = function(charsheet) {
+
+  const abilitiesTable = function() {
+    return {
+      layout: 'headerLineOnly',
+      table: {
+        headerRows: 1,
+        body: [
+          [{text: 'Abilities', style: 'subheader'}, {text: ''}],
+          ['Strength', '5'],
+          ['Dexterity', '15'],
+          ['Stamina', '3'],
+          ['Snarkiness', '15'],
+          ['Sneakiness', '30'],
+        ]
+      },
+    };
+  };
+
   return {
 //    content: `Sample PDF for ${charsheet.naming.name}.`
     content: [
@@ -11,20 +29,7 @@ const documentDefinition = function(charsheet) {
       {
         columns: [
           [
-            {
-              layout: 'headerLineOnly',
-              table: {
-                headerRows: 1,
-                body: [
-                  [{text: 'Abilities', style: 'subheader'}, {text: ''}],
-                  ['Strength', '5'],
-                  ['Dexterity', '15'],
-                  ['Stamina', '3'],
-                  ['Snarkiness', '15'],
-                  ['Sneakiness', '30'],
-                ]
-              },
-            },
+            abilitiesTable(),
             {
               layout: 'headerLineOnly',
               table: {
