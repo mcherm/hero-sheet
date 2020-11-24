@@ -10,13 +10,10 @@ const documentDefinition = function(charsheet) {
       table: {
         headerRows: 1,
         body: [
-          [{text: 'Abilities', style: 'subheader'}, {text: ''}],
-          ['Strength', '5'],
-          ['Dexterity', '15'],
-          ['Stamina', '3'],
-          ['Snarkiness', '15'],
-          ['Sneakiness', '30'],
-        ]
+          [{text: 'Abilities', style: 'subheader'}, {text: ''}]
+        ].concat(Object.keys(charsheet.abilities).map(
+          (ability) => [ability,charsheet.abilities[ability].ranks]
+        ))
       },
     };
   };
