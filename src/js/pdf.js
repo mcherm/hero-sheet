@@ -4,6 +4,7 @@
 
 const documentDefinition = function(charsheet) {
 
+
   const abilitiesTable = function() {
     return {
       layout: 'headerLineOnly',
@@ -12,7 +13,27 @@ const documentDefinition = function(charsheet) {
         body: [
           [{text: 'Abilities', style: 'subheader'}, {text: ''}]
         ].concat(Object.keys(charsheet.abilities).map(
-          (ability) => [ability,charsheet.abilities[ability].ranks]
+          (ability) => [
+            ability,
+            {text: charsheet.abilities[ability].ranks, alignment: 'right'}
+          ]
+        ))
+      },
+    };
+  };
+
+  const skillsTable = function() {
+    return {
+      layout: 'headerLineOnly',
+      table: {
+        headerRows: 1,
+        body: [
+          [{text: 'Skills', style: 'subheader'}, {text: ''}]
+        ].concat(charsheet.skills.skillList.map(
+          (skill) => [
+            skill.name,
+            {text: skill.ranks, alignment: 'right'}
+          ]
         ))
       },
     };
@@ -27,23 +48,8 @@ const documentDefinition = function(charsheet) {
         columns: [
           [
             abilitiesTable(),
-            {
-              layout: 'headerLineOnly',
-              table: {
-                headerRows: 1,
-                body: [
-                  [{text: 'Skills', style: 'subheader'}, {text: ''}],
-                  ['Clawing', '25'],
-                  ['Biting Feet', '25'],
-                  ['Climbing up', '18'],
-                  ['Climbing down', '3'],
-                  ['Jumping up', '20'],
-                  ['Jumping down', '100'],
-                ]
-              },
-            },
-
-            ],
+            skillsTable(),
+          ],
           {
             layout: 'headerLineOnly',
             table: {
