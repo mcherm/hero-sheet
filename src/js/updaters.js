@@ -514,6 +514,39 @@ class PowerAttackUpdater extends AttackUpdater {
 
 
 /*
+ * Move Object has a few quirks so it overrides the base PowerAttackUpdater.
+ */
+class MoveObjectThrownAttackUpdater extends PowerAttackUpdater {
+  getEffectType() {
+    return "damage";
+  }
+
+  getName() {
+    return `Thrown using ${this.power.name}`;
+  }
+
+  getCalculations(hsid) {
+    const result = super.getCalculations(hsid);
+    const throwingMastery = this.power.extras.reduce(
+      (sum, mod) => sum + (mod.modifierSource==="special" && mod.modifierName==="Throwing Mastery" ? mod.ranks : 0),
+      0
+    );
+    const improvisedWeaponMastery = this.power.extras.reduce(
+      (sum, mod) => sum + (mod.modifierSource==="special" && mod.modifierName==="Improvised Weapon Mastery" ? mod.ranks : 0),
+      0
+    );
+    result.damageAdjustment = throwingMastery + improvisedWeaponMastery;
+    return result;
+  }
+
+  applyChangesToAttack(attack, calc) {
+    super.applyChangesToAttack(attack, calc);
+    attack.ranks = attack.ranks + calc.damageAdjustment;
+  }
+}
+
+
+/*
  * For Updaters that create an ActiveEffect, this is designed to run once during
  * the constructor to create (if an edit has been performed, creating the Updater)
  * or find (if the charsheet was just loaded) the specific active effect within
@@ -1305,6 +1338,7 @@ const updaterClasses = {
   UnarmedAttackUpdater,
   ThrownAttackUpdater,
   PowerAttackUpdater,
+  MoveObjectThrownAttackUpdater,
   CloseAttackUpdater,
   DefensiveRollUpdater,
   ImprovedInitiativeUpdater,

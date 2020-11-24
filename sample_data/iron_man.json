@@ -1,5 +1,5 @@
 {
-  "version": 16,
+  "version": 23,
   "campaign": {
     "powerLevel": 14,
     "xpAwarded": 158,
@@ -22,42 +22,34 @@
   "abilities": {
     "strength": {
       "entered": 2,
-      "cost": 4,
-      "ranks": 2
+      "ranks": 3
     },
     "stamina": {
       "entered": 2,
-      "cost": 4,
       "ranks": 2
     },
     "agility": {
       "entered": 8,
-      "cost": 16,
       "ranks": 8
     },
     "dexterity": {
       "entered": 8,
-      "cost": 16,
       "ranks": 8
     },
     "fighting": {
       "entered": 10,
-      "cost": 20,
       "ranks": 10
     },
     "intellect": {
       "entered": 11,
-      "cost": 22,
       "ranks": 11
     },
     "awareness": {
       "entered": 5,
-      "cost": 10,
       "ranks": 5
     },
     "presence": {
       "entered": 2,
-      "cost": 4,
       "ranks": 2
     }
   },
@@ -88,7 +80,11 @@
       "ranks": 5
     }
   },
-  "initiative": 8,
+  "misc": {
+    "initiative": 8,
+    "isMindlessConstruct": false,
+    "isImmobileConstruct": false
+  },
   "advantages": [
     {
       "name": "Accurate Attack",
@@ -313,27 +309,25 @@
       {
         "name": "acrobatics",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HISBLXFT2"
+        "isTemplate": false
       },
       {
         "name": "athletics",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HI83G86Q1"
+        "isTemplate": false
       },
       {
         "name": "close combat",
         "ranks": 2,
         "isTemplate": true,
         "specialization": "Unarmed",
-        "hsid": "HIJSV2AKS"
+        "hsid": "HIJSV2AKS",
+        "attackHsid": "HIJV81R4W"
       },
       {
         "name": "deception",
         "ranks": 10,
-        "isTemplate": false,
-        "hsid": "HI712SYGV"
+        "isTemplate": false
       },
       {
         "name": "expertise",
@@ -366,62 +360,52 @@
       {
         "name": "insight",
         "ranks": 8,
-        "isTemplate": false,
-        "hsid": "HIM71C7JJ"
+        "isTemplate": false
       },
       {
         "name": "intimidation",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIUFZ3TPE"
+        "isTemplate": false
       },
       {
         "name": "investigation",
         "ranks": 2,
-        "isTemplate": false,
-        "hsid": "HISDM2S74"
+        "isTemplate": false
       },
       {
         "name": "perception",
         "ranks": 8,
-        "isTemplate": false,
-        "hsid": "HIASXE4EX"
+        "isTemplate": false
       },
       {
         "name": "persuasion",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIDSVWM1Y"
+        "isTemplate": false
       },
       {
         "name": "slight of hand",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HITXVYACU"
+        "isTemplate": false
       },
       {
         "name": "stealth",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIGCMSUJN"
+        "isTemplate": false
       },
       {
         "name": "technology",
         "ranks": 8,
-        "isTemplate": false,
-        "hsid": "HIC66SDRV"
+        "isTemplate": false
       },
       {
         "name": "treatment",
         "ranks": 2,
-        "isTemplate": false,
-        "hsid": "HIMN3F13C"
+        "isTemplate": false
       },
       {
         "name": "vehicles",
         "ranks": 4,
-        "isTemplate": false,
-        "hsid": "HI3WK2XXK"
+        "isTemplate": false
       }
     ],
     "cost": 38
@@ -438,26 +422,13 @@
           "optionName": "Removable",
           "costType": "flatPointsPer5PointsOfFinalCost",
           "cost": -1,
-          "displayText": "Removable (-1)"
+          "displayText": "Removable (-1)",
+          "modifierSource": "standard"
         }
       ],
       "ranks": 1,
       "cost": 30,
       "subpowers": [
-        {
-          "name": "Cloaking System",
-          "effect": "Invisibility",
-          "description": "",
-          "extras": [],
-          "flaws": [],
-          "ranks": 4,
-          "cost": 32,
-          "subpowers": [],
-          "effectDescription": "You can vanish from sight at will.  Created Power: Visual Concealment",
-          "baseCost": 8,
-          "option": "Invisible to All Vision",
-          "hsid": "HI63E8LD3"
-        },
         {
           "name": "ECM",
           "effect": "Concealment",
@@ -468,7 +439,8 @@
               "modifierName": "Limited",
               "costType": "pointsOfMultiplier",
               "cost": -1,
-              "displayText": "Limited (-1)"
+              "displayText": "Limited (-1)",
+              "modifierSource": "standard"
             }
           ],
           "ranks": 2,
@@ -477,19 +449,6 @@
           "effectDescription": "You gain total concealment from a particular sense while this effect is active.",
           "baseCost": 2,
           "hsid": "HIQQQV3NX"
-        },
-        {
-          "name": "Energy Absorption",
-          "effect": "Energy Absorption",
-          "description": "Absorbs: Energy, Boost: Blast; Unreliable (5 uses)",
-          "extras": [],
-          "flaws": [],
-          "ranks": 1,
-          "cost": 2,
-          "subpowers": [],
-          "effectDescription": "Created Power: Enhanced Strength, Fades",
-          "baseCost": 2,
-          "hsid": "HIFN2C38B"
         },
         {
           "name": "Enhanced Stamina",
@@ -522,6 +481,99 @@
       ],
       "effectDescription": "Several different effects together.",
       "hsid": "HIWDPZMWF"
+    },
+    {
+      "name": "Iron Man Bleeding Edge Armor:2",
+      "hsid": "HIMELVZ51",
+      "effect": "Alternate",
+      "description": "",
+      "extras": [],
+      "flaws": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Removable",
+          "optionName": "Removable",
+          "ranks": 1,
+          "costType": "flatPointsPer5PointsOfFinalCost",
+          "cost": -1,
+          "displayText": "Removable (-1 fifths)"
+        }
+      ],
+      "ranks": 1,
+      "cost": 8,
+      "effectDescription": "Several different effects together.",
+      "subpowers": [
+        {
+          "name": "Cloaking System",
+          "hsid": "HIGMNEG24",
+          "effect": "Concealment",
+          "description": "You can vanish from sight at will, gaining total visual concealment, although other senses can still detect you.",
+          "extras": [],
+          "flaws": [],
+          "ranks": 4,
+          "cost": 8,
+          "effectDescription": "You gain total concealment from a particular sense while this effect is active.",
+          "baseCost": 2,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "ECM",
+          "hsid": "HICZPR3MG",
+          "effect": "Concealment",
+          "description": "Other Sense Type: Electronic Senses; Limited to Machines",
+          "extras": [],
+          "flaws": [
+            {
+              "modifierSource": "special",
+              "modifierName": "Limited",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "pointsOfMultiplier",
+              "cost": -1,
+              "displayText": "Limited (-1)"
+            }
+          ],
+          "ranks": 1,
+          "cost": 1,
+          "effectDescription": "You gain total concealment from a particular sense while this effect is active.",
+          "baseCost": 2,
+          "subpowers": [],
+          "option": null
+        },
+        {
+          "name": "Energy Absorption",
+          "hsid": "HISLBVB7A",
+          "effect": "Enhanced Trait",
+          "description": "When hit with any kinetic force, gain +ranks of strength which then fades at one rank per turn. You still take damage normally.",
+          "extras": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Reaction",
+              "optionName": "Free action becomes Reaction",
+              "costType": "pointsOfMultiplier",
+              "cost": 1,
+              "displayText": "Free action becomes Reaction (+1)"
+            }
+          ],
+          "flaws": [
+            {
+              "modifierSource": "standard",
+              "modifierName": "Fades",
+              "costType": "pointsOfMultiplier",
+              "cost": -1,
+              "displayText": "Fades (-1)"
+            }
+          ],
+          "ranks": 1,
+          "cost": 2,
+          "effectDescription": "You can temporarily improve one of your existing traits.",
+          "baseCost": 2,
+          "subpowers": [],
+          "option": "Enhanced Strength"
+        }
+      ],
+      "option": null
     }
   ],
   "complications": [
@@ -540,25 +592,216 @@
   "attacks": {
     "attackList": [
       {
-        "name": "Unarmed",
-        "attackCheck": 10,
-        "effectType": "damage",
-        "resistanceDC": 2,
         "updater": "UnarmedAttackUpdater",
-        "hsid": "HIJV81R4W"
+        "hsid": "HIJV81R4W",
+        "effectType": "damage",
+        "name": "Unarmed",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 2
       },
       {
         "hsid": "HIWLV6PJ4",
-        "updater": "DamagePowerAttackUpdater",
+        "updater": "PowerAttackUpdater",
         "powerHsid": "HI5TB852Q",
-        "name": "Blaster Pistol",
-        "attackCheck": 10,
         "effectType": "damage",
-        "resistanceDC": 5
+        "name": "Blaster Pistol",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 5,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
+      },
+      {
+        "hsid": "HI2X2BERZ",
+        "updater": "ThrownAttackUpdater",
+        "effectType": "damage",
+        "name": "Thrown Object",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 0
       }
     ]
   },
-  "activeEffects": {},
+  "activeEffects": {
+    "attacks.HIJV81R4W.check": [
+      {
+        "hsid": "HI4L6LE9W",
+        "description": "Close Combat Skill",
+        "value": 2,
+        "isActive": true,
+        "updater": "CombatSkillUpdater",
+        "skillHsid": "HIJSV2AKS"
+      }
+    ],
+    "abilities.strength.ranks": [
+      {
+        "hsid": "HINUAGM9X",
+        "description": "Enhanced Strength from Power",
+        "value": 1,
+        "isActive": true,
+        "updater": "EnhancedTraitUpdater",
+        "powerHsid": "HISLBVB7A"
+      }
+    ]
+  },
   "constraintViolations": {},
-  "allies": []
+  "status": {
+    "conditions": {
+      "compelled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "controlled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "debilitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "defenseless": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "disabled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "fatigued": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "hindered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "immobile": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "impaired": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "normal": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "stunned": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "transformed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "unaware": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "vulnerable": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "weakened": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "asleep": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "blind": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "bound": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "deaf": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dying": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "entranced": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "exhausted": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "incapacitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "paralyzed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "prone": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "restrained": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "staggered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "surprised": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      }
+    },
+    "damagePenalty": 0
+  },
+  "allies": [],
+  "sharing": {
+    "isPublic": false
+  }
 }

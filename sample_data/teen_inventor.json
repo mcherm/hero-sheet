@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 23,
   "campaign": {
     "powerLevel": 8,
     "xpAwarded": 0,
@@ -22,42 +22,34 @@
   "abilities": {
     "strength": {
       "entered": 2,
-      "cost": 4,
       "ranks": 2
     },
     "stamina": {
       "entered": 3,
-      "cost": 6,
       "ranks": 3
     },
     "agility": {
       "entered": 2,
-      "cost": 4,
       "ranks": 2
     },
     "dexterity": {
       "entered": 2,
-      "cost": 4,
       "ranks": 2
     },
     "fighting": {
       "entered": 4,
-      "cost": 8,
       "ranks": 4
     },
     "intellect": {
       "entered": 2,
-      "cost": 4,
       "ranks": 2
     },
     "awareness": {
       "entered": 0,
-      "cost": 0,
       "ranks": 0
     },
     "presence": {
       "entered": 1,
-      "cost": 2,
       "ranks": 1
     }
   },
@@ -88,7 +80,11 @@
       "ranks": 3
     }
   },
-  "initiative": 2,
+  "misc": {
+    "initiative": 2,
+    "isMindlessConstruct": false,
+    "isImmobileConstruct": false
+  },
   "advantages": [
     {
       "name": "Accurate Attack",
@@ -109,12 +105,6 @@
       "hsid": "HI8YRDVDV"
     },
     {
-      "name": "Improved Initiative",
-      "hsid": "HIQWXB4ZA",
-      "ranks": 1,
-      "description": ""
-    },
-    {
       "name": "Improvised Tools",
       "ranks": null,
       "description": "Trained with master mechanic.",
@@ -133,32 +123,31 @@
       "hsid": "HIP3VDNTQ"
     }
   ],
+  "equipment": [],
   "skills": {
     "skillList": [
       {
         "name": "acrobatics",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HI7L4A1ZF"
+        "isTemplate": false
       },
       {
         "name": "athletics",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HI3N6BT9R"
+        "isTemplate": false
       },
       {
         "name": "close combat",
-        "ranks": 11,
+        "ranks": 9,
         "isTemplate": true,
         "specialization": "Unarmed",
-        "hsid": "HIN1QFSED"
+        "hsid": "HIN1QFSED",
+        "attackHsid": "HIDD34NYL"
       },
       {
         "name": "deception",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIBWDYU3T"
+        "isTemplate": false
       },
       {
         "name": "expertise",
@@ -177,65 +166,55 @@
       {
         "name": "insight",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIR9ZJBWG"
+        "isTemplate": false
       },
       {
         "name": "intimidation",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIVU69SKG"
+        "isTemplate": false
       },
       {
         "name": "investigation",
         "ranks": 3,
-        "isTemplate": false,
-        "hsid": "HI3MVV4FE"
+        "isTemplate": false
       },
       {
         "name": "perception",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HID6W2BDK"
+        "isTemplate": false
       },
       {
         "name": "persuasion",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIDW2QU4L"
+        "isTemplate": false
       },
       {
         "name": "slight of hand",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HINQ4AKYT"
+        "isTemplate": false
       },
       {
         "name": "stealth",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIDLQRD43"
+        "isTemplate": false
       },
       {
         "name": "technology",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIDB6E5VT"
+        "isTemplate": false
       },
       {
         "name": "treatment",
         "ranks": 3,
-        "isTemplate": false,
-        "hsid": "HI3P9WY5F"
+        "isTemplate": false
       },
       {
         "name": "vehicles",
         "ranks": 0,
-        "isTemplate": false,
-        "hsid": "HIVQLLLF7"
+        "isTemplate": false
       }
     ],
-    "cost": 11
+    "cost": 10
   },
   "powers": [
     {
@@ -245,7 +224,6 @@
       "description": "",
       "extras": [],
       "flaws": [],
-      "flats": [],
       "baseCost": 1,
       "ranks": 10,
       "cost": 10,
@@ -263,11 +241,11 @@
           "optionName": "Affects Objects",
           "costType": "pointsOfMultiplier",
           "cost": 1,
-          "displayText": "Affects Objects (+1)"
+          "displayText": "Affects Objects (+1)",
+          "modifierSource": "standard"
         }
       ],
       "flaws": [],
-      "flats": [],
       "baseCost": 1,
       "ranks": 5,
       "cost": 10,
@@ -280,9 +258,8 @@
       "description": "She can move at incredible speeds.",
       "extras": [],
       "flaws": [],
-      "flats": [],
       "ranks": 1,
-      "cost": 31,
+      "cost": 32,
       "subpowers": [
         {
           "name": "Run extremely fast",
@@ -290,7 +267,6 @@
           "description": "",
           "extras": [],
           "flaws": [],
-          "flats": [],
           "ranks": 7,
           "cost": 14,
           "subpowers": [],
@@ -304,7 +280,6 @@
           "description": "",
           "extras": [],
           "flaws": [],
-          "flats": [],
           "ranks": 8,
           "cost": 8,
           "subpowers": [],
@@ -318,27 +293,26 @@
           "description": "",
           "extras": [],
           "flaws": [],
-          "flats": [],
           "ranks": 6,
           "cost": 6,
           "subpowers": [],
           "effectDescription": "You can temporarily improve one of your existing traits.",
           "baseCost": 1,
-          "option": "Enhanced Dodge",
-          "hsid": "HIMQZVWDZ"
+          "hsid": "HIMQZVWDZ",
+          "option": "Enhanced Dodge"
         },
         {
-          "name": "Punch Face",
-          "hsid": "HIVURUC1Y",
+          "name": "Face Punch",
+          "hsid": "HIKDQRX78",
           "effect": "Damage",
           "description": "",
           "extras": [],
           "flaws": [],
-          "ranks": 3,
-          "cost": 3,
-          "subpowers": [],
+          "ranks": 4,
+          "cost": 4,
           "effectDescription": "You can inflict damage by making a close attack.",
-          "baseCost": 1
+          "baseCost": 1,
+          "subpowers": []
         }
       ],
       "effectDescription": "Several different effects together.",
@@ -357,65 +331,214 @@
       "hsid": "HIMV5R65A"
     }
   ],
+  "background": "",
   "attacks": {
     "attackList": [
       {
         "updater": "UnarmedAttackUpdater",
+        "hsid": "HIENCKJR2",
+        "effectType": "damage",
         "name": "Unarmed",
-        "attackCheck": 4,
-        "effectType": "damage",
-        "resistanceDC": 2,
-        "hsid": "HIUYF58E1"
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "isStrengthBased": true,
+        "attackCheckAdjustment": 0
       },
       {
-        "updater": "DamagePowerAttackUpdater",
+        "updater": "PowerAttackUpdater",
         "powerHsid": "HIZ2811LX",
-        "name": "Fury Fists",
-        "attackCheck": 4,
+        "hsid": "HI6RUV3YL",
         "effectType": "damage",
-        "resistanceDC": 5,
-        "hsid": "HIUYF58E5"
+        "name": "Fury Fists",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 5,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
       },
       {
-        "updater": "DamagePowerAttackUpdater",
-        "powerHsid": "HIVURUC1Y",
-        "name": "Punch Face",
-        "attackCheck": 4,
+        "hsid": "HIFRJQA1A",
+        "updater": "PowerAttackUpdater",
+        "powerHsid": "HIKDQRX78",
         "effectType": "damage",
-        "resistanceDC": 3,
-        "hsid": "HIUYF58E2"
+        "name": "Face Punch",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 4,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0
+      },
+      {
+        "hsid": "HI7VSZGAJ",
+        "updater": "ThrownAttackUpdater",
+        "name": "Thrown Object",
+        "effectType": "damage",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "strengthBased": true,
+        "attackCheckAdjustment": 0,
+        "isStrengthBased": true
       }
     ]
   },
   "activeEffects": {
-    "abilities.strength.ranks": [
-      {
-        "hsid": "HIS2NV5EC",
-        "value": 4,
-        "updater": "FooUpdater",
-        "powerHsid": "HIWBXSE3B"
+    "attacks.HIDD34NYL.check": []
+  },
+  "constraintViolations": {},
+  "status": {
+    "conditions": {
+      "compelled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
       },
-      {
-        "hsid": "HIZ2TYWA4",
-        "value": 4,
-        "updater": "FooUpdater"
+      "controlled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "debilitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "defenseless": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "disabled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "fatigued": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "hindered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "immobile": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "impaired": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "normal": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "stunned": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "transformed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "unaware": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "vulnerable": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "weakened": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "asleep": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "blind": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "bound": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "deaf": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dying": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "entranced": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "exhausted": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "incapacitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "paralyzed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "prone": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "restrained": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "staggered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "surprised": {
+        "active": false,
+        "selected": false,
+        "superseded": false
       }
-    ],
-    "initiative": [
-      {
-        "hsid": "HILSNQ85F",
-        "value": 4,
-        "updater": "ImprovedInitiativeUpdater",
-        "advantageHsid": "HIQWXB4ZA"
-      }
-    ],
-    "attacks.attackList#HIUYF58E2": [
-      {
-        "hsid": "HI9TMVE6T",
-        "value": 2,
-        "updater": "CloseCombatUpdater",
-        "skillHsid": "HIS9NSSZR"
-      }
-    ]
+    },
+    "damagePenalty": 0
+  },
+  "allies": [],
+  "sharing": {
+    "isPublic": false
   }
 }
