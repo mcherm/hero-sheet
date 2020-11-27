@@ -300,7 +300,7 @@
         "effectDescription": "You can inflict damage by making a close attack.",
         "baseCost": 1,
         "subpowers": [],
-        "option": null
+        "option": null,
       }
     }
   ],
