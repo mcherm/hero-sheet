@@ -1,10 +1,13 @@
 <template functional>
-  <div class="logo-section">
-    <div class="text-logo">
-      <span class="level-1">Hero-Sheet</span>
-      <span class="level-3"> : Mutants and Masterminds</span>
-      <span class="level-2"> : Open Beta Test</span>
+  <div class="horizontal">
+    <div class="logo-section">
+      <div class="text-logo">
+        <span class="level-1">Hero-Sheet</span>
+        <span class="level-3"> : Mutants and Masterminds</span>
+        <span class="level-2"> : Open Beta Test</span>
+      </div>
     </div>
+    <img src="/hero-sheet-logo.svg" class="logo"/>
   </div>
 </template>
 
@@ -15,6 +18,16 @@
 </script>
 
 <style scoped>
+  .horizontal {
+    display: flex;
+  }
+  .logo {
+    flex: 0 1 auto;
+    padding: 2px 2px 2px 6px;
+    width: 40px;
+    height: 40px;
+  }
+
   .header button {
     border: solid 1px var(--box-border-color);
     padding: 2px;
@@ -29,6 +42,10 @@
     padding-left: 4px;
     padding-right: 4px;
     padding-bottom: 2px;
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .text-logo {
