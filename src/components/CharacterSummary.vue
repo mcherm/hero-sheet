@@ -4,6 +4,16 @@
       This is the character summary
     </div>
     <div>
+      {{
+        [
+          [{text: 'Abilities', style: 'subheader'}, {text: ''}]
+        ].concat(Object.keys(getCharsheet().abilities).map(
+          (ability) => [ability,getCharsheet().abilities[ability].ranks]
+        ))
+      }}
+    </div>
+
+    <div>
       strength = {{getCharsheet().abilities.strength.ranks}}
     </div>
     <edit-button :on-click="() => {openPDF();}" :is-navigation="true">Show PDF</edit-button>

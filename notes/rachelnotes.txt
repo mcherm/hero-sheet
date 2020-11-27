@@ -358,3 +358,24 @@ and type: npm run serve
     "isPublic": false
   }
 }
+
+
+
+=== Three ways to define functions in JavaScript (there are more) ===
+
+#1: <has its own 'this'>
+  const name = function(args) {
+     lineOfCode;
+     lineOfCode;
+     return result;
+  }
+
+#2:
+  (args) => {
+    lineOfCode;
+    lineOfCode;
+    return result;
+  }
+
+#3: <for functions that just return a value>
+  (args) => result
