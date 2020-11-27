@@ -24,8 +24,8 @@
   .logo {
     flex: 0 1 auto;
     padding: 2px 2px 2px 6px;
-    width: 40px;
-    height: 40px;
+    width: 41px;
+    height: 36px;
   }
 
   .header button {
