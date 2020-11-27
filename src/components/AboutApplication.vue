@@ -14,6 +14,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2020-11-27: Added a logo.</li>
       <li>2020-11-23: Move Object (without the Damaging extra) can now be used to throw things at opponents generating an attack.</li>
       <li>2020-11-17: Shrinking and Growth will now affect other stats appropriately (need to re-enter them for existing characters).</li>
       <li>2020-10-19: Now there's an edit mode for designing characters, using it in play, or being read-only.</li>
