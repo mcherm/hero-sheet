@@ -21,7 +21,7 @@ function isArray(power) {
   if (!standardPower) {
     throw Error(`Power effect '${power.effect}' is not a standard power.`);
   }
-  return standardPower.isArray;
+  return standardPower.powerLayout === 'array';
 }
 
 
@@ -367,7 +367,7 @@ const recalculatePowerBaseCost = function(power) {
   const standardPower = getStandardPower(power);
   if (standardPower === null) {
     power.baseCost = NaN; // invalid
-  } else  if (standardPower.isArray) {
+  } else  if (standardPower.powerLayout === "array") {
     power.baseCost = null; // meaningless
   } else if (standardPower.powerOptions) {
     const powerOption = getPowerOption(power);
@@ -423,7 +423,7 @@ const setPowerEffect = function(power, effect) {
     } else {
       power.option = null;
     }
-    if (!standardPower.isArray) {
+    if (standardPower.powerLayout !== "array") {
       power.subpowers = [];
     }
     recalculatePowerBaseCost(power);

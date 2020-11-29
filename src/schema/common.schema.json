@@ -41,10 +41,10 @@
             "powerOptions": { "$ref": "#/definitions/PowerOptionDefinitionMap" },
             "extras": { "$ref": "#/definitions/ModifierDefinitionList" },
             "flaws": { "$ref": "#/definitions/ModifierDefinitionList" },
-            "isArray": { "type":  "boolean", "const": false },
+            "powerLayout": { "$ref": "#/definitions/PowerLayoutNonarray"},
             "docsURL": { "$ref": "#/definitions/DocsURL" }
           },
-          "required": [ "name", "range", "baseCost", "description", "isArray" ],
+          "required": [ "name", "range", "baseCost", "description", "powerLayout" ],
           "additionalProperties": false
         },
         {
@@ -60,10 +60,10 @@
               ]
             },
             "description": { "$ref": "#/definitions/Description" },
-            "isArray": { "type":  "boolean", "const": true },
+            "powerLayout": { "$ref": "#/definitions/PowerLayoutArray"},
             "docsURL": { "$ref": "#/definitions/DocsURL" }
           },
-          "required": [ "name", "baseCost", "description", "isArray" ],
+          "required": [ "name", "baseCost", "description", "powerLayout" ],
           "additionalProperties": false
         }
       ]
@@ -71,6 +71,18 @@
     "EffectRange": {
       "type": "string",
       "enum": ["personal", "close", "ranged", "perception"]
+    },
+    "PowerLayout": {
+      "type": "string",
+      "enum": ["default", "array", "senses", "affliction"]
+    },
+    "PowerLayoutNonarray": {
+      "type": "string",
+      "enum": ["default", "senses", "affliction"]
+    },
+    "PowerLayoutArray": {
+      "type": "string",
+      "const": "array"
     },
     "PowerOptionDefinitionMap": {
       "type": "object",
