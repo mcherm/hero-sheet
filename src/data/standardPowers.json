@@ -74,7 +74,7 @@
         ]
       }
     ],
-    "isArray": false,
+    "powerLayout": "affliction",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/affliction-attack/"
   },
   "Burrowing": {
@@ -124,7 +124,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/burrowing-movement"
   },
   "Communication": {
@@ -250,7 +250,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/communication-sensory"
   },
   "Comprehend": {
@@ -286,7 +286,7 @@
         ]
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/comprehend-sensory"
   },
   "Concealment": {
@@ -413,7 +413,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/concealment-sensory"
   },
   "Create": {
@@ -526,7 +526,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/create-control"
   },
   "Damage": {
@@ -549,7 +549,7 @@
     ],
     "flaws": [
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/damage-attack"
   },
   "Deflect": {
@@ -585,7 +585,7 @@
     ],
     "flaws": [
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/deflect-defense"
   },
   "Elongation": {
@@ -597,7 +597,7 @@
     "resistance": "-",
     "baseCost": 1,
     "description": "You can elongate your body and/or limbs to extend your reach.",
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/elongation-general"
   },
   "Enhanced Trait": {
@@ -771,7 +771,7 @@
         "cost": 1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/enhanced-trait-general"
   },
   "Environment": {
@@ -846,7 +846,7 @@
     ],
     "flaws": [
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/environment-control"
   },
   "Extra Limbs": {
@@ -890,7 +890,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/extra-limbs-general"
   },
   "Feature": {
@@ -904,7 +904,7 @@
     "description": "You have one or more minor features, effects granting you an occasional useful ability.",
     "extras": [],
     "flaws": [],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/feature-general"
   },
   "Flight": {
@@ -996,7 +996,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/flight-movement"
   },
   "Growth": {
@@ -1018,7 +1018,7 @@
       }
     ],
     "flaws": [],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/growth-general"
   },
   "Healing": {
@@ -1180,7 +1180,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/healing-general"
   },
   "Illusion": {
@@ -1265,7 +1265,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/illusion-control"
   },
   "Immortality": {
@@ -1288,7 +1288,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/immortality-defense"
   },
   "Immunity": {
@@ -1346,7 +1346,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/immunity-defense"
   },
   "Insubstantial": {
@@ -1471,7 +1471,7 @@
         "cost": 0
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/insubstantial-general"
   },
   "Leaping": {
@@ -1521,7 +1521,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/leaping-movement"
   },
   "Luck Control": {
@@ -1647,7 +1647,7 @@
         ]
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/luck-control-control"
   },
   "Mind Reading": {
@@ -1760,7 +1760,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/mind-reading-sensory"
   },
   "Morph": {
@@ -1797,7 +1797,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/morph-general"
   },
   "Move Object": {
@@ -1903,7 +1903,7 @@
         ]
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/move-object-control"
   },
   "Movement": {
@@ -1981,7 +1981,7 @@
     ],
     "flaws": [
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/movement-movement"
   },
   "Nullify": {
@@ -2122,7 +2122,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/nullify-attack"
   },
   "Protection": {
@@ -2145,7 +2145,7 @@
         "cost": 0
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/protection-defense"
   },
   "Quickness": {
@@ -2175,7 +2175,7 @@
         "cost": -2
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/quickness-general"
   },
   "Regeneration": {
@@ -2205,7 +2205,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/regeneration-defense"
   },
   "Remote Sensing": {
@@ -2337,7 +2337,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/remote-sensing-sensory"
   },
   "Senses": {
@@ -2496,7 +2496,7 @@
         ]
       }
     ],
-    "isArray": false,
+    "powerLayout": "senses",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/senses-sensory"
   },
   "Shrinking": {
@@ -2526,7 +2526,7 @@
     ],
     "flaws": [
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/shrinking-general"
   },
   "Speed": {
@@ -2540,7 +2540,7 @@
     "description": "You can move faster than normal.",
     "extras": [],
     "flaws": [],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/speed-movement"
   },
   "Summon": {
@@ -2652,7 +2652,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/summon-control"
   },
   "Swimming": {
@@ -2666,7 +2666,7 @@
     "description": "You can swim fast. You have a water speed equal to your Swimming rank –2. You can make Athletics checks to swim as routine checks.",
     "extras": [],
     "flaws": [],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/swimming-movement"
   },
   "Teleport": {
@@ -2752,7 +2752,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/teleport-movement"
   },
   "Transform": {
@@ -2788,7 +2788,7 @@
     },
     "extras": [],
     "flaws": [],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/transform-control"
   },
   "Variable": {
@@ -2879,7 +2879,7 @@
         "cost": -1
       }
     ],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/variable-general"
   },
   "Weaken": {
@@ -2963,28 +2963,28 @@
       }
     ],
     "flaws": [],
-    "isArray": false,
+    "powerLayout": "default",
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/weaken-attack"
   },
   "Linked": {
     "name": "Linked",
     "baseCost": "sum of components",
     "description": "Several different effects together.",
-    "isArray": true,
+    "powerLayout": "array",
     "docsURL": "https://www.d20herosrd.com/6-powers/modifiers/#TOC-LINKED-FLAT-0-POINTS-"
   },
   "Dynamic": {
     "name": "Dynamic",
     "baseCost": "most expensive + 1 + 2 per other component",
     "description": "Several different effects together.",
-    "isArray": true,
+    "powerLayout": "array",
     "docsURL": "https://www.d20herosrd.com/6-powers/modifiers/#TOC-DYNAMIC-ALTERNATE-EFFECT"
   },
   "Alternate": {
     "name": "Alternate",
     "baseCost": "most expensive + 1 per other component",
     "description": "Several different effects together.",
-    "isArray": true,
+    "powerLayout": "array",
     "docsURL": "https://www.d20herosrd.com/6-powers/modifiers/#TOC-ALTERNATE-EFFECT-FLAT-1-OR-2-POINTS-"
   }
 }

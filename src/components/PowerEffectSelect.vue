@@ -4,14 +4,14 @@
       <option disabled value="standard:">Select One</option>
       <optgroup label="Power Effects">
         <option
-            v-for="standardPower of powersFilteredFor(x => !x.isArray)"
+            v-for="standardPower of powersFilteredFor(x => x.powerLayout !== 'array')"
             :key="standardPower.name"
             :value="`standard|${standardPower.name}`"
         >{{standardPower.name}}</option>
       </optgroup>
       <optgroup label="Arrays">
         <option
-            v-for="standardPower in powersFilteredFor(x => x.isArray)"
+            v-for="standardPower in powersFilteredFor(x => x.powerLayout === 'array')"
             :key="standardPower.name"
             :value="`standard|${standardPower.name}`"
         >{{standardPower.name}}</option>

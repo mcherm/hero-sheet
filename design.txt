@@ -105,6 +105,18 @@ Edit Modes:
 
   These control what can be edited.
 
+=== Power Layouts ===
+I propose grouping powers into different powerLayouts. These control a few things simultaneously:
+ * How we render the power on the screen
+ * How we calculate things like the power's cost
+
+The power layouts would include:
+ * default -- the default layout used for most standard powers.
+ * array   -- used for "Linked", "Dynamic", and "Alternate". Replaces the old "isArray" field
+ * senses  -- used for "Senses". Pick certain senses and that determines cost
+ * affliction -- used for "Affliction". User specifies which conditions to apply.
+I'm sure there will be more, but I'm just trying to get started here.
+
 === URLs ===
 We might start having URLs that change as you navigate. But if so, how would they look?
   Current:

@@ -16,6 +16,11 @@
           <docs-lookup v-if="getStandardPower()" :docsURL="getStandardPower().docsURL"/>
         </div>
 
+        <div v-if="power.effect === 'Senses'" class="display-contents">
+          <label class="row-label">Senses Stuff</label>
+          <div>Power Specific Stuff Here</div>
+        </div>
+
         <div v-if="hasOptions()" class="display-contents">
           <label class="row-label">Option</label>
           <div>
@@ -103,7 +108,7 @@
         return getStandardPower(this.power);
       },
       isArray: function() {
-        return this.getStandardPower() && this.getStandardPower().isArray;
+        return this.getStandardPower() && this.getStandardPower().powerLayout === "array";
       },
       hasOptions: function() {
         return Boolean(this.getStandardPower() && this.getStandardPower().powerOptions);

@@ -33,7 +33,7 @@
         const result = {};
         for (const key in standardPowers) {
           const power = standardPowers[key];
-          if (power.isArray || typeof(power.baseCost) === "number") {
+          if (power.powerLayout === 'array' || typeof(power.baseCost) === "number") {
             result[key] = power;
           }
         }
