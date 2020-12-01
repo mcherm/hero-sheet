@@ -192,10 +192,11 @@
         "flaws": { "$ref": "#/definitions/ModifierList" },
         "ranks": { "$ref": "#/definitions/FlexibleInteger" },
         "cost": { "$ref": "#/definitions/FlexibleInteger" },
-        "subpowers": { "$ref": "#/definitions/PowerList" }
+        "subpowers": { "$ref": "#/definitions/PowerList" },
+        "extended": { "$ref": "#/definitions/PowerExtended" }
       },
       "required": [
-        "name", "hsid", "effect", "description", "extras", "flaws", "ranks", "cost", "subpowers"
+        "name", "hsid", "effect", "description", "extras", "flaws", "ranks", "cost", "subpowers", "extended"
       ],
       "additionalProperties": false
     },
@@ -238,14 +239,11 @@
       "type": "array",
       "items": { "$ref": "#/definitions/Power" }
     },
-    "PowerBaseCost": {
-      "anyOf": [
-        { "$ref": "#/definitions/FlexibleInteger" },
-        {
-          "type": "number",
-          "multipleOf": 0.5
-        }
-      ]
+    "PowerExtended": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
     },
     "Skills": {
       "type": "object",

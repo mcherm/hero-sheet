@@ -5,7 +5,7 @@ const skillsData = require("../data/skillsData.json");
 const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 
-const currentVersion = 23; // Up to this version can be saved
+const currentVersion = 24; // Up to this version can be saved
 const latestVersion = 24; // Might be an experimental version
 
 
@@ -253,7 +253,8 @@ const newBlankPower = function() {
     flaws: [],
     ranks: 1,
     cost: NaN,
-    subpowers: []
+    subpowers: [],
+    extended: {},
   };
 };
 
@@ -763,6 +764,7 @@ const upgradeFuncs = {
       }
       delete feature.effectDescription;
       delete feature.baseCost;
+      feature.extended = {};
       if (feature.subpowers) {
         feature.subpowers.forEach(upgradeFeature);
       }
