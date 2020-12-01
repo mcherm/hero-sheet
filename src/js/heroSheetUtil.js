@@ -50,6 +50,30 @@ const intToRange = function(n) {
 
 
 /*
+ * Determines the base cost feature. Returns NaN if the power is not selected
+ * or the cost depends on an option and the option isn't selected. Returns
+ * null if the power is an array power.
+ */
+const powerBaseCost = function(feature) {
+  const standardPower = getStandardPower(feature);
+  if (standardPower === null) {
+    return NaN; // invalid
+  } else  if (standardPower.powerLayout === "array") {
+    return null; // meaningless
+  } else if (standardPower.powerOptions) {
+    const powerOption = getPowerOption(feature);
+    if (powerOption === null) {
+      return NaN; // invalid
+    } else {
+      return powerOption.baseCost;
+    }
+  } else {
+    return standardPower.baseCost;
+  }
+}
+
+
+/*
  * This contains the formulas to calculate the cost of a (non-array) power.
  *
  * As input, it takes a list of modifier lists (sometimes the modifiers come
@@ -116,7 +140,7 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
       flatAdder = normalFlatAdder; // no easy way to display values from a per-5-pts on the array
     }
   } else {
-    const modifiedCostPerRank = power.baseCost + extrasMultiplier + flawsMultiplier;
+    const modifiedCostPerRank = powerBaseCost(power) + extrasMultiplier + flawsMultiplier;
     const costBeforeFlats = modifiedCostPerRank >= 1
       ? modifiedCostPerRank * power.ranks
       : Math.ceil( power.ranks / (2 - modifiedCostPerRank) );
@@ -359,27 +383,6 @@ const getPowerOption = function(power) {
   }
 };
 
-/*
- * Given a power object from the charsheet, this re-calculates the baseCost
- * field and the cost field.
- */
-const recalculatePowerBaseCost = function(power) {
-  const standardPower = getStandardPower(power);
-  if (standardPower === null) {
-    power.baseCost = NaN; // invalid
-  } else  if (standardPower.powerLayout === "array") {
-    power.baseCost = null; // meaningless
-  } else if (standardPower.powerOptions) {
-    const powerOption = getPowerOption(power);
-    if (powerOption === null) {
-      power.baseCost = NaN; // invalid
-    } else {
-      power.baseCost = powerOption.baseCost;
-    }
-  } else {
-    power.baseCost = standardPower.baseCost;
-  }
-};
 
 /*
  * Given a Power object from the charsheet, this re-calculates the cost
@@ -400,7 +403,6 @@ const replacePower = function(power, feature) {
   for (const [fieldName, fieldValue] of Object.entries(feature)) {
     Vue.set(power, fieldName, fieldValue);
   }
-  recalculatePowerBaseCost(power);
   recalculatePowerCost(power);
 }
 
@@ -413,9 +415,7 @@ const replacePower = function(power, feature) {
 const setPowerEffect = function(power, effect) {
   power.effect = effect;
   const standardPower = getStandardPower(power);
-  if (standardPower === null) {
-    power.baseCost = NaN; // Default to a cost of NaN when the power is unknown
-  } else {
+  if (standardPower !== null) {
     if (standardPower.powerOptions) {
       power.option = "";
     } else {
@@ -424,7 +424,6 @@ const setPowerEffect = function(power, effect) {
     if (standardPower.powerLayout !== "array") {
       power.subpowers = [];
     }
-    recalculatePowerBaseCost(power);
   }
   recalculatePowerCost(power);
 }
@@ -436,7 +435,6 @@ const setPowerEffect = function(power, effect) {
  */
 const setPowerOption = function(power, option) {
   power.option = option;
-  recalculatePowerBaseCost(power);
   recalculatePowerCost(power);
 }
 
@@ -802,6 +800,7 @@ const showAlert = function({message, lifetime, format}) {
 
 export {
   fieldAllowedRegEx,
+  powerBaseCost,
   powerCostCalculate,
   rangeToInt,
   intToRange,
@@ -821,7 +820,6 @@ export {
   buildFeature,
   getStandardPower,
   getPowerOption,
-  recalculatePowerBaseCost,
   replacePower,
   setPowerEffect,
   setPowerOption,

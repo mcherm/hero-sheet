@@ -49,7 +49,7 @@
       </div>
       <div class="power-costs">
         <label v-if="!isArray()" class="row-label">Power</label>
-        <number-display v-if="!isArray()" :value="power.baseCost"/>
+        <number-display v-if="!isArray()" :value="getBaseCost()"/>
 
         <label class="row-label">Extras</label>
         <number-display :value="powerCostCalculations.extrasMultiplier"/>
@@ -78,7 +78,7 @@
   import ModifierList from "./ModifierList.vue";
   import PowerEffectSelect from "./PowerEffectSelect.vue";
   import {STARTING_POWER_NAME} from "../js/heroSheetVersioning.js";
-  import {powerCostCalculate, getStandardPower, getPowerOption, recalculatePowerBaseCost, setPowerEffect, setPowerOption, powerUpdaterEvents, buildFeature, replacePower} from "../js/heroSheetUtil.js";
+  import {powerBaseCost, powerCostCalculate, getStandardPower, getPowerOption, setPowerEffect, setPowerOption, powerUpdaterEvents, buildFeature, replacePower} from "../js/heroSheetUtil.js";
   const samplePowers = require("../data/samplePowers.json");
 
   export default {
@@ -94,7 +94,6 @@
     },
     created: function() {
       this.$watch("power.subpowers", function() {
-        recalculatePowerBaseCost(this.power);
         this.recalculatePowerCost();
       }, { deep: true });
     },
@@ -115,6 +114,9 @@
       },
       theOption: function() {
         return getPowerOption(this.power);
+      },
+      getBaseCost: function() {
+        return powerBaseCost(this.power);
       },
       setPowerEffect: function(effectSelection) {
         const [selectType, effect] = effectSelection.split("|");
