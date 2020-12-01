@@ -253,7 +253,6 @@ const newBlankPower = function() {
     flaws: [],
     ranks: 1,
     cost: NaN,
-    baseCost: NaN,
     subpowers: []
   };
 };
@@ -763,6 +762,7 @@ const upgradeFuncs = {
         return;
       }
       delete feature.effectDescription;
+      delete feature.baseCost;
       if (feature.subpowers) {
         feature.subpowers.forEach(upgradeFeature);
       }

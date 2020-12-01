@@ -192,7 +192,6 @@
         "flaws": { "$ref": "#/definitions/ModifierList" },
         "ranks": { "$ref": "#/definitions/FlexibleInteger" },
         "cost": { "$ref": "#/definitions/FlexibleInteger" },
-        "baseCost": { "$ref": "#/definitions/PowerBaseCost" },
         "subpowers": { "$ref": "#/definitions/PowerList" }
       },
       "required": [

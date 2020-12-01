@@ -60,7 +60,6 @@
       ],
       "ranks": 1,
       "cost": 25,
-      "baseCost": null,
       "subpowers": [
         {
           "name": "Burn with a Touch",
@@ -81,7 +80,6 @@
           "flaws": [],
           "ranks": 8,
           "cost": 8,
-          "baseCost": 1,
           "subpowers": [],
           "option": null
         },
@@ -94,7 +92,6 @@
           "flaws": [],
           "ranks": 4,
           "cost": 8,
-          "baseCost": 2,
           "subpowers": [],
           "option": null
         },
@@ -107,7 +104,6 @@
           "flaws": [],
           "ranks": 3,
           "cost": 15,
-          "baseCost": 5,
           "subpowers": [],
           "option": null
         }
@@ -187,7 +183,6 @@
       ],
       "ranks": 1,
       "cost": 25,
-      "baseCost": null,
       "subpowers": [
         {
           "name": "Burn with a Touch",
@@ -208,7 +203,6 @@
           "flaws": [],
           "ranks": 8,
           "cost": 8,
-          "baseCost": 1,
           "subpowers": [],
           "option": null
         },
@@ -221,7 +215,6 @@
           "flaws": [],
           "ranks": 4,
           "cost": 8,
-          "baseCost": 2,
           "subpowers": [],
           "option": null
         },
@@ -234,7 +227,6 @@
           "flaws": [],
           "ranks": 3,
           "cost": 15,
-          "baseCost": 5,
           "subpowers": [],
           "option": null
         }

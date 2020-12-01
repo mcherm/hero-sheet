@@ -24,22 +24,6 @@
         deleteIsVisible: false
       }
     },
-    computed: {
-      /*
-       * Returns just some of the standard powers, filtered by whatever
-       * criteria we need at the moment while we develop them.
-       */
-      filteredStandardPowers: function() {
-        const result = {};
-        for (const key in standardPowers) {
-          const power = standardPowers[key];
-          if (power.powerLayout === 'array' || typeof(power.baseCost) === "number") {
-            result[key] = power;
-          }
-        }
-        return result;
-      }
-    },
     methods: {
       powerCost,
       addPower: function() {
