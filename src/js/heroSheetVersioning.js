@@ -6,7 +6,7 @@ const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 
 const currentVersion = 23; // Up to this version can be saved
-const latestVersion = 23; // Might be an experimental version
+const latestVersion = 24; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
@@ -253,7 +253,6 @@ const newBlankPower = function() {
     flaws: [],
     ranks: 1,
     cost: NaN,
-    effectDescription: "",
     baseCost: NaN,
     subpowers: []
   };
@@ -756,7 +755,22 @@ const upgradeFuncs = {
   upgradeFrom22: function(charsheet) {
     charsheet.status.damagePenalty = 0;
     charsheet.version = 23;
-  }
+  },
+
+  upgradeFrom23: function(charsheet) {
+    const upgradeFeature = function(feature) {
+      if (feature === undefined) {
+        return;
+      }
+      delete feature.effectDescription;
+      if (feature.subpowers) {
+        feature.subpowers.forEach(upgradeFeature);
+      }
+    };
+    charsheet.powers.forEach(upgradeFeature);
+    charsheet.equipment.forEach(x => upgradeFeature(x.feature));
+    charsheet.version = 24;
+  },
 
 };
 

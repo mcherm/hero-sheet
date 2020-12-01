@@ -414,10 +414,8 @@ const setPowerEffect = function(power, effect) {
   power.effect = effect;
   const standardPower = getStandardPower(power);
   if (standardPower === null) {
-    power.effectDescription = "";
     power.baseCost = NaN; // Default to a cost of NaN when the power is unknown
   } else {
-    power.effectDescription = standardPower.description;
     if (standardPower.powerOptions) {
       power.option = "";
     } else {
