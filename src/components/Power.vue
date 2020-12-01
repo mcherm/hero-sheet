@@ -12,7 +12,7 @@
 
         <label class="row-label">Basic Desc</label>
         <div>
-          <span>{{power.effectDescription}}</span>
+          <span v-if="getStandardPower() !== null">{{getStandardPower().description}}</span>
           <docs-lookup v-if="getStandardPower()" :docsURL="getStandardPower().docsURL"/>
         </div>
 

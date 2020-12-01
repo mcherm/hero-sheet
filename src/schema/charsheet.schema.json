@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "http://hero-sheet.com/schemas/charsheet.schema.json",
   "type": "object",
-  "title": "Root Schema for a Charsheet - v23",
+  "title": "Root Schema for a Charsheet - v24",
   "description": "The root schema is the schema that comprises the entire JSON document for a charsheet.",
   "properties": {
-    "version": { "type": "integer", "const": 23 },
+    "version": { "type": "integer", "const": 24 },
     "campaign": { "$ref":  "#/definitions/Campaign" },
     "naming": { "$ref":  "#/definitions/Naming" },
     "effortPoints": { "$ref":  "#/definitions/FlexibleInteger" },
@@ -192,12 +192,11 @@
         "flaws": { "$ref": "#/definitions/ModifierList" },
         "ranks": { "$ref": "#/definitions/FlexibleInteger" },
         "cost": { "$ref": "#/definitions/FlexibleInteger" },
-        "effectDescription": { "type": "string" },
         "baseCost": { "$ref": "#/definitions/PowerBaseCost" },
         "subpowers": { "$ref": "#/definitions/PowerList" }
       },
       "required": [
-        "name", "hsid", "effect", "description", "extras", "flaws", "ranks", "cost", "effectDescription", "subpowers"
+        "name", "hsid", "effect", "description", "extras", "flaws", "ranks", "cost", "subpowers"
       ],
       "additionalProperties": false
     },

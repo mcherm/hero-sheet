@@ -60,7 +60,6 @@
       ],
       "ranks": 1,
       "cost": 25,
-      "effectDescription": "Several different effects together.",
       "baseCost": null,
       "subpowers": [
         {
@@ -82,7 +81,6 @@
           "flaws": [],
           "ranks": 8,
           "cost": 8,
-          "effectDescription": "You can inflict damage by making a close attack.",
           "baseCost": 1,
           "subpowers": [],
           "option": null
@@ -96,7 +94,6 @@
           "flaws": [],
           "ranks": 4,
           "cost": 8,
-          "effectDescription": "You can fly through the air, including hovering.",
           "baseCost": 2,
           "subpowers": [],
           "option": null
@@ -110,7 +107,6 @@
           "flaws": [],
           "ranks": 3,
           "cost": 15,
-          "effectDescription": "You can assume a less solid form, with each rank becoming progressively less solid.",
           "baseCost": 5,
           "subpowers": [],
           "option": null
@@ -191,7 +187,6 @@
       ],
       "ranks": 1,
       "cost": 25,
-      "effectDescription": "Several different effects together.",
       "baseCost": null,
       "subpowers": [
         {
@@ -213,7 +208,6 @@
           "flaws": [],
           "ranks": 8,
           "cost": 8,
-          "effectDescription": "You can inflict damage by making a close attack.",
           "baseCost": 1,
           "subpowers": [],
           "option": null
@@ -227,7 +221,6 @@
           "flaws": [],
           "ranks": 4,
           "cost": 8,
-          "effectDescription": "You can fly through the air, including hovering.",
           "baseCost": 2,
           "subpowers": [],
           "option": null
@@ -241,7 +234,6 @@
           "flaws": [],
           "ranks": 3,
           "cost": 15,
-          "effectDescription": "You can assume a less solid form, with each rank becoming progressively less solid.",
           "baseCost": 5,
           "subpowers": [],
           "option": null
