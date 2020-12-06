@@ -39,44 +39,26 @@
                 "name": "Normal Vision",
                 "hsid": "HIBM32D1V",
                 "qualities": [
-                  {
-                    "quality": "Accurate",
-                    "hsid": "HIT4JJUWM"
-                  },
-                  {
-                    "quality": "Acute",
-                    "hsid": "HIQXX6CP9"
-                  },
-                  {
-                    "quality": "Ranged",
-                    "hsid": "HID9BT6S9"
-                  }
+                  { "name": "Accurate", },
+                  { "name": "Acute" },
+                  { "name": "Ranged" },
                 ]
               },
               {
                 "name": "Infravision",
                 "sourceHsid": "HIPS21E13",
                 "qualities": [
-                  {
-                    "quality": "Accurate",
-                    "hsid": "HINC8D3G8"
-                  },
-                  {
-                    "quality": "Acute",
-                    "hsid": "HIQACFYBV"
-                  },
-                  {
-                    "quality": "Ranged",
-                    "hsid": "HIACGLX3D"
-                  }
+                  { "name": "Accurate" },
+                  { "name": "Acute" },
+                  { "name": "Ranged" },
                 ]
               }
             ],
             "qualities": [
               {
-                "quality": "Low Light",
+                "name": "Low Light",
                 "sourceHsid": "HIRNWDYKE"
-              }
+              },
             ]
           },
           "Auditory": {
@@ -86,20 +68,18 @@
                 "name": "Normal Hearing",
                 "hsid": "HIBM32D1V",
                 "qualities": [
+                  { "name": "Acute" },
+                  { "name": "Radius" },
+                  { "name": "Ranged" },
                   {
-                    "quality": "Acute"
-                  },
-                  {
-                    "quality": "Radius"
-                  },
-                  {
-                    "quality": "Ranged"
-                  },
-                  {
-                    "quality": "Rapid",
+                    "name": "Rapid",
                     "ranks": 2,
                     "sourceHsid": "HIVDVETL6"
-                  }
+                  },
+                  {
+                    "name": "Penetrates Concealment",
+                    "sourceHsid": "HINC8D3G8"
+                  },
                 ]
               }
             ],
@@ -112,9 +92,7 @@
                 "name": "Normal Smell/Taste",
                 "hsid": "HIS8Q8CN9",
                 "qualities": [
-                  {
-                    "quality": "Radius"
-                  }
+                  { "name": "Radius" },
                 ]
               }
             ],
@@ -127,12 +105,8 @@
                 "name": "Normal Touch",
                 "hsid": "HIPC11GKW",
                 "qualities": [
-                  {
-                    "quality": "Accurate"
-                  },
-                  {
-                    "quality": "Radius"
-                  }
+                  { "name": "Accurate" },
+                  { "name": "Radius" },
                 ]
               }
             ],

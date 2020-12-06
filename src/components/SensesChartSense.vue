@@ -5,7 +5,8 @@
   <div class="sense">
     <span class="sense-name">{{sense.name}}</span>
     <div v-for="quality in sense.qualities" class="sense-quality-small" :class="{'editable-here': mutable && isQualityEditableHere(quality)}">
-      {{quality.quality}}
+      <span>{{quality.name}}</span>
+      <span v-if="isQualityEditableHere(quality)" class="cost">({{sensesData.senseQualities[quality.name].costForSense}})</span>
       <div
           v-if="isRemovingMods && isQualityEditableHere(quality)"
           v-on:click="deleteQuality(quality)"
@@ -32,6 +33,8 @@
 </template>
 
 <script>
+  const sensesData = require("@/data/sensesData.json");
+
   export default {
     name: "SensesChartSense",
     props: {
@@ -40,6 +43,7 @@
     },
     data: function() {
       return {
+        sensesData,
         isAddingMods: false,
         isRemovingMods: false,
       }
@@ -96,6 +100,10 @@
 
   .sense-quality-small.editable-here {
     background: var(--entry-field);
+  }
+
+  .cost::before {
+    content: '\2000';
   }
 
   .plus-minus-button {
