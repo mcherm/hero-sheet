@@ -1,0 +1,469 @@
+{
+  "version": 24,
+  "campaign": {
+    "powerLevel": 10,
+    "xpAwarded": 0,
+    "setting": "Test"
+  },
+  "naming": {
+    "name": "Senses Guy",
+    "player": "",
+    "identityType": "none",
+    "identity": "",
+    "gender": "",
+    "age": "",
+    "heightWeight": "",
+    "eyesHair": "",
+    "costume": "",
+    "groupAffiliation": "",
+    "baseOfOperations": ""
+  },
+  "effortPoints": 1,
+  "abilities": {
+    "strength": {
+      "entered": 0,
+      "ranks": 0
+    },
+    "stamina": {
+      "entered": 0,
+      "ranks": 0
+    },
+    "agility": {
+      "entered": 0,
+      "ranks": 0
+    },
+    "dexterity": {
+      "entered": 0,
+      "ranks": 0
+    },
+    "fighting": {
+      "entered": 0,
+      "ranks": 0
+    },
+    "intellect": {
+      "entered": 0,
+      "ranks": 0
+    },
+    "awareness": {
+      "entered": 0,
+      "ranks": 0
+    },
+    "presence": {
+      "entered": 0,
+      "ranks": 0
+    }
+  },
+  "defenses": {
+    "dodge": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "fortitude": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "parry": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "toughness": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    },
+    "will": {
+      "base": 0,
+      "purchased": 0,
+      "cost": 0,
+      "ranks": 0
+    }
+  },
+  "misc": {
+    "initiative": null,
+    "isMindlessConstruct": false,
+    "isImmobileConstruct": false
+  },
+  "advantages": [],
+  "equipment": [],
+  "skills": {
+    "skillList": [
+      {
+        "name": "acrobatics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "athletics",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "deception",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "insight",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "intimidation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "investigation",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "perception",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "persuasion",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "slight of hand",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "stealth",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "technology",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "treatment",
+        "ranks": 0,
+        "isTemplate": false
+      },
+      {
+        "name": "vehicles",
+        "ranks": 0,
+        "isTemplate": false
+      }
+    ],
+    "cost": 0
+  },
+  "powers": [
+    {
+      "name": "Sensorium",
+      "hsid": "HI6BMSR1E",
+      "effect": "Senses",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 1,
+      "subpowers": [],
+      "extended": {
+        "addedSenses": [
+          {
+            "sense": "Infravision",
+            "senseType": "Visual",
+            "hsid": "HIPS21E13"
+          }
+        ],
+        "addedSenseTypeQualities": [
+          {
+            "senseType": "Visual",
+            "quality": "Low Light",
+            "hsid": "HIRNWDYKE"
+          }
+        ],
+        "addedSenseQualities": [
+          {
+            "senseType": "Auditory",
+            "senseHsid": "HIBM32D1V",
+            "quality": "Rapid",
+            "ranks": 2,
+            "hsid": "HIVDVETL6"
+          }
+        ]
+      },
+      "option": null
+    }
+  ],
+  "complications": [
+    {
+      "hsid": "HINZWZR6C",
+      "complicationType": "motivation",
+      "description": ""
+    }
+  ],
+  "background": "",
+  "attacks": {
+    "attackList": [
+      {
+        "hsid": "HIQ7BUFNM",
+        "updater": "UnarmedAttackUpdater",
+        "name": "Unarmed",
+        "effectType": "damage",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "attackCheckAdjustment": 0,
+        "isStrengthBased": true
+      },
+      {
+        "hsid": "HIVDDEXWM",
+        "updater": "ThrownAttackUpdater",
+        "name": "Thrown Object",
+        "effectType": "damage",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 0,
+        "attackCheckAdjustment": 0,
+        "isStrengthBased": true
+      }
+    ]
+  },
+  "senses": {
+    "Visual": {
+      "name": "Visual",
+      "senses": [
+        {
+          "name": "Normal Vision",
+          "hsid": "HIBM32D1V",
+          "qualities": [
+            {
+              "quality": "Accurate",
+              "hsid": "HIT4JJUWM"
+            },
+            {
+              "quality": "Acute",
+              "hsid": "HIQXX6CP9"
+            },
+            {
+              "quality": "Ranged",
+              "hsid": "HID9BT6S9"
+            }
+          ]
+        },
+        {
+          "name": "Infravision",
+          "sourceHsid": "HIPS21E13",
+          "qualities": [
+            {
+              "quality": "Accurate",
+              "hsid": "HINC8D3G8"
+            },
+            {
+              "quality": "Acute",
+              "hsid": "HIQACFYBV"
+            },
+            {
+              "quality": "Ranged",
+              "hsid": "HIACGLX3D"
+            }
+          ]
+        }
+      ],
+      "qualities": [
+        {
+          "quality": "Low Light",
+          "sourceHsid": "HIRNWDYKE"
+        }
+      ]
+    },
+    "Auditory": {
+      "name": "Auditory",
+      "senses": [
+        {
+          "name": "Normal Hearing",
+          "hsid": "HIBM32D1V",
+          "qualities": [
+            {
+              "quality": "Acute"
+            },
+            {
+              "quality": "Radius"
+            },
+            {
+              "quality": "Ranged"
+            },
+            {
+              "quality": "Rapid",
+              "ranks": 2,
+              "sourceHsid": "HIVDVETL6"
+            }
+          ]
+        }
+      ],
+      "qualities": []
+    }
+  },
+  "activeEffects": {},
+  "constraintViolations": {},
+  "status": {
+    "conditions": {
+      "compelled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "controlled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dazed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "debilitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "defenseless": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "disabled": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "fatigued": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "hindered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "immobile": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "impaired": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "normal": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "stunned": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "transformed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "unaware": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "vulnerable": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "weakened": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "asleep": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "blind": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "bound": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "deaf": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "dying": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "entranced": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "exhausted": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "incapacitated": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "paralyzed": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "prone": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "restrained": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "staggered": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      },
+      "surprised": {
+        "active": false,
+        "selected": false,
+        "superseded": false
+      }
+    },
+    "damagePenalty": 0
+  },
+  "allies": [],
+  "sharing": {
+    "isPublic": false
+  }
+}
