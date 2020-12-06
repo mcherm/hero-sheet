@@ -15,6 +15,15 @@
         <trash-icon/>
       </div>
     </div>
+    <div v-if="isAddingMods" class="quality-creator">
+      <select-entry
+          :value="''"
+          :options="singleSenseOptions"
+          unselectedItem="Select One"
+          @input="addQuality($event)"
+      />
+      <edit-button :onClick="() => isAddingMods = false">Cancel</edit-button>
+    </div>
     <edit-button
         v-if="mutable && !isAddingMods && !isRemovingMods"
         :onClick="() => isAddingMods = true"
@@ -34,6 +43,7 @@
 
 <script>
   const sensesData = require("@/data/sensesData.json");
+  import {newHsid} from "../js/heroSheetVersioning.js";
 
   export default {
     name: "SensesChartSense",
@@ -51,9 +61,28 @@
     computed: {
       someQualityIsEditableHere: function() {
         return this.someQualityIsEditableHereFunc();
-      }
+      },
+      singleSenseOptions: function() {
+        return Object.values(sensesData.senseQualities)
+            .map(x =>
+                (
+                    x.costForSense !== null &&  // it can be applied to a sense
+                    !this.hasQuality(x.name) && // it is not already applied
+                    (x.prerequisite === undefined || this.hasQuality(x.prerequisite)) // prerequisites satisfied
+                )
+                    ? x.name
+                    : null
+            )
+            .filter(x => x !== null)
+      },
     },
     methods: {
+      /*
+       * Returns true if the sense has the quality with this name; false otherwise.
+       */
+      hasQuality: function(qualityName) {
+        return this.sense.qualities.map(x => x.name).includes(qualityName);
+      },
       /*
        * Return true if the quality is from the current power and thus can be edited within this senses chart.
        */
@@ -75,6 +104,16 @@
       someQualityIsEditableHereFunc: function() {
         return this.sense.qualities.some(this.isQualityEditableHere);
       },
+      addQuality: function(option) {
+        // FIXME: This should really add to the POWER, not the stub data
+        // FIXME: Can option ever be null or undefined or something like that?
+        this.isAddingMods = false;
+        const newQuality = {
+          name: option,
+          sourceHsid: newHsid(),
+        }
+        this.sense.qualities.push(newQuality);
+      }
     }
   }
 </script>
@@ -100,6 +139,14 @@
 
   .sense-quality-small.editable-here {
     background: var(--entry-field);
+  }
+
+  .quality-creator {
+    border: 1px solid var(--box-border-color);
+    padding: 2px;
+    margin: 1px;
+    display: flex;
+    align-items: center;
   }
 
   .cost::before {

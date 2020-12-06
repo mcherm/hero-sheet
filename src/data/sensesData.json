@@ -59,7 +59,7 @@
     },
     "Extended": {
       "name": "Extended",
-      "costForSense": null,
+      "costForSense": 1,
       "costForSenseType": 1,
       "prerequisite": "Ranged",
       "hasRanks": true
