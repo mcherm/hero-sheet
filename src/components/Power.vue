@@ -16,9 +16,10 @@
           <docs-lookup v-if="getStandardPower()" :docsURL="getStandardPower().docsURL"/>
         </div>
 
-        <div v-if="power.effect === 'Senses'" class="display-contents">
-          <label class="row-label">Senses Stuff</label>
-          <div>Power Specific Stuff Here</div>
+        <!-- FIXME: Senses is incomplete so it is disabled unless you are in developer mode. -->
+        <div v-if="this.$globals.developerMode && getStandardPower() !== null && getStandardPower().powerLayout === 'senses'" class="display-contents">
+          <label class="row-label">Senses</label>
+          <power-layout-senses :power="power" :mutable="mutable"/>
         </div>
 
         <div v-if="hasOptions()" class="display-contents">
@@ -77,6 +78,7 @@
 <script>
   import ModifierList from "./ModifierList.vue";
   import PowerEffectSelect from "./PowerEffectSelect.vue";
+  import PowerLayoutSenses from "./PowerLayoutSenses.vue";
   import {STARTING_POWER_NAME} from "../js/heroSheetVersioning.js";
   import {powerBaseCost, powerCostCalculate, getStandardPower, getPowerOption, setPowerEffect, setPowerOption, powerUpdaterEvents, buildFeature, replacePower} from "../js/heroSheetUtil.js";
   const samplePowers = require("../data/samplePowers.json");
@@ -85,7 +87,8 @@
     name: "Power",
     components: {
       ModifierList,
-      PowerEffectSelect
+      PowerEffectSelect,
+      PowerLayoutSenses,
     },
     inject: ["getCharsheet"],
     props: {

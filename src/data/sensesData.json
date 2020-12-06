@@ -1,0 +1,166 @@
+{
+  "senseTypes": {
+    "Visual": {
+      "name": "Visual"
+    },
+    "Auditory": {
+      "name": "Auditory"
+    },
+    "Olfactory": {
+      "name": "Olfactory"
+    },
+    "Tactile": {
+      "name": "Tactile"
+    },
+    "Mental": {
+      "name": "Mental"
+    },
+    "Radio": {
+      "name": "Radio"
+    }
+  },
+  "senseQualities": {
+    "Accurate": {
+      "name": "Accurate",
+      "costForSense": 2,
+      "costForSenseType": 4,
+      "hasRanks": false
+    },
+    "Acute": {
+      "name": "Acute",
+      "costForSense": 1,
+      "costForSenseType": 2,
+      "hasRanks": false
+    },
+    "Analytical": {
+      "name": "Analytical",
+      "costForSense": 1,
+      "costForSenseType": 2,
+      "prerequisite": "Acute",
+      "hasRanks": false
+    },
+    "Counters Concealment": {
+      "name": "Counters Concealment",
+      "costForSense": null,
+      "costForSenseType": 2,
+      "hasRanks": false
+    },
+    "Counters All Concealment": {
+      "name": "Counters Concealment",
+      "costForSense": null,
+      "costForSenseType": 5,
+      "hasRanks": false
+    },
+    "Counters Illusion": {
+      "name": "Counters Illusion",
+      "costForSense": null,
+      "costForSenseType": 2,
+      "hasRanks": false
+    },
+    "Extended": {
+      "name": "Extended",
+      "costForSense": null,
+      "costForSenseType": 1,
+      "prerequisite": "Ranged",
+      "hasRanks": true
+    },
+    "Low Light": {
+      "name": "Low Light",
+      "costForSense": null,
+      "costForSenseType": 1,
+      "hasRanks": false
+    },
+    "Penetrates Concealment": {
+      "name": "Penetrates Concealment",
+      "costForSense": 4,
+      "costForSenseType": null,
+      "hasRanks": false
+    },
+    "Radius": {
+      "name": "Radius",
+      "costForSense": 1,
+      "costForSenseType": 2,
+      "hasRanks": false
+    },
+    "Ranged": {
+      "name": "Ranged",
+      "costForSense": 1,
+      "costForSenseType": null,
+      "hasRanks": false
+    },
+    "Rapid": {
+      "name": "Rapid",
+      "costForSense": 1,
+      "costForSenseType": null,
+      "hasRanks": true
+    },
+    "Tracking": {
+      "name": "Tracking",
+      "costForSense": 1,
+      "costForSenseType": null,
+      "hasRanks": false
+    },
+    "Full Speed Tracking": {
+      "name": "Full Speed Tracking",
+      "costForSense": 2,
+      "costForSenseType": null,
+      "hasRanks": false
+    }
+  },
+  "senses": {
+    "Normal Sight": {
+      "name": "Normal Sight",
+      "senseType": "Visual",
+      "isInherentSense": true,
+      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+    },
+    "Infravision": {
+      "name": "Infravision",
+      "senseType": "Visual",
+      "isInherentSense": false,
+      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+    },
+    "Ultravision": {
+      "name": "Ultravision",
+      "senseType": "Visual",
+      "isInherentSense": false,
+      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+    },
+    "Microscopic Vision": {
+      "name": "Microscopic Vision",
+      "senseType": "Visual",
+      "isInherentSense": false,
+      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+    },
+    "Normal Hearing": {
+      "name": "Normal Sight",
+      "senseType": "Auditory",
+      "isInherentSense": true,
+      "defaultQualities": ["Ranged", "Acute", "Radius"]
+    },
+    "Ultra-Hearing": {
+      "name": "Ultra-Hearing",
+      "senseType": "Auditory",
+      "isInherentSense": false,
+      "defaultQualities": ["Ranged", "Acute", "Radius"]
+    },
+    "Normal Smell/Taste": {
+      "name": "Normal Smell/Taste",
+      "senseType": "Olfactory",
+      "isInherentSense": true,
+      "defaultQualities": ["Radius"]
+    },
+    "Normal Touch": {
+      "name": "Normal Touch",
+      "senseType": "Tactile",
+      "isInherentSense": true,
+      "defaultQualities": ["Accurate", "Radius"]
+    },
+    "Radio": {
+      "name": "Radio",
+      "senseType": "Radio",
+      "isInherentSense": false,
+      "defaultQualities": ["Ranged", "Radius"]
+    }
+  }
+}

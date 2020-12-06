@@ -117,6 +117,106 @@ The power layouts would include:
  * affliction -- used for "Affliction". User specifies which conditions to apply.
 I'm sure there will be more, but I'm just trying to get started here.
 
+  Specific Layouts:
+  === Senses ===
+    Accurate Sense           2 <mod>
+    Accurate Sense Type      4 <mod for type>
+    Acute                    1 <mod>
+    Acute Sense Type         2 <mod for type>
+    Analytical (if acute)    1 <mod>
+    Analytical Sense Type    2 <mod for type>
+    Awareness                1 <sense>
+    Communication Link       1 <sense>
+    Counters Concealment X   2 <mod for type>
+    Counters any concealment 5 <mod for type>
+    Counters Illusion        2 <mod for type>
+    Danger Sense             1 <sense>
+    Darkvision               2 <mod for type>
+    Detect no range          1 <sense>
+    Detect at range          2 <sense>
+    Direction Sense          1 <sense>
+    Distance Sense           1 <sense>
+    Extended                 1 <RANKED mod>
+    Infravision              1 <sense>
+    Low-Light Vision         1 <sense>
+    Microscopic Vision Dust  1 <sense?>
+    Microscopic Vision Cell  2 <sense?>
+    Microscopic Vision DNA   3 <sense?>
+    Microscopic Vision Atom  4 <sense?>
+    Penetrates Concealment   4 <mod>
+    Postcognition            4 <all senses?>
+    Precognition             4 <all senses?>
+    Radio                    1 <sense - different sense type!>
+    Radius                   1 <mod>
+    Radius Sense Type        2 <mod for type>
+    Ranged                   1 <mod>
+    Rapid                    1 <RANKED mod>
+    Time Sense               1 <sense - different type?>
+    Tracking                 1 <sense>
+    Tracking Full Speed      2 <sense>
+    Ultra-Hearing            1 <sense?>
+    Ultravision              1 <sense?>
+
+    Normal sight: ranged, acute, accurate
+    Normal hearing: ranged, acute, radius
+    Normal smell/taste: radius
+    Normal touch: accurate, radius
+    Normal mental: <none>
+
+    Sense Types:
+      * Visual {defaults to ranged, acute, accurate}
+        * Normal Sight
+        * Infravision
+        * Ultravision
+        * Microscopic Vision
+        * NOT Darkvision -- that's just Penetrates Concealment
+      * Auditory {defaults to ranged, acute, radius}
+        * Normal Hearing
+        * Ultra-Hearing
+      * Olfactory {defaults to radius}
+        * Normal Smell/Taste
+      * Tactile {defaults to accurate, radius}
+        * Normal Touch
+        * Detect            <------------ FIXME: Need this one!!!
+      * Mental {defaults to nothing}
+        * Normal Mental Awareness
+      * Radio {defaults to ranged???}
+        * Default Radio Sense
+      * None of the above
+        * Direction Sense
+        * Distance Sense
+        * Time Sense
+      * All Senses
+        * Postcognition
+        * Precognition
+      * Pick Any - {these DON'T inherit the defaults of their sense type}
+        * Awareness
+        * Communication Link
+        * Danger Sense
+    Qualities: (Call them "qualities" instead of "modifiers" to avoid name confusion)
+      * Accurate
+      * Acute
+      * Analytical
+      * Counters Concealment
+      * Counters Illusion
+      * Extended {applies to all senses in a sense group}
+      * Low Light (vision sense type only) {is a vision sense of its own??? I don't agree}
+      * Penetrates Concealment
+      * Radius
+      * Ranged
+      * Rapid
+      * Tracking
+
+ PLANS:
+   So, I'm thinking that I'll have the 6 sense types. Then I'll have a bunch of senses, some of which
+   have a default sense type (and come pre-packaged with certain modifier) and others of which do NOT
+   come with those modifiers. I'll have a bunch of modifiers that can be applied to a sense. I'll
+   automatically charge the higher price if you assign to more than one sense in the sense type. And
+   I'll have the weirdos listed under "None of the above" and "all senses" which will be assigned
+   separately.
+
+
+
 === URLs ===
 We might start having URLs that change as you navigate. But if so, how would they look?
   Current:
