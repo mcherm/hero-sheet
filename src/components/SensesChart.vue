@@ -3,18 +3,46 @@
     <div class="sense-type-stack">
       <div v-for="senseType in senses" class="sense-type">
         <div class="sense-type-header">{{senseType.name}}</div>
-        <senses-chart-sense v-for="sense in senseType.senses" :sense="sense" :mutable="mutable"/>
+        <div v-for="sense in senseType.senses" class="sense-chart-row" :class="{'sense-editable': isSenseDeletableHere(sense)}">
+          <senses-chart-sense :sense="sense" :mutable="mutable"/>
+          <div v-if="isRemovingSense && isSenseDeletableHere(sense)" v-on:click="deleteSense(senseType, sense)">
+            <trash-icon/>
+          </div>
+        </div>
       </div>
     </div>
-    <div v-if="mutable" class="button-bar">
-      <edit-button :onClick="() => {}">Add Sense</edit-button>
-      <edit-button :onClick="() => {}">Delete Sense</edit-button>
+    <div v-if="isAddingSense" class="new-sense-creator">
+      <select-entry
+          :value="newSenseName"
+          :options="newSenseOptions"
+          unselectedItem="Select One"
+          @input="setNewSenseName($event)"
+          class="new-sense-select-sense"
+      />
+      <div v-if="newSenseSenseType !== null" class="new-sense-type">{{newSenseSenseType}}</div>
+      <edit-button :onClick="() => addNewSense()" :disabled="!newSenseIsComplete" class="first-new-sense-button">Create</edit-button>
+      <edit-button :onClick="() => isAddingSense = false">Cancel</edit-button>
+    </div>
+    <div v-if="mutable && !isAddingSense" class="button-bar">
+      <edit-button
+          v-if="!isRemovingSense"
+          :onClick="() => {setNewSenseName(''); isAddingSense = true}"
+      >Add Sense</edit-button>
+      <edit-button
+          v-if="!isRemovingSense && someSenseIsRemovableHere()"
+          :onClick="() => isRemovingSense = true"
+      >Delete Sense</edit-button>
+      <edit-button
+          v-if="isRemovingSense"
+          :onClick="() => isRemovingSense = false"
+      >Done Deleting</edit-button>
     </div>
   </div>
 </template>
 
 <script>
   import SensesChartSense from "./SensesChartSense.vue";
+  import {newHsid} from "../js/heroSheetVersioning.js";
   const sensesData = require("@/data/sensesData.json");
 
   export default {
@@ -29,9 +57,9 @@
     inject: ["getCharsheet"],
     data: function() {
       return {
-        isAddingMods: false,
-        isRemovingMods: false,
-        senses: {
+        isAddingSense: false,
+        isRemovingSense: false,
+        senses: { // FIXME: It should be read from the charsheet, not hardcoded
           "Visual": {
             "name": "Visual",
             "senses": [
@@ -124,27 +152,103 @@
             "qualities": []
           }
         },
-        sensesData,
+        newSenseName: "",
+        newSenseSenseType: null,
       }
     },
-    methods: { // FIXME: Remove
-      /*
-       * Return true if the quality with this hsid exists and can be deleted given the
-       * current state of the senses panel.
-       */
-      isQualityEditableHere: function(senseType, sense, qualityHsid) {
-        console.log(`senseType: ${JSON.stringify(senseType)}, sense: ${JSON.stringify(sense)}, qualityHsid: ${qualityHsid}`); // FIXME: Remove
-        return this.mutable && qualityHsid !== undefined; // FIXME: Real test needed
+    computed: {
+      newSenseOptions: function() {
+        return Object.values(sensesData.senses)
+            .map(x =>
+                (
+                    !x.isInherentSense &&
+                    !this.hasSense(x.name)
+                )
+                    ? x.name
+                    : null
+            )
+            .filter(x => x !== null);
+      },
+      newSenseIsComplete: function() {
+        const newSenseData = sensesData.senses[this.newSenseName];
+        if (newSenseData === undefined) {
+          return false;
+        }
+        // FIXME: Should consider additional data needed, like type or ranks
+        return true;
+      },
+    },
+    methods: {
+      /* Given a senseName, returns true if the character has that sense; false if not. */
+      hasSense: function(senseName) {
+        for (const senseType of Object.values(this.senses)) {
+          for (const sense of senseType.senses) {
+            if (sense.name === senseName) {
+              return true;
+            }
+          }
+        }
+        return false;
+      },
+      /* Returns true if at least one sense can be deleted. */
+      someSenseIsRemovableHere: function() {
+        for (const senseType of Object.values(this.senses)) {
+          for (const sense of senseType.senses) {
+            if (this.isSenseDeletableHere(sense)) {
+              return true;
+            }
+          }
+        }
+        return false;
       },
       /*
-       * Removes the quality indicated by the qualityHsid.
-       * // FIXME: Needs to work on sense-type level qualities if sense is passed as null.
+       * Return true if the sense is from the current power and thus can be edited within this senses chart.
        */
-      deleteQuality: function(senseType, sense, qualityHsid) {
-        console.log(`senseType: ${JSON.stringify(senseType)}, sense: ${JSON.stringify(sense)}, qualityHsid: ${qualityHsid}`); // FIXME: Remove
-        const qualities = this.senses[senseType].senses[sense].qualities;
-        const positionToDelete = qualities.findIndex(q => q.hsid === qualityHsid);
-        this.$delete(qualities, positionToDelete);
+      isSenseDeletableHere: function(sense) {
+        return sense.sourceHsid !== undefined; // FIXME: Real test needed
+      },
+      /*
+       * Removes the sense.
+       */
+      deleteSense: function(senseType, sense) {
+        const positionToDelete = senseType.senses.indexOf(sense);
+        if (positionToDelete !== -1) {
+          this.$delete(senseType.senses, positionToDelete);
+        }
+        if (senseType.senses.length === 0) {
+          this.$delete(this.senses, senseType.name);
+        }
+        if (!this.someSenseIsRemovableHere()) {
+          this.isRemovingSense = false;
+        }
+      },
+      setNewSenseName: function(senseName) {
+        this.newSenseName = senseName;
+        const newSenseData = sensesData.senses[senseName];
+        // FIXME: In the future some won't be a fixed type
+        this.newSenseSenseType = newSenseData === undefined ? null : newSenseData.senseType;
+      },
+      addNewSense: function() {
+        this.isAddingSense = false;
+        const newSenseData = sensesData.senses[this.newSenseName];
+        let senseType = this.senses[this.newSenseSenseType];
+        if (senseType === undefined) {
+          senseType = {
+            name: this.newSenseSenseType,
+            senses: [],
+            qualities: [],
+          };
+          this.$set(this.senses, this.newSenseSenseType, senseType);
+        }
+        const newSense = {
+          "name": this.newSenseName,
+          "sourceHsid": newHsid(),
+          "qualities": newSenseData.defaultQualities.map(x => {
+            return { name: x }
+          }),
+        };
+        // FIXME: This should really add to the POWER, not the stub data
+        senseType.senses.push(newSense);
       },
     }
   }
@@ -163,6 +267,27 @@
   .sense-type-header {
     background-color: var(--subtle-shade-color);
     padding: 2px;
+  }
+
+  .sense-chart-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .new-sense-creator {
+    border: 1px solid var(--box-border-color);
+    display: flex;
+    align-items: center;
+    background: var(--entry-field);
+  }
+
+  .new-sense-select-sense {
+    margin: 2px 4px 2px 10px;
+  }
+
+  .first-new-sense-button {
+    margin-left: 10px;
   }
 
   .button-bar {
