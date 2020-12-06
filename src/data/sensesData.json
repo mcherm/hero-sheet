@@ -133,7 +133,7 @@
       "defaultQualities": ["Ranged", "Acute", "Accurate"]
     },
     "Normal Hearing": {
-      "name": "Normal Sight",
+      "name": "Normal Hearing",
       "senseType": "Auditory",
       "isInherentSense": true,
       "defaultQualities": ["Ranged", "Acute", "Radius"]

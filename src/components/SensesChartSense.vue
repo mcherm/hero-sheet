@@ -7,36 +7,32 @@
     <div v-for="quality in sense.qualities" class="sense-quality-small" :class="{'editable-here': mutable && isQualityEditableHere(quality)}">
       <span>{{quality.name}}</span>
       <span v-if="isQualityEditableHere(quality)" class="cost">({{sensesData.senseQualities[quality.name].costForSense}})</span>
-      <div
-          v-if="isRemovingMods && isQualityEditableHere(quality)"
-          v-on:click="deleteQuality(quality)"
-          class="trash-can"
-      >
+      <div v-if="isRemovingQuality && isQualityEditableHere(quality)" v-on:click="deleteQuality(quality)">
         <trash-icon/>
       </div>
     </div>
-    <div v-if="isAddingMods" class="quality-creator">
+    <div v-if="isAddingQuality" class="quality-creator">
       <select-entry
           :value="''"
-          :options="singleSenseOptions"
+          :options="qualityOptions"
           unselectedItem="Select One"
           @input="addQuality($event)"
       />
-      <edit-button :onClick="() => isAddingMods = false">Cancel</edit-button>
+      <edit-button :onClick="() => isAddingQuality = false">Cancel</edit-button>
     </div>
     <edit-button
-        v-if="mutable && !isAddingMods && !isRemovingMods"
-        :onClick="() => isAddingMods = true"
+        v-if="mutable && !isAddingQuality && !isRemovingQuality"
+        :onClick="() => isAddingQuality = true"
         class="plus-minus-button"
     >+</edit-button>
     <edit-button
-        v-if="someQualityIsEditableHere && !isAddingMods && !isRemovingMods"
-        :onClick="() => isRemovingMods = true"
+        v-if="someQualityIsEditableHere && !isAddingQuality && !isRemovingQuality"
+        :onClick="() => isRemovingQuality = true"
         class="plus-minus-button"
     >-</edit-button>
     <edit-button
-        v-if="isRemovingMods"
-        :onClick="() => isRemovingMods = false"
+        v-if="isRemovingQuality"
+        :onClick="() => isRemovingQuality = false"
     >Done Deleting</edit-button>
   </div>
 </template>
@@ -49,20 +45,20 @@
     name: "SensesChartSense",
     props: {
       sense: { type: Object, required: true },
-      mutable: { type: Boolean, required: false, default: true }
+      mutable: { type: Boolean, required: false, default: true },
     },
     data: function() {
       return {
         sensesData,
-        isAddingMods: false,
-        isRemovingMods: false,
+        isAddingQuality: false,
+        isRemovingQuality: false,
       }
     },
     computed: {
       someQualityIsEditableHere: function() {
         return this.someQualityIsEditableHereFunc();
       },
-      singleSenseOptions: function() {
+      qualityOptions: function() {
         return Object.values(sensesData.senseQualities)
             .map(x =>
                 (
@@ -98,7 +94,7 @@
           this.$delete(this.sense.qualities, positionToDelete);
         }
         if (!this.someQualityIsEditableHereFunc()) {
-          this.isRemovingMods = false;
+          this.isRemovingQuality = false;
         }
       },
       someQualityIsEditableHereFunc: function() {
@@ -106,9 +102,8 @@
       },
       addQuality: function(option) {
         // FIXME: This should really add to the POWER, not the stub data
-        // FIXME: Can option ever be null or undefined or something like that?
-        this.isAddingMods = false;
-        const newQuality = {
+        this.isAddingQuality = false;
+        const newQuality = { // FIXME: Eventually goes in the charsheet library
           name: option,
           sourceHsid: newHsid(),
         }
@@ -123,10 +118,15 @@
     padding: 2px;
     display: flex;
     align-items: center;
+    flex-grow: 1;
   }
 
   .sense-name {
     margin: 2px 15px 2px 10px;
+  }
+
+  .sense-editable .sense {
+    background: var(--entry-field);
   }
 
   .sense-quality-small {
@@ -135,6 +135,7 @@
     margin: 1px;
     display: flex;
     align-items: center;
+    background: var(--paper-color);
   }
 
   .sense-quality-small.editable-here {
