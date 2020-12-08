@@ -2,27 +2,37 @@
   A single sense row within the senses chart.
 -->
 <template>
-  <div class="sense">
-    <span class="sense-name">{{sense.name}}</span>
-    <div v-for="quality in sense.qualities" class="sense-quality-small" :class="{'editable-here': mutable && isQualityEditableHere(quality)}">
-      <span>{{quality.name}}</span>
-      <span v-if="isQualityEditableHere(quality)" class="cost">({{sensesData.senseQualities[quality.name].costForSense}})</span>
-      <div v-if="isRemovingQuality && isQualityEditableHere(quality)" v-on:click="deleteQuality(quality)">
+  <div class="sense" :class="{'created-here': isSenseCreatedHere}">
+    <span class="sense-name">
+      {{sense.name}}
+      <span v-if="isSenseCreatedHere">({{costOfSense()}})</span> <!-- FIXME: Wrong cost -->
+    </span>
+    <div v-for="quality in sense.qualities" class="sense-quality-small" :class="{'editable-here': mutable && isQualityCreatedHere(quality)}">
+      <span>
+        <span v-if="quality.ranks !== undefined && quality.ranks !== 1">{{quality.ranks}}x </span>
+        {{quality.name}}
+        <span v-if="isQualityCreatedHere(quality)">({{costOfQuality(quality)}})</span>
+      </span>
+      <div v-if="isRemovingQuality && isQualityCreatedHere(quality)" v-on:click="deleteQuality(quality)">
         <trash-icon/>
       </div>
     </div>
     <div v-if="isAddingQuality" class="quality-creator">
       <select-entry
-          :value="''"
+          :value="newQualityName"
           :options="qualityOptions"
           unselectedItem="Select One"
-          @input="addQuality($event)"
+          @input="newQualityName = $event"
       />
+      <number-entry v-if="newQualityData && newQualityData.hasRanks" v-model="newQualityRanks"/>
+      <div v-if="newQualityData" class="newCost">({{newQualityData.costForSense}})</div>
+      <edit-button :onClick="() => addNewQuality()" :disabled="!newQualityIsComplete">Create</edit-button>
       <edit-button :onClick="() => isAddingQuality = false">Cancel</edit-button>
+      <div v-if="newQualityData" class="miniDescription">{{newQualityData.miniDescription}}</div>
     </div>
     <edit-button
         v-if="mutable && !isAddingQuality && !isRemovingQuality"
-        :onClick="() => isAddingQuality = true"
+        :onClick="beginCreatingNewQuality"
         class="plus-minus-button"
     >+</edit-button>
     <edit-button
@@ -46,12 +56,14 @@
     props: {
       sense: { type: Object, required: true },
       mutable: { type: Boolean, required: false, default: true },
+      isSenseCreatedHere: { type: Boolean, required: true },
     },
     data: function() {
       return {
-        sensesData,
         isAddingQuality: false,
         isRemovingQuality: false,
+        newQualityName: "",
+        newQualityRanks: 1,
       }
     },
     computed: {
@@ -71,8 +83,21 @@
             )
             .filter(x => x !== null)
       },
+      newQualityIsComplete: function() {
+        return this.newQualityName !== ""; // FIXME: Need more smarts than this eventually
+      },
+      /*
+       * Contains the sensesData reference data for the quality that is currently being created,
+       * or undefined if no specific quality is yet selected.
+       */
+      newQualityData: function() {
+        return sensesData.senseQualities[this.newQualityName];
+      }
     },
     methods: {
+      costOfSense: function() {
+        return sensesData.senses[this.sense.name].cost;
+      },
       /*
        * Returns true if the sense has the quality with this name; false otherwise.
        */
@@ -82,8 +107,11 @@
       /*
        * Return true if the quality is from the current power and thus can be edited within this senses chart.
        */
-      isQualityEditableHere: function(quality) {
+      isQualityCreatedHere: function(quality) {
         return quality.sourceHsid !== undefined; // FIXME: Real test needed
+      },
+      costOfQuality: function(quality) {
+        return sensesData.senseQualities[quality.name].costForSense * (quality.ranks === undefined ? 1 : quality.ranks);
       },
       /*
        * Removes the given quality.
@@ -98,18 +126,26 @@
         }
       },
       someQualityIsEditableHereFunc: function() {
-        return this.sense.qualities.some(this.isQualityEditableHere);
+        return this.sense.qualities.some(this.isQualityCreatedHere);
       },
-      addQuality: function(option) {
+      beginCreatingNewQuality: function() {
+        this.newQualityName = '';
+        this.newQualityRanks = 1;
+        this.isAddingQuality = true;
+      },
+      addNewQuality: function() {
         // FIXME: This should really add to the POWER, not the stub data
         this.isAddingQuality = false;
         const newQuality = { // FIXME: Eventually goes in the charsheet library
-          name: option,
+          name: this.newQualityName,
           sourceHsid: newHsid(),
         }
+        if (this.newQualityData.hasRanks) {
+          newQuality.ranks = this.newQualityRanks;
+        }
         this.sense.qualities.push(newQuality);
-      }
-    }
+      },
+    },
   }
 </script>
 
@@ -125,7 +161,7 @@
     margin: 2px 15px 2px 10px;
   }
 
-  .sense-editable .sense {
+  .sense.created-here {
     background: var(--entry-field);
   }
 
@@ -150,8 +186,9 @@
     align-items: center;
   }
 
-  .cost::before {
-    content: '\2000';
+  .newCost {
+    margin-left: 3px;
+    margin-right: 3px;
   }
 
   .plus-minus-button {

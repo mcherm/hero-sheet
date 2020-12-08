@@ -3,9 +3,9 @@
     <div class="sense-type-stack">
       <div v-for="senseType in senses" class="sense-type">
         <div class="sense-type-header">{{senseType.name}}</div>
-        <div v-for="sense in senseType.senses" class="sense-chart-row" :class="{'sense-editable': isSenseDeletableHere(sense)}">
-          <senses-chart-sense :sense="sense" :mutable="mutable"/>
-          <div v-if="isRemovingSense && isSenseDeletableHere(sense)" v-on:click="deleteSense(senseType, sense)">
+        <div v-for="sense in senseType.senses" class="sense-chart-row">
+          <senses-chart-sense :sense="sense" :mutable="mutable" :isSenseCreatedHere="isSenseCreatedHere(sense)"/>
+          <div v-if="isRemovingSense && isSenseCreatedHere(sense)" v-on:click="deleteSense(senseType, sense)">
             <trash-icon/>
           </div>
         </div>
@@ -13,13 +13,20 @@
     </div>
     <div v-if="isAddingSense" class="new-sense-creator">
       <select-entry
+          class="new-sense-select-sense"
           :value="newSenseName"
           :options="newSenseOptions"
-          unselectedItem="Select One"
           @input="setNewSenseName($event)"
-          class="new-sense-select-sense"
+          unselectedItem="Select One"
       />
-      <div v-if="newSenseSenseType !== null" class="new-sense-type">{{newSenseSenseType}}</div>
+      <select-entry
+          v-if="newSenseSenseTypesAllowed !== null"
+          class="new-sense-type"
+          v-model="newSenseSenseType"
+          :options="newSenseSenseTypesAllowed"
+          unselectedItem="Select One"
+      />
+      <span v-if="newSenseIsComplete">({{costOfNewSense}})</span>
       <edit-button :onClick="() => addNewSense()" :disabled="!newSenseIsComplete" class="first-new-sense-button">Create</edit-button>
       <edit-button :onClick="() => isAddingSense = false">Cancel</edit-button>
     </div>
@@ -44,6 +51,8 @@
   import SensesChartSense from "./SensesChartSense.vue";
   import {newHsid} from "../js/heroSheetVersioning.js";
   const sensesData = require("@/data/sensesData.json");
+
+  const allSenseTypeNames = Object.values(sensesData.senseTypes).map(x => x.name);
 
   export default {
     name: "SensesChart",
@@ -153,17 +162,18 @@
           }
         },
         newSenseName: "",
-        newSenseSenseType: null,
+        newSenseSenseType: "",
+        newSenseSenseTypesAllowed: null, // either a list of the sense types the new sense is allowed to have, or null if the list is undetermined
       }
     },
     computed: {
+      costOfNewSense: function() {
+        return sensesData.senses[this.newSenseName].cost;
+      },
       newSenseOptions: function() {
         return Object.values(sensesData.senses)
             .map(x =>
-                (
-                    !x.isInherentSense &&
-                    !this.hasSense(x.name)
-                )
+                !x.isInherentSense && (x.allowMultiples || !this.hasSense(x.name))
                     ? x.name
                     : null
             )
@@ -174,7 +184,9 @@
         if (newSenseData === undefined) {
           return false;
         }
-        // FIXME: Should consider additional data needed, like type or ranks
+        if (this.newSenseSenseType === "") {
+          return false;
+        }
         return true;
       },
     },
@@ -194,7 +206,7 @@
       someSenseIsRemovableHere: function() {
         for (const senseType of Object.values(this.senses)) {
           for (const sense of senseType.senses) {
-            if (this.isSenseDeletableHere(sense)) {
+            if (this.isSenseCreatedHere(sense)) {
               return true;
             }
           }
@@ -204,7 +216,7 @@
       /*
        * Return true if the sense is from the current power and thus can be edited within this senses chart.
        */
-      isSenseDeletableHere: function(sense) {
+      isSenseCreatedHere: function(sense) {
         return sense.sourceHsid !== undefined; // FIXME: Real test needed
       },
       /*
@@ -225,8 +237,19 @@
       setNewSenseName: function(senseName) {
         this.newSenseName = senseName;
         const newSenseData = sensesData.senses[senseName];
-        // FIXME: In the future some won't be a fixed type
-        this.newSenseSenseType = newSenseData === undefined ? null : newSenseData.senseType;
+        if (newSenseData === undefined) {
+          this.newSenseSenseTypesAllowed = null;
+          this.newSenseSenseType = "";
+        } else {
+          const newSenseType = newSenseData.senseType;
+          if (newSenseType === "Any") { // any sense type allowed
+            this.newSenseSenseTypesAllowed = allSenseTypeNames;
+            this.newSenseSenseType = "";
+          } else { // only a single sense type allowed
+            this.newSenseSenseTypesAllowed = [newSenseType];
+            this.newSenseSenseType = newSenseType;
+          }
+        }
       },
       addNewSense: function() {
         this.isAddingSense = false;
