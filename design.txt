@@ -139,7 +139,7 @@ I'm sure there will be more, but I'm just trying to get started here.
     Extended                 1 <RANKED mod>
     Infravision              1 <sense>
     Low-Light Vision         1 <sense>
-    Microscopic Vision Dust  1 <sense?>
+    Microscopic Vision Dust  1 <sense?> <----- FIXME: Should have ranks but doesn't.
     Microscopic Vision Cell  2 <sense?>
     Microscopic Vision DNA   3 <sense?>
     Microscopic Vision Atom  4 <sense?>
@@ -194,18 +194,18 @@ I'm sure there will be more, but I'm just trying to get started here.
         * Communication Link
         * Danger Sense
     Qualities: (Call them "qualities" instead of "modifiers" to avoid name confusion)
-      * Accurate
-      * Acute
-      * Analytical
-      * Counters Concealment
-      * Counters Illusion
-      * Extended {applies to all senses in a sense group}
-      * Low Light (vision sense type only) {is a vision sense of its own??? I don't agree}
-      * Penetrates Concealment
-      * Radius
-      * Ranged
-      * Rapid
-      * Tracking
+      * Accurate - know exact location; target in combat
+      * Acute - fine details
+      * Analytical - exact measurements
+      * Counters Concealment - ignore one concealment descriptor
+      * Counters Illusion - ignores illusion effect
+      * Extended {applies to all senses in a sense group} - 10x range per rank
+      * Low Light (vision sense type only) {is a vision sense of its own??? I don't agree} <--- WHAT TO DO?
+      * Penetrates Concealment - unaffected by obstacles
+      * Radius - use sense in all directions
+      * Ranged - use at range
+      * Rapid - take in information 10x faster per rank
+      * Tracking - use to follow a trail
 
  PLANS:
    So, I'm thinking that I'll have the 6 sense types. Then I'll have a bunch of senses, some of which

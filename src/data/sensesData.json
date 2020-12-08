@@ -17,6 +17,9 @@
     },
     "Radio": {
       "name": "Radio"
+    },
+    "No Sense Type": {
+      "name": "No Sense Type"
     }
   },
   "senseQualities": {
@@ -24,143 +27,239 @@
       "name": "Accurate",
       "costForSense": 2,
       "costForSenseType": 4,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "know exact location; target in combat"
     },
     "Acute": {
       "name": "Acute",
       "costForSense": 1,
       "costForSenseType": 2,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "detect fine details"
     },
     "Analytical": {
       "name": "Analytical",
       "costForSense": 1,
       "costForSenseType": 2,
       "prerequisite": "Acute",
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "make exact measurements"
     },
     "Counters Concealment": {
       "name": "Counters Concealment",
       "costForSense": null,
       "costForSenseType": 2,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "ignore one type of concealment"
     },
     "Counters All Concealment": {
       "name": "Counters Concealment",
       "costForSense": null,
       "costForSenseType": 5,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "ignore all concealment"
     },
     "Counters Illusion": {
       "name": "Counters Illusion",
       "costForSense": null,
       "costForSenseType": 2,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "ignores illusion effects"
     },
     "Extended": {
       "name": "Extended",
       "costForSense": 1,
       "costForSenseType": 1,
       "prerequisite": "Ranged",
-      "hasRanks": true
+      "hasRanks": true,
+      "miniDescription": "10x range per rank"
     },
     "Low Light": {
       "name": "Low Light",
       "costForSense": null,
       "costForSenseType": 1,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "functions in dim light"
     },
     "Penetrates Concealment": {
       "name": "Penetrates Concealment",
       "costForSense": 4,
       "costForSenseType": null,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "unaffected by obstacles"
     },
     "Radius": {
       "name": "Radius",
       "costForSense": 1,
       "costForSenseType": 2,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "use sense in all directions"
     },
     "Ranged": {
       "name": "Ranged",
       "costForSense": 1,
       "costForSenseType": null,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "use at range"
     },
     "Rapid": {
       "name": "Rapid",
       "costForSense": 1,
       "costForSenseType": null,
-      "hasRanks": true
+      "hasRanks": true,
+      "miniDescription": "take in information 10x faster per rank"
     },
     "Tracking": {
       "name": "Tracking",
       "costForSense": 1,
       "costForSenseType": null,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "follow a trail at half speed"
     },
     "Full Speed Tracking": {
       "name": "Full Speed Tracking",
       "costForSense": 2,
       "costForSenseType": null,
-      "hasRanks": false
+      "hasRanks": false,
+      "miniDescription": "follow a trail at full speed"
     }
   },
   "senses": {
+    "Awareness": {
+      "name": "Awareness",
+      "senseType": "Any",
+      "isInherentSense": false,
+      "allowMultiples": true,
+      "cost": 1,
+      "defaultQualities": []
+    },
     "Normal Sight": {
       "name": "Normal Sight",
       "senseType": "Visual",
       "isInherentSense": true,
+      "allowMultiples": false,
+      "cost": 0,
       "defaultQualities": ["Ranged", "Acute", "Accurate"]
     },
     "Infravision": {
       "name": "Infravision",
       "senseType": "Visual",
       "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
       "defaultQualities": ["Ranged", "Acute", "Accurate"]
     },
     "Ultravision": {
       "name": "Ultravision",
       "senseType": "Visual",
       "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
       "defaultQualities": ["Ranged", "Acute", "Accurate"]
     },
-    "Microscopic Vision": {
-      "name": "Microscopic Vision",
+    "Dust-sized Microscopic Vision": {
+      "name": "Dust-sized Microscopic Vision",
       "senseType": "Visual",
       "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
+      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+    },
+    "Cell-sized Microscopic Vision": {
+      "name": "Cell-sized Microscopic Vision",
+      "senseType": "Visual",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 2,
+      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+    },
+    "DNA-sized Microscopic Vision": {
+      "name": "DNA-sized Microscopic Vision",
+      "senseType": "Visual",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 3,
+      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+    },
+    "Atom-sized Microscopic Vision": {
+      "name": "Atom-sized Microscopic Vision",
+      "senseType": "Visual",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 4,
       "defaultQualities": ["Ranged", "Acute", "Accurate"]
     },
     "Normal Hearing": {
       "name": "Normal Hearing",
       "senseType": "Auditory",
       "isInherentSense": true,
+      "allowMultiples": false,
+      "cost": 0,
       "defaultQualities": ["Ranged", "Acute", "Radius"]
     },
     "Ultra-Hearing": {
       "name": "Ultra-Hearing",
       "senseType": "Auditory",
       "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
       "defaultQualities": ["Ranged", "Acute", "Radius"]
     },
     "Normal Smell/Taste": {
       "name": "Normal Smell/Taste",
       "senseType": "Olfactory",
       "isInherentSense": true,
+      "allowMultiples": false,
+      "cost": 0,
       "defaultQualities": ["Radius"]
     },
     "Normal Touch": {
       "name": "Normal Touch",
       "senseType": "Tactile",
       "isInherentSense": true,
+      "allowMultiples": false,
+      "cost": 0,
       "defaultQualities": ["Accurate", "Radius"]
     },
     "Radio": {
       "name": "Radio",
       "senseType": "Radio",
       "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
       "defaultQualities": ["Ranged", "Radius"]
+    },
+    "Postcognition": {
+      "name": "Postcognition",
+      "senseType": "No Sense Type",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 4,
+      "defaultQualities": []
+    },
+    "Precognition": {
+      "name": "Precognition",
+      "senseType": "No Sense Type",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 4,
+      "defaultQualities": []
+    },
+    "Communication Link": {
+      "name": "Communication Link",
+      "senseType": "No Sense Type",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
+      "defaultQualities": []
+    },
+    "Danger Sense": {
+      "name": "Danger Sense",
+      "senseType": "No Sense Type",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
+      "defaultQualities": []
     }
   }
 }
