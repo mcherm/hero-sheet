@@ -1,25 +1,32 @@
 {
   "senseTypes": {
     "Visual": {
-      "name": "Visual"
+      "name": "Visual",
+      "selectable": true
     },
     "Auditory": {
-      "name": "Auditory"
+      "name": "Auditory",
+      "selectable": true
     },
     "Olfactory": {
-      "name": "Olfactory"
+      "name": "Olfactory",
+      "selectable": true
     },
     "Tactile": {
-      "name": "Tactile"
+      "name": "Tactile",
+      "selectable": true
     },
     "Mental": {
-      "name": "Mental"
+      "name": "Mental",
+      "selectable": true
     },
     "Radio": {
-      "name": "Radio"
+      "name": "Radio",
+      "selectable": true
     },
     "No Sense Type": {
-      "name": "No Sense Type"
+      "name": "No Sense Type",
+      "selectable": false
     }
   },
   "senseQualities": {
@@ -133,24 +140,56 @@
       "cost": 1,
       "defaultQualities": []
     },
-    "Normal Sight": {
-      "name": "Normal Sight",
-      "senseType": "Visual",
-      "isInherentSense": true,
-      "allowMultiples": false,
-      "cost": 0,
-      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+    "Communication Link": {
+      "name": "Communication Link",
+      "senseType": "Any",
+      "isInherentSense": false,
+      "allowMultiples": true,
+      "cost": 1,
+      "defaultQualities": ["Ranged", "Radius"]
     },
-    "Infravision": {
-      "name": "Infravision",
-      "senseType": "Visual",
+    "Danger Sense": {
+      "name": "Danger Sense",
+      "senseType": "Any",
       "isInherentSense": false,
       "allowMultiples": false,
       "cost": 1,
-      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+      "defaultQualities": ["Radius"]
     },
-    "Ultravision": {
-      "name": "Ultravision",
+    "Detect by Touch": {
+      "name": "Detect by Touch",
+      "senseType": "Any",
+      "isInherentSense": false,
+      "allowMultiples": true,
+      "cost": 1,
+      "defaultQualities": ["Radius"]
+    },
+    "Detect at Range": {
+      "name": "Detect at Range",
+      "senseType": "Any",
+      "isInherentSense": false,
+      "allowMultiples": true,
+      "cost": 2,
+      "defaultQualities": ["Radius", "Ranged"]
+    },
+    "Direction Sense": {
+      "name": "Direction Sense",
+      "senseType": "No Sense Type",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
+      "defaultQualities": []
+    },
+    "Distance Sense": {
+      "name": "Distance Sense",
+      "senseType": "No Sense Type",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
+      "defaultQualities": []
+    },
+    "Infravision": {
+      "name": "Infravision",
       "senseType": "Visual",
       "isInherentSense": false,
       "allowMultiples": false,
@@ -189,20 +228,20 @@
       "cost": 4,
       "defaultQualities": ["Ranged", "Acute", "Accurate"]
     },
+    "Normal Sight": {
+      "name": "Normal Sight",
+      "senseType": "Visual",
+      "isInherentSense": true,
+      "allowMultiples": false,
+      "cost": 0,
+      "defaultQualities": ["Ranged", "Acute", "Accurate"]
+    },
     "Normal Hearing": {
       "name": "Normal Hearing",
       "senseType": "Auditory",
       "isInherentSense": true,
       "allowMultiples": false,
       "cost": 0,
-      "defaultQualities": ["Ranged", "Acute", "Radius"]
-    },
-    "Ultra-Hearing": {
-      "name": "Ultra-Hearing",
-      "senseType": "Auditory",
-      "isInherentSense": false,
-      "allowMultiples": false,
-      "cost": 1,
       "defaultQualities": ["Ranged", "Acute", "Radius"]
     },
     "Normal Smell/Taste": {
@@ -221,14 +260,6 @@
       "cost": 0,
       "defaultQualities": ["Accurate", "Radius"]
     },
-    "Radio": {
-      "name": "Radio",
-      "senseType": "Radio",
-      "isInherentSense": false,
-      "allowMultiples": false,
-      "cost": 1,
-      "defaultQualities": ["Ranged", "Radius"]
-    },
     "Postcognition": {
       "name": "Postcognition",
       "senseType": "No Sense Type",
@@ -245,21 +276,37 @@
       "cost": 4,
       "defaultQualities": []
     },
-    "Communication Link": {
-      "name": "Communication Link",
+    "Radio": {
+      "name": "Radio",
+      "senseType": "Radio",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
+      "defaultQualities": ["Ranged", "Radius"]
+    },
+    "Time Sense": {
+      "name": "Time Sense",
       "senseType": "No Sense Type",
       "isInherentSense": false,
       "allowMultiples": false,
       "cost": 1,
       "defaultQualities": []
     },
-    "Danger Sense": {
-      "name": "Danger Sense",
-      "senseType": "No Sense Type",
+    "Ultra-Hearing": {
+      "name": "Ultra-Hearing",
+      "senseType": "Auditory",
       "isInherentSense": false,
       "allowMultiples": false,
       "cost": 1,
-      "defaultQualities": []
+      "defaultQualities": ["Ranged", "Acute", "Radius"]
+    },
+    "Ultravision": {
+      "name": "Ultravision",
+      "senseType": "Visual",
+      "isInherentSense": false,
+      "allowMultiples": false,
+      "cost": 1,
+      "defaultQualities": ["Ranged", "Acute", "Accurate"]
     }
   }
 }

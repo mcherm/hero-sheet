@@ -52,7 +52,7 @@
   import {newHsid} from "../js/heroSheetVersioning.js";
   const sensesData = require("@/data/sensesData.json");
 
-  const allSenseTypeNames = Object.values(sensesData.senseTypes).map(x => x.name);
+  const allSelectableSenseTypeNames = Object.values(sensesData.senseTypes).filter(x => x.selectable).map(x => x.name);
 
   export default {
     name: "SensesChart",
@@ -243,7 +243,7 @@
         } else {
           const newSenseType = newSenseData.senseType;
           if (newSenseType === "Any") { // any sense type allowed
-            this.newSenseSenseTypesAllowed = allSenseTypeNames;
+            this.newSenseSenseTypesAllowed = allSelectableSenseTypeNames;
             this.newSenseSenseType = "";
           } else { // only a single sense type allowed
             this.newSenseSenseTypesAllowed = [newSenseType];
