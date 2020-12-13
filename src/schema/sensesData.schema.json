@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/sensesData.schema.json",
+  "type": "object",
+  "title": "Senses Data",
+  "description": "The file that contains data on senses and sense qualifiers.",
+  "properties": {
+    "senseTypes": { "$ref": "#/definitions/SenseTypes" },
+    "senseQualities": { "$ref": "#/definitions/SenseQualities" },
+    "senses": { "$ref": "#/definitions/Senses" }
+  },
+  "required": [ "senseTypes", "senseQualities", "senses"],
+  "additionalProperties": false,
+  "definitions": {
+    "SenseTypes": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/SenseType" }
+      },
+      "additionalProperties": false
+    },
+    "SenseType": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "common.schema.json#/definitions/Name" },
+        "selectable": { "type": "boolean" }
+      },
+      "required": ["name", "selectable"],
+      "additionalProperties": false
+    },
+    "Name": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9: '-]+$"
+    },
+    "SenseQualities": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/SenseQuality" }
+      },
+      "additionalProperties": false
+    },
+    "SenseQuality": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "common.schema.json#/definitions/Name" },
+        "costForSense": { "$ref":  "#/definitions/OptionalInteger" },
+        "costForSenseType": { "$ref":  "#/definitions/OptionalInteger" },
+        "prerequisite": { "type": "string" },
+        "hasRanks": { "type": "boolean" },
+        "miniDescription": { "type":  "string" }
+      },
+      "required": ["name", "costForSense", "costForSenseType", "hasRanks", "miniDescription"],
+      "additionalProperties": false
+    },
+    "OptionalInteger": {
+      "oneOf": [
+        { "type": "integer" },
+        { "type": "null" }
+      ]
+    },
+    "Senses": {
+      "patternProperties": {
+        "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/Sense" }
+      },
+      "additionalProperties": false
+    },
+    "Sense": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "common.schema.json#/definitions/Name" },
+        "senseType": { "$ref": "#/definitions/SenseTypeSelector" },
+        "isInherentSense": { "type": "boolean" },
+        "allowMultiples": { "type": "boolean" },
+        "cost": { "type": "integer" },
+        "defaultQualities": { "$ref": "#/definitions/QualitiesList" }
+      },
+      "required": ["name", "senseType", "isInherentSense", "allowMultiples", "cost", "defaultQualities"],
+      "additionalProperties": false
+    },
+    "SenseTypeSelector": {
+      "type": "string",
+      "enum": ["Any", "No Sense Type", "Visual", "Auditory", "Olfactory", "Tactile", "Radio"]
+    },
+    "QualitiesList": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}
