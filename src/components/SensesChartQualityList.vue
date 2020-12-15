@@ -73,17 +73,17 @@
         return Object.values(sensesData.senseQualities)
             .map(x =>
                 (
-                    (this.costField) !== null &&  // it can be applied to this
+                    x[this.costField] !== null &&  // it can be applied to this
                     !this.hasQuality(x.name) && // it is not already applied
                     (x.prerequisite === undefined || this.hasQuality(x.prerequisite)) // prerequisites satisfied
                 )
                     ? x.name
                     : null
             )
-            .filter(x => x !== null)
+            .filter(x => x !== null);
       },
       newQualityIsComplete: function() {
-        return this.newQualityName !== ""; // FIXME: Need more smarts than this eventually
+        return this.newQualityName !== "";
       },
       /*
        * Contains the sensesData reference data for the quality that is currently being created,
