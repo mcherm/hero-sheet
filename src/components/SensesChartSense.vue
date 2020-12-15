@@ -7,7 +7,7 @@
       {{sense.name}}
       <span v-if="isSenseCreatedHere">({{costOfSense()}})</span> <!-- FIXME: Wrong cost -->
     </span>
-    <senses-chart-quality-list :sense="sense" :mutable="mutable" :is-sense-created-here="isSenseCreatedHere"/>
+    <senses-chart-quality-list :qualities="sense.qualities" :isSenseType="false" :mutable="mutable"/>
   </div>
 </template>
 
@@ -42,7 +42,7 @@
   }
 
   .sense-name {
-    margin: 2px 15px 2px 10px;
+    margin: 2px 15px 2px 12px;
   }
 
   .sense.created-here {

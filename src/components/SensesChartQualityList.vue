@@ -3,7 +3,7 @@
 -->
 <template>
   <div class="quality-list">
-    <div v-for="quality in sense.qualities" class="sense-quality-small" :class="{'editable-here': mutable && isQualityCreatedHere(quality)}">
+    <div v-for="quality in qualities" class="sense-quality-small" :class="{'editable-here': mutable && isQualityCreatedHere(quality)}">
       <span>
         <span v-if="quality.ranks !== undefined && quality.ranks !== 1">{{quality.ranks}}x </span>
         {{quality.name}}
@@ -21,7 +21,7 @@
           @input="newQualityName = $event"
       />
       <number-entry v-if="newQualityData && newQualityData.hasRanks" v-model="newQualityRanks"/>
-      <div v-if="newQualityData" class="newCost">({{newQualityData.costForSense}})</div>
+      <div v-if="newQualityData" class="newCost">({{newQualityData[costField]}})</div>
       <edit-button :onClick="() => addNewQuality()" :disabled="!newQualityIsComplete">Create</edit-button>
       <edit-button :onClick="() => isAddingQuality = false">Cancel</edit-button>
       <div v-if="newQualityData" class="miniDescription">{{newQualityData.miniDescription}}</div>
@@ -50,9 +50,9 @@
   export default {
     name: "SensesChartQualityList",
     props: {
-      sense: { type: Object, required: true }, // FIXME: Is this needed?
+      qualities: { type: Array, required: true }, // The list of qualities being edited
+      isSenseType: { type: Boolean, required: true }, // Tells if it's a sense type or a sense
       mutable: { type: Boolean, required: false, default: true },
-      isSenseCreatedHere: { type: Boolean, required: true }, // FIXME: Is this needed?
     },
     data: function() {
       return {
@@ -63,6 +63,9 @@
       }
     },
     computed: {
+      costField: function() {
+        return this.isSenseType ? "costForSenseType" : "costForSense";
+      },
       someQualityIsEditableHere: function() {
         return this.someQualityIsEditableHereFunc();
       },
@@ -70,7 +73,7 @@
         return Object.values(sensesData.senseQualities)
             .map(x =>
                 (
-                    x.costForSense !== null &&  // it can be applied to a sense
+                    (this.costField) !== null &&  // it can be applied to this
                     !this.hasQuality(x.name) && // it is not already applied
                     (x.prerequisite === undefined || this.hasQuality(x.prerequisite)) // prerequisites satisfied
                 )
@@ -95,7 +98,7 @@
        * Returns true if the sense has the quality with this name; false otherwise.
        */
       hasQuality: function(qualityName) {
-        return this.sense.qualities.map(x => x.name).includes(qualityName);
+        return this.qualities.map(x => x.name).includes(qualityName);
       },
       /*
        * Return true if the quality is from the current power and thus can be edited within this senses chart.
@@ -104,22 +107,23 @@
         return quality.sourceHsid !== undefined; // FIXME: Real test needed
       },
       costOfQuality: function(quality) {
-        return sensesData.senseQualities[quality.name].costForSense * (quality.ranks === undefined ? 1 : quality.ranks);
+        const qualityCost = sensesData.senseQualities[quality.name][this.costField];
+        return qualityCost * (quality.ranks === undefined ? 1 : quality.ranks);
       },
       /*
        * Removes the given quality.
        */
       deleteQuality: function(quality) {
-        const positionToDelete = this.sense.qualities.indexOf(quality);
+        const positionToDelete = this.qualities.indexOf(quality);
         if (positionToDelete !== -1) {
-          this.$delete(this.sense.qualities, positionToDelete);
+          this.$delete(this.qualities, positionToDelete);
         }
         if (!this.someQualityIsEditableHereFunc()) {
           this.isRemovingQuality = false;
         }
       },
       someQualityIsEditableHereFunc: function() {
-        return this.sense.qualities.some(this.isQualityCreatedHere);
+        return this.qualities.some(this.isQualityCreatedHere);
       },
       beginCreatingNewQuality: function() {
         this.newQualityName = '';
@@ -136,7 +140,7 @@
         if (this.newQualityData.hasRanks) {
           newQuality.ranks = this.newQualityRanks;
         }
-        this.sense.qualities.push(newQuality);
+        this.qualities.push(newQuality);
       },
     },
   }
