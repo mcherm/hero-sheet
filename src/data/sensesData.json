@@ -76,7 +76,7 @@
     "Extended": {
       "name": "Extended",
       "costForSense": 1,
-      "costForSenseType": 1,
+      "costForSenseType": null,
       "prerequisite": "Ranged",
       "hasRanks": true,
       "miniDescription": "10x range per rank"

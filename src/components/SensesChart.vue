@@ -7,7 +7,13 @@
           <senses-chart-quality-list :qualities="senseType.qualities" :isSenseType="true" :mutable="mutable"/>
         </div>
         <div v-for="sense in senseType.senses" class="sense-chart-row">
-          <senses-chart-sense :sense="sense" :mutable="mutable" :isSenseCreatedHere="isSenseCreatedHere(sense)"/>
+          <div class="sense" :class="{'created-here': isSenseCreatedHere(sense)}">
+            <span class="sense-name">
+              {{sense.name}}
+              <span v-if="isSenseCreatedHere(sense)">({{costOfSense(sense)}})</span>
+            </span>
+            <senses-chart-quality-list :qualities="sense.qualities" :isSenseType="false" :mutable="mutable"/>
+          </div>
           <div v-if="isRemovingSense && isSenseCreatedHere(sense)" v-on:click="deleteSense(senseType, sense)">
             <trash-icon/>
           </div>
@@ -51,9 +57,8 @@
 </template>
 
 <script>
-  import SensesChartSense from "./SensesChartSense.vue";
   import SensesChartQualityList from "./SensesChartQualityList.vue";
-  import {newHsid} from "../js/heroSheetVersioning.js";
+  import {newHsid} from "@/js/heroSheetVersioning.js";
   const sensesData = require("@/data/sensesData.json");
 
   const allSelectableSenseTypeNames = Object.values(sensesData.senseTypes).filter(x => x.selectable).map(x => x.name);
@@ -61,7 +66,6 @@
   export default {
     name: "SensesChart",
     components: {
-      SensesChartSense,
       SensesChartQualityList,
     },
     props: {
@@ -224,6 +228,9 @@
       isSenseCreatedHere: function(sense) {
         return sense.sourceHsid !== undefined; // FIXME: Real test needed
       },
+      costOfSense: function(sense) {
+        return sensesData.senses[sense.name].cost;
+      },
       /*
        * Removes the sense.
        */
@@ -328,5 +335,20 @@
   .button-bar {
     display: flex;
     justify-content: center;
+  }
+
+  .sense {
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  .sense-name {
+    margin: 2px 15px 2px 12px;
+  }
+
+  .sense.created-here {
+    background: var(--entry-field);
   }
 </style>
