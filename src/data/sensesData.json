@@ -60,7 +60,7 @@
       "miniDescription": "ignore one type of concealment"
     },
     "Counters All Concealment": {
-      "name": "Counters Concealment",
+      "name": "Counters All Concealment",
       "costForSense": null,
       "costForSenseType": 5,
       "hasRanks": false,

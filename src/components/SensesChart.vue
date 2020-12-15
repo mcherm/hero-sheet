@@ -2,7 +2,10 @@
   <div class="senses">
     <div class="sense-type-stack">
       <div v-for="senseType in senses" class="sense-type">
-        <div class="sense-type-header">{{senseType.name}}</div>
+        <div class="sense-type-header">
+          <span class="sense-type-name">{{senseType.name}}</span>
+          <senses-chart-quality-list :qualities="senseType.qualities" :isSenseType="true" :mutable="mutable"/>
+        </div>
         <div v-for="sense in senseType.senses" class="sense-chart-row">
           <senses-chart-sense :sense="sense" :mutable="mutable" :isSenseCreatedHere="isSenseCreatedHere(sense)"/>
           <div v-if="isRemovingSense && isSenseCreatedHere(sense)" v-on:click="deleteSense(senseType, sense)">
@@ -49,6 +52,7 @@
 
 <script>
   import SensesChartSense from "./SensesChartSense.vue";
+  import SensesChartQualityList from "./SensesChartQualityList.vue";
   import {newHsid} from "../js/heroSheetVersioning.js";
   const sensesData = require("@/data/sensesData.json");
 
@@ -58,6 +62,7 @@
     name: "SensesChart",
     components: {
       SensesChartSense,
+      SensesChartQualityList,
     },
     props: {
       power: { type: Object, required: false, default: null },
@@ -290,6 +295,13 @@
   .sense-type-header {
     background-color: var(--subtle-shade-color);
     padding: 2px;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  .sense-type-name {
+    margin: 2px 15px 2px 2px;
   }
 
   .sense-chart-row {
