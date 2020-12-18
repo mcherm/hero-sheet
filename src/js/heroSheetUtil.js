@@ -416,13 +416,20 @@ const setPowerEffect = function(power, effect) {
   power.effect = effect;
   const standardPower = getStandardPower(power);
   if (standardPower !== null) {
-    if (standardPower.powerOptions) {
-      power.option = "";
-    } else {
-      power.option = null;
-    }
+    Vue.set(power, "option", standardPower.powerOptions ? "" : null);
     if (standardPower.powerLayout !== "array") {
-      power.subpowers = [];
+      Vue.set(power, "subpowers", []);
+    }
+    if (standardPower.powerLayout === "senses") {
+      // Add extended fields
+      Vue.set(power.extended, "addedSenses", []);
+      Vue.set(power.extended, "addedSenseTypeQualities", []);
+      Vue.set(power.extended, "addedSenseQualities", []);
+    } else {
+      // Remove any extended fields
+      for (const field in power.extended) {
+        Vue.delete(power.extended, field);
+      }
     }
   }
   recalculatePowerCost(power);
@@ -566,6 +573,9 @@ const POWER_TO_UPDATERS_MAP = {
     "StealthFromShrinkingthUpdater",
     "IntimidationFromShrinkingUpdater",
   ],
+  "Senses": [
+    "SensesPowerUpdater",
+  ]
 };
 
 /*

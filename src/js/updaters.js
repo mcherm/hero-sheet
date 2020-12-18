@@ -5,6 +5,7 @@
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
 import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt, intToRange, attackRollInfo} from "./heroSheetUtil.js"
 const standardPowers = require("../data/standardPowers.json");
+const sensesData = require("../data/sensesData.json");
 
 
 /*
@@ -15,6 +16,7 @@ const standardPowers = require("../data/standardPowers.json");
 class Updater {
   constructor(vm, charsheet, ...otherArgs) {
     this.activeWatches = [];
+    this.vm = vm;
     this.charsheet = charsheet;
     this.setMoreFieldsInConstructor(vm, charsheet, ...otherArgs);
     const cancelFunction = this.createWatch(vm);
@@ -545,6 +547,69 @@ class MoveObjectThrownAttackUpdater extends PowerAttackUpdater {
   }
 }
 
+/*
+ * The Senses power should grant you some senses.
+ */
+class SensesPowerUpdater extends Updater {
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
+    console.log(`Creating a SensesPowerUpdater with event ${JSON.stringify(newUpdaterEvent)}`); // FIXME: Remove
+    this.power = newUpdaterEvent.power;
+  }
+
+  watchForChange() {
+    console.log(`SensesPowerUpdater is watching for change and addedSenses = ${JSON.stringify(this.power.extended.addedSenses)}`); // FIXME: Remove
+    return {
+      identity: {
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
+      },
+      calculations: {
+        addedSenses: this.power.extended.addedSenses,
+        addedSenseTypeQualities: this.power.extended.addedSenseTypeQualities,
+        addedSenseQualities: this.power.extended.addedSenseQualities,
+      }
+    };
+  }
+
+
+  applyChanges(newCalculations) {
+    const vm = this.vm;
+    console.log(`NOW SHOULD applyChanges. The data is ${JSON.stringify(newCalculations)}`); // FIXME: Remove
+    const charsheetSenses = this.charsheet.senses;
+
+    const addNewSenseIfMissing = function({sense, senseType, hsid}) {
+      // -- Create Sense Type if it doesn't exist --
+      let senseTypeEntry = charsheetSenses[senseType];
+      if (senseTypeEntry === undefined) {
+        senseTypeEntry = {
+          name: senseType,
+          senses: [],
+          qualities: [],
+        };
+        vm.$set(charsheetSenses, senseType, senseTypeEntry);
+      }
+      // -- Check if we need to create the sense --
+      const senseList = senseTypeEntry.senses;
+      if (!senseList.some(x => x.sourceHsid === hsid)) {
+        // -- Yes, we do. Create the new sense ---
+        const newSenseData = sensesData.senses[sense];
+        const newSense = {
+          "name": sense,
+          "sourceHsid": hsid,
+          "qualities": newSenseData.defaultQualities.map(x => {
+            return {name: x}
+          }),
+        };
+        senseList.push(newSense);
+      } else { // FIXME: Remove the else clause later
+        console.log(`Won't add ${sense} ${senseType} ${hsid}`); // FIXME: Remove
+      }
+    };
+
+    // -- For every sense we have, add it to the charsheet senses it isn't already there
+    newCalculations.addedSenses.forEach(addNewSenseIfMissing);
+  }
+}
 
 /*
  * For Updaters that create an ActiveEffect, this is designed to run once during
@@ -579,7 +644,6 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
 
   setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
-    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.advantage = newUpdaterEvent.advantage;
     this.activeEffectKey = this.getActiveEffectKey();
     this.activeEffect = findOrCreateUpdaterActiveEffect(this);
@@ -753,7 +817,6 @@ class EnhancedTraitUpdater extends Updater {
 
   setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
-    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.power = newUpdaterEvent.power;
     this.activeEffectKey = this.getActiveEffectKey();
     this.activeEffect = findOrCreateUpdaterActiveEffect(this);
@@ -877,7 +940,6 @@ class ActiveEffectFromPowerUpdater extends Updater {
 
   setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
-    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.power = newUpdaterEvent.power;
     this.activeEffectKey = this.getActiveEffectKey();
     this.activeEffect = findOrCreateUpdaterActiveEffect(this);
@@ -1080,7 +1142,6 @@ class CombatSkillUpdater extends Updater {
 
   setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
-    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.skill = newUpdaterEvent.skill;
     this.activeEffectKey = `attacks.${this.skill.attackHsid}.check`;
     this.activeEffect = findOrCreateUpdaterActiveEffect(this);
@@ -1188,7 +1249,6 @@ class AllyUpdater extends Updater {
 
   setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
-    this.vm = vm; // Consider: is this a good idea? Should it be in all updaters?
     this.allyHsid = newUpdaterEvent.allyHsid;
     this.advantageHsid = newUpdaterEvent.advantageHsid;
   }
@@ -1339,6 +1399,7 @@ const updaterClasses = {
   ThrownAttackUpdater,
   PowerAttackUpdater,
   MoveObjectThrownAttackUpdater,
+  SensesPowerUpdater,
   CloseAttackUpdater,
   DefensiveRollUpdater,
   ImprovedInitiativeUpdater,
