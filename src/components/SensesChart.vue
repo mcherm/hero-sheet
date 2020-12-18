@@ -77,7 +77,7 @@
       return {
         isAddingSense: false,
         isRemovingSense: false,
-        senses: { // FIXME: It should be read from the charsheet, not hardcoded
+        senses: true ? this.getCharsheet().senses : { // FIXME: It should be read from the charsheet, not hardcoded
           "Visual": {
             "name": "Visual",
             "senses": [
@@ -234,7 +234,7 @@
       /*
        * Removes the sense.
        */
-      deleteSense: function(senseType, sense) {
+      deleteSense: function(senseType, sense) { // FIXME: Needs to delete in the POWER, not just the UI.
         const positionToDelete = senseType.senses.indexOf(sense);
         if (positionToDelete !== -1) {
           this.$delete(senseType.senses, positionToDelete);
@@ -265,25 +265,12 @@
       },
       addNewSense: function() {
         this.isAddingSense = false;
-        const newSenseData = sensesData.senses[this.newSenseName];
-        let senseType = this.senses[this.newSenseSenseType];
-        if (senseType === undefined) {
-          senseType = {
-            name: this.newSenseSenseType,
-            senses: [],
-            qualities: [],
-          };
-          this.$set(this.senses, this.newSenseSenseType, senseType);
-        }
-        const newSense = {
-          "name": this.newSenseName,
-          "sourceHsid": newHsid(),
-          "qualities": newSenseData.defaultQualities.map(x => {
-            return { name: x }
-          }),
+        const newSenseInPower = {
+          "sense": this.newSenseName,
+          "senseType": this.newSenseSenseType,
+          "hsid": newHsid(),
         };
-        // FIXME: This should really add to the POWER, not the stub data
-        senseType.senses.push(newSense);
+        this.power.extended.addedSenses.push(newSenseInPower);
       },
     }
   }

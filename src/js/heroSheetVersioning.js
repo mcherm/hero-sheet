@@ -4,13 +4,14 @@ const defenseNames = require("../data/defenseNames.json");
 const skillsData = require("../data/skillsData.json");
 const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
+const sensesData = require("../data/sensesData.json");
 
 const currentVersion = 24; // Up to this version can be saved
-const latestVersion = 24; // Might be an experimental version
+const latestVersion = 25; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
-  "advantages", "equipment", "skills", "powers", "complications", "background", "attacks", "activeEffects",
+  "advantages", "equipment", "skills", "powers", "complications", "background", "attacks", "senses", "activeEffects",
   "constraintViolations", "status", "allies", "sharing"];
 
 /*
@@ -157,6 +158,7 @@ const newBlankCharacter = function(developerMode) {
       }
     ]
   };
+  const senses = defaultSenses();
   const activeEffects = {};
   const constraintViolations = {};
   const status = {
@@ -289,6 +291,50 @@ const newAdjustment = function(description, value, otherFields) {
   }
   return result;
 }
+
+
+/*
+ * Add a sense to a senses entry from a character.
+ */
+const addSense = function(senses, senseTypeName, sense) {
+  // -- Create Sense Type if it doesn't exist --
+  let senseTypeEntry = senses[senseTypeName];
+  console.log(`senseTypeEntry = ${JSON.stringify(senseTypeEntry)}`); // FIXME: Remove
+  if (senseTypeEntry === undefined) {
+    senseTypeEntry = {
+      name: senseTypeName,
+      senses: [],
+      qualities: [],
+    };
+    console.log(`senseTypeEntry NOW = ${JSON.stringify(senseTypeEntry)}`); // FIXME: Remove
+    senses[senseTypeName] = senseTypeEntry;
+    console.log(`senses = ${JSON.stringify(senses)}`); // FIXME: Remove
+  }
+  // -- Add the new sense --
+  senseTypeEntry.senses.push(sense);
+}
+
+
+/*
+ * Creates and returns a new set of the default senses every character comes with.
+ */
+const defaultSenses = function() {
+  const result = {};
+  for (const senseData of Object.values(sensesData.senses)) {
+    if (senseData.isInherentSense) {
+      const newSense = {
+        name: senseData.name,
+        hsid: newHsid(),
+        qualities: senseData.defaultQualities.map(x => {
+          return { name: x }
+        }),
+      };
+      addSense(result, senseData.senseType, newSense);
+    }
+  }
+  return result;
+}
+
 
 /*
  * The list of advantages that work like allies. Should perhaps move to the data files.
@@ -773,6 +819,11 @@ const upgradeFuncs = {
     charsheet.equipment.forEach(x => upgradeFeature(x.feature));
     charsheet.version = 24;
   },
+
+  upgradeFrom24: function(charsheet) {
+    charsheet.senses = defaultSenses();
+    charsheet.version = 25;
+  }
 
 };
 
