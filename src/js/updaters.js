@@ -553,7 +553,7 @@ class MoveObjectThrownAttackUpdater extends PowerAttackUpdater {
 class SensesPowerUpdater extends Updater {
   setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
-    console.log(`Creating a SensesPowerUpdater with event ${JSON.stringify(newUpdaterEvent)}`); // FIXME: Remove
+    console.log(`Creating a SensesPowerUpdater.`); // FIXME: Remove
     this.power = newUpdaterEvent.power;
   }
 

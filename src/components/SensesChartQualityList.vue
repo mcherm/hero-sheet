@@ -118,11 +118,18 @@
       /*
        * Removes the given quality.
        */
-      deleteQuality: function(quality) { // FIXME: Needs to delete in the POWER not the UI.
-        const positionToDelete = this.qualities.indexOf(quality);
-        if (positionToDelete !== -1) {
-          this.$delete(this.qualities, positionToDelete);
+      deleteQuality: function(quality) {
+        // -- Remove from charsheet sense qualities --
+        const sensePositionToDelete = this.qualities.indexOf(quality);
+        if (sensePositionToDelete !== -1) {
+          this.$delete(this.qualities, sensePositionToDelete);
         }
+        // -- Remove from power added qualities --
+        const powerPositionToDelete = this.addedQualities.findIndex(x => x.hsid === quality.sourceHsid);
+        if (powerPositionToDelete !== -1) {
+          this.$delete(this.addedQualities, powerPositionToDelete);
+        }
+        // -- Exit removal mode if there is nothing else we can remove --
         if (!this.someQualityIsEditableHereFunc()) {
           this.isRemovingQuality = false;
         }
@@ -145,10 +152,8 @@
         if (this.newQualityData.hasRanks) {
           newQuality.ranks = this.newQualityRanks;
         }
-        console.log(`Adding Quality: senseHsid = ${this.senseHsid}`); // FIXME: Remove
         if (this.senseHsid !== null) {
           newQuality.senseHsid = this.senseHsid;
-          console.log(`... added it.`); // FIXME: Remove
         }
         this.addedQualities.push(newQuality);
       },
