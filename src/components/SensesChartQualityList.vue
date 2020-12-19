@@ -145,8 +145,10 @@
         if (this.newQualityData.hasRanks) {
           newQuality.ranks = this.newQualityRanks;
         }
+        console.log(`Adding Quality: senseHsid = ${this.senseHsid}`); // FIXME: Remove
         if (this.senseHsid !== null) {
           newQuality.senseHsid = this.senseHsid;
+          console.log(`... added it.`); // FIXME: Remove
         }
         this.addedQualities.push(newQuality);
       },

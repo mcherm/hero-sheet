@@ -299,16 +299,13 @@ const newAdjustment = function(description, value, otherFields) {
 const addSense = function(senses, senseTypeName, sense) {
   // -- Create Sense Type if it doesn't exist --
   let senseTypeEntry = senses[senseTypeName];
-  console.log(`senseTypeEntry = ${JSON.stringify(senseTypeEntry)}`); // FIXME: Remove
   if (senseTypeEntry === undefined) {
     senseTypeEntry = {
       name: senseTypeName,
       senses: [],
       qualities: [],
     };
-    console.log(`senseTypeEntry NOW = ${JSON.stringify(senseTypeEntry)}`); // FIXME: Remove
     senses[senseTypeName] = senseTypeEntry;
-    console.log(`senses = ${JSON.stringify(senses)}`); // FIXME: Remove
   }
   // -- Add the new sense --
   senseTypeEntry.senses.push(sense);

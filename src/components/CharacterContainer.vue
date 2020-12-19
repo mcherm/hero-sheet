@@ -282,7 +282,7 @@
       character_json: function() {
         const result = JSON.stringify(this.charsheet, null, 2) + "\n";
         // FIXME: Begin continuous validation
-        if (false && this.$globals.developerMode) { // FIXME: "false &&" has commented this out while I do development. DO NOT CHECK IN
+        if (this.$globals.developerMode) {
           if (this.charsheet) {
             const reconstitutedCharsheet = JSON.parse(result); // Has NaN turned into null, and maybe other things
             const isValid = ajv.validate("charsheetSchema", reconstitutedCharsheet);

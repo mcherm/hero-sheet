@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "http://hero-sheet.com/schemas/charsheet.schema.json",
   "type": "object",
-  "title": "Root Schema for a Charsheet - v24",
+  "title": "Root Schema for a Charsheet - v25",
   "description": "The root schema is the schema that comprises the entire JSON document for a charsheet.",
   "properties": {
-    "version": { "type": "integer", "const": 24 },
+    "version": { "type": "integer", "const": 25 },
     "campaign": { "$ref":  "#/definitions/Campaign" },
     "naming": { "$ref":  "#/definitions/Naming" },
     "effortPoints": { "$ref":  "#/definitions/FlexibleInteger" },
@@ -19,6 +19,7 @@
     "complications": { "$ref": "#/definitions/ComplicationList" },
     "background": { "$ref": "common.schema.json#/definitions/Description" },
     "attacks": { "$ref": "#/definitions/Attacks" },
+    "senses": { "$ref": "#/definitions/Senses" },
     "activeEffects": { "$ref": "#/definitions/ActiveEffects" },
     "constraintViolations": { "$ref": "#/definitions/ConstraintViolations" },
     "status": { "$ref": "#/definitions/Status" },
@@ -240,10 +241,72 @@
       "items": { "$ref": "#/definitions/Power" }
     },
     "PowerExtended": {
+      "oneOf": [
+        { "$ref": "#/definitions/EmptyPowerExtended" },
+        { "$ref": "#/definitions/SensesPowerExtended" }
+      ]
+    },
+    "EmptyPowerExtended": {
       "type": "object",
       "properties": {},
       "required": [],
       "additionalProperties": false
+    },
+    "SensesPowerExtended": {
+      "type": "object",
+      "properties": {
+        "addedSenses": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/AddedSenseInPower" }
+        },
+        "addedSenseTypeQualities": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/AddedSenseTypeQualityInPower" }
+        },
+        "addedSenseQualities": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/AddedSenseQualityInPower" }
+        }
+      },
+      "required": ["addedSenses", "addedSenseTypeQualities", "addedSenseQualities"],
+      "additionalProperties": false
+    },
+    "AddedSenseInPower": {
+      "type": "object",
+      "properties": {
+        "sense": { "type": "string" },
+        "senseType": { "$ref": "#/definitions/SenseTypeName" },
+        "hsid": { "$ref": "#/definitions/Hsid" }
+      },
+      "required": ["sense", "senseType", "hsid"],
+      "additionalProperties": false
+    },
+    "AddedSenseTypeQualityInPower": {
+      "type": "object",
+      "properties": {
+        "senseType": { "$ref": "#/definitions/SenseTypeName" },
+        "quality": { "type": "string" },
+        "ranks": { "type": "integer" },
+        "hsid": { "$ref": "#/definitions/Hsid" }
+      },
+      "required": ["senseType", "quality", "hsid"],
+      "additionalProperties": false
+    },
+    "AddedSenseQualityInPower": {
+      "type": "object",
+      "properties": {
+        "senseType": { "$ref": "#/definitions/SenseTypeName" },
+        "senseHsid": { "$ref": "#/definitions/Hsid" },
+        "quality": { "type": "string" },
+        "ranks": { "type": "integer" },
+        "hsid": { "$ref": "#/definitions/Hsid" }
+      },
+      "required": ["senseType", "senseHsid", "quality", "hsid"],
+      "additionalProperties": false
+    },
+    "SenseTypeName": {
+      "type": "string",
+      "enum": ["Visual", "Auditory", "Olfactory", "Tactile", "Radio", "No Sense Type"]
     },
     "Skills": {
       "type": "object",
@@ -381,6 +444,52 @@
     "AttackScope": {
       "type": "string",
       "enum": ["singleTarget", "area"]
+    },
+    "Senses": {
+      "type": "object",
+      "patternProperties": {
+        "^Visual|Auditory|Olfactory|Tactile|Mental|No Sense Type$": { "$ref": "#/definitions/SenseType" }
+      }
+    },
+    "SenseType": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "#/definitions/SenseTypeName" },
+        "senses": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Sense" }
+        },
+        "qualities": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Quality"}
+        }
+      },
+      "required": ["name", "senses", "qualities"],
+      "additionalProperties": false
+    },
+    "Sense": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "common.schema.json#/definitions/Name" },
+        "hsid": { "$ref": "#/definitions/Hsid" },
+        "sourceHsid": { "$ref": "#/definitions/Hsid" },
+        "qualities": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Quality"}
+        }
+      },
+      "required": ["name", "hsid", "qualities"],
+      "additionalProperties": false
+    },
+    "Quality": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "common.schema.json#/definitions/Name" },
+        "sourceHsid": { "$ref": "#/definitions/Hsid" },
+        "ranks": { "type": "integer" }
+      },
+      "required": ["name"],
+      "additionalProperties": false
     },
     "ActiveEffects": {
       "type": "object",
