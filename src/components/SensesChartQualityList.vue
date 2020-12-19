@@ -50,8 +50,10 @@
   export default {
     name: "SensesChartQualityList",
     props: {
-      qualities: { type: Array, required: true }, // The list of qualities being edited
-      isSenseType: { type: Boolean, required: true }, // Tells if it's a sense type or a sense
+      qualities: { type: Array, required: true }, // The list of qualities being viewed
+      addedQualities: { type: Array, required: true }, // The list of qualities in a power that is being edited
+      senseTypeName: { type: String, required: true }, // The name of the sense type we are are editing in
+      senseHsid: { type: String, required: false, default: null }, // This is null if we are editing a sense type directly, or else the hsid of the sense being edited
       mutable: { type: Boolean, required: false, default: true },
     },
     data: function() {
@@ -64,7 +66,7 @@
     },
     computed: {
       costField: function() {
-        return this.isSenseType ? "costForSenseType" : "costForSense";
+        return this.senseHsid === null ? "costForSenseType" : "costForSense";
       },
       someQualityIsEditableHere: function() {
         return this.someQualityIsEditableHereFunc();
@@ -104,7 +106,10 @@
        * Return true if the quality is from the current power and thus can be edited within this senses chart.
        */
       isQualityCreatedHere: function(quality) {
-        return quality.sourceHsid !== undefined; // FIXME: Real test needed
+        if (quality.sourceHsid === undefined) {
+          return false;
+        }
+        return this.addedQualities.some(x => x.hsid === quality.sourceHsid);
       },
       costOfQuality: function(quality) {
         const qualityCost = sensesData.senseQualities[quality.name][this.costField];
@@ -113,7 +118,7 @@
       /*
        * Removes the given quality.
        */
-      deleteQuality: function(quality) {
+      deleteQuality: function(quality) { // FIXME: Needs to delete in the POWER not the UI.
         const positionToDelete = this.qualities.indexOf(quality);
         if (positionToDelete !== -1) {
           this.$delete(this.qualities, positionToDelete);
@@ -131,16 +136,19 @@
         this.isAddingQuality = true;
       },
       addNewQuality: function() {
-        // FIXME: This should really add to the POWER, not the stub data
         this.isAddingQuality = false;
-        const newQuality = { // FIXME: Eventually goes in the charsheet library
-          name: this.newQualityName,
-          sourceHsid: newHsid(),
+        const newQuality = {
+          "senseType": this.senseTypeName,
+          "quality": this.newQualityName,
+          "hsid": newHsid()
         }
         if (this.newQualityData.hasRanks) {
           newQuality.ranks = this.newQualityRanks;
         }
-        this.qualities.push(newQuality);
+        if (this.senseHsid !== null) {
+          newQuality.senseHsid = this.senseHsid;
+        }
+        this.addedQualities.push(newQuality);
       },
     },
   }

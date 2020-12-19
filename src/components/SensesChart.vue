@@ -4,7 +4,12 @@
       <div v-for="senseType in senses" class="sense-type">
         <div class="sense-type-header">
           <span class="sense-type-name">{{senseType.name}}</span>
-          <senses-chart-quality-list :qualities="senseType.qualities" :isSenseType="true" :mutable="mutable"/>
+          <senses-chart-quality-list
+              :qualities="senseType.qualities"
+              :added-qualities="power.extended.addedSenseTypeQualities"
+              :sense-type-name="senseType.name"
+              :mutable="mutable"
+          />
         </div>
         <div v-for="sense in senseType.senses" class="sense-chart-row">
           <div class="sense" :class="{'created-here': isSenseCreatedHere(sense)}">
@@ -12,7 +17,13 @@
               {{sense.name}}
               <span v-if="isSenseCreatedHere(sense)">({{costOfSense(sense)}})</span>
             </span>
-            <senses-chart-quality-list :qualities="sense.qualities" :isSenseType="false" :mutable="mutable"/>
+            <senses-chart-quality-list
+                :qualities="sense.qualities"
+                :added-qualities="power.extended.addedSenseQualities"
+                :sense-type-name="senseType.name"
+                :sense-hsid="sense.hsid"
+                :mutable="mutable"
+            />
           </div>
           <div v-if="isRemovingSense && isSenseCreatedHere(sense)" v-on:click="deleteSense(senseType, sense)">
             <trash-icon/>
@@ -226,7 +237,10 @@
        * Return true if the sense is from the current power and thus can be edited within this senses chart.
        */
       isSenseCreatedHere: function(sense) {
-        return sense.sourceHsid !== undefined; // FIXME: Real test needed
+        if (sense.sourceHsid === undefined) {
+          return false;
+        }
+        return this.power.extended.addedSenses.some(x => x.hsid === sense.sourceHsid);
       },
       costOfSense: function(sense) {
         return sensesData.senses[sense.name].cost;
