@@ -606,8 +606,39 @@ class SensesPowerUpdater extends Updater {
       }
     };
 
-    // -- For every sense we have, add it to the charsheet senses it isn't already there
+    const addNewQualityIfMissing = function({senseType, quality, hsid, ranks, senseHsid}) {
+      // --- If this quality isn't already in the sense or sense type, add it ---
+      // -- find the list of charsheet qualities it belongs in --
+      let qualities = null;
+      if (senseHsid === undefined) { // it's a sense type
+        qualities = charsheetSenses[senseType].qualities
+      } else { // it's a sense
+        const possibleSenses = charsheetSenses[senseType].senses.filter(x => x.hsid === senseHsid);
+        if (possibleSenses.length !== 1) {
+          throw new Error(`Did not find a single sense with hsid of ${senseHsid}`);
+        }
+        qualities = possibleSenses[0].qualities;
+      }
+      // -- Check if we need to create the quality --
+      if (!qualities.some(x => x.sourceHsid === hsid)) {
+        // -- Yes, we DO need to create it --
+        const newQuality = {
+          name: quality,
+          sourceHsid: hsid,
+        };
+        if (ranks !== undefined) {
+          newQuality.ranks = ranks;
+        }
+        qualities.push(newQuality);
+      }
+    };
+
+    // -- For every sense or quality we have, add it to the charsheet senses it isn't already there
     newCalculations.addedSenses.forEach(addNewSenseIfMissing);
+    newCalculations.addedSenseTypeQualities.forEach(addNewQualityIfMissing);
+    newCalculations.addedSenseQualities.forEach(addNewQualityIfMissing);
+
+    // FIXME: This is not DELETING them when THAT is needed. It should.
   }
 }
 
