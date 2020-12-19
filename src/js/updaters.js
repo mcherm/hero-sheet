@@ -595,14 +595,13 @@ class SensesPowerUpdater extends Updater {
         const newSenseData = sensesData.senses[sense];
         const newSense = {
           "name": sense,
+          "hsid": newHsid(),
           "sourceHsid": hsid,
           "qualities": newSenseData.defaultQualities.map(x => {
             return {name: x}
           }),
         };
         senseList.push(newSense);
-      } else { // FIXME: Remove the else clause later
-        console.log(`Won't add ${sense} ${senseType} ${hsid}`); // FIXME: Remove
       }
     };
 
