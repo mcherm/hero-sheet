@@ -156,14 +156,22 @@
       /*
        * Removes the sense.
        */
-      deleteSense: function(senseType, sense) { // FIXME: Needs to delete in the POWER, not just the UI.
-        const positionToDelete = senseType.senses.indexOf(sense);
-        if (positionToDelete !== -1) {
-          this.$delete(senseType.senses, positionToDelete);
+      deleteSense: function(senseType, sense) {
+        // -- Remove from charsheet senses --
+        const sensePositionToDelete = senseType.senses.indexOf(sense);
+        if (sensePositionToDelete !== -1) {
+          this.$delete(senseType.senses, sensePositionToDelete);
         }
         if (senseType.senses.length === 0) {
           this.$delete(this.senses, senseType.name);
         }
+        // -- Remove from power added senses --
+        const addedSenses = this.power.extended.addedSenses;
+        const powerPositionToDelete = addedSenses.findIndex(x => x.hsid === sense.sourceHsid);
+        if (powerPositionToDelete !== -1) {
+          this.$delete(addedSenses, powerPositionToDelete);
+        }
+        // -- Exit removal mode if there is nothing else we can remove --
         if (!this.someSenseIsRemovableHere()) {
           this.isRemovingSense = false;
         }
