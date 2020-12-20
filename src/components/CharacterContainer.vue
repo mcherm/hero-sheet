@@ -22,7 +22,7 @@
   import {currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid, allyAdvantagesLowercase, renumberHsids} from "../js/heroSheetVersioning.js";
   import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "../js/updaters.js";
   import {getCharacter, saveCharacter, createCharacter, NotLoggedInError} from "../js/api.js";
-  import {removeActiveEffects, showAlert} from "../js/heroSheetUtil.js";
+  import {removeActiveEffects, showAlert, getStandardPower} from "../js/heroSheetUtil.js";
 
   // FIXME: Begin continuous validation
   const Ajv = require('ajv');
@@ -135,20 +135,21 @@
         }, SAVE_FREQUENCY_MILLIS);
       },
       installUpdaters: function(charsheet) {
+        const vm = this;
         for (const stat in statsData) {
-          new updaterClasses["StatRankUpdater"](this, charsheet, stat);
+          new updaterClasses["StatRankUpdater"](vm, charsheet, stat);
         }
-        new updaterClasses["DefenseUpdater"](this, charsheet, "dodge");
-        new updaterClasses["DefenseUpdater"](this, charsheet, "fortitude");
-        new updaterClasses["DefenseUpdater"](this, charsheet, "parry");
-        new updaterClasses["ToughnessUpdater"](this, charsheet);
-        new updaterClasses["DefenseUpdater"](this, charsheet, "will");
-        new updaterClasses["ConstraintUpdater"](this, charsheet);
+        new updaterClasses["DefenseUpdater"](vm, charsheet, "dodge");
+        new updaterClasses["DefenseUpdater"](vm, charsheet, "fortitude");
+        new updaterClasses["DefenseUpdater"](vm, charsheet, "parry");
+        new updaterClasses["ToughnessUpdater"](vm, charsheet);
+        new updaterClasses["DefenseUpdater"](vm, charsheet, "will");
+        new updaterClasses["ConstraintUpdater"](vm, charsheet);
         for (const item of charsheet.equipment) {
           if (item.source === "custom" && item.feature) {
             const updaterType = "EquipmentFeatureUpdater";
             const updateEvent = { updater: updaterType, item: item }
-            const updater = new updaterClasses[updaterType](this, charsheet, updateEvent);
+            const updater = new updaterClasses[updaterType](vm, charsheet, updateEvent);
           }
         }
         const attackList = [...charsheet.attacks.attackList]; // make a shallow copy since we may be deleting some items
@@ -157,9 +158,9 @@
           const updaterType = attack.updater;
           let updater;
           if (updaterType === "UnarmedAttackUpdater") {
-            updater = new updaterClasses[updaterType](this, charsheet);
+            updater = new updaterClasses[updaterType](vm, charsheet);
           } else if (updaterType === "ThrownAttackUpdater") {
-              updater = new updaterClasses[updaterType](this, charsheet);
+              updater = new updaterClasses[updaterType](vm, charsheet);
           } else {
             const feature = findFeatureByHsid(charsheet, attack.powerHsid);
             if (feature === null) {
@@ -172,7 +173,7 @@
               this.$delete(charsheet.attacks.attackList, attackList.indexOf(attack));
               console.log(`Invalid updater type '${updaterType}' in attack. Will delete the attack.`)
             }
-            updater = new updaterClass(this, charsheet, updateEvent);
+            updater = new updaterClass(vm, charsheet, updateEvent);
           }
           // Use the updater to reinitialize the attack to make sure it's accurate
           updater.reinitializeTheAttack();
@@ -183,7 +184,7 @@
             const updaterType = activeEffect.updater;
             if (updaterType !== undefined) {
               try {
-                newUpdaterFromActiveEffect(this, charsheet, activeEffect);
+                newUpdaterFromActiveEffect(vm, charsheet, activeEffect);
               } catch(err) {
                 if (err instanceof UnsupportedUpdaterInActiveEffectError) {
                   removeActiveEffects(charsheet, x => x === activeEffect, activeEffectKey);
@@ -195,6 +196,34 @@
             }
           }
         }
+        // -- go through all powers --
+        // NOTE: There is a strange design problem here. There are two ways one could install the updaters
+        // when a charsheet is created. One could go through each power and skill and install the updater
+        // that power or skill requires OR one could go to each bit of data created by an updater and
+        // install the updater that would create it. Apparently the code supporting this has been
+        // inconsistent. For senses I chose to create them from the power, but for all of the existing
+        // powers before that I created it from the data. At this moment I'm not sure which is really the
+        // better design, but the fact that it is inconsistent probably isn't ideal.
+        const installFeatureUpdaters = function(feature) {
+          const standardPower = getStandardPower(feature);
+          const powerLayout = standardPower === null ? null : standardPower.powerLayout;
+          if (powerLayout === "array") {
+            for (const subfeature of feature.subpowers) {
+              installFeatureUpdaters(subfeature);
+            }
+          } else if (powerLayout === "senses") {
+            new updaterClasses["SensesPowerUpdater"](vm, charsheet, {power: feature});
+          }
+        }
+        for (const power of charsheet.powers) {
+          installFeatureUpdaters(power);
+        }
+        for (const item of charsheet.equipment) {
+          if (item.feature) {
+            installFeatureUpdaters(item.feature);
+          }
+        }
+        // -- initialize allies --
         for (const ally of charsheet.allies) {
           this.initializeAlly({
             parentCharsheet: charsheet,

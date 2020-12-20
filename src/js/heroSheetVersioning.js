@@ -6,7 +6,7 @@ const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 const sensesData = require("../data/sensesData.json");
 
-const currentVersion = 24; // Up to this version can be saved
+const currentVersion = 25; // Up to this version can be saved
 const latestVersion = 25; // Might be an experimental version
 
 
@@ -184,6 +184,7 @@ const newBlankCharacter = function(developerMode) {
     complications,
     background,
     attacks,
+    senses,
     activeEffects,
     constraintViolations,
     status,
