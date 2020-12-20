@@ -553,12 +553,10 @@ class MoveObjectThrownAttackUpdater extends PowerAttackUpdater {
 class SensesPowerUpdater extends Updater {
   setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
     super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
-    console.log(`Creating a SensesPowerUpdater.`); // FIXME: Remove
     this.power = newUpdaterEvent.power;
   }
 
   watchForChange() {
-    console.log(`SensesPowerUpdater is watching for change and addedSenses = ${JSON.stringify(this.power.extended.addedSenses)}`); // FIXME: Remove
     return {
       identity: {
         powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
@@ -574,7 +572,7 @@ class SensesPowerUpdater extends Updater {
 
   applyChanges(newCalculations) {
     const vm = this.vm;
-    console.log(`NOW SHOULD applyChanges. The data is ${JSON.stringify(newCalculations)}`); // FIXME: Remove
+    const powerHsid = this.power.hsid;
     const charsheetSenses = this.charsheet.senses;
 
     const addNewSenseIfMissing = function({sense, senseType, hsid}) {
@@ -594,10 +592,11 @@ class SensesPowerUpdater extends Updater {
         // -- Yes, we do. Create the new sense ---
         const newSenseData = sensesData.senses[sense];
         const newSense = {
-          "name": sense,
-          "hsid": newHsid(),
-          "sourceHsid": hsid,
-          "qualities": newSenseData.defaultQualities.map(x => {
+          name: sense,
+          hsid: newHsid(),
+          sourceFeatureHsid: powerHsid,
+          sourceHsid: hsid,
+          qualities: newSenseData.defaultQualities.map(x => {
             return {name: x}
           }),
         };
@@ -623,6 +622,7 @@ class SensesPowerUpdater extends Updater {
         // -- Yes, we DO need to create it --
         const newQuality = {
           name: quality,
+          sourceFeatureHsid: powerHsid,
           sourceHsid: hsid,
         };
         if (ranks !== undefined) {
@@ -636,8 +636,67 @@ class SensesPowerUpdater extends Updater {
     newCalculations.addedSenses.forEach(addNewSenseIfMissing);
     newCalculations.addedSenseTypeQualities.forEach(addNewQualityIfMissing);
     newCalculations.addedSenseQualities.forEach(addNewQualityIfMissing);
+    // -- Also check for anything that needs to be deleted
+    this.removeDeletedSenseStuff(newCalculations);
+  }
 
-    // FIXME: This is not DELETING them when THAT is needed. It should.
+  /*
+   * Call when there's a chance that some feature got deleted. It runs through every sense and
+   * quality removes any whose source is something that isn't found in the charsheet.
+   *
+   * DESIGN NOTES: As we go through things we're saving the items to be deleted into a list so
+   *   we won't delete things in the middle of a loop. It would be nicer to just use array.filter()
+   *   but that would return a NEW array and we want to modify the existing array because there
+   *   are things that are storing references to the existing array and rendering UI stuff from it.
+   */
+  removeDeletedSenseStuff({addedSenses, addedSenseTypeQualities, addedSenseQualities}) {
+    // --- Make lists of the things we are keeping ---
+    const addedSenseHsids = addedSenses.map(x => x.hsid);
+    const addedSenseTypeQualityHsids = addedSenseTypeQualities.map(x => x.hsid);
+    const addedSenseQualityHsids = addedSenseQualities.map(x => x.hsid);
+    // --- loop through the sense types ---
+    const senseTypesToDelete = [];
+    for (const senseType of Object.values(this.charsheet.senses)) {
+      // --- delete senses derived from this power that are no longer supported ---
+      const sensesToDelete = [];
+      for (const sense of senseType.senses) {
+        if (sense.sourceFeatureHsid === this.power.hsid && !addedSenseHsids.includes(sense.sourceHsid)) {
+          sensesToDelete.push(sense);
+        }
+        // --- delete (sense) qualities derived from this power that are no longer supported ---
+        const qualitiesToDelete = [];
+        for (const quality of sense.qualities) {
+          if (quality.sourceFeatureHsid === this.power.hsid && !addedSenseQualityHsids.includes(quality.sourceHsid)) {
+            qualitiesToDelete.push(quality);
+          }
+        }
+        for (const qualityToDelete of qualitiesToDelete) {
+          sense.qualities.splice(sense.qualities.indexOf(qualityToDelete), 1); // delete it
+        }
+      }
+      for (const senseToDelete of sensesToDelete) {
+        senseType.senses.splice(senseType.senses.indexOf(senseToDelete), 1); // delete it
+      }
+      // --- delete (sense type) qualities derived from this power that are no longer supported ---
+      const senseTypeQualitiesToDelete = [];
+      for (const quality of senseType.qualities) {
+        if (quality.sourceFeatureHsid === this.power.hsid && !addedSenseTypeQualityHsids.includes(quality.sourceHsid)) {
+          senseTypeQualitiesToDelete.push(quality);
+        }
+      }
+      for (const senseTypeQualityToDelete of senseTypeQualitiesToDelete) {
+        senseType.qualities.splice(senseType.qualities.indexOf(senseTypeQualityToDelete), 1); // delete it
+      }
+      // --- check if the sense type should be deleted ---
+      if (senseType.senses.length === 0 && senseType.qualities.length === 0) {
+        // All senses and sense type qualities have been deleted; remove the sense type
+        senseTypesToDelete.push(senseType);
+      }
+    }
+    // --- Remove Sense Types that are now empty ---
+    for (const senseTypeToDelete of senseTypesToDelete) {
+      this.vm.$delete(this.charsheet.senses, senseTypeToDelete.name);
+    }
   }
 }
 

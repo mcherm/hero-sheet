@@ -1,5 +1,5 @@
 {
-  "version": 24,
+  "version": 25,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
@@ -91,7 +91,38 @@
     "isImmobileConstruct": false
   },
   "advantages": [],
-  "equipment": [],
+  "equipment": [
+    {
+      "hsid": "HIXWNNMK5",
+      "name": "Night Goggles",
+      "cost": 0,
+      "source": "custom",
+      "feature": {
+        "name": "View with Night Goggles",
+        "hsid": "HIEQSAR3K",
+        "effect": "Senses",
+        "description": "",
+        "extras": [],
+        "flaws": [],
+        "ranks": 1,
+        "cost": 1,
+        "subpowers": [],
+        "extended": {
+          "addedSenses": [],
+          "addedSenseTypeQualities": [
+            {
+              "senseType": "Visual",
+              "quality": "Counters Concealment",
+              "hsid": "HI8ZVGEB7"
+            }
+          ],
+          "addedSenseQualities": []
+        },
+        "option": null
+      },
+      "description": ""
+    }
+  ],
   "skills": {
     "skillList": [
       {
@@ -164,8 +195,8 @@
   },
   "powers": [
     {
-      "name": "Sensorium",
-      "hsid": "HI6BMSR1E",
+      "name": "Sniffer",
+      "hsid": "HI3AMEKGQ",
       "effect": "Senses",
       "description": "",
       "extras": [],
@@ -176,34 +207,26 @@
       "extended": {
         "addedSenses": [
           {
-            "sense": "Infravision",
-            "senseType": "Visual",
-            "hsid": "HIPS21E13"
+            "sense": "Detect by Touch",
+            "senseType": "Olfactory",
+            "hsid": "HI33MNXLL"
           }
         ],
         "addedSenseTypeQualities": [
           {
-            "senseType": "Visual",
-            "quality": "Low Light",
-            "hsid": "HIRNWDYKE"
+            "senseType": "Olfactory",
+            "quality": "Accurate",
+            "hsid": "HIAW2FTL6"
           }
         ],
-        "addedSenseQualities": [
-          {
-            "senseType": "Auditory",
-            "senseHsid": "HIBM32D1V",
-            "quality": "Rapid",
-            "ranks": 2,
-            "hsid": "HIVDVETL6"
-          }
-        ]
+        "addedSenseQualities": []
       },
       "option": null
     }
   ],
   "complications": [
     {
-      "hsid": "HINZWZR6C",
+      "hsid": "HIV1NA8R9",
       "complicationType": "motivation",
       "description": ""
     }
@@ -212,7 +235,7 @@
   "attacks": {
     "attackList": [
       {
-        "hsid": "HIQ7BUFNM",
+        "hsid": "HIRQ92DA6",
         "updater": "UnarmedAttackUpdater",
         "name": "Unarmed",
         "effectType": "damage",
@@ -223,7 +246,7 @@
         "isStrengthBased": true
       },
       {
-        "hsid": "HIVDDEXWM",
+        "hsid": "HI51NF8KS",
         "updater": "ThrownAttackUpdater",
         "name": "Thrown Object",
         "effectType": "damage",
@@ -240,28 +263,26 @@
       "name": "Visual",
       "senses": [
         {
-          "name": "Normal Vision",
-          "hsid": "HIBM32D1V",
+          "name": "Normal Sight",
+          "hsid": "HI8Z9XLAY",
           "qualities": [
-            { "name": "Accurate" },
-            { "name": "Acute" },
-            { "name": "Ranged" }
-          ]
-        },
-        {
-          "name": "Infravision",
-          "sourceHsid": "HIPS21E13",
-          "qualities": [
-            { "name": "Accurate" },
-            { "name": "Acute" },
-            { "name": "Ranged" }
+            {
+              "name": "Ranged"
+            },
+            {
+              "name": "Acute"
+            },
+            {
+              "name": "Accurate"
+            }
           ]
         }
       ],
       "qualities": [
         {
-          "name": "Low Light",
-          "sourceHsid": "HIRNWDYKE"
+          "name": "Counters Concealment",
+          "sourceFeatureHsid": "HIEQSAR3K",
+          "sourceHsid": "HI8ZVGEB7"
         }
       ]
     },
@@ -270,19 +291,16 @@
       "senses": [
         {
           "name": "Normal Hearing",
-          "hsid": "HIBM32D1V",
+          "hsid": "HI8RB3968",
           "qualities": [
-            { "name": "Acute" },
-            { "name": "Radius" },
-            { "name": "Ranged" },
             {
-              "name": "Rapid",
-              "ranks": 2,
-              "sourceHsid": "HIVDVETL6"
+              "name": "Ranged"
             },
             {
-              "name": "Penetrates Concealment",
-              "sourceHsid": "HINC8D3G8"
+              "name": "Acute"
+            },
+            {
+              "name": "Radius"
             }
           ]
         }
@@ -293,36 +311,48 @@
       "name": "Olfactory",
       "senses": [
         {
-          "name": "Normal Smell/Taste",
-          "hsid": "HIS8Q8CN9",
+          "name": "Normal Smell and Taste",
+          "hsid": "HI3R8Y5RB",
           "qualities": [
-            { "name": "Radius" }
+            {
+              "name": "Radius"
+            }
+          ]
+        },
+        {
+          "name": "Detect by Touch",
+          "hsid": "HIYNP7C2A",
+          "sourceFeatureHsid": "HI3AMEKGQ",
+          "sourceHsid": "HI33MNXLL",
+          "qualities": [
+            {
+              "name": "Radius"
+            }
           ]
         }
       ],
-      "qualities": []
+      "qualities": [
+        {
+          "name": "Accurate",
+          "sourceFeatureHsid": "HI3AMEKGQ",
+          "sourceHsid": "HIAW2FTL6"
+        }
+      ]
     },
     "Tactile": {
       "name": "Tactile",
       "senses": [
         {
           "name": "Normal Touch",
-          "hsid": "HIPC11GKW",
+          "hsid": "HI3KACAV1",
           "qualities": [
-            { "name": "Accurate" },
-            { "name": "Radius" }
+            {
+              "name": "Accurate"
+            },
+            {
+              "name": "Radius"
+            }
           ]
-        }
-      ],
-      "qualities": []
-    },
-    "Mental": {
-      "name": "Mental",
-      "senses": [
-        {
-          "name": "Normal Mental Awareness",
-          "hsid": "HIQ1JK369",
-          "qualities": []
         }
       ],
       "qualities": []

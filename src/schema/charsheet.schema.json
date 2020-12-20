@@ -472,6 +472,7 @@
       "properties": {
         "name": { "$ref": "common.schema.json#/definitions/Name" },
         "hsid": { "$ref": "#/definitions/Hsid" },
+        "sourceFeatureHsid": { "$ref":  "#/definitions/Hsid" },
         "sourceHsid": { "$ref": "#/definitions/Hsid" },
         "qualities": {
           "type": "array",
@@ -485,6 +486,7 @@
       "type": "object",
       "properties": {
         "name": { "$ref": "common.schema.json#/definitions/Name" },
+        "sourceFeatureHsid": { "$ref":  "#/definitions/Hsid" },
         "sourceHsid": { "$ref": "#/definitions/Hsid" },
         "ranks": { "type": "integer" }
       },

@@ -7,6 +7,7 @@
           <senses-chart-quality-list
               :qualities="senseType.qualities"
               :added-qualities="power.extended.addedSenseTypeQualities"
+              :power-hsid="power.hsid"
               :sense-type-name="senseType.name"
               :mutable="mutable"
           />
@@ -20,6 +21,7 @@
             <senses-chart-quality-list
                 :qualities="sense.qualities"
                 :added-qualities="power.extended.addedSenseQualities"
+                :power-hsid="power.hsid"
                 :sense-type-name="senseType.name"
                 :sense-hsid="sense.hsid"
                 :mutable="mutable"
@@ -145,7 +147,7 @@
        * Return true if the sense is from the current power and thus can be edited within this senses chart.
        */
       isSenseCreatedHere: function(sense) {
-        if (sense.sourceHsid === undefined) {
+        if (sense.sourceFeatureHsid !== this.power.hsid ) {
           return false;
         }
         return this.power.extended.addedSenses.some(x => x.hsid === sense.sourceHsid);
@@ -157,14 +159,6 @@
        * Removes the sense.
        */
       deleteSense: function(senseType, sense) {
-        // -- Remove from charsheet senses --
-        const sensePositionToDelete = senseType.senses.indexOf(sense);
-        if (sensePositionToDelete !== -1) {
-          this.$delete(senseType.senses, sensePositionToDelete);
-        }
-        if (senseType.senses.length === 0) {
-          this.$delete(this.senses, senseType.name);
-        }
         // -- Remove from power added senses --
         const addedSenses = this.power.extended.addedSenses;
         const powerPositionToDelete = addedSenses.findIndex(x => x.hsid === sense.sourceHsid);
