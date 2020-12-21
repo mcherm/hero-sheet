@@ -34,13 +34,18 @@
       <template slot="complications">
         <complications/>
       </template>
-      <template slot="attacks">
-        <attacks/>
-      </template>
       <template slot="adjustments">
         <div class="v-box">
           <adjustments/>
           <constraint-violations/>
+        </div>
+      </template>
+      <template slot="In Play">
+        <div class="v-box">
+          <attacks/>
+          <boxed-section title="Senses">
+            <senses-chart/>
+          </boxed-section>
         </div>
       </template>
       <template slot="conditions">
@@ -71,6 +76,7 @@
   import PowerListTopLevel from "./PowerListTopLevel.vue"
   import Complications from "./Complications.vue";
   import Attacks from "./Attacks.vue"
+  import SensesChart from "./SensesChart.vue"
   import Adjustments from "./Adjustments.vue";
   import ConstraintViolations from "./ConstraintViolations.vue";
   import Conditions from "./Conditions.vue";
@@ -92,6 +98,7 @@
       PowerListTopLevel,
       Complications,
       Attacks,
+      SensesChart,
       Adjustments,
       ConstraintViolations,
       Conditions,

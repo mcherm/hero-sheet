@@ -6,8 +6,8 @@
           <span class="sense-type-name">{{senseType.name}}</span>
           <senses-chart-quality-list
               :qualities="senseType.qualities"
-              :added-qualities="power.extended.addedSenseTypeQualities"
-              :power-hsid="power.hsid"
+              :added-qualities="power === null ? [] : power.extended.addedSenseTypeQualities"
+              :power-hsid="power === null ? null : power.hsid"
               :sense-type-name="senseType.name"
               :mutable="mutable"
           />
@@ -20,8 +20,8 @@
             </span>
             <senses-chart-quality-list
                 :qualities="sense.qualities"
-                :added-qualities="power.extended.addedSenseQualities"
-                :power-hsid="power.hsid"
+                :added-qualities="power === null ? [] : power.extended.addedSenseQualities"
+                :power-hsid="power === null ? null : power.hsid"
                 :sense-type-name="senseType.name"
                 :sense-hsid="sense.hsid"
                 :mutable="mutable"
@@ -83,7 +83,7 @@
     },
     props: {
       power: { type: Object, required: false, default: null },
-      mutable: { type: Boolean, required: false, default: true }
+      mutable: { type: Boolean, required: false, default: false }
     },
     inject: ["getCharsheet"],
     data: function() {
@@ -147,6 +147,9 @@
        * Return true if the sense is from the current power and thus can be edited within this senses chart.
        */
       isSenseCreatedHere: function(sense) {
+        if (this.power === null) {
+          return false;
+        }
         if (sense.sourceFeatureHsid !== this.power.hsid ) {
           return false;
         }

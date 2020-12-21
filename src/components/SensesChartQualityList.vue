@@ -52,7 +52,7 @@
     props: {
       qualities: { type: Array, required: true }, // The list of qualities being viewed
       addedQualities: { type: Array, required: true }, // The list of qualities in a power that is being edited
-      powerHsid: { type: String, required: true }, // The HSID of the feature that generated these qualities
+      powerHsid: { type: String, required: false, default: null }, // The HSID of the feature that generated these qualities
       senseTypeName: { type: String, required: true }, // The name of the sense type we are are editing in
       senseHsid: { type: String, required: false, default: null }, // This is null if we are editing a sense type directly, or else the hsid of the sense being edited
       mutable: { type: Boolean, required: false, default: true },
@@ -107,6 +107,9 @@
        * Return true if the quality is from the current power and thus can be edited within this senses chart.
        */
       isQualityCreatedHere: function(quality) {
+        if (this.powerHsid === null) {
+          return false;
+        }
         if (quality.sourceFeatureHsid !== this.powerHsid ) {
           return false;
         }

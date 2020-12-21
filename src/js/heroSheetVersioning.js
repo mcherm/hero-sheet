@@ -803,7 +803,7 @@ const upgradeFuncs = {
 
   upgradeFrom23: function(charsheet) {
     const upgradeFeature = function(feature) {
-      if (feature === undefined) {
+      if (feature === undefined || feature === null) {
         return;
       }
       delete feature.effectDescription;
