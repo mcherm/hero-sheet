@@ -3,7 +3,7 @@
 //
 
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
-import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt, intToRange, attackRollInfo} from "./heroSheetUtil.js"
+import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt, intToRange, attackRollInfo, powerCostCalculate} from "./heroSheetUtil.js"
 const standardPowers = require("../data/standardPowers.json");
 const sensesData = require("../data/sensesData.json");
 
@@ -631,6 +631,31 @@ class SensesPowerUpdater extends Updater {
         qualities.push(newQuality);
       }
     };
+
+    // -- Set the ranks of the power correctly --
+    let ranks = 0;
+    newCalculations.addedSenses.forEach(addedSense => {
+      const senseCost = sensesData.senses[addedSense.sense].cost;
+      ranks += senseCost;
+    });
+    newCalculations.addedSenseTypeQualities.forEach(addedQuality => {
+      const qualityCostPerRank = sensesData.senseQualities[addedQuality.quality].costForSenseType;
+      const qualityCost = qualityCostPerRank * (addedQuality.ranks === undefined ? 1 : addedQuality.ranks);
+      ranks += qualityCost;
+    });
+    newCalculations.addedSenseQualities.forEach(addedQuality => {
+      const qualityCostPerRank = sensesData.senseQualities[addedQuality.quality].costForSense;
+      const qualityCost = qualityCostPerRank * (addedQuality.ranks === undefined ? 1 : addedQuality.ranks);
+      ranks += qualityCost;
+    });
+    // -- IF it changed, set the ranks and the costs for the power --
+    if (ranks !== this.power.ranks) {
+      this.vm.$set(this.power, "ranks", ranks);
+      // NOTE: I'm not sure passing [] to powerCostCalculate for extraModifierLists is accurate - that may be a bug
+      // (if so, the bug exists for all of the other powers also).
+      const calculatedFields = powerCostCalculate(this.power);
+      this.vm.$set(this.power, "cost", calculatedFields.cost);
+    }
 
     // -- For every sense or quality we have, add it to the charsheet senses it isn't already there
     newCalculations.addedSenses.forEach(addNewSenseIfMissing);

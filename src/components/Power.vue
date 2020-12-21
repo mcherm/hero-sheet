@@ -12,23 +12,22 @@
 
         <label class="row-label">Basic Desc</label>
         <div>
-          <span v-if="getStandardPower() !== null">{{getStandardPower().description}}</span>
-          <docs-lookup v-if="getStandardPower()" :docsURL="getStandardPower().docsURL"/>
+          <span v-if="standardPower !== null">{{standardPower.description}}</span>
+          <docs-lookup v-if="standardPower" :docsURL="standardPower.docsURL"/>
         </div>
 
-        <!-- FIXME: Senses is incomplete so it is disabled unless you are in developer mode. -->
-        <div v-if="this.$globals.developerMode && getStandardPower() !== null && getStandardPower().powerLayout === 'senses'" class="display-contents">
+        <div v-if="standardPower !== null && standardPower.powerLayout === 'senses'" class="display-contents">
           <label class="row-label">Senses</label>
           <power-layout-senses :power="power" :mutable="mutable"/>
         </div>
 
-        <div v-if="hasOptions()" class="display-contents">
+        <div v-if="standardPower && standardPower.powerOptions" class="display-contents">
           <label class="row-label">Option</label>
           <div>
             <select-entry
                 style="display: inline-block"
                 :value="power.option"
-                :options="Object.values(getStandardPower().powerOptions).map(x => x.name)"
+                :options="Object.values(standardPower.powerOptions).map(x => x.name)"
                 unselectedItem="Select One"
                 @input="setPowerOption($event)"
             />
@@ -59,7 +58,12 @@
         <number-display :value="powerCostCalculations.flawsMultiplier" :show-err-for-negatives="false"/>
 
         <label v-if="!isArray()" class="row-label">Ranks</label>
-        <number-entry v-if="!isArray()" :value="power.ranks" @input="setPowerRanks($event)" :mutable="mutable"/>
+        <number-entry
+            v-if="!isArray()"
+            :value="power.ranks"
+            @input="setPowerRanks($event)"
+            :mutable="mutable && !(standardPower && standardPower.powerLayout === 'senses')"
+        />
 
         <label class="row-label">Flats</label>
         <number-display :value="powerCostCalculations.flatAdder" :show-err-for-negatives="false"/>
@@ -103,17 +107,14 @@
     computed: {
       powerCostCalculations: function() {
         return powerCostCalculate(this.power);
+      },
+      standardPower: function() {
+        return getStandardPower(this.power);
       }
     },
     methods: {
-      getStandardPower: function() {
-        return getStandardPower(this.power);
-      },
       isArray: function() {
-        return this.getStandardPower() && this.getStandardPower().powerLayout === "array";
-      },
-      hasOptions: function() {
-        return Boolean(this.getStandardPower() && this.getStandardPower().powerOptions);
+        return this.standardPower && this.standardPower.powerLayout === "array";
       },
       theOption: function() {
         return getPowerOption(this.power);
@@ -169,11 +170,11 @@
       recalculatePowerCost: function() {
         const costCalcs = powerCostCalculate(this.power);
         if (this.power.cost !== costCalcs.cost) {
-          this.power.cost = costCalcs.cost;
+          this.$set(this.power, "cost", costCalcs.cost);
         }
       },
       potentiallyCreateNewUpdaters: function() {
-        const powerOptions = getStandardPower(this.power).powerOptions;
+        const powerOptions = this.standardPower.powerOptions;
         const noOptionNeeded = (!powerOptions) || powerOptions.length === 0;
         const powerIsFullySpecified = this.power.effect !== "" && (noOptionNeeded || getPowerOption(this.power) !== null);
         if (powerIsFullySpecified) {
@@ -202,7 +203,7 @@
   .power-features {
     display: grid;
     grid-template-columns: max-content 1fr;
-    grid-gap: 0px 5px;
+    grid-gap: 0 5px;
     flex: 1 1 auto;
   }
   .power-features label {
@@ -214,7 +215,7 @@
   .power-costs {
     display: grid;
     grid-template-columns: max-content max-content;
-    grid-gap: 0px 5px;
+    grid-gap: 0 5px;
     flex: 0 1 auto;
     margin-left: 5px;
   }
@@ -226,9 +227,5 @@
   }
   .scrolling-list-header {
     text-align: center;
-  }
-  .effect-select {
-    /* FIXME: The following would be nice, but it's ugly on Firefox Mac */
-    /* background-color: var(--entry-field); */
   }
 </style>
