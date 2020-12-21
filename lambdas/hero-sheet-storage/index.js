@@ -1427,6 +1427,7 @@ exports.handler = async (event) => {
   const allowedOrigins = ["https://hero-sheet.com"];
   if (DEVELOPER_MODE) {
     allowedOrigins.push("http://localhost:8080");
+    allowedOrigins.push("http://192.168.1.194:8080");
   }
   const originProvided = event.headers.origin;
   const allowedOrigin = allowedOrigins.includes(originProvided) ? originProvided : "";
