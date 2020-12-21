@@ -117,6 +117,8 @@
     <ul class="scrolling-list">
       <li>Support for summons, morphs, and variable powers.</li>
       <li>Printable character sheet</li>
+      <li>Ability to turn powers on and off during play.</li>
+      <li>Sharable link to a public character.</li>
     </ul>
     <h2>Special Settings</h2>
     <div class="global-settings grid-with-lines">
