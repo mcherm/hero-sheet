@@ -547,8 +547,9 @@ class MoveObjectThrownAttackUpdater extends PowerAttackUpdater {
   }
 }
 
+
 /*
- * The Senses power should grant you some senses.
+ * The Senses power should grant you some senses and should auto-calculate its ranks and cost.
  */
 class SensesPowerUpdater extends Updater {
   setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
