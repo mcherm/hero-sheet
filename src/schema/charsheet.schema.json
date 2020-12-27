@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "http://hero-sheet.com/schemas/charsheet.schema.json",
   "type": "object",
-  "title": "Root Schema for a Charsheet - v25",
+  "title": "Root Schema for a Charsheet - v26",
   "description": "The root schema is the schema that comprises the entire JSON document for a charsheet.",
   "properties": {
-    "version": { "type": "integer", "const": 25 },
+    "version": { "type": "integer", "const": 26 },
     "campaign": { "$ref":  "#/definitions/Campaign" },
     "naming": { "$ref":  "#/definitions/Naming" },
     "effortPoints": { "$ref":  "#/definitions/FlexibleInteger" },
@@ -194,10 +194,11 @@
         "ranks": { "$ref": "#/definitions/FlexibleInteger" },
         "cost": { "$ref": "#/definitions/FlexibleInteger" },
         "subpowers": { "$ref": "#/definitions/PowerList" },
-        "extended": { "$ref": "#/definitions/PowerExtended" }
+        "extended": { "$ref": "#/definitions/PowerExtended" },
+        "activation": { "$ref": "#/definitions/Activation" }
       },
       "required": [
-        "name", "hsid", "effect", "description", "extras", "flaws", "ranks", "cost", "subpowers", "extended"
+        "name", "hsid", "effect", "description", "extras", "flaws", "ranks", "cost", "subpowers", "extended", "activation"
       ],
       "additionalProperties": false
     },
@@ -307,6 +308,19 @@
     "SenseTypeName": {
       "type": "string",
       "enum": ["Visual", "Auditory", "Olfactory", "Tactile", "Radio", "No Sense Type"]
+    },
+    "Activation": {
+      "type": "object",
+      "properties": {
+        "activationStatus": { "$ref": "#/definitions/ActivationStatus" },
+        "ranks": { "type": "integer" }
+      },
+      "required": ["activationStatus", "ranks"],
+      "additionalProperties": false
+    },
+    "ActivationStatus": {
+      "type": "string",
+      "enum": ["on", "off", "partial"]
     },
     "Skills": {
       "type": "object",
@@ -431,10 +445,14 @@
         "scope": { "$ref": "#/definitions/AttackScope" },
         "ranks": { "$ref":  "#/definitions/AbilityValue" },
         "isStrengthBased": { "type": "boolean" },
+        "isActive": { "type": "boolean" },
         "attackCheckAdjustment": { "$ref": "#/definitions/FlexibleInteger" },
         "powerHsid": { "$ref": "#/definitions/Hsid" }
       },
-      "required": ["hsid", "updater", "name", "effectType", "range", "scope", "ranks", "isStrengthBased", "attackCheckAdjustment"],
+      "required": [
+        "hsid", "updater", "name", "effectType", "range", "scope", "ranks", "isStrengthBased", "isActive",
+        "attackCheckAdjustment"
+      ],
       "additionalProperties": false
     },
     "AttackEffectType": {

@@ -6,8 +6,8 @@ const standardPowers = require("../data/standardPowers.json");
 const conditionsData = require("../data/conditionsData.json");
 const sensesData = require("../data/sensesData.json");
 
-const currentVersion = 25; // Up to this version can be saved
-const latestVersion = 25; // Might be an experimental version
+const currentVersion = 26; // Up to this version can be saved
+const latestVersion = 26; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
@@ -258,6 +258,10 @@ const newBlankPower = function() {
     cost: NaN,
     subpowers: [],
     extended: {},
+    activation: {
+      activationStatus: "on",
+      ranks: 0
+    },
   };
 };
 
@@ -360,7 +364,7 @@ const makeNewAlly = function(charsheet, type) {
 
 /*
  * Given a charsheet and an hsid in it, returns the feature with that hsid or
- * null if there isn't one. It searches everwhere that a feature might appear:
+ * null if there isn't one. It searches everywhere that a feature might appear:
  * in power but also other places like equipment.
  *
  * DESIGN NOTES:
@@ -407,6 +411,84 @@ const findFeatureByHsid = function(charsheet, hsid) {
   // --- Not found ---
   return null;
 };
+
+
+/*
+ * Used internally in findContainingArrayByHsid.
+ */
+class WillNotFindException extends Error {
+}
+
+
+/*
+ * Some features (powers) are found inside other array powers. This is used to work one's way up
+ * through the hierarchy. It is passed the hsid of a feature and if that feature is a subpower of
+ * some array it returns the array feature that contains it. If that feature is NOT a subpower of
+ * some array then this returns null.
+ */
+const findContainingArrayByHsid = function(charsheet, hsid) {
+  // --- Define mutually recursive search helpers ---
+
+  // If the power is the parent of the hsid OR contains it, return the parent; otherwise return null.
+  function checkPowerAndSubpowers(power) {
+    if (power.hsid === hsid) {
+      // found the power itself WITHOUT encountering a parent first. We can quit now.
+      throw new WillNotFindException();
+    }
+    if (power.subpowers.length === 0) {
+      return null; // clearly not ANYONE's parent
+    }
+    for (const subpower of power.subpowers) {
+      if (subpower.hsid === hsid) {
+        return power; // This is the parent!
+      }
+    }
+    return checkInPowerList(power.subpowers); // Recurse
+  }
+
+  // If the powerList contains a parent of the hsid return it; otherwise return null.
+  function checkInPowerList(powerList) {
+    for (const power of powerList) {
+      const possibleResult = checkPowerAndSubpowers(power);
+      if (possibleResult !== null) {
+        return possibleResult;
+      }
+    }
+    return null;
+  }
+
+  try {
+
+    // --- Search in powers ---
+    const featureInPowers = checkInPowerList(charsheet.powers);
+    if (featureInPowers !== null) {
+      return featureInPowers;
+    }
+
+    // --- Search in equipment ---
+    for (const item of charsheet.equipment) {
+      const feature = item.feature;
+      if (feature) {
+        const possibleResult = checkPowerAndSubpowers(feature);
+        if (possibleResult !== null) {
+          return possibleResult;
+        }
+      }
+    }
+
+    // --- Not found ---
+    return null;
+
+  } catch(err) {
+    if (err instanceof WillNotFindException) {
+      // We found the power without finding it's parent. We can go ahead and return null.
+      return null;
+    } else {
+      throw err; // Anything else we don't actually want to catch
+    }
+  }
+}
+
 
 /*
  * Design Notes: see findFeatureByHsid. Maybe we should build "findByHsid".
@@ -821,7 +903,39 @@ const upgradeFuncs = {
   upgradeFrom24: function(charsheet) {
     charsheet.senses = defaultSenses();
     charsheet.version = 25;
-  }
+  },
+
+  upgradeFrom25: function(charsheet) {
+    // -- new activation field in every feature ---
+    const upgradeFeature = function(feature) {
+      if (feature === undefined || feature === null) {
+        return;
+      }
+      feature.activation = {
+        activationStatus: "on",
+        ranks: 0
+      }
+      if (feature.subpowers) {
+        feature.subpowers.forEach(upgradeFeature);
+      }
+    };
+    charsheet.powers.forEach(upgradeFeature);
+    charsheet.equipment.forEach(x => upgradeFeature(x.feature));
+    // -- attacks gain an isActive field --
+    charsheet.attacks.attackList.forEach(attack => {
+      attack.isActive = true;
+    });
+    // -- new code gives better names for adjustments. Let the user know that --
+    for (const activeEffectType of Object.values(charsheet.activeEffects)) {
+      for (const activeEffect of activeEffectType) {
+        if (activeEffect.description === "Protection") {
+          activeEffect.description = "Re-create power to see effect type."
+        }
+      }
+    }
+    // -- version number --
+    charsheet.version = 26;
+  },
 
 };
 
@@ -873,6 +987,7 @@ module.exports = {
   allyAdvantagesLowercase,
   makeNewAlly,
   findFeatureByHsid,
+  findContainingArrayByHsid,
   findAdvantageByHsid,
   findSkillByHsid,
   findAllyByHsid,

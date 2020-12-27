@@ -3,7 +3,10 @@
 //
 
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
-import {activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt, intToRange, attackRollInfo, powerCostCalculate} from "./heroSheetUtil.js"
+import {
+  activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt,
+  intToRange, attackRollInfo, powerCostCalculate, activationState, showAlert,
+} from "./heroSheetUtil.js"
 const standardPowers = require("../data/standardPowers.json");
 const sensesData = require("../data/sensesData.json");
 
@@ -274,6 +277,7 @@ class AttackUpdater extends Updater {
       ranks: this.getRanks(),
       isStrengthBased: this.isStrengthBased(),
       attackCheckAdjustment: attackCheckAdjustment,
+      isActive: this.isActive(),
     };
   }
 
@@ -288,6 +292,7 @@ class AttackUpdater extends Updater {
     attack.ranks = calc.ranks;
     attack.isStrengthBased = calc.isStrengthBased;
     attack.attackCheckAdjustment = calc.attackCheckAdjustment;
+    attack.isActive = calc.isActive;
   }
 
   getName() {
@@ -307,6 +312,10 @@ class AttackUpdater extends Updater {
   }
 
   isStrengthBased() {
+    throw new Error("Subclasses must override this.");
+  }
+
+  isActive() {
     throw new Error("Subclasses must override this.");
   }
 
@@ -396,6 +405,10 @@ class BuiltInAttackUpdater extends AttackUpdater {
   }
 
   isStrengthBased() {
+    return true;
+  }
+
+  isActive() {
     return true;
   }
 
@@ -496,8 +509,12 @@ class PowerAttackUpdater extends AttackUpdater {
     ).length > 0;
   }
 
+  isActive() {
+    return activationState(this.power).isActive;
+  }
+
   getRanks() {
-    return this.power.ranks;
+    return activationState(this.power).ranks;
   }
 
   watchForChange() {
@@ -566,6 +583,7 @@ class SensesPowerUpdater extends Updater {
         addedSenses: this.power.extended.addedSenses,
         addedSenseTypeQualities: this.power.extended.addedSenseTypeQualities,
         addedSenseQualities: this.power.extended.addedSenseQualities,
+        isActive: activationState(this.power).isActive,
       }
     };
   }
@@ -575,6 +593,7 @@ class SensesPowerUpdater extends Updater {
     const vm = this.vm;
     const powerHsid = this.power.hsid;
     const charsheetSenses = this.charsheet.senses;
+    const isActive = newCalculations.isActive;
 
     const addNewSenseIfMissing = function({sense, senseType, hsid}) {
       // -- Create Sense Type if it doesn't exist --
@@ -612,11 +631,36 @@ class SensesPowerUpdater extends Updater {
       if (senseHsid === undefined) { // it's a sense type
         qualities = charsheetSenses[senseType].qualities
       } else { // it's a sense
-        const possibleSenses = charsheetSenses[senseType].senses.filter(x => x.hsid === senseHsid);
-        if (possibleSenses.length !== 1) {
-          throw new Error(`Did not find a single sense with hsid of ${senseHsid}`);
+        const charsheetSenseType = charsheetSenses[senseType];
+        if (charsheetSenseType === undefined) {
+          // That sense type doesn't exist so the sense doesn't
+          // NOTE: This happens when a sense type like radio has been created and then the sense
+          //   is deleted. I can't prevent that because it could be deleted in a different power.
+          //   So what will I do about it? For now I'll let the user know; the user will need to
+          //   delete the power to fix the problem.
+          showAlert({
+            message: "If you delete a sense which had qualities you may have to remove the power to reset the cost.",
+            lifetime: "long",
+            format: "info",
+          });
+          return;
+        } else {
+          const possibleSenses = charsheetSenseType.senses.filter(x => x.hsid === senseHsid);
+          if (possibleSenses.length === 0) {
+            // NOTE: This happens when a sense has been created and then the sense
+            //   is deleted. I can't prevent that because it could be deleted in a different power.
+            //   So what will I do about it? For now I'll let the user know; the user will need to
+            //   delete the power to fix the problem.
+            showAlert({
+              message: "If you delete a sense which had qualities you may have to remove the power to reset the cost.",
+              lifetime: "long",
+              format: "info",
+            });
+            return;
+          } else {
+            qualities = possibleSenses[0].qualities;
+          }
         }
-        qualities = possibleSenses[0].qualities;
       }
       // -- Check if we need to create the quality --
       if (!qualities.some(x => x.sourceHsid === hsid)) {
@@ -658,10 +702,12 @@ class SensesPowerUpdater extends Updater {
       this.vm.$set(this.power, "cost", calculatedFields.cost);
     }
 
-    // -- For every sense or quality we have, add it to the charsheet senses it isn't already there
-    newCalculations.addedSenses.forEach(addNewSenseIfMissing);
-    newCalculations.addedSenseTypeQualities.forEach(addNewQualityIfMissing);
-    newCalculations.addedSenseQualities.forEach(addNewQualityIfMissing);
+    // -- For every sense or quality we have, add it to the charsheet senses it it's active and it isn't already there
+    if (isActive) {
+      newCalculations.addedSenses.forEach(addNewSenseIfMissing);
+      newCalculations.addedSenseTypeQualities.forEach(addNewQualityIfMissing);
+      newCalculations.addedSenseQualities.forEach(addNewQualityIfMissing);
+    }
     // -- Also check for anything that needs to be deleted
     this.removeDeletedSenseStuff(newCalculations);
   }
@@ -675,7 +721,7 @@ class SensesPowerUpdater extends Updater {
    *   but that would return a NEW array and we want to modify the existing array because there
    *   are things that are storing references to the existing array and rendering UI stuff from it.
    */
-  removeDeletedSenseStuff({addedSenses, addedSenseTypeQualities, addedSenseQualities}) {
+  removeDeletedSenseStuff({addedSenses, addedSenseTypeQualities, addedSenseQualities, isActive}) {
     // --- Make lists of the things we are keeping ---
     const addedSenseHsids = addedSenses.map(x => x.hsid);
     const addedSenseTypeQualityHsids = addedSenseTypeQualities.map(x => x.hsid);
@@ -686,13 +732,13 @@ class SensesPowerUpdater extends Updater {
       // --- delete senses derived from this power that are no longer supported ---
       const sensesToDelete = [];
       for (const sense of senseType.senses) {
-        if (sense.sourceFeatureHsid === this.power.hsid && !addedSenseHsids.includes(sense.sourceHsid)) {
+        if (sense.sourceFeatureHsid === this.power.hsid && (!isActive || !addedSenseHsids.includes(sense.sourceHsid))) {
           sensesToDelete.push(sense);
         }
         // --- delete (sense) qualities derived from this power that are no longer supported ---
         const qualitiesToDelete = [];
         for (const quality of sense.qualities) {
-          if (quality.sourceFeatureHsid === this.power.hsid && !addedSenseQualityHsids.includes(quality.sourceHsid)) {
+          if (quality.sourceFeatureHsid === this.power.hsid && (!isActive || !addedSenseQualityHsids.includes(quality.sourceHsid))) {
             qualitiesToDelete.push(quality);
           }
         }
@@ -706,7 +752,7 @@ class SensesPowerUpdater extends Updater {
       // --- delete (sense type) qualities derived from this power that are no longer supported ---
       const senseTypeQualitiesToDelete = [];
       for (const quality of senseType.qualities) {
-        if (quality.sourceFeatureHsid === this.power.hsid && !addedSenseTypeQualityHsids.includes(quality.sourceHsid)) {
+        if (quality.sourceFeatureHsid === this.power.hsid && (!isActive || !addedSenseTypeQualityHsids.includes(quality.sourceHsid))) {
           senseTypeQualitiesToDelete.push(quality);
         }
       }
@@ -1014,7 +1060,7 @@ class EnhancedTraitUpdater extends Updater {
         powerOption: this.power.option
       },
       calculations: {
-        powerRanks: this.power.ranks
+        powerRanks: activationState(this.power).ranks,
       }
     };
   }
@@ -1044,9 +1090,6 @@ class EnhancedTraitUpdater extends Updater {
 /*
  * Abstract parent class for updaters that create an ActiveEffect based on
  * some Power.
- *
- * FIXME: This was introduced late and I doubt everything that COULD be based
- *  on it IS based on it.
  */
 class ActiveEffectFromPowerUpdater extends Updater {
   constructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
@@ -1101,10 +1144,18 @@ class ActiveEffectFromPowerUpdater extends Updater {
     return powerRanks;
   }
 
+  /*
+   * Subclasses must override this to provide a description to be displayed
+   * (or null for "don't show this one").
+   */
+  getDescription() {
+    throw new Error("Subclasses must override this.");
+  }
+
   makeNewActiveEffect() {
     return newAdjustment(
-      "Protection",
-      this.effectSizeFromRanks(this.power.ranks),
+      this.getDescription(),
+      this.effectSizeFromRanks(activationState(this.power).ranks),
       {
         updater: this.className(),
         powerHsid: this.power.hsid,
@@ -1120,7 +1171,7 @@ class ActiveEffectFromPowerUpdater extends Updater {
         powerEffect: this.power.effect
       },
       calculations: {
-        powerRanks: this.power.ranks
+        powerRanks: activationState(this.power).ranks
       }
     };
   }
@@ -1154,6 +1205,9 @@ class ProtectionUpdater extends ActiveEffectFromPowerUpdater {
   getActiveEffectKey() {
     return "defenses.toughness.ranks";
   }
+  getDescription() {
+    return `Protection from ${this.power.name}`;
+  }
 }
 
 
@@ -1161,11 +1215,17 @@ class StrengthFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
   getActiveEffectKey() {
     return "abilities.strength.ranks";
   }
+  getDescription() {
+    return `Strength from Growth from ${this.power.name}`;
+  }
 }
 
 class StaminaFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
   getActiveEffectKey() {
     return "abilities.stamina.ranks";
+  }
+  getDescription() {
+    return `Stamina from Growth from ${this.power.name}`;
   }
 }
 
@@ -1176,6 +1236,9 @@ class IntimidationFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
   effectSizeFromRanks(powerRanks) {
     return Math.floor(powerRanks / 2);
   }
+  getDescription() {
+    return `Intimidation from Growth from ${this.power.name}`;
+  }
 }
 
 class StealthFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
@@ -1184,6 +1247,9 @@ class StealthFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
   }
   effectSizeFromRanks(powerRanks) {
     return -powerRanks;
+  }
+  getDescription() {
+    return `Stealth from Growth from ${this.power.name}`;
   }
 }
 
@@ -1194,6 +1260,9 @@ class DodgeFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
   effectSizeFromRanks(powerRanks) {
     return -Math.ceil(powerRanks / 2);
   }
+  getDescription() {
+    return `Dodge from Growth from ${this.power.name}`;
+  }
 }
 
 class ParryFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
@@ -1202,6 +1271,9 @@ class ParryFromGrowthUpdater extends ActiveEffectFromPowerUpdater {
   }
   effectSizeFromRanks(powerRanks) {
     return -Math.ceil(powerRanks / 2);
+  }
+  getDescription() {
+    return `Parry from Growth from ${this.power.name}`;
   }
 }
 
@@ -1212,6 +1284,9 @@ class StrengthFromShrinkingUpdater extends ActiveEffectFromPowerUpdater {
   effectSizeFromRanks(powerRanks) {
     return -powerRanks;
   }
+  getDescription() {
+    return `Strength from Shrinking from ${this.power.name}`;
+  }
 }
 
 class DodgeFromShrinkingUpdater extends ActiveEffectFromPowerUpdater {
@@ -1220,6 +1295,9 @@ class DodgeFromShrinkingUpdater extends ActiveEffectFromPowerUpdater {
   }
   effectSizeFromRanks(powerRanks) {
     return Math.floor(powerRanks / 2);
+  }
+  getDescription() {
+    return `Dodge from Shrinking from ${this.power.name}`;
   }
 }
 
@@ -1230,11 +1308,17 @@ class ParryFromShrinkingUpdater extends ActiveEffectFromPowerUpdater {
   effectSizeFromRanks(powerRanks) {
     return Math.floor(powerRanks / 2);
   }
+  getDescription() {
+    return `Parry from Shrinking from ${this.power.name}`;
+  }
 }
 
 class StealthFromShrinkingthUpdater extends ActiveEffectFromPowerUpdater {
   getActiveEffectKey() {
     return "skills.skillList@stealth";
+  }
+  getDescription() {
+    return `Stealth from Shrinking from ${this.power.name}`;
   }
 }
 
@@ -1244,6 +1328,9 @@ class IntimidationFromShrinkingUpdater extends ActiveEffectFromPowerUpdater {
   }
   effectSizeFromRanks(powerRanks) {
     return -Math.floor(powerRanks / 2);
+  }
+  getDescription() {
+    return `Intimidation from Shrinking from ${this.power.name}`;
   }
 }
 
@@ -1514,7 +1601,7 @@ const updaterClasses = {
   ThrownAttackUpdater,
   PowerAttackUpdater,
   MoveObjectThrownAttackUpdater,
-  SensesPowerUpdater,
+  SensesPowerUpdater, // FIXME: make it care about activation
   CloseAttackUpdater,
   DefensiveRollUpdater,
   ImprovedInitiativeUpdater,

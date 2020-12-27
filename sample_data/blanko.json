@@ -1,5 +1,5 @@
 {
-  "version": 23,
+  "version": 26,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
@@ -22,11 +22,11 @@
   "abilities": {
     "strength": {
       "entered": 0,
-      "ranks": 0
+      "ranks": 5
     },
     "stamina": {
       "entered": 0,
-      "ranks": 0
+      "ranks": 5
     },
     "agility": {
       "entered": 0,
@@ -58,25 +58,25 @@
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": -3
     },
     "fortitude": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 5
     },
     "parry": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": -3
     },
     "toughness": {
       "base": 0,
       "purchased": 0,
       "cost": 0,
-      "ranks": 0
+      "ranks": 5
     },
     "will": {
       "base": 0,
@@ -86,12 +86,69 @@
     }
   },
   "misc": {
-    "initiative": null,
+    "initiative": 0,
     "isMindlessConstruct": false,
     "isImmobileConstruct": false
   },
   "advantages": [],
-  "equipment": [],
+  "equipment": [
+    {
+      "hsid": "HIJQ4E7RV",
+      "name": "Short Wave Radio",
+      "cost": 2,
+      "source": "custom",
+      "feature": {
+        "name": "New Power",
+        "hsid": "HIVVVW9LF",
+        "effect": "Communication",
+        "description": "",
+        "extras": [],
+        "flaws": [],
+        "ranks": 3,
+        "cost": 12,
+        "subpowers": [],
+        "extended": {},
+        "option": null,
+        "activation": {
+          "activationStatus": "on",
+          "ranks": 0
+        }
+      },
+      "description": ""
+    },
+    {
+      "hsid": "HIL6DKGDW",
+      "name": "Heavy Pistol",
+      "cost": 8,
+      "source": "standard",
+      "feature": {
+        "name": "Heavy Pistol",
+        "hsid": "HI63WEEJ7",
+        "effect": "Damage",
+        "description": "A high-caliber handgun, usually used by those who want a lot of stopping power.",
+        "extras": [
+          {
+            "modifierSource": "standard",
+            "modifierName": "Increased Range",
+            "ranks": 1,
+            "costType": "pointsOfMultiplierPerRankOfModifier",
+            "cost": 1,
+            "displayText": "Increased Range (+1)"
+          }
+        ],
+        "flaws": [],
+        "ranks": 4,
+        "cost": 8,
+        "subpowers": [],
+        "extended": {},
+        "option": null,
+        "activation": {
+          "activationStatus": "on",
+          "ranks": 0
+        }
+      }
+    }
+  ],
   "skills": {
     "skillList": [
       {
@@ -162,10 +219,272 @@
     ],
     "cost": 0
   },
-  "powers": [],
+  "powers": [
+    {
+      "name": "Multi-Attack",
+      "hsid": "HI894VRVV",
+      "effect": "Alternate",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 8,
+      "subpowers": [
+        {
+          "name": "Blows",
+          "hsid": "HI3J2YX9T",
+          "effect": "Damage",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 3,
+          "cost": 3,
+          "subpowers": [],
+          "option": null,
+          "extended": {},
+          "activation": {
+            "activationStatus": "on",
+            "ranks": 0
+          }
+        },
+        {
+          "name": "Heart",
+          "hsid": "HIDFFGN89",
+          "effect": "Healing",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 3,
+          "cost": 6,
+          "subpowers": [],
+          "option": null,
+          "extended": {},
+          "activation": {
+            "activationStatus": "on",
+            "ranks": 0
+          }
+        },
+        {
+          "name": "Afliction",
+          "hsid": "HI9UC5V1Q",
+          "effect": "Affliction",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 3,
+          "cost": 3,
+          "subpowers": [],
+          "option": null,
+          "extended": {},
+          "activation": {
+            "activationStatus": "on",
+            "ranks": 0
+          }
+        }
+      ],
+      "option": null,
+      "extended": {},
+      "activation": {
+        "activationStatus": "on",
+        "ranks": 0
+      }
+    },
+    {
+      "name": "Dig",
+      "hsid": "HILA55FNE",
+      "effect": "Burrowing",
+      "description": "",
+      "extras": [
+        {
+          "modifierSource": "special",
+          "modifierName": "Penetrating",
+          "optionName": null,
+          "ranks": 1,
+          "costType": "pointsOfMultiplier",
+          "cost": 1,
+          "displayText": "Penetrating (+1)"
+        }
+      ],
+      "flaws": [],
+      "ranks": 4,
+      "cost": 8,
+      "subpowers": [],
+      "option": null,
+      "extended": {},
+      "activation": {
+        "activationStatus": "on",
+        "ranks": 0
+      }
+    },
+    {
+      "name": "Mental Blast",
+      "hsid": "HI6NQD5Q4",
+      "effect": "Damage",
+      "description": "You can strike targets' minds with \"mental force,\" inflicting Damage resisted by the target's Will rather than Toughness, but having no effect on targets immune to effects resisted by Will, such as inanimate objects. This version is difficult to detect with normal senses.",
+      "extras": [
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increased Range",
+          "ranks": 2,
+          "costType": "pointsOfMultiplierPerRankOfModifier",
+          "cost": 1,
+          "displayText": "Increased Range (+2)"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Alternate Resistance",
+          "optionName": "Lower Resistance",
+          "costType": "pointsOfMultiplier",
+          "cost": 1,
+          "displayText": "Lower Resistance (+1)"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Subtle",
+          "optionName": "Subtle",
+          "costType": "flatPoints",
+          "cost": 1,
+          "displayText": "Subtle (+1 flat)"
+        }
+      ],
+      "flaws": [],
+      "ranks": 7,
+      "cost": 29,
+      "subpowers": [],
+      "option": null,
+      "extended": {},
+      "activation": {
+        "activationStatus": "on",
+        "ranks": 0
+      }
+    },
+    {
+      "name": "Hyptonitize",
+      "hsid": "HID6TXMCD",
+      "effect": "Affliction",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 5,
+      "cost": 5,
+      "subpowers": [],
+      "option": null,
+      "extended": {},
+      "activation": {
+        "activationStatus": "on",
+        "ranks": 0
+      }
+    },
+    {
+      "name": "Dynamic Array",
+      "hsid": "HI1QYNSQN",
+      "effect": "Dynamic",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 12,
+      "subpowers": [
+        {
+          "name": "New Power",
+          "hsid": "HI47U8NGU",
+          "effect": "Growth",
+          "description": "",
+          "extras": [
+            {
+              "modifierSource": "special",
+              "modifierName": "Permanent",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "pointsOfMultiplier",
+              "cost": 0,
+              "displayText": "Permanent (0)"
+            },
+            {
+              "modifierSource": "standard",
+              "modifierName": "Accurate",
+              "optionName": null,
+              "ranks": 1,
+              "costType": "flatPointsPerRankOfModifier",
+              "cost": 1,
+              "displayText": "Accurate (+1 flat)"
+            }
+          ],
+          "flaws": [],
+          "ranks": 5,
+          "cost": 11,
+          "subpowers": [],
+          "option": null,
+          "extended": {},
+          "activation": {
+            "activationStatus": "on",
+            "ranks": 0
+          }
+        }
+      ],
+      "option": null,
+      "extended": {},
+      "activation": {
+        "activationStatus": "on",
+        "ranks": 0
+      }
+    },
+    {
+      "name": "Magic",
+      "hsid": "HI5K76ALE",
+      "effect": "Linked",
+      "description": "",
+      "extras": [],
+      "flaws": [],
+      "ranks": 1,
+      "cost": 18,
+      "subpowers": [
+        {
+          "name": "Conjure Object",
+          "hsid": "HIFXG6Y71",
+          "effect": "Create",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 6,
+          "cost": 12,
+          "subpowers": [],
+          "extended": {},
+          "option": null,
+          "activation": {
+            "activationStatus": "on",
+            "ranks": 0
+          }
+        },
+        {
+          "name": "Cloud of Mist",
+          "hsid": "HIL4WVY55",
+          "effect": "Concealment",
+          "description": "",
+          "extras": [],
+          "flaws": [],
+          "ranks": 3,
+          "cost": 6,
+          "subpowers": [],
+          "extended": {},
+          "option": null,
+          "activation": {
+            "activationStatus": "on",
+            "ranks": 0
+          }
+        }
+      ],
+      "extended": {},
+      "option": null,
+      "activation": {
+        "activationStatus": "on",
+        "ranks": 0
+      }
+    }
+  ],
   "complications": [
     {
-      "hsid": "HICALVV6T",
+      "hsid": "HI34L8K8A",
       "complicationType": "motivation",
       "description": ""
     }
@@ -174,7 +493,7 @@
   "attacks": {
     "attackList": [
       {
-        "hsid": "HITBKLPS5",
+        "hsid": "HI6EQFN4S",
         "updater": "UnarmedAttackUpdater",
         "name": "Unarmed",
         "effectType": "damage",
@@ -182,10 +501,11 @@
         "scope": "singleTarget",
         "ranks": 0,
         "attackCheckAdjustment": 0,
-        "isStrengthBased": true
+        "isStrengthBased": true,
+        "isActive": true
       },
       {
-        "hsid": "HIX67VPKN",
+        "hsid": "HI4AWLT54",
         "updater": "ThrownAttackUpdater",
         "name": "Thrown Object",
         "effectType": "damage",
@@ -193,11 +513,215 @@
         "scope": "singleTarget",
         "ranks": 0,
         "attackCheckAdjustment": 0,
-        "isStrengthBased": true
+        "isStrengthBased": true,
+        "isActive": true
+      },
+      {
+        "hsid": "HI7GPFQDB",
+        "updater": "PowerAttackUpdater",
+        "effectType": "damage",
+        "name": "Blows",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 3,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0,
+        "powerHsid": "HI3J2YX9T",
+        "isActive": true
+      },
+      {
+        "hsid": "HI3KM6S49",
+        "updater": "PowerAttackUpdater",
+        "effectType": "affliction",
+        "name": "Afliction",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 3,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0,
+        "powerHsid": "HI9UC5V1Q",
+        "isActive": true
+      },
+      {
+        "hsid": "HIYT79963",
+        "updater": "PowerAttackUpdater",
+        "effectType": "damage",
+        "name": "Mental Blast",
+        "range": "perception",
+        "scope": "singleTarget",
+        "ranks": 7,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0,
+        "powerHsid": "HI6NQD5Q4",
+        "isActive": true
+      },
+      {
+        "hsid": "HIJVZRNWB",
+        "updater": "PowerAttackUpdater",
+        "effectType": "affliction",
+        "name": "Hyptonitize",
+        "range": "close",
+        "scope": "singleTarget",
+        "ranks": 5,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0,
+        "powerHsid": "HID6TXMCD",
+        "isActive": true
+      },
+      {
+        "hsid": "HIXSZYWRP",
+        "updater": "PowerAttackUpdater",
+        "effectType": "damage",
+        "name": "Heavy Pistol",
+        "range": "ranged",
+        "scope": "singleTarget",
+        "ranks": 4,
+        "isStrengthBased": false,
+        "attackCheckAdjustment": 0,
+        "powerHsid": "HI63WEEJ7",
+        "isActive": true
       }
     ]
   },
-  "activeEffects": {},
+  "senses": {
+    "Visual": {
+      "name": "Visual",
+      "senses": [
+        {
+          "name": "Normal Sight",
+          "hsid": "HIBDULGYY",
+          "qualities": [
+            {
+              "name": "Ranged"
+            },
+            {
+              "name": "Acute"
+            },
+            {
+              "name": "Accurate"
+            }
+          ]
+        }
+      ],
+      "qualities": []
+    },
+    "Auditory": {
+      "name": "Auditory",
+      "senses": [
+        {
+          "name": "Normal Hearing",
+          "hsid": "HI95SX4R6",
+          "qualities": [
+            {
+              "name": "Ranged"
+            },
+            {
+              "name": "Acute"
+            },
+            {
+              "name": "Radius"
+            }
+          ]
+        }
+      ],
+      "qualities": []
+    },
+    "Olfactory": {
+      "name": "Olfactory",
+      "senses": [
+        {
+          "name": "Normal Smell and Taste",
+          "hsid": "HI3AACSTF",
+          "qualities": [
+            {
+              "name": "Radius"
+            }
+          ]
+        }
+      ],
+      "qualities": []
+    },
+    "Tactile": {
+      "name": "Tactile",
+      "senses": [
+        {
+          "name": "Normal Touch",
+          "hsid": "HICAJPN5B",
+          "qualities": [
+            {
+              "name": "Accurate"
+            },
+            {
+              "name": "Radius"
+            }
+          ]
+        }
+      ],
+      "qualities": []
+    }
+  },
+  "activeEffects": {
+    "abilities.strength.ranks": [
+      {
+        "hsid": "HI4WZ6MTC",
+        "description": "Protection",
+        "value": 5,
+        "isActive": true,
+        "updater": "StrengthFromGrowthUpdater",
+        "powerHsid": "HI47U8NGU"
+      }
+    ],
+    "abilities.stamina.ranks": [
+      {
+        "hsid": "HIVUY8AFY",
+        "description": "Protection",
+        "value": 5,
+        "isActive": true,
+        "updater": "StaminaFromGrowthUpdater",
+        "powerHsid": "HI47U8NGU"
+      }
+    ],
+    "skills.skillList@intimidation": [
+      {
+        "hsid": "HIR164P1A",
+        "description": "Protection",
+        "value": 2,
+        "isActive": true,
+        "updater": "IntimidationFromGrowthUpdater",
+        "powerHsid": "HI47U8NGU"
+      }
+    ],
+    "defenses.dodge.ranks": [
+      {
+        "hsid": "HI88RCJCC",
+        "description": "Protection",
+        "value": -3,
+        "isActive": true,
+        "updater": "DodgeFromGrowthUpdater",
+        "powerHsid": "HI47U8NGU"
+      }
+    ],
+    "defenses.parry.ranks": [
+      {
+        "hsid": "HIAKXYXN4",
+        "description": "Protection",
+        "value": -3,
+        "isActive": true,
+        "updater": "ParryFromGrowthUpdater",
+        "powerHsid": "HI47U8NGU"
+      }
+    ],
+    "skills.skillList@stealth": [
+      {
+        "hsid": "HIZ4QCWBY",
+        "description": "Protection",
+        "value": -5,
+        "isActive": true,
+        "updater": "StealthFromGrowthUpdater",
+        "powerHsid": "HI47U8NGU"
+      }
+    ]
+  },
   "constraintViolations": {},
   "status": {
     "conditions": {

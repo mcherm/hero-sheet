@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {newBlankPower, newHsid} from "./heroSheetVersioning.js";
+import {newBlankPower, newHsid, findContainingArrayByHsid} from "./heroSheetVersioning.js";
 
 const standardAdvantages = require("../data/standardAdvantages.json");
 const standardPowers = require("../data/standardPowers.json");
@@ -788,6 +788,144 @@ const attackRollInfo = function(charsheet, attack) {
 
 
 /*
+ * This is called when the activation on a feature is altered. action should be "on" (the power is
+ * turned on), "off" (the power is turned off), "partial" (the power is switched into partially-active
+ * mode), "incr" (the power is increased by 1 rank), or "decr" (the power is decreased by 1 rank). The
+ * function will update the feature (power) but ALSO will update related features like child
+ * features or siblings within the same array.
+ *
+ * The argument comingFrom is only used for recursion.
+ */
+const setFeatureActivation = function(charsheet, power, action, comingFrom="self") {
+  console.log(`setFeatureActivation(charsheet, ${power.name}, ${action}, ${comingFrom}`); // FIXME: Remove
+
+  // --- Update own status ---
+  const oldStatus = power.activation.activationStatus;
+  const oldRanks = power.activation.ranks;
+  if (action === "on") {
+    power.activation.activationStatus = "on";
+  } else if (action === "off") {
+    power.activation.activationStatus = "off";
+  } else if (action === "partial") {
+    const oldActivationStatus = power.activation.activationStatus;
+    power.activation.activationStatus = "partial";
+    power.activation.ranks = oldActivationStatus === 'on' && power.ranks !== null ? power.ranks : 0;
+  } else if (action === "incr") {
+    if (power.ranks !== null && power.activation.ranks < power.ranks) {
+      power.activation.ranks +=  1;
+    }
+  } else if (action === "decr") {
+    if (power.activation.ranks > 0) {
+      power.activation.ranks -= 1;
+    }
+  } else {
+    throw new Error(`Unsupported action '${action}' in setFeatureActivation().`);
+  }
+  const newStatus = power.activation.activationStatus;
+  const newRanks = power.activation.ranks;
+
+  // --- If nothing changed we are done ---
+  if (oldStatus === newStatus && oldRanks === newRanks) {
+    return;
+  }
+
+  // --- Recurse on child powers ---
+  if (
+    (comingFrom === "self" || comingFrom === "parent" || comingFrom === "sibling")
+    && (power.effect === "Linked" || power.effect === "Alternate" || power.effect === "Dynamic")
+  ) {
+    if (newStatus === "off") {
+      // -- all subpowers off --
+      for (const subpower of power.subpowers) {
+        setFeatureActivation(charsheet, subpower, "off", comingFrom="parent");
+      }
+    } else if (newStatus === "on") {
+      if (power.effect === "Linked") {
+        // -- all subpowers on --
+        for (const subpower of power.subpowers) {
+          setFeatureActivation(charsheet, subpower, "on", comingFrom="parent");
+        }
+      } else {
+        // -- first subpower on; rest off --
+        let isFirst = true;
+        for (const subpower of power.subpowers) {
+          setFeatureActivation(charsheet, subpower, isFirst ? "on" : "off", comingFrom="parent");
+          isFirst = false;
+        }
+      }
+    }
+  }
+
+  // --- For cases where the power has a parent ---
+  const parentArray = findContainingArrayByHsid(charsheet, power.hsid);
+  console.log(`...parentArray = ${parentArray === null ? "null" : parentArray.name}`); // FIXME: Remove
+  if (parentArray !== null) {
+
+    // --- Modify parent ---
+    if ((comingFrom === "self" || comingFrom === "child") && newStatus === "on" && parentArray.activation.activationStatus === "off") {
+      setFeatureActivation(charsheet, parentArray, "on", comingFrom="child");
+    }
+
+    // --- Modify siblings ---
+    if (comingFrom === "self" || comingFrom === "child") {
+      if (parentArray.effect === "Alternate") {
+        // -- Alternate Arrays --
+        if (newStatus === "on" || newStatus === "partial") {
+          // - Turn off all other siblings -
+          for (const siblingPower of parentArray.subpowers) {
+            if (siblingPower !== power) {
+              setFeatureActivation(charsheet, siblingPower, "off", comingFrom="sibling");
+            }
+          }
+        } else if (newStatus === "off") {
+          // - Nothing needs to be done when turning a power off in an Alternate array -
+        }
+      } else if (parentArray.effect === "Linked") {
+        // -- Linked Arrays --
+        if (newStatus === "on") {
+          // - Turn on all other siblings -
+          for (const siblingPower of parentArray.subpowers) {
+            if (siblingPower !== power) {
+              setFeatureActivation(charsheet, siblingPower, "on", comingFrom="sibling");
+            }
+          }
+        } else if (newStatus === "off") {
+          // - Turn off all other siblings -
+          for (const siblingPower of parentArray.subpowers) {
+            if (siblingPower !== power) {
+              setFeatureActivation(charsheet, siblingPower, "off", comingFrom="sibling");
+            }
+          }
+        } else if (newStatus === "partial") {
+          console.log(`ERROR: Not done supporting partial status for Linked arrays`); // FIXME: Finish it
+        }
+      } else {
+        console.log(`ERROR: Not done supporting Dynamic arrays`); // FIXME: Finish it
+      }
+    }
+  }
+}
+
+
+/*
+ * Passed a feature, this returns {isActive: <whether-it-is-active>, ranks: <currently-active-ranks>}.
+ */
+const activationState = function(feature) {
+  const activationStatus = feature.activation.activationStatus;
+  const activeRanks = feature.activation.ranks;
+  const isActive = (activationStatus === "on" || activationStatus === "partial" && activeRanks > 0);
+  const ranks = (
+    activationStatus === "on"
+      ? feature.ranks
+      : activationStatus === "partial"
+        ? activeRanks
+        : 0 // activationStatus === "off"
+  );
+  return {isActive, ranks};
+}
+
+
+/*
  * Common function which creates a new error message and sends it to the even queue
  * to be displayed.
  */
@@ -847,5 +985,7 @@ export {
   isManuallyAdjusted,
   lacksStat,
   attackRollInfo,
+  setFeatureActivation,
+  activationState,
   showAlert,
 };
