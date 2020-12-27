@@ -1,0 +1,70 @@
+Recursing:
+  Linked:
+    on:
+      * all child -> on
+    off:
+      * all child -> off
+    partial:
+      * ???
+  Alternate:
+    on:
+      * first child -> on ; rest child -> off
+    off:
+      * all child -> off
+    partial:
+      * ???
+  Dynamic:
+    on:
+      * first child -> on ; rest child -> off [SHOULD DISTRIBUTE FROM TOP DOWN]
+    off:
+      * all child -> off
+    partial:
+      * ???
+
+[Maybe arrays cannot BE 'partial'? Or MAYBE arrays don't have activation adjustment at all?]
+
+Siblings:
+  Linked:
+    on:
+      * all sibling -> on
+    off:
+      * all sibling -> off
+    partial:
+      * ???
+  Alternate:
+    on:
+      * all sibling -> off
+    off:
+      * nothing to do
+    partial:
+      * ???
+  Dynamic:
+    on:
+      * nothing to do (BROKEN UNTIL PARTIAL WORKS)
+    off:
+      * nothing to do (BROKEN UNTIL PARTIAL WORKS)
+    partial:
+      * ???
+
+Parent:  if parent is...
+  parent on:
+    on:
+      * nothing to do
+    off:
+      * nothing to do
+    partial:
+      * nothing to do
+  parent off:
+    on:
+      * parent -> on
+    off:
+      * nothing to do
+    partial:
+      * parent -> on
+  parent partial:
+    on:
+      * ???
+    off:
+      * nothing to do
+    partial:
+      * ???

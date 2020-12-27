@@ -3,7 +3,7 @@
   attack.
 -->
 <template>
-  <div class="display-contents">
+  <div class="display-contents" v-show="attack.isActive">
     <div class="attack-name">{{attack.name}}</div>
 
     <div v-if="typeof(attack.attackCheck) === 'string'" class="inapplicable">N/A</div>

@@ -3,6 +3,15 @@
     <ul class="power-list">
       <li v-for="(power, powerIndex) in powers" :key="power.name">
         <div class="power-list-row">
+          <div
+              class="activate-pane"
+              :class="{'partial': power.activation.activationStatus === 'partial', 'off': power.activation.activationStatus === 'off'}"
+          >
+            <activation-widget
+                :activation="power.activation"
+                @setFeatureActivation="setFeatureActivation(getCharsheet(), power, $event)"
+            />
+          </div>
           <power
             :power="power"
             :mutable="mutable"
@@ -26,16 +35,23 @@
 
 <script>
   import {newBlankPower} from "../js/heroSheetVersioning.js";
+  import {setFeatureActivation} from "@/js/heroSheetUtil.js";
+  import ActivationWidget from "@/components/ActivationWidget";
 
   export default {
     name: "PowerList",
+    components: {
+      ActivationWidget
+    },
+    inject: ["getCharsheet"],
     props: {
       powers: { type: Array, required: true },
       mutable: { type: Boolean, required: false, default: true }
     },
     data: function() {
       return {
-        deleteIsVisible: false
+        deleteIsVisible: false,
+        setFeatureActivation,
       }
     },
     methods: {
@@ -93,7 +109,7 @@
         if (this.powers.length === 0) {
           this.deleteIsVisible = false;
         }
-      }
+      },
     }
   }
 </script>
@@ -123,6 +139,23 @@
   }
   div.power-list-row .power {
     flex: 1;
+  }
+  .activate-pane {
+    background-color: var(--paper-color);
+    margin: 5px 0 5px 5px;
+    border-radius: 5px 0 0 5px;
+    border: solid var(--box-border-color) 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .activate-pane.off {
+    border-style: dashed;
+    background-color: var(--subtle-shade-color);
+  }
+  .activate-pane.partial {
+    border-style: dotted;
   }
   .trash-button {
     background-color: var(--paper-color);

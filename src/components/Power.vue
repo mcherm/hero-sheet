@@ -1,5 +1,8 @@
 <template>
-  <div class="power">
+  <div
+      class="power"
+      :class="{'partial': power.activation.activationStatus === 'partial', 'off': power.activation.activationStatus === 'off'}"
+  >
     <div class="flex-row">
       <div class="power-features">
         <label class="row-label">Name</label>
@@ -195,6 +198,13 @@
     margin: 5px;
     background-color: var(--paper-color);
   }
+  div.power.off {
+    border-style: dashed;
+    background-color: var(--subtle-shade-color);
+  }
+  div.power.partial {
+    border-style: dotted;
+  }
   .flex-row {
     display: flex;
     flex-direction: row;
@@ -218,6 +228,9 @@
     grid-gap: 0 5px;
     flex: 0 1 auto;
     margin-left: 5px;
+  }
+  div.power.off .power-costs > .number-display {
+    background-color: var(--subtle-shade-color);
   }
   div.subpower-list {
     border: 1px solid var(--box-border-color);

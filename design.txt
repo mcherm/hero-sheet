@@ -215,6 +215,17 @@ I'm sure there will be more, but I'm just trying to get started here.
    separately.
 
 
+=== Dependencies ===
+We don't want circular dependencies in our .js files. Therefore we are declaring a tree-structure for
+dependencies which looks like this:
+
+  * api.js
+  * heroSheetVersioning.js
+    * heroSheetUtil.js
+      * updaters.js
+  * pdf.js
+  * registerStandardComponents.js
+
 
 === URLs ===
 We might start having URLs that change as you navigate. But if so, how would they look?
