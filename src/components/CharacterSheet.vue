@@ -46,6 +46,7 @@
           <boxed-section title="Senses">
             <senses-chart/>
           </boxed-section>
+          <ranks-and-measures/>
         </div>
       </template>
       <template slot="conditions">
@@ -80,6 +81,7 @@
   import Adjustments from "./Adjustments.vue";
   import ConstraintViolations from "./ConstraintViolations.vue";
   import Conditions from "./Conditions.vue";
+  import RanksAndMeasures from "./RanksAndMeasures";
 
   import {findAllyByHsid} from "../js/heroSheetVersioning.js";
 
@@ -99,6 +101,7 @@
       Complications,
       Attacks,
       SensesChart,
+      RanksAndMeasures,
       Adjustments,
       ConstraintViolations,
       Conditions,
