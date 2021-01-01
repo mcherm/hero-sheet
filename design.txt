@@ -332,3 +332,9 @@ DONE: The powers Growth and Shrinking should both generate stat adjustments.
  * Shrinking: every 2 full ranks add +1 to parry
  * Shrinking: every rank adds +1 to stealth skill
  * Shrinking: every 2 full ranks add -1 to intimidation
+
+BUG: When you add an extra or flaw to an array, it should recalculate the costs of all the items in
+  the array. But right now it doesn't.
+
+BUG: When you add a new power to an array it should activate the new one and do appropriate things
+  to the siblings (and parent?). But for now it doesn't.

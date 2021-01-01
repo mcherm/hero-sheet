@@ -8,12 +8,15 @@
               :class="{'partial': power.activation.activationStatus === 'partial', 'off': power.activation.activationStatus === 'off'}"
           >
             <activation-widget
+                v-if="getStandardPower(power) !== null"
                 :activation="power.activation"
+                :can-be-partial="getStandardPower(power).canBePartial"
                 @setFeatureActivation="setFeatureActivation(getCharsheet(), power, $event)"
             />
           </div>
           <power
             :power="power"
+            :inherited-modifier-lists="inheritedModifierLists"
             :mutable="mutable"
             v-on:update:name="renamePower(power, $event)"
           />
@@ -35,7 +38,7 @@
 
 <script>
   import {newBlankPower} from "../js/heroSheetVersioning.js";
-  import {setFeatureActivation} from "@/js/heroSheetUtil.js";
+  import {setFeatureActivation, getStandardPower} from "@/js/heroSheetUtil.js";
   import ActivationWidget from "@/components/ActivationWidget";
 
   export default {
@@ -46,6 +49,7 @@
     inject: ["getCharsheet"],
     props: {
       powers: { type: Array, required: true },
+      inheritedModifierLists: { type: Array, required: true },
       mutable: { type: Boolean, required: false, default: true }
     },
     data: function() {
@@ -55,6 +59,7 @@
       }
     },
     methods: {
+      getStandardPower,
       addPower: function() {
         const blankPower = newBlankPower();
         this.powers.push(blankPower);
@@ -145,6 +150,7 @@
     margin: 5px 0 5px 5px;
     border-radius: 5px 0 0 5px;
     border: solid var(--box-border-color) 1px;
+    min-width: 32px; /* just wide enough for the widget; matters only if the widget isn't rendered. */
     display: flex;
     flex-direction: column;
     justify-content: center;

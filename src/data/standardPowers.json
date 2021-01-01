@@ -75,6 +75,7 @@
       }
     ],
     "powerLayout": "affliction",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/affliction-attack/"
   },
   "Burrowing": {
@@ -125,6 +126,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/burrowing-movement"
   },
   "Communication": {
@@ -251,6 +253,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/communication-sensory"
   },
   "Comprehend": {
@@ -287,6 +290,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/comprehend-sensory"
   },
   "Concealment": {
@@ -414,6 +418,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/concealment-sensory"
   },
   "Create": {
@@ -527,6 +532,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/create-control"
   },
   "Damage": {
@@ -550,6 +556,7 @@
     "flaws": [
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/damage-attack"
   },
   "Deflect": {
@@ -586,6 +593,7 @@
     "flaws": [
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/deflect-defense"
   },
   "Elongation": {
@@ -598,6 +606,7 @@
     "baseCost": 1,
     "description": "You can elongate your body and/or limbs to extend your reach.",
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/elongation-general"
   },
   "Enhanced Trait": {
@@ -772,6 +781,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/enhanced-trait-general"
   },
   "Environment": {
@@ -847,6 +857,7 @@
     "flaws": [
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/environment-control"
   },
   "Extra Limbs": {
@@ -891,6 +902,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/extra-limbs-general"
   },
   "Feature": {
@@ -905,6 +917,7 @@
     "extras": [],
     "flaws": [],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/feature-general"
   },
   "Flight": {
@@ -997,6 +1010,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/flight-movement"
   },
   "Growth": {
@@ -1019,6 +1033,7 @@
     ],
     "flaws": [],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/growth-general"
   },
   "Healing": {
@@ -1181,6 +1196,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/healing-general"
   },
   "Illusion": {
@@ -1266,6 +1282,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/illusion-control"
   },
   "Immortality": {
@@ -1289,6 +1306,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/immortality-defense"
   },
   "Immunity": {
@@ -1347,6 +1365,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/immunity-defense"
   },
   "Insubstantial": {
@@ -1472,6 +1491,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/insubstantial-general"
   },
   "Leaping": {
@@ -1522,6 +1542,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/leaping-movement"
   },
   "Luck Control": {
@@ -1648,6 +1669,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/luck-control-control"
   },
   "Mind Reading": {
@@ -1761,6 +1783,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/mind-reading-sensory"
   },
   "Morph": {
@@ -1798,6 +1821,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/morph-general"
   },
   "Move Object": {
@@ -1904,6 +1928,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/move-object-control"
   },
   "Movement": {
@@ -1982,6 +2007,7 @@
     "flaws": [
     ],
     "powerLayout": "default",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/movement-movement"
   },
   "Nullify": {
@@ -2123,6 +2149,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/nullify-attack"
   },
   "Protection": {
@@ -2146,6 +2173,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/protection-defense"
   },
   "Quickness": {
@@ -2176,6 +2204,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/quickness-general"
   },
   "Regeneration": {
@@ -2206,6 +2235,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/regeneration-defense"
   },
   "Remote Sensing": {
@@ -2338,6 +2368,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/remote-sensing-sensory"
   },
   "Senses": {
@@ -2497,6 +2528,7 @@
       }
     ],
     "powerLayout": "senses",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/senses-sensory"
   },
   "Shrinking": {
@@ -2527,6 +2559,7 @@
     "flaws": [
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/shrinking-general"
   },
   "Speed": {
@@ -2541,6 +2574,7 @@
     "extras": [],
     "flaws": [],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/speed-movement"
   },
   "Summon": {
@@ -2653,6 +2687,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/summon-control"
   },
   "Swimming": {
@@ -2667,6 +2702,7 @@
     "extras": [],
     "flaws": [],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/swimming-movement"
   },
   "Teleport": {
@@ -2753,6 +2789,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/teleport-movement"
   },
   "Transform": {
@@ -2789,6 +2826,7 @@
     "extras": [],
     "flaws": [],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/transform-control"
   },
   "Variable": {
@@ -2880,6 +2918,7 @@
       }
     ],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/variable-general"
   },
   "Weaken": {
@@ -2964,6 +3003,7 @@
     ],
     "flaws": [],
     "powerLayout": "default",
+    "canBePartial": true,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/weaken-attack"
   },
   "Linked": {
@@ -2971,6 +3011,7 @@
     "baseCost": "sum of components",
     "description": "Several different effects together.",
     "powerLayout": "array",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/modifiers/#TOC-LINKED-FLAT-0-POINTS-"
   },
   "Dynamic": {
@@ -2978,6 +3019,7 @@
     "baseCost": "most expensive + 1 + 2 per other component",
     "description": "Several different effects together.",
     "powerLayout": "array",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/modifiers/#TOC-DYNAMIC-ALTERNATE-EFFECT"
   },
   "Alternate": {
@@ -2985,6 +3027,7 @@
     "baseCost": "most expensive + 1 per other component",
     "description": "Several different effects together.",
     "powerLayout": "array",
+    "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/modifiers/#TOC-ALTERNATE-EFFECT-FLAT-1-OR-2-POINTS-"
   }
 }

@@ -42,9 +42,10 @@
             "extras": { "$ref": "#/definitions/ModifierDefinitionList" },
             "flaws": { "$ref": "#/definitions/ModifierDefinitionList" },
             "powerLayout": { "$ref": "#/definitions/PowerLayoutNonarray"},
+            "canBePartial": { "type": "boolean" },
             "docsURL": { "$ref": "#/definitions/DocsURL" }
           },
-          "required": [ "name", "range", "baseCost", "description", "powerLayout" ],
+          "required": [ "name", "range", "baseCost", "description", "powerLayout", "canBePartial" ],
           "additionalProperties": false
         },
         {
@@ -61,9 +62,10 @@
             },
             "description": { "$ref": "#/definitions/Description" },
             "powerLayout": { "$ref": "#/definitions/PowerLayoutArray"},
+            "canBePartial": { "type": "boolean" },
             "docsURL": { "$ref": "#/definitions/DocsURL" }
           },
-          "required": [ "name", "baseCost", "description", "powerLayout" ],
+          "required": [ "name", "baseCost", "description", "powerLayout", "canBePartial" ],
           "additionalProperties": false
         }
       ]

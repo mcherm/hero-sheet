@@ -5,7 +5,7 @@
 import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
 import {
   activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt,
-  intToRange, attackRollInfo, powerCostCalculate, activationState, showAlert,
+  intToRange, attackRollInfo, powerCostCalculate, activationState, showAlert, getInheritedModifierLists,
 } from "./heroSheetUtil.js"
 const standardPowers = require("../data/standardPowers.json");
 const sensesData = require("../data/sensesData.json");
@@ -698,7 +698,7 @@ class SensesPowerUpdater extends Updater {
       this.vm.$set(this.power, "ranks", ranks);
       // NOTE: I'm not sure passing [] to powerCostCalculate for extraModifierLists is accurate - that may be a bug
       // (if so, the bug exists for all of the other powers also).
-      const calculatedFields = powerCostCalculate(this.power);
+      const calculatedFields = powerCostCalculate(this.power, getInheritedModifierLists(this.charsheet, this.power));
       this.vm.$set(this.power, "cost", calculatedFields.cost);
     }
 

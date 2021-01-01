@@ -69,6 +69,7 @@
         <div v-if="showFeatureDetails[item.hsid]" class="feature-details">
           <power
               :power="item.feature"
+              :inherited-modifier-lists="[]"
               :mutable="item.source === 'custom'"
               v-on:update:name="renameFeature(item.feature, $event)"
           />
@@ -125,7 +126,7 @@
           item.cost = stdEq.cost;
           const standardFeature = stdEq.feature;
           if (standardFeature) {
-            item.feature = buildFeature(standardFeature);
+            item.feature = buildFeature(standardFeature, []);
             if (item.cost === undefined || item.cost === null) {
               item.cost = item.feature.cost; // Default to the feature cost if item cost is not specified
             }

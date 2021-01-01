@@ -42,10 +42,20 @@
         </div>
 
         <label class="row-label">Extras</label>
-        <modifier-list :power="power" modifierType="extras" :mutable="mutable"/>
+        <modifier-list
+            :power="power"
+            modifierType="extras"
+            :inherited-modifier-lists="inheritedModifierLists"
+            :mutable="mutable"
+        />
 
         <label class="row-label">Flaws</label>
-        <modifier-list :power="power" modifierType="flaws" :mutable="mutable"/>
+        <modifier-list
+            :power="power"
+            modifierType="flaws"
+            :inherited-modifier-lists="inheritedModifierLists"
+            :mutable="mutable"
+        />
 
         <label class="row-label">Description</label>
         <string-entry v-model="power.description" :mutable="mutable"/>
@@ -77,7 +87,11 @@
     </div>
     <div v-if="isArray()" class="subpower-list">
       <div class="scrolling-list-header">Array Powers</div>
-      <power-list :powers="power.subpowers" :mutable="mutable" />
+      <power-list
+          :powers="power.subpowers"
+          :inherited-modifier-lists="[power.extras, power.flaws, ...inheritedModifierLists]"
+          :mutable="mutable"
+      />
     </div>
   </div>
 </template>
@@ -100,7 +114,8 @@
     inject: ["getCharsheet"],
     props: {
       power: { type: Object, required: true },
-      mutable: { type: Boolean, required: false, default: true }
+      inheritedModifierLists: { type: Array, required: true },
+      mutable: { type: Boolean, required: false, default: true },
     },
     created: function() {
       this.$watch("power.subpowers", function() {
@@ -109,7 +124,7 @@
     },
     computed: {
       powerCostCalculations: function() {
-        return powerCostCalculate(this.power);
+        return powerCostCalculate(this.power, this.inheritedModifierLists);
       },
       standardPower: function() {
         return getStandardPower(this.power);
@@ -128,10 +143,10 @@
       setPowerEffect: function(effectSelection) {
         const [selectType, effect] = effectSelection.split("|");
         if (selectType === "standard") {
-          setPowerEffect(this.power, effect);
+          setPowerEffect(this.power, this.inheritedModifierLists, effect);
         } else if (selectType === "sample") {
           const samplePower = samplePowers[effect];
-          const newFeature = buildFeature(samplePower.feature);
+          const newFeature = buildFeature(samplePower.feature, this.inheritedModifierLists);
           // Keep the existing name if it looks like it has been edited
           if (!this.power.name.startsWith(STARTING_POWER_NAME)) {
             newFeature.name = this.power.name;
@@ -141,7 +156,7 @@
           if (!(samplePower.feature.ranks)) {
             newFeature.ranks = this.power.ranks;
           }
-          replacePower(this.power, newFeature);
+          replacePower(this.power, this.inheritedModifierLists, newFeature);
           const recursivelyCreateNewUpdaters = powerList => {
             for (const power of powerList) {
               const events = powerUpdaterEvents(this.getCharsheet(), power);
@@ -162,8 +177,7 @@
         this.$emit('update:name', this.power.name); // Allow the containing list to rename for uniqueness
       },
       setPowerOption: function(option) {
-        setPowerOption(this.power, option);
-        this.recalculatePowerCost();
+        setPowerOption(this.power, this.inheritedModifierLists, option);
         this.potentiallyCreateNewUpdaters();
       },
       setPowerRanks: function(ranks) {
@@ -171,7 +185,7 @@
         this.recalculatePowerCost();
       },
       recalculatePowerCost: function() {
-        const costCalcs = powerCostCalculate(this.power);
+        const costCalcs = powerCostCalculate(this.power, this.inheritedModifierLists);
         if (this.power.cost !== costCalcs.cost) {
           this.$set(this.power, "cost", costCalcs.cost);
         }
