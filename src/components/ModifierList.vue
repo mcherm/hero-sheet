@@ -46,6 +46,7 @@
     props: {
       modifierType: { type: String, required: true },
       power: { type: Object,  required: true },
+      inheritedModifierLists: { type: Array, required: true },
       mutable: { type: Boolean, required: false, default: true }
     },
     data: function() {
@@ -81,12 +82,12 @@
     methods: {
       finishChoosingNewModifier: function(event) {
         if (event !== null) {
-          addPowerModifier(this.power, this.modifierType, event);
+          addPowerModifier(this.power, this.inheritedModifierLists, this.modifierType, event);
         }
         this.isAdding = false;
       },
       deleteModifier: function(modifier) {
-        deletePowerModifier(this.power, this.modifierType, modifier);
+        deletePowerModifier(this.power, this.inheritedModifierLists, this.modifierType, modifier);
         if (this.modifiers.length === 0) {
           this.isDeleting = false;
         }

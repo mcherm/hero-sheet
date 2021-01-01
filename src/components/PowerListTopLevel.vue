@@ -3,7 +3,7 @@
     <template v-slot:exhibit>
       <local-cost-display extra-label="powers" :extra-value-function="powerCost"/>
     </template>
-    <power-list :powers="getCharsheet().powers"/>
+    <power-list :powers="getCharsheet().powers" :inherited-modifier-lists="[]"/>
   </boxed-section>
 </template>
 

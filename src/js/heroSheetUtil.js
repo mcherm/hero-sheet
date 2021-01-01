@@ -19,7 +19,7 @@ function isArray(power) {
   }
   const standardPower = standardPowers[power.effect];
   if (!standardPower) {
-    throw Error(`Power effect '${power.effect}' is not a standard power.`);
+    throw new Error(`Power effect '${power.effect}' is not a standard power.`);
   }
   return standardPower.powerLayout === 'array';
 }
@@ -74,22 +74,36 @@ const powerBaseCost = function(feature) {
 
 
 /*
- * This contains the formulas to calculate the cost of a (non-array) power.
+ * This contains the formulas to calculate the cost of a power.
  *
- * As input, it takes a list of modifier lists (sometimes the modifiers come
- * from different places, like when an array is calculating the costs of the
- * by recalculating the child costs with modifiers attached) along with a base
- * cost and ranks. As output it returns an object -- one field is the cost, but
- * there are other fields for intermediate values that we might want to display.
+ * As input it takes two required parameters. The first is the power to
+ * be analyzed. The second, inheritedModifierLists, is a list of lists of
+ * modifiers applied by ancestors (arrays this is embedded in); it can be
+ * passed as [] if there are no modifiers. A caller can use getInheritedModifierLists()
+ * to obtain this value if needed.
+ *
+ * It has one optional parameter: activeRanks is a number of ranks for
+ * which the power's cost is to be evaluated; if omitted or null then the
+ * number of ranks of the power is used.
+ *
+ * As output it returns an object -- one field is the cost, but there are
+ * other fields for intermediate values that we might want to display.
  */
-const powerCostCalculate = function(power, extraModifierLists=[]) {
+const powerCostCalculate = function(power, inheritedModifierLists, activeRanks=null) {
+  // --- Validate ---
+  if (!(inheritedModifierLists instanceof Array)) {
+    throw new Error(`inheritedModifierLists must be an array of arrays, but was ${inheritedModifierLists}.`);
+  }
+
+  // --- Deal with optional argument ---
+  const effectiveRanks = activeRanks === null ? power.ranks : activeRanks;
 
   // --- Calculate multipliers & adders from modifiers ---
   let extrasMultiplier = 0;
   let flawsMultiplier = 0;
   let normalFlatAdder = 0;
   let flatPer5FinalPoints = 0;
-  const modifierLists = [power.extras, power.flaws, ...extraModifierLists];
+  const modifierLists = [power.extras, power.flaws, ...inheritedModifierLists];
   for (const modifierList of modifierLists) {
     for (const modifier of modifierList) {
       if (modifier.costType === "pointsOfMultiplier") {
@@ -111,7 +125,7 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
       } else if (modifier.costType === "flatPointsPer5PointsOfFinalCost") {
         flatPer5FinalPoints += modifier.cost;
       } else {
-        throw Error(`Unsupported modifier costType of '${modifier.costType}'.`);
+        throw new Error(`Unsupported modifier costType of '${modifier.costType}'.`);
       }
     }
   }
@@ -126,7 +140,7 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
       cost = 0;
       flatAdder = 0;
     } else {
-      const subpowerCosts = subpowers.map(x => powerCostCalculate(x, modifierLists).cost);
+      const subpowerCosts = subpowers.map(x => x.cost);
       const largestSubpowerCost = Math.max(...subpowerCosts);
       if (power.effect === "Linked") {
         cost = subpowerCosts.reduce((x,y) => x + y, 0);
@@ -135,7 +149,7 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
       } else if (power.effect === "Dynamic") {
         cost = largestSubpowerCost + 2 *(numberOfSubpowers - 1) + 1;
       } else {
-        throw Error(`Unsupported array power of '${power.name}'.`)
+        throw new Error(`Unsupported array power of '${power.name}'.`)
       }
       flatAdder = normalFlatAdder; // no easy way to display values from a per-5-pts on the array
     }
@@ -158,6 +172,20 @@ const powerCostCalculate = function(power, extraModifierLists=[]) {
     cost
   };
 };
+
+
+/*
+ * This method is given a power and it finds and returns the list of modifier lists
+ * for all ancestor arrays. Its primary use is for obtaining the parameter needed by
+ * powerCostCalculate().
+ */
+const getInheritedModifierLists = function(charsheet, power) {
+  const parentArray = findContainingArrayByHsid(charsheet, power.hsid)
+  return (parentArray === null
+      ? []
+      : [power.extras, power.flaws, ...getInheritedModifierLists(parentArray)]
+  );
+}
 
 
 /*
@@ -278,20 +306,20 @@ const _findModifierItem = function(thingWithExtrasAndFlaws, modifierSource, modi
           const option = possibleOptions[0];
           return option;
         } else if (possibleOptions.length === 0) {
-          throw Error(`Standard modifier '${modifierName}' has no option named '${optionName}'.`);
+          throw new Error(`Standard modifier '${modifierName}' has no option named '${optionName}'.`);
         } else {
-          throw Error(`Standard modifier '${modifierName}' has multiple options named '${optionName}'.`);
+          throw new Error(`Standard modifier '${modifierName}' has multiple options named '${optionName}'.`);
         }
       } else {
-        throw Error(`Standard modifier '${modifierName}' has no options.`);
+        throw new Error(`Standard modifier '${modifierName}' has no options.`);
       }
     } else {
       return modifier;
     }
   } else if (possibleModifiers.length === 0) {
-    throw Error(`No standard modifier named '${modifierName}'.`);
+    throw new Error(`No standard modifier named '${modifierName}'.`);
   } else {
-    throw Error(`Multiple standard modifiers named '${modifierName}'.`);
+    throw new Error(`Multiple standard modifiers named '${modifierName}'.`);
   }
 }
 
@@ -307,10 +335,10 @@ const findModifierItemTemplate = function(modifierSource, modifierName, optionNa
       const standardPower = standardPowers[effect];
       return _findModifierItem(standardPower, modifierSource, modifierName, optionName);
     } else {
-      throw Error(`Must specify an effect with a modifierSource of '${modifierSource}'.`);
+      throw new Error(`Must specify an effect with a modifierSource of '${modifierSource}'.`);
     }
   } else {
-    throw Error(`Unsupported modifierSource of '${modifierSource}'.`);
+    throw new Error(`Unsupported modifierSource of '${modifierSource}'.`);
   }
 }
 
@@ -319,14 +347,14 @@ const findModifierItemTemplate = function(modifierSource, modifierName, optionNa
  * feature. A Feature is basically a power, but it might be
  * attached to something different like a piece of equipment.
  */
-const buildFeature = function(template) {
+const buildFeature = function(template, inheritedModifierLists) {
   const feature = newBlankPower();
   feature.name = template.name || template.effect;
   feature.description = template.description || "";
   feature.ranks = template.ranks || 1;
-  setPowerEffect(feature, template.effect);
+  setPowerEffect(feature, inheritedModifierLists, template.effect);
   if (template.option) {
-    setPowerOption(feature, template.option);
+    setPowerOption(feature, inheritedModifierLists, template.option);
   }
   for (const modifierType of ["extras", "flaws"]) {
     for (const modifierTemplate of template[modifierType] || []) {
@@ -343,16 +371,17 @@ const buildFeature = function(template) {
         effect: template.effect,
         ranks
       });
-      addPowerModifier(feature, modifierType, modifier)
+      addPowerModifier(feature, inheritedModifierLists, modifierType, modifier)
     }
   }
   if (template.subpowers) {
     for (const subpowerTemplate of template.subpowers) {
-      const subpower = buildFeature(subpowerTemplate);
+      const subpowerInheritedModifierList = [feature.extras, feature.flaws, ...inheritedModifierLists];
+      const subpower = buildFeature(subpowerTemplate, subpowerInheritedModifierList);
       feature.subpowers.push(subpower);
     }
   }
-  recalculatePowerCost(feature);
+  recalculatePowerCost(feature, inheritedModifierLists);
   return feature;
 };
 
@@ -388,22 +417,20 @@ const getPowerOption = function(power) {
  * Given a Power object from the charsheet, this re-calculates the cost
  * field.
  */
-const recalculatePowerCost = function(power) {
-  power.cost = powerCostCalculate(power).cost;
+const recalculatePowerCost = function(power, inheritedModifierLists) {
+  power.cost = powerCostCalculate(power, inheritedModifierLists).cost;
 };
 
 /*
  * Given a Power object from the charsheet and a feature, this copies
  * the feature over into the power and replaces whatever it used to
  * contain with the fields of the feature.
- *
- * FIXME: Need to confirm that this handles subpowers correctly
  */
 const replacePower = function(power, feature) {
   for (const [fieldName, fieldValue] of Object.entries(feature)) {
     Vue.set(power, fieldName, fieldValue);
   }
-  recalculatePowerCost(power);
+  recalculatePowerCost(power, inheritedModifierLists);
 }
 
 
@@ -412,7 +439,7 @@ const replacePower = function(power, feature) {
  * alters the effect and then re-calculates all the fields of the Power
  * object that depend on the effect.
  */
-const setPowerEffect = function(power, effect) {
+const setPowerEffect = function(power, inheritedModifierLists, effect) {
   power.effect = effect;
   const standardPower = getStandardPower(power);
   if (standardPower !== null) {
@@ -432,7 +459,7 @@ const setPowerEffect = function(power, effect) {
       }
     }
   }
-  recalculatePowerCost(power);
+  recalculatePowerCost(power, inheritedModifierLists);
 }
 
 /*
@@ -440,9 +467,9 @@ const setPowerEffect = function(power, effect) {
  * alters the effect and then re-calculates all the fields of the Power
  * object that depend on the effect.
  */
-const setPowerOption = function(power, option) {
+const setPowerOption = function(power, inheritedModifierLists, option) {
   power.option = option;
-  recalculatePowerCost(power);
+  recalculatePowerCost(power, inheritedModifierLists);
 }
 
 /*
@@ -460,20 +487,20 @@ const setPowerOption = function(power, option) {
  *   displayText: xxx
  * }
  */
-const addPowerModifier = function(power, modifierType, modifier) {
+const addPowerModifier = function(power, inheritedModifierLists, modifierType, modifier) {
   power[modifierType].push(modifier);
-  power.cost = powerCostCalculate(power).cost
+  power.cost = powerCostCalculate(power, inheritedModifierLists).cost
 }
 
 /*
  * Delete a modifier from a particular power.
  */
-const deletePowerModifier = function(power, modifierType, modifier) {
+const deletePowerModifier = function(power, inheritedModifierLists, modifierType, modifier) {
   const modifierList = power[modifierType];
   const index = modifierList.indexOf(modifier);
   if (index !== -1) {
     modifierList.splice(index, 1);
-    power.cost = powerCostCalculate(power).cost;
+    power.cost = powerCostCalculate(power, inheritedModifierLists).cost;
   }
 }
 
@@ -668,7 +695,7 @@ const findOrCreateActiveEffect = function(charsheet, activeEffectKey, test, crea
   const possibleActiveEffects = charsheet.activeEffects[activeEffectKey];
   const matchingActiveEffects = possibleActiveEffects.filter(test);
   if (matchingActiveEffects.length > 1) {
-    throw Error(`Multiple active effects that matched.`);
+    throw new Error(`Multiple active effects that matched.`);
   } else if (matchingActiveEffects.length === 1) {
     // The activeEffect entry exists. Return it.
     return matchingActiveEffects[0];
@@ -726,7 +753,7 @@ const lacksStat = function(charsheet, statName) {
   } else if (statObj.entered === null) {
     return false;
   } else {
-    throw Error(`The entered ranks for ${statName} are '${entered}' which is an unexpected type.`);
+    throw new Error(`The entered ranks for ${statName} are '${entered}' which is an unexpected type.`);
   }
 }
 
@@ -794,10 +821,26 @@ const attackRollInfo = function(charsheet, attack) {
  * function will update the feature (power) but ALSO will update related features like child
  * features or siblings within the same array.
  *
- * The argument comingFrom is only used for recursion.
+ * The argument comingFrom is only used for recursion. Allowed values are "self" (for the non-recursive
+ * call), "parent", "sibling", or "child" and they indicate the relationship of the triggering power
+ * to this one.
  */
 const setFeatureActivation = function(charsheet, power, action, comingFrom="self") {
-  console.log(`setFeatureActivation(charsheet, ${power.name}, ${action}, ${comingFrom}`); // FIXME: Remove
+  console.log(`setFeatureActivation(charsheet, ${power.name}, ${action}, ${comingFrom})`); // FIXME: Remove
+
+  // --- Validate Inputs ---
+  if (!["on", "off", "partial", "incr", "decr"].includes(action)) {
+    throw new Error(`Invalid input to setFeatureActivation(): action = "${action}".`)
+  }
+  if (!["self", "parent", "child", "sibling"].includes(comingFrom)) {
+    throw new Error(`Invalid input to setFeatureActivation(): comingFrom = "${comingFrom}".`)
+  }
+
+  // --- If this isn't a real power, just exit ---
+  const standardPower = getStandardPower(power);
+  if (standardPower === null) {
+    return;
+  }
 
   // --- Update own status ---
   const oldStatus = power.activation.activationStatus;
@@ -823,58 +866,58 @@ const setFeatureActivation = function(charsheet, power, action, comingFrom="self
   }
   const newStatus = power.activation.activationStatus;
   const newRanks = power.activation.ranks;
+  const statusChanged = oldStatus !== newStatus;
+  const ranksChanged = oldRanks !== newRanks;
 
   // --- If nothing changed we are done ---
-  if (oldStatus === newStatus && oldRanks === newRanks) {
+  if (!statusChanged && !ranksChanged) {
     return;
   }
 
   // --- Recurse on child powers ---
-  if (
-    (comingFrom === "self" || comingFrom === "parent" || comingFrom === "sibling")
-    && (power.effect === "Linked" || power.effect === "Alternate" || power.effect === "Dynamic")
-  ) {
+  if (["self", "parent", "sibling"].includes(comingFrom) && standardPower.powerLayout === "array") {
     if (newStatus === "off") {
       // -- all subpowers off --
       for (const subpower of power.subpowers) {
-        setFeatureActivation(charsheet, subpower, "off", comingFrom="parent");
+        setFeatureActivation(charsheet, subpower, "off", "parent");
       }
     } else if (newStatus === "on") {
       if (power.effect === "Linked") {
         // -- all subpowers on --
         for (const subpower of power.subpowers) {
-          setFeatureActivation(charsheet, subpower, "on", comingFrom="parent");
+          setFeatureActivation(charsheet, subpower, "on", "parent");
         }
-      } else {
+      } else { // power.effect must be "Alternate"
         // -- first subpower on; rest off --
         let isFirst = true;
         for (const subpower of power.subpowers) {
-          setFeatureActivation(charsheet, subpower, isFirst ? "on" : "off", comingFrom="parent");
+          setFeatureActivation(charsheet, subpower, isFirst ? "on" : "off", "parent");
           isFirst = false;
         }
       }
+    } else if (newStatus === "partial") {
+      throw new Error(`Array powers should never become partial, but this one was.`);
     }
   }
 
   // --- For cases where the power has a parent ---
-  const parentArray = findContainingArrayByHsid(charsheet, power.hsid);
-  console.log(`...parentArray = ${parentArray === null ? "null" : parentArray.name}`); // FIXME: Remove
-  if (parentArray !== null) {
+  if (["self", "child"].includes(comingFrom)) {
+    const parentArray = findContainingArrayByHsid(charsheet, power.hsid);
+    if (parentArray !== null) {
 
-    // --- Modify parent ---
-    if ((comingFrom === "self" || comingFrom === "child") && newStatus === "on" && parentArray.activation.activationStatus === "off") {
-      setFeatureActivation(charsheet, parentArray, "on", comingFrom="child");
-    }
+      // --- Modify parent ---
+      if (statusChanged && ["on", "partial"].includes(newStatus) && parentArray.activation.activationStatus === "off") {
+        setFeatureActivation(charsheet, parentArray, "on", "child");
+      }
 
-    // --- Modify siblings ---
-    if (comingFrom === "self" || comingFrom === "child") {
+      // --- Modify siblings ---
       if (parentArray.effect === "Alternate") {
         // -- Alternate Arrays --
-        if (newStatus === "on" || newStatus === "partial") {
+        if (statusChanged && ["on", "partial"].includes(newStatus)) {
           // - Turn off all other siblings -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power) {
-              setFeatureActivation(charsheet, siblingPower, "off", comingFrom="sibling");
+              setFeatureActivation(charsheet, siblingPower, "off", "sibling");
             }
           }
         } else if (newStatus === "off") {
@@ -882,27 +925,40 @@ const setFeatureActivation = function(charsheet, power, action, comingFrom="self
         }
       } else if (parentArray.effect === "Linked") {
         // -- Linked Arrays --
-        if (newStatus === "on") {
+        if (statusChanged && newStatus === "on") {
           // - Turn on all other siblings -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power) {
-              setFeatureActivation(charsheet, siblingPower, "on", comingFrom="sibling");
+              setFeatureActivation(charsheet, siblingPower, "on", "sibling");
             }
           }
-        } else if (newStatus === "off") {
+        } else if (statusChanged && newStatus === "off") {
           // - Turn off all other siblings -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power) {
-              setFeatureActivation(charsheet, siblingPower, "off", comingFrom="sibling");
+              setFeatureActivation(charsheet, siblingPower, "off", "sibling");
             }
           }
-        } else if (newStatus === "partial") {
-          console.log(`ERROR: Not done supporting partial status for Linked arrays`); // FIXME: Finish it
+        } else if (statusChanged && newStatus === "partial") {
+          // - Any sibling that is off should be turned on -
+          for (const siblingPower of parentArray.subpowers) {
+            if (siblingPower !== power && siblingPower.activation.activationStatus === "off") {
+              setFeatureActivation(charsheet, siblingPower, "on", "sibling");
+            }
+          }
         }
-      } else {
-        console.log(`ERROR: Not done supporting Dynamic arrays`); // FIXME: Finish it
+      } else if (parentArray.effect === "Dynamic") {
+        // -- Dynamic Arrays --
+        const hasIncreased = (statusChanged && newStatus === "on") || (ranksChanged && action === "incr");
+        if (hasIncreased) {
+          // - It has increased; need to reduce other things to make space for it -
+          const costIncrease = (ranksChanged ? (999) : (999)); // FIXME: Calculate the actual values
+          console.log(`--> costIncrease = ${costIncrease}`); // FIXME: Remove
+          console.log(`ERROR: Not done supporting Dynamic arrays`); // FIXME: Finish writing it
+        }
       }
     }
+
   }
 }
 
@@ -950,6 +1006,7 @@ export {
   fieldAllowedRegEx,
   powerBaseCost,
   powerCostCalculate,
+  getInheritedModifierLists,
   rangeToInt,
   intToRange,
   advantageIsRanked,

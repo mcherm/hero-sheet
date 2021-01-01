@@ -36,10 +36,12 @@
         <line x1="80" y1="580" x2="432" y2="580"/>
         <line x1="80" y1="660" x2="432" y2="660"/>
       </g>
-      <line x1="256" y1="740" x2="256" y2="803"/>
-      <line x1="256" y1="803" x2="80" y2="1003"/>
-      <line x1="256" y1="803" x2="432" y2="1003"/>
-      <line x1="80" y1="1003" x2="432" y2="1003"/>
+      <g v-if="canBePartial">
+        <line x1="256" y1="740" x2="256" y2="803"/>
+        <line x1="256" y1="803" x2="80" y2="1003"/>
+        <line x1="256" y1="803" x2="432" y2="1003"/>
+        <line x1="80" y1="1003" x2="432" y2="1003"/>
+      </g>
       <rect class="click-catcher" x="4" y="4" width="504" height="752" rx="96" @click="clickOnOff()"/>
       <rect class="click-catcher" x="4" y="787" width="504" height="232" rx="96" @click="clickPartial()"/>
     </svg>
@@ -53,11 +55,14 @@
 
 <script>
 
+  // What you go to if you click the "on/off" section of the widget
   const ON_OFF_MAPPING = {
     "on": "off",
     "off": "on",
     "partial": "on",
   };
+
+  // What you go to if you click the "partial" section of the widget
   const PARTIAL_MAPPING = {
     "on": "partial",
     "off": "partial",
@@ -67,7 +72,8 @@
   export default {
     name: "ActivationWidget",
     props: {
-      activation: { "type": Object, "required": true }
+      activation: { "type": Object, "required": true },
+      canBePartial: { "type": Boolean, "required": true },
     },
     methods: {
       clickOnOff: function() {
@@ -75,10 +81,11 @@
         this.$emit("setFeatureActivation", newActivationStatus);
       },
       clickPartial: function() {
-        const newActivationStatus = PARTIAL_MAPPING[this.activation.activationStatus];
-        if (newActivationStatus !== this.activation.activationStatus) {
-          // FIXME: I should restore this, but for the moment I'm DISABLING partial activation by removing the next line
-          // this.$emit("setFeatureActivation", newActivationStatus);
+        if (this.canBePartial) {
+          const newActivationStatus = PARTIAL_MAPPING[this.activation.activationStatus];
+          if (newActivationStatus !== this.activation.activationStatus) {
+            this.$emit("setFeatureActivation", newActivationStatus);
+          }
         }
       },
       clickIncr: function() {
