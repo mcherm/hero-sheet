@@ -14,7 +14,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
-      <li>2020-12-30: The ability to activate powers now extends to PARTIALLY activating them and using dynamic arrays.</li>
+      <li>2021-01-01: The ability to activate powers now extends to PARTIALLY activating them and using dynamic arrays.</li>
       <li>2020-12-30: Added Ranks and Measures to In-Play tab.</li>
       <li>2020-12-26: Fixed bug when a sense with qualities is deleted and also the names of adjustments from powers.</li>
       <li>2020-12-26: The ability to turn off powers. Supports linked and alternate arrays but not yet dynamic.</li>
