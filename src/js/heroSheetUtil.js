@@ -156,20 +156,20 @@ const powerCostCalculate = function(power, inheritedModifierLists, activeRanks=n
   } else {
     const modifiedCostPerRank = powerBaseCost(power) + extrasMultiplier + flawsMultiplier;
     const costBeforeFlats = modifiedCostPerRank >= 1
-      ? modifiedCostPerRank * power.ranks
-      : Math.ceil( power.ranks / (2 - modifiedCostPerRank) );
+      ? modifiedCostPerRank * effectiveRanks
+      : Math.ceil( effectiveRanks / (2 - modifiedCostPerRank) );
     const costWithNormalAdder = Math.max(1, costBeforeFlats + normalFlatAdder);
     const finalAdjustment = Math.round((costWithNormalAdder / 5) * flatPer5FinalPoints);
-    cost = Math.max(1, costBeforeFlats + normalFlatAdder + finalAdjustment);
+    cost = effectiveRanks === 0 ? 0 : Math.max(1, costBeforeFlats + normalFlatAdder + finalAdjustment);
     flatAdder = cost - costBeforeFlats;
   }
 
   // --- Return result object ---
   return {
+    cost,
     extrasMultiplier,
     flawsMultiplier,
     flatAdder,
-    cost
   };
 };
 
@@ -815,6 +815,45 @@ const attackRollInfo = function(charsheet, attack) {
 
 
 /*
+ * Returns the number of ranks currently active on this power.
+ */
+const getActiveRanks = function(power) {
+  const status = power.activation.activationStatus;
+  return status === "off" ? 0 : (status === "on" ? power.ranks : power.activation.ranks);
+}
+
+
+/*
+ * This is a subroutine of setFeatureActivation for dealing with dynamic arrays. It is
+ * given a dynamic array and examines it's current activation status. If the current
+ * state of activation means that the dynamic array is overspent, this returns the amount
+ * by which it is overspent. If not, then this returns 0. If something is NaN then
+ * this will return 0.
+ *
+ * dynamicArray is the array and inheritedModifierLists is the correct list for the
+ * CHILDREN of the array.
+ */
+const dynamicArrayOverspendAmount = function(dynamicArray, inheritedModifierLists) {
+  let mostExpensiveCost = 0;
+  let totalActiveCost = 0;
+  for (const subpower of dynamicArray.subpowers) {
+    const activeRanks = getActiveRanks(subpower);
+    const activeCost = powerCostCalculate(subpower, inheritedModifierLists, activeRanks).cost;
+    totalActiveCost += activeCost;
+    const fullCost = subpower.cost;
+    if (fullCost > mostExpensiveCost) {
+      mostExpensiveCost = fullCost;
+    }
+  }
+  if (totalActiveCost > mostExpensiveCost) {
+    return totalActiveCost - mostExpensiveCost;
+  } else {
+    return 0;
+  }
+}
+
+
+/*
  * This is called when the activation on a feature is altered. action should be "on" (the power is
  * turned on), "off" (the power is turned off), "partial" (the power is switched into partially-active
  * mode), "incr" (the power is increased by 1 rank), or "decr" (the power is decreased by 1 rank). The
@@ -825,8 +864,7 @@ const attackRollInfo = function(charsheet, attack) {
  * call), "parent", "sibling", or "child" and they indicate the relationship of the triggering power
  * to this one.
  */
-const setFeatureActivation = function(charsheet, power, action, comingFrom="self") {
-  console.log(`setFeatureActivation(charsheet, ${power.name}, ${action}, ${comingFrom})`); // FIXME: Remove
+const setFeatureActivation = function(charsheet, power, inheritedModifierLists, action, comingFrom="self") {
 
   // --- Validate Inputs ---
   if (!["on", "off", "partial", "incr", "decr"].includes(action)) {
@@ -844,7 +882,7 @@ const setFeatureActivation = function(charsheet, power, action, comingFrom="self
 
   // --- Update own status ---
   const oldStatus = power.activation.activationStatus;
-  const oldRanks = power.activation.ranks;
+  const oldRanks = getActiveRanks(power);
   if (action === "on") {
     power.activation.activationStatus = "on";
   } else if (action === "off") {
@@ -865,7 +903,7 @@ const setFeatureActivation = function(charsheet, power, action, comingFrom="self
     throw new Error(`Unsupported action '${action}' in setFeatureActivation().`);
   }
   const newStatus = power.activation.activationStatus;
-  const newRanks = power.activation.ranks;
+  const newRanks = getActiveRanks(power);
   const statusChanged = oldStatus !== newStatus;
   const ranksChanged = oldRanks !== newRanks;
 
@@ -876,22 +914,23 @@ const setFeatureActivation = function(charsheet, power, action, comingFrom="self
 
   // --- Recurse on child powers ---
   if (["self", "parent", "sibling"].includes(comingFrom) && standardPower.powerLayout === "array") {
+    const subpowerInheritedModifierLists = [power.extras, power.flaws, ...inheritedModifierLists];
     if (newStatus === "off") {
       // -- all subpowers off --
       for (const subpower of power.subpowers) {
-        setFeatureActivation(charsheet, subpower, "off", "parent");
+        setFeatureActivation(charsheet, subpower, subpowerInheritedModifierLists, "off", "parent");
       }
     } else if (newStatus === "on") {
       if (power.effect === "Linked") {
         // -- all subpowers on --
         for (const subpower of power.subpowers) {
-          setFeatureActivation(charsheet, subpower, "on", "parent");
+          setFeatureActivation(charsheet, subpower, subpowerInheritedModifierLists, "on", "parent");
         }
       } else { // power.effect must be "Alternate"
         // -- first subpower on; rest off --
         let isFirst = true;
         for (const subpower of power.subpowers) {
-          setFeatureActivation(charsheet, subpower, isFirst ? "on" : "off", "parent");
+          setFeatureActivation(charsheet, subpower, subpowerInheritedModifierLists, isFirst ? "on" : "off", "parent");
           isFirst = false;
         }
       }
@@ -907,7 +946,8 @@ const setFeatureActivation = function(charsheet, power, action, comingFrom="self
 
       // --- Modify parent ---
       if (statusChanged && ["on", "partial"].includes(newStatus) && parentArray.activation.activationStatus === "off") {
-        setFeatureActivation(charsheet, parentArray, "on", "child");
+        const parentInheritedModifierLists = getInheritedModifierLists(charsheet, parentArray);
+        setFeatureActivation(charsheet, parentArray, parentInheritedModifierLists, "on", "child");
       }
 
       // --- Modify siblings ---
@@ -917,7 +957,7 @@ const setFeatureActivation = function(charsheet, power, action, comingFrom="self
           // - Turn off all other siblings -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power) {
-              setFeatureActivation(charsheet, siblingPower, "off", "sibling");
+              setFeatureActivation(charsheet, siblingPower, inheritedModifierLists, "off", "sibling");
             }
           }
         } else if (newStatus === "off") {
@@ -929,32 +969,65 @@ const setFeatureActivation = function(charsheet, power, action, comingFrom="self
           // - Turn on all other siblings -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power) {
-              setFeatureActivation(charsheet, siblingPower, "on", "sibling");
+              setFeatureActivation(charsheet, siblingPower, parentInheritedModifierLists, "on", "sibling");
             }
           }
         } else if (statusChanged && newStatus === "off") {
           // - Turn off all other siblings -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power) {
-              setFeatureActivation(charsheet, siblingPower, "off", "sibling");
+              setFeatureActivation(charsheet, siblingPower, parentInheritedModifierLists, "off", "sibling");
             }
           }
         } else if (statusChanged && newStatus === "partial") {
           // - Any sibling that is off should be turned on -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power && siblingPower.activation.activationStatus === "off") {
-              setFeatureActivation(charsheet, siblingPower, "on", "sibling");
+              setFeatureActivation(charsheet, siblingPower, parentInheritedModifierLists, "on", "sibling");
             }
           }
         }
       } else if (parentArray.effect === "Dynamic") {
         // -- Dynamic Arrays --
-        const hasIncreased = (statusChanged && newStatus === "on") || (ranksChanged && action === "incr");
+        const hasIncreased = oldRanks < newRanks;
         if (hasIncreased) {
           // - It has increased; need to reduce other things to make space for it -
-          const costIncrease = (ranksChanged ? (999) : (999)); // FIXME: Calculate the actual values
-          console.log(`--> costIncrease = ${costIncrease}`); // FIXME: Remove
-          console.log(`ERROR: Not done supporting Dynamic arrays`); // FIXME: Finish writing it
+          const oldCost = (oldRanks === 0
+            ? 0 // ranks of 0 costs zero even if there are flat modifiers
+            : powerCostCalculate(power, inheritedModifierLists, oldRanks).cost
+          );
+          let costToDistribute = dynamicArrayOverspendAmount(parentArray, inheritedModifierLists);
+          if (costToDistribute > 0) {
+            const siblings = parentArray.subpowers.filter(x => x !== power);
+            while (costToDistribute > 0) {
+              if (siblings.length === 0) {
+                throw new Error(`Tried to distribute cost in a dynamic array but all siblings were tapped out. Shouldn't be possible.`);
+              }
+              const sibling = siblings[siblings.length - 1];
+              const standardSiblingPower = getStandardPower(sibling);
+              const oldSiblingStatus = sibling.activation.activationStatus;
+              const oldSiblingRanks = getActiveRanks(sibling);
+              if (standardSiblingPower === null || oldSiblingRanks === 0) {
+                siblings.splice(siblings.length - 1); // move past this sibling; it can't be reduced
+                continue; // go back to the top of the while() loop
+              }
+              const oldSiblingCost = powerCostCalculate(sibling, inheritedModifierLists, oldSiblingRanks).cost;
+              if (oldSiblingStatus === "partial") {
+                setFeatureActivation(charsheet, sibling, inheritedModifierLists, "decr", "sibling");
+              } else if (oldSiblingStatus === "on") {
+                if (standardSiblingPower.canBePartial) {
+                  setFeatureActivation(charsheet, sibling, inheritedModifierLists, "partial", "sibling");
+                  setFeatureActivation(charsheet, sibling, inheritedModifierLists, "decr", "sibling");
+                } else {
+                  setFeatureActivation(charsheet, sibling, inheritedModifierLists, "off", "sibling");
+                }
+              }
+              const newSiblingRanks = getActiveRanks(sibling);
+              const newSiblingCost = powerCostCalculate(sibling, inheritedModifierLists, newSiblingRanks).cost;
+              const costExpended = oldSiblingCost - newSiblingCost;
+              costToDistribute -= costExpended;
+            }
+          }
         }
       }
     }
