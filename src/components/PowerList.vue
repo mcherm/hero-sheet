@@ -11,7 +11,7 @@
                 v-if="getStandardPower(power) !== null"
                 :activation="power.activation"
                 :can-be-partial="getStandardPower(power).canBePartial"
-                @setFeatureActivation="setFeatureActivation(getCharsheet(), power, $event)"
+                @setFeatureActivation="setFeatureActivation(getCharsheet(), power, inheritedModifierLists, $event)"
             />
           </div>
           <power
