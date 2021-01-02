@@ -1,8 +1,5 @@
 <template>
-  <div
-      class="power"
-      :class="{'partial': power.activation.activationStatus === 'partial', 'off': power.activation.activationStatus === 'off'}"
-  >
+  <div class="power" :class="powerStateClasses(power)">
     <div class="flex-row">
       <div class="power-features">
         <label class="row-label">Name</label>
@@ -101,7 +98,10 @@
   import PowerEffectSelect from "./PowerEffectSelect.vue";
   import PowerLayoutSenses from "./PowerLayoutSenses.vue";
   import {STARTING_POWER_NAME} from "../js/heroSheetVersioning.js";
-  import {powerBaseCost, powerCostCalculate, getStandardPower, getPowerOption, setPowerEffect, setPowerOption, powerUpdaterEvents, buildFeature, replacePower} from "../js/heroSheetUtil.js";
+  import {
+    powerBaseCost, powerCostCalculate, getStandardPower, getPowerOption, setPowerEffect,
+    setPowerOption, powerUpdaterEvents, buildFeature, replacePower, powerStateClasses, setFeatureActivation
+  } from "../js/heroSheetUtil.js";
   const samplePowers = require("../data/samplePowers.json");
 
   export default {
@@ -131,6 +131,7 @@
       }
     },
     methods: {
+      powerStateClasses,
       isArray: function() {
         return this.standardPower && this.standardPower.powerLayout === "array";
       },
@@ -174,11 +175,13 @@
         }
         this.recalculatePowerCost();
         this.potentiallyCreateNewUpdaters();
+        setFeatureActivation(this.getCharsheet(), this.power, this.inheritedModifierLists, "on");
         this.$emit('update:name', this.power.name); // Allow the containing list to rename for uniqueness
       },
       setPowerOption: function(option) {
         setPowerOption(this.power, this.inheritedModifierLists, option);
         this.potentiallyCreateNewUpdaters();
+        setFeatureActivation(this.getCharsheet(), this.power, this.inheritedModifierLists, "on");
       },
       setPowerRanks: function(ranks) {
         this.power.ranks = ranks;
@@ -217,6 +220,9 @@
     background-color: var(--subtle-shade-color);
   }
   div.power.partial {
+    border-style: dotted;
+  }
+  div.power.partial.off {
     border-style: dotted;
   }
   .flex-row {
