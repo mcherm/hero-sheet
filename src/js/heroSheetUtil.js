@@ -1,3 +1,10 @@
+/*
+ * File with miscellaneous functions used various places in the program.
+ *
+ * FIXME: This file is getting pretty big. I should consider breaking it
+ *   up into smaller pieces.
+ */
+
 import Vue from 'vue'
 import {newBlankPower, newHsid, findContainingArrayByHsid} from "./heroSheetVersioning.js";
 
@@ -181,10 +188,14 @@ const powerCostCalculate = function(power, inheritedModifierLists, activeRanks=n
  */
 const getInheritedModifierLists = function(charsheet, power) {
   const parentArray = findContainingArrayByHsid(charsheet, power.hsid)
-  return (parentArray === null
-      ? []
-      : [power.extras, power.flaws, ...getInheritedModifierLists(parentArray)]
-  );
+  if (parentArray === undefined) {
+  }
+  if (parentArray === null) {
+    return [];
+  } else {
+    const inheritedModifierLists = getInheritedModifierLists(charsheet, parentArray);
+    return [power.extras, power.flaws, ...inheritedModifierLists];
+  }
 }
 
 
@@ -426,7 +437,7 @@ const recalculatePowerCost = function(power, inheritedModifierLists) {
  * the feature over into the power and replaces whatever it used to
  * contain with the fields of the feature.
  */
-const replacePower = function(power, feature) {
+const replacePower = function(power, inheritedModifierLists, feature) {
   for (const [fieldName, fieldValue] of Object.entries(feature)) {
     Vue.set(power, fieldName, fieldValue);
   }
@@ -945,9 +956,13 @@ const setFeatureActivation = function(charsheet, power, inheritedModifierLists, 
     if (parentArray !== null) {
 
       // --- Modify parent ---
-      if (statusChanged && ["on", "partial"].includes(newStatus) && parentArray.activation.activationStatus === "off") {
+      const parentStatus = parentArray.activation.activationStatus;
+      if (statusChanged && ["on", "partial"].includes(newStatus) && parentStatus === "off") {
         const parentInheritedModifierLists = getInheritedModifierLists(charsheet, parentArray);
         setFeatureActivation(charsheet, parentArray, parentInheritedModifierLists, "on", "child");
+      } else if (statusChanged && newStatus === "off" && parentArray.effect === "Linked" && parentStatus === "on") {
+        const parentInheritedModifierLists = getInheritedModifierLists(charsheet, parentArray);
+        setFeatureActivation(charsheet, parentArray, parentInheritedModifierLists, "off", "child");
       }
 
       // --- Modify siblings ---
@@ -969,21 +984,21 @@ const setFeatureActivation = function(charsheet, power, inheritedModifierLists, 
           // - Turn on all other siblings -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power) {
-              setFeatureActivation(charsheet, siblingPower, parentInheritedModifierLists, "on", "sibling");
+              setFeatureActivation(charsheet, siblingPower, inheritedModifierLists, "on", "sibling");
             }
           }
         } else if (statusChanged && newStatus === "off") {
           // - Turn off all other siblings -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power) {
-              setFeatureActivation(charsheet, siblingPower, parentInheritedModifierLists, "off", "sibling");
+              setFeatureActivation(charsheet, siblingPower, inheritedModifierLists, "off", "sibling");
             }
           }
         } else if (statusChanged && newStatus === "partial") {
           // - Any sibling that is off should be turned on -
           for (const siblingPower of parentArray.subpowers) {
             if (siblingPower !== power && siblingPower.activation.activationStatus === "off") {
-              setFeatureActivation(charsheet, siblingPower, parentInheritedModifierLists, "on", "sibling");
+              setFeatureActivation(charsheet, siblingPower, inheritedModifierLists, "on", "sibling");
             }
           }
         }
@@ -1055,6 +1070,20 @@ const activationState = function(feature) {
 
 
 /*
+ * Given a power, this returns the dictionary of class names used by PowerList.vue and Power.vue
+ * to make it look different when on / partial / off.
+ */
+const powerStateClasses = function(power) {
+  const status = power.activation.activationStatus;
+  const ranks = getActiveRanks(power);
+  return {
+    partial: status === 'partial',
+    off: getActiveRanks(power) === 0,
+  };
+}
+
+
+/*
  * Common function which creates a new error message and sends it to the even queue
  * to be displayed.
  */
@@ -1117,5 +1146,6 @@ export {
   attackRollInfo,
   setFeatureActivation,
   activationState,
+  powerStateClasses,
   showAlert,
 };

@@ -3,10 +3,7 @@
     <ul class="power-list">
       <li v-for="(power, powerIndex) in powers" :key="power.name">
         <div class="power-list-row">
-          <div
-              class="activate-pane"
-              :class="{'partial': power.activation.activationStatus === 'partial', 'off': power.activation.activationStatus === 'off'}"
-          >
+          <div class="activate-pane" :class="powerStateClasses(power)">
             <activation-widget
                 v-if="getStandardPower(power) !== null"
                 :activation="power.activation"
@@ -38,7 +35,7 @@
 
 <script>
   import {newBlankPower} from "../js/heroSheetVersioning.js";
-  import {setFeatureActivation, getStandardPower} from "@/js/heroSheetUtil.js";
+  import {setFeatureActivation, getStandardPower, powerStateClasses} from "@/js/heroSheetUtil.js";
   import ActivationWidget from "@/components/ActivationWidget";
 
   export default {
@@ -60,6 +57,7 @@
     },
     methods: {
       getStandardPower,
+      powerStateClasses,
       addPower: function() {
         const blankPower = newBlankPower();
         this.powers.push(blankPower);
@@ -161,6 +159,9 @@
     background-color: var(--subtle-shade-color);
   }
   .activate-pane.partial {
+    border-style: dotted;
+  }
+  .activate-pane.partial.off {
     border-style: dotted;
   }
   .trash-button {
