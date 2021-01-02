@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  const skillsData = require("../data/skillsData.json");
+  const skillsData = require("@/data/skillsData.json");
 
   export default {
     name: "SkillsCustomization",

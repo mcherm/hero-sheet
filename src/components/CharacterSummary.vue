@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import {documentDefinition} from "../js/pdf.js";
+  import {documentDefinition} from "@/js/pdf.js";
 
   const pdfMake = require("pdfmake/build/pdfmake.js");
   const pdfFonts = require("pdfmake/build/vfs_fonts.js");

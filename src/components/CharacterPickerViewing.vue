@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import {NotLoggedInError, getViewing, putViewing, listPublicCharacters} from "../js/api.js";
+  import {NotLoggedInError, getViewing, putViewing, listPublicCharacters} from "@/js/api.js";
   import ViewedUserPicker from "@/components/ViewedUserPicker.vue";
   import {showAlert} from "@/js/heroSheetUtil.js";
 

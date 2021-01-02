@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import LocalCostDisplay from "./LocalCostDisplay.vue";
+  import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
 
   export default {
     name: "Adjustments",

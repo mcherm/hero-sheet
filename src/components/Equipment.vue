@@ -88,12 +88,12 @@
 </template>
 
 <script>
-  import LocalCostDisplay from "./LocalCostDisplay.vue";
-  import MechanicsIcon from "./MechanicsIcon.vue";
-  import {newBlankEquipment, newBlankPower} from "../js/heroSheetVersioning.js";
-  import {buildFeature, equipmentCost, createUpdatersForFeature} from "../js/heroSheetUtil.js";
+  import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
+  import MechanicsIcon from "@/components/MechanicsIcon.vue";
+  import {newBlankEquipment, newBlankPower} from "@/js/heroSheetVersioning.js";
+  import {buildFeature, equipmentCost, createUpdatersForFeature} from "@/js/heroSheetUtil.js";
 
-  const standardEquipment = require("../data/standardEquipment.json");
+  const standardEquipment = require("@/data/standardEquipment.json");
 
   export default {
     name: "Equipment.vue",

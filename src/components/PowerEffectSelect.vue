@@ -28,8 +28,8 @@
 </template>
 
 <script>
-  const standardPowers = require("../data/standardPowers.json");
-  const samplePowers = require("../data/samplePowers.json");
+  const standardPowers = require("@/data/standardPowers.json");
+  const samplePowers = require("@/data/samplePowers.json");
 
   export default {
     name: "PowerEffectSelect",

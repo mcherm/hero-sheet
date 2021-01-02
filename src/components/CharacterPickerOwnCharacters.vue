@@ -36,9 +36,9 @@
 </template>
 
 <script>
-  import {createCharacter, deleteCharacter, listCharacters, NotLoggedInError, rebuildIndex} from "../js/api.js";
-  import {newBlankCharacter} from "../js/heroSheetVersioning.js";
-  import {showAlert} from "../js/heroSheetUtil.js";
+  import {createCharacter, deleteCharacter, listCharacters, NotLoggedInError, rebuildIndex} from "@/js/api.js";
+  import {newBlankCharacter} from "@/js/heroSheetVersioning.js";
+  import {showAlert} from "@/js/heroSheetUtil.js";
 
   export default {
     name: "CharacterPickerOwnCharacters",

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import SensesChart from "./SensesChart.vue";
+  import SensesChart from "@/components/SensesChart.vue";
 
   export default {
     name: "PowerLayoutSenses",

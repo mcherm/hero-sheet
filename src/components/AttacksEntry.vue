@@ -68,12 +68,12 @@
 </template>
 
 <script>
-import {attackRollInfo} from "../js/heroSheetUtil.js";
+import {attackRollInfo} from "@/js/heroSheetUtil.js";
 
-import AttacksResultDamage from "./AttacksResultDamage.vue"
-import AttacksResultAffliction from "./AttacksResultAffliction.vue"
-import AttacksResultNullify from "./AttacksResultNullify.vue"
-import AttacksResultWeaken from "./AttacksResultWeaken.vue"
+import AttacksResultDamage from "@/components/AttacksResultDamage.vue"
+import AttacksResultAffliction from "@/components/AttacksResultAffliction.vue"
+import AttacksResultNullify from "@/components/AttacksResultNullify.vue"
+import AttacksResultWeaken from "@/components/AttacksResultWeaken.vue"
 
 export default {
   name: "AttacksEntry",

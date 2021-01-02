@@ -65,25 +65,25 @@
 </template>
 
 <script>
-  import TabDisplay from "./TabDisplay.vue";
-  import Campaign from "./Campaign.vue"
-  import Background from "./Background.vue"
-  import BasicStats from "./BasicStats.vue"
-  import Defenses from "./Defenses.vue"
-  import Skills from "./Skills.vue"
-  import Advantages from "./Advantages.vue"
-  import Equipment from "./Equipment.vue";
-  import OverallCosts from "./OverallCosts.vue"
-  import PowerListTopLevel from "./PowerListTopLevel.vue"
-  import Complications from "./Complications.vue";
-  import Attacks from "./Attacks.vue"
-  import SensesChart from "./SensesChart.vue"
-  import Adjustments from "./Adjustments.vue";
-  import ConstraintViolations from "./ConstraintViolations.vue";
-  import Conditions from "./Conditions.vue";
-  import RanksAndMeasures from "./RanksAndMeasures";
+  import TabDisplay from "@/components/TabDisplay.vue";
+  import Campaign from "@/components/Campaign.vue"
+  import Background from "@/components/Background.vue"
+  import BasicStats from "@/components/BasicStats.vue"
+  import Defenses from "@/components/Defenses.vue"
+  import Skills from "@/components/Skills.vue"
+  import Advantages from "@/components/Advantages.vue"
+  import Equipment from "@/components/Equipment.vue";
+  import OverallCosts from "@/components/OverallCosts.vue"
+  import PowerListTopLevel from "@/components/PowerListTopLevel.vue"
+  import Complications from "@/components/Complications.vue";
+  import Attacks from "@/components/Attacks.vue"
+  import SensesChart from "@/components/SensesChart.vue"
+  import Adjustments from "@/components/Adjustments.vue";
+  import ConstraintViolations from "@/components/ConstraintViolations.vue";
+  import Conditions from "@/components/Conditions.vue";
+  import RanksAndMeasures from "@/components/RanksAndMeasures";
 
-  import {findAllyByHsid} from "../js/heroSheetVersioning.js";
+  import {findAllyByHsid} from "@/js/heroSheetVersioning.js";
 
   export default {
     name: "CharacterSheet",

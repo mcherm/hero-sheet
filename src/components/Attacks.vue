@@ -20,9 +20,8 @@
 </template>
 
 <script>
-import LocalCostDisplay from "./LocalCostDisplay.vue";
-
-import AttacksEntry from "./AttacksEntry.vue";
+import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
+import AttacksEntry from "@/components/AttacksEntry.vue";
 
 export default {
     name: "Attacks",

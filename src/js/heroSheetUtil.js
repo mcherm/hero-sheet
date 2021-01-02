@@ -6,12 +6,12 @@
  */
 
 import Vue from 'vue'
-import {newBlankPower, newHsid, findContainingArrayByHsid} from "./heroSheetVersioning.js";
+import {newBlankPower, newHsid, findContainingArrayByHsid} from "@/js/heroSheetVersioning.js";
 
-const standardAdvantages = require("../data/standardAdvantages.json");
-const standardPowers = require("../data/standardPowers.json");
-const modifiersData = require("../data/modifiersData.json");
-const skillsData = require("../data/skillsData.json");
+const standardAdvantages = require("@/data/standardAdvantages.json");
+const standardPowers = require("@/data/standardPowers.json");
+const modifiersData = require("@/data/modifiersData.json");
+const skillsData = require("@/data/skillsData.json");
 
 
 const fieldAllowedRegEx = {

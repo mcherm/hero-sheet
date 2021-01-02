@@ -1,10 +1,10 @@
 
-const statsData = require("../data/statsData.json");
-const defenseNames = require("../data/defenseNames.json");
-const skillsData = require("../data/skillsData.json");
-const standardPowers = require("../data/standardPowers.json");
-const conditionsData = require("../data/conditionsData.json");
-const sensesData = require("../data/sensesData.json");
+const statsData = require("@/data/statsData.json");
+const defenseNames = require("@/data/defenseNames.json");
+const skillsData = require("@/data/skillsData.json");
+const standardPowers = require("@/data/standardPowers.json");
+const conditionsData = require("@/data/conditionsData.json");
+const sensesData = require("@/data/sensesData.json");
 
 const currentVersion = 26; // Up to this version can be saved
 const latestVersion = 26; // Might be an experimental version

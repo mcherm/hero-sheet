@@ -10,8 +10,6 @@
 </template>
 
 <script>
-  import {fieldAllowedRegEx} from "@/js/heroSheetUtil";
-
   export default {
     name: "CollapsingSection",
     props: {

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import ConditionsImage from "./ConditionsImage.vue";
+  import ConditionsImage from "@/components/ConditionsImage.vue";
 
   export default {
     name: "Conditions",

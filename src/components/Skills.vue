@@ -76,11 +76,11 @@
 </template>
 
 <script>
-  import LocalCostDisplay from "./LocalCostDisplay.vue";
-  import SkillsCustomization from "./SkillsCustomization";
-  import {newBlankSkill} from "../js/heroSheetVersioning.js";
-  import {skillCost, skillRoll, lacksStat} from "../js/heroSheetUtil.js";
-  const skillsData = require("../data/skillsData.json");
+  import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
+  import SkillsCustomization from "@/components/SkillsCustomization.vue";
+  import {newBlankSkill} from "@/js/heroSheetVersioning.js";
+  import {skillCost, skillRoll, lacksStat} from "@/js/heroSheetUtil.js";
+  const skillsData = require("@/data/skillsData.json");
 
   export default {
     name: "Skills",

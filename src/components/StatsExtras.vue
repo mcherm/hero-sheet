@@ -25,8 +25,8 @@
 </template>
 
 <script>
-  import {lacksStat} from "../js/heroSheetUtil.js";
-  const statsData = require("../data/statsData.json");
+  import {lacksStat} from "@/js/heroSheetUtil.js";
+  const statsData = require("@/data/statsData.json");
 
   export default {
     name: "StatsExtras",

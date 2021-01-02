@@ -34,11 +34,11 @@
 </template>
 
 <script>
-  import {newAdjustment} from "../js/heroSheetVersioning.js";
-  import {isManuallyAdjusted, addActiveEffect, removeActiveEffects, lacksStat, costOfAbility} from "../js/heroSheetUtil.js";
+  import {newAdjustment} from "@/js/heroSheetVersioning.js";
+  import {isManuallyAdjusted, addActiveEffect, removeActiveEffects, lacksStat, costOfAbility} from "@/js/heroSheetUtil.js";
 
-  import StatsExtras from "./StatsExtras.vue"
-  const statsData = require("../data/statsData.json");
+  import StatsExtras from "@/components/StatsExtras.vue"
+  const statsData = require("@/data/statsData.json");
 
   export default {
     name: "BasicStats",

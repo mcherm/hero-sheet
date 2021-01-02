@@ -584,7 +584,7 @@
 </template>
 
 <script>
-  const conditionsData = require("../data/conditionsData.json");
+  const conditionsData = require("@/data/conditionsData.json");
   const invertConditionLink = function(linkList) {
     const result = {};
     for (const condition in conditionsData.conditions) {

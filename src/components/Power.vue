@@ -94,15 +94,15 @@
 </template>
 
 <script>
-  import ModifierList from "./ModifierList.vue";
-  import PowerEffectSelect from "./PowerEffectSelect.vue";
-  import PowerLayoutSenses from "./PowerLayoutSenses.vue";
-  import {STARTING_POWER_NAME} from "../js/heroSheetVersioning.js";
+  import ModifierList from "@/components/ModifierList.vue";
+  import PowerEffectSelect from "@/components/PowerEffectSelect.vue";
+  import PowerLayoutSenses from "@/components/PowerLayoutSenses.vue";
+  import {STARTING_POWER_NAME} from "@/js/heroSheetVersioning.js";
   import {
     powerBaseCost, powerCostCalculate, getStandardPower, getPowerOption, setPowerEffect,
     setPowerOption, powerUpdaterEvents, buildFeature, replacePower, powerStateClasses, setFeatureActivation
-  } from "../js/heroSheetUtil.js";
-  const samplePowers = require("../data/samplePowers.json");
+  } from "@/js/heroSheetUtil.js";
+  const samplePowers = require("@/data/samplePowers.json");
 
   export default {
     name: "Power",

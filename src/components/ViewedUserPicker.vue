@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import {getViewableUsers} from "../js/api.js";
+  import {getViewableUsers} from "@/js/api.js";
 
   export default {
     name: "ViewedUserPicker",

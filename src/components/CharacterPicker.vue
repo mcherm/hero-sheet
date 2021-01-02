@@ -8,8 +8,8 @@
 </template>
 
 <script>
-  import CharacterPickerOwnCharacters from "./CharacterPickerOwnCharacters.vue";
-  import CharacterPickerViewing from "./CharacterPickerViewing.vue";
+  import CharacterPickerOwnCharacters from "@/components/CharacterPickerOwnCharacters.vue";
+  import CharacterPickerViewing from "@/components/CharacterPickerViewing.vue";
 
   export default {
     name: "CharacterPicker",

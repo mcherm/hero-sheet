@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import ModifyNumberModal from "./ModifyNumberModal.vue";
+  import ModifyNumberModal from "@/components/ModifyNumberModal.vue";
 
   export default {
     name: "ModifiableNumberDisplay",

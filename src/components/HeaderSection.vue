@@ -25,8 +25,8 @@
 </template>
 
 <script>
-  import AboutApplication from "./AboutApplication.vue"
-  import ActivityButton from "./ActivityButton.vue"
+  import AboutApplication from "@/components/AboutApplication.vue"
+  import ActivityButton from "@/components/ActivityButton.vue"
 
   export default {
     name: 'header-section',
