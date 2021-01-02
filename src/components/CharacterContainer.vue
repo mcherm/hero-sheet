@@ -15,21 +15,24 @@
 </template>
 
 <script>
-  import CharacterSheet from "./CharacterSheet.vue";
+  import CharacterSheet from "@/components/CharacterSheet.vue";
 
-  const statsData = require("../data/statsData.json");
+  const statsData = require("@/data/statsData.json");
 
-  import {currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid, allyAdvantagesLowercase, renumberHsids} from "../js/heroSheetVersioning.js";
-  import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "../js/updaters.js";
-  import {getCharacter, saveCharacter, createCharacter, NotLoggedInError} from "../js/api.js";
-  import {removeActiveEffects, showAlert, getStandardPower} from "../js/heroSheetUtil.js";
+  import {
+    currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid,
+    allyAdvantagesLowercase, renumberHsids
+  } from "@/js/heroSheetVersioning.js";
+  import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "@/js/updaters.js";
+  import {getCharacter, saveCharacter, createCharacter, NotLoggedInError} from "@/js/api.js";
+  import {removeActiveEffects, showAlert, getStandardPower} from "@/js/heroSheetUtil.js";
 
   // FIXME: Begin continuous validation
   const Ajv = require('ajv');
   const ajv = Ajv({allErrors: true});
-  const commonSchema = require("../schema/common.schema.json");
+  const commonSchema = require("@/schema/common.schema.json");
   ajv.addSchema(commonSchema, "commonSchema");
-  const charsheetSchema = require("../schema/charsheet.schema.json");
+  const charsheetSchema = require("@/schema/charsheet.schema.json");
   ajv.addSchema(charsheetSchema, "charsheetSchema");
   // FIXME: End continuous validation
 

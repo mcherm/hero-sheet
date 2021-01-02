@@ -40,14 +40,14 @@
 </template>
 
 <script>
-  import CharacterPicker from "./CharacterPicker.vue";
-  import CharacterContainer from "./CharacterContainer.vue";
-  import UserLogin from "./UserLogin";
-  import LogoSection from "@/components/LogoSection";
-  import HeaderSection from "@/components/HeaderSection";
+  import CharacterPicker from "@/components/CharacterPicker.vue";
+  import CharacterContainer from "@/components/CharacterContainer.vue";
+  import UserLogin from "@/components/UserLogin.vue";
+  import LogoSection from "@/components/LogoSection.vue";
+  import HeaderSection from "@/components/HeaderSection.vue";
   import AlertBar from "@/components/AlertBar.vue";
 
-  import {endSession, restoreSession} from "../js/api.js";
+  import {endSession, restoreSession} from "@/js/api.js";
 
   export default {
     name: "EntirePage",

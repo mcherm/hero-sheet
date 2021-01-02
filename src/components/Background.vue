@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  const backgroundData = require("../data/backgroundData.json");
+  const backgroundData = require("@/data/backgroundData.json");
 
   export default {
     name: "Background",

@@ -7,6 +7,9 @@
         <option name="TAB_SIZE" value="2" />
       </value>
     </option>
+    <JSCodeStyleSettings version="0">
+      <option name="USE_EXPLICIT_JS_EXTENSION" value="TRUE" />
+    </JSCodeStyleSettings>
     <JavaCodeStyleSettings>
       <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="20" />
       <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="6" />

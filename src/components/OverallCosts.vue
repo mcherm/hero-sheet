@@ -24,7 +24,10 @@
 </template>
 
 <script>
-  import {abilityCost, defenseCost, skillCost, advantageCost, equipmentCost, powerCost, totalCost, availablePoints, costOutOfSpec} from "../js/heroSheetUtil";
+  import {
+    abilityCost, defenseCost, skillCost, advantageCost, equipmentCost, powerCost,
+    totalCost, availablePoints, costOutOfSpec
+  } from "@/js/heroSheetUtil.js";
 
   export default {
     name: "OverallCosts",

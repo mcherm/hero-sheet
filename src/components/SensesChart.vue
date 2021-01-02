@@ -70,7 +70,7 @@
 </template>
 
 <script>
-  import SensesChartQualityList from "./SensesChartQualityList.vue";
+  import SensesChartQualityList from "@/components/SensesChartQualityList.vue";
   import {newHsid} from "@/js/heroSheetVersioning.js";
   const sensesData = require("@/data/sensesData.json");
 

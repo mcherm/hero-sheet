@@ -21,7 +21,7 @@
 <script>
   import Vue from 'vue';
   import LogoSection from "@/components/LogoSection.vue";
-  import HeaderSection from "@/components/HeaderSection";
+  import HeaderSection from "@/components/HeaderSection.vue";
   import {fieldAllowedRegEx, showAlert} from "@/js/heroSheetUtil.js";
   import {resetPassword} from "@/js/api.js";
 

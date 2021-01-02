@@ -49,9 +49,9 @@
 </template>
 
 <script>
-  import {NotLoggedInError, login, createUser, requestPasswordReset} from "../js/api.js";
-  import {showAlert} from "../js/heroSheetUtil.js";
-  import {fieldAllowedRegEx} from "../js/heroSheetUtil.js";
+  import {NotLoggedInError, login, createUser, requestPasswordReset} from "@/js/api.js";
+  import {showAlert} from "@/js/heroSheetUtil.js";
+  import {fieldAllowedRegEx} from "@/js/heroSheetUtil.js";
 
   export default {
     name: "UserLogin",

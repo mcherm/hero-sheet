@@ -8,10 +8,10 @@
 </template>
 
 <script>
-  import LocalCostDisplay from "./LocalCostDisplay";
-  import {newBlankPower} from "../js/heroSheetVersioning.js";
-  import {powerCost} from "../js/heroSheetUtil";
-  const standardPowers = require("../data/standardPowers.json");
+  import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
+  import {newBlankPower} from "@/js/heroSheetVersioning.js";
+  import {powerCost} from "@/js/heroSheetUtil.js";
+  const standardPowers = require("@/data/standardPowers.json");
 
   export default {
     name: "PowerListTopLevel",

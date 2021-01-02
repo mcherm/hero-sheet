@@ -34,9 +34,9 @@
 </template>
 
 <script>
-  import {newBlankPower} from "../js/heroSheetVersioning.js";
+  import {newBlankPower} from "@/js/heroSheetVersioning.js";
   import {setFeatureActivation, getStandardPower, powerStateClasses} from "@/js/heroSheetUtil.js";
-  import ActivationWidget from "@/components/ActivationWidget";
+  import ActivationWidget from "@/components/ActivationWidget.vue";
 
   export default {
     name: "PowerList",

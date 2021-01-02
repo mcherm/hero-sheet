@@ -35,8 +35,8 @@
 </template>
 
 <script>
-  import {addPowerModifier, deletePowerModifier, getStandardPower} from "../js/heroSheetUtil.js";
-  import ModifierListNewModifierChooser from "./ModifierListNewModifierChooser";
+  import {addPowerModifier, deletePowerModifier, getStandardPower} from "@/js/heroSheetUtil.js";
+  import ModifierListNewModifierChooser from "@/components/ModifierListNewModifierChooser.vue";
 
   export default {
     name: "ModifierList",

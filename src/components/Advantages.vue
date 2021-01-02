@@ -58,12 +58,11 @@
 </template>
 
 <script>
-  import LocalCostDisplay from "./LocalCostDisplay";
+  import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
+  import {newBlankAdvantage, makeNewAlly, allyAdvantages} from "@/js/heroSheetVersioning.js";
+  import {advantageCost, advantageIsRanked} from "@/js/heroSheetUtil.js";
 
-  import {newBlankAdvantage, makeNewAlly, allyAdvantages} from "../js/heroSheetVersioning.js";
-  import {advantageCost, advantageIsRanked} from "../js/heroSheetUtil";
-
-  const standardAdvantages = require("../data/standardAdvantages.json");
+  const standardAdvantages = require("@/data/standardAdvantages.json");
 
   export default {
     name: "Advantages",

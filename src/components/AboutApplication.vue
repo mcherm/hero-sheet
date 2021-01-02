@@ -142,7 +142,7 @@
 </template>
 
 <script>
-  import {setDeployment} from "../js/api.js";
+  import {setDeployment} from "@/js/api.js";
 
   export default {
     name: "AboutApplication",

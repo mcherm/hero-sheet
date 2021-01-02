@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import {advantageCost, costOutOfSpec, totalCost, availablePoints} from "../js/heroSheetUtil";
+  import {advantageCost, costOutOfSpec, totalCost, availablePoints} from "@/js/heroSheetUtil.js";
 
   export default {
     name: "LocalCostDisplay",

@@ -50,8 +50,8 @@
 </template>
 
 <script>
-  import {modifierDisplaySign, buildNewModifier} from "../js/heroSheetUtil.js";
-  const modifiersData = require("../data/modifiersData.json");
+  import {modifierDisplaySign, buildNewModifier} from "@/js/heroSheetUtil.js";
+  const modifiersData = require("@/data/modifiersData.json");
 
   export default {
     name: "ModifierListNewModifierChooser",

@@ -50,9 +50,9 @@
 </template>
 
 <script>
-  import LocalCostDisplay from "./LocalCostDisplay.vue";
-  import {newBlankComplication} from "../js/heroSheetVersioning.js";
-  const complicationsData = require("../data/complicationsData.json");
+  import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
+  import {newBlankComplication} from "@/js/heroSheetVersioning.js";
+  const complicationsData = require("@/data/complicationsData.json");
 
   export default {
     name: "Complications",

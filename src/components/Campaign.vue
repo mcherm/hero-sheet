@@ -30,8 +30,8 @@
 </template>
 
 <script>
-  import CharacterSummary from "./CharacterSummary.vue";
-  const campaignData = require("../data/campaignData.json");
+  import CharacterSummary from "@/components/CharacterSummary.vue";
+  const campaignData = require("@/data/campaignData.json");
 
   export default {
     name: "Campaign",

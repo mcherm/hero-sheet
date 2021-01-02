@@ -47,9 +47,9 @@
 </template>
 
 <script>
-  import {activeEffectModifier} from "../js/heroSheetUtil.js";
-  import {addActiveEffect, isManuallyAdjusted, removeActiveEffects, lacksStat} from "../js/heroSheetUtil.js";
-  import {newAdjustment} from "../js/heroSheetVersioning";
+  import {activeEffectModifier} from "@/js/heroSheetUtil.js";
+  import {addActiveEffect, isManuallyAdjusted, removeActiveEffects, lacksStat} from "@/js/heroSheetUtil.js";
+  import {newAdjustment} from "@/js/heroSheetVersioning.js";
 
   const baseValueMap = {
     dodge: "agility",

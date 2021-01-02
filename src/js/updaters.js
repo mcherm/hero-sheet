@@ -2,13 +2,16 @@
 // Classes for performing updates.
 //
 
-import {findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid, newHsid, newAdjustment} from "./heroSheetVersioning.js";
+import {
+  findFeatureByHsid, findAdvantageByHsid, findSkillByHsid, findAllyByHsid,
+  newHsid, newAdjustment
+} from "@/js/heroSheetVersioning.js";
 import {
   activeEffectModifier, findOrCreateActiveEffect, totalCost, skillRoll, lacksStat, rangeToInt,
   intToRange, attackRollInfo, powerCostCalculate, activationState, showAlert, getInheritedModifierLists,
-} from "./heroSheetUtil.js"
-const standardPowers = require("../data/standardPowers.json");
-const sensesData = require("../data/sensesData.json");
+} from "@/js/heroSheetUtil.js"
+const standardPowers = require("@/data/standardPowers.json");
+const sensesData = require("@/data/sensesData.json");
 
 
 /*
