@@ -298,8 +298,10 @@ TODO: A few powers really should have their own custom way of being created.
  * Variable - should be able to create the power options for it
  * Summon - should be able to create the character for it
  * Senses - should be able to select the sense itself and its features and
-   calculate the cost
+   calculate the cost [DONE]
  * Affliction - should be able to select the affliction and what resists it
+ * Communication - should select the particular features and calculate the number of ranks.
+     (or maybe just use options).
 
 TODO: Some way to have enhanced traits that apply to other POWERS like Iron Man
   using it to boost his blast.
@@ -321,3 +323,14 @@ BUG: When you delete or alter a minion or sidekick advantage, it should remove t
 
 BUG: When you add an extra or flaw to an array, it should recalculate the costs of all the items in
   the array. But right now it doesn't.
+
+NOTE: For the power Movement I currently require you to select just one power. Other implementations
+  allow you to buy multiple ones. I can still recreate that with "linked", but I should consider
+  whether it makes sense to do it more like senses.
+
+TODO: I should add "other" as an option under Enhanced Trait. That covers for everything that I
+  don't currently support.
+
+TODO: The "Increased Range" extra is really annoying to use. An ideal user interface would be that it
+  offers options of "Ranged" and "Perception Range" but only offers the appropriate ones at the
+  appropriate cost for the given power.

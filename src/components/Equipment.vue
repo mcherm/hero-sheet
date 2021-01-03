@@ -1,13 +1,23 @@
 <template>
   <boxed-section title="Equipment">
     <template v-slot:exhibit>
-      <local-cost-display extra-label="equipment" :extra-value-function="equipmentCost"/>
+      <div class="horizontal">
+        <div class="equipment-cost grid-with-lines paper">
+          <label class="row-label ">equipment</label>
+          <div class="horizontal">
+            <number-display :value="totalEQCost"/>
+            <span class="">EQ costs</span>
+            <number-display :value="equipmentCost(getCharsheet())"/>
+          </div>
+        </div>
+        <local-cost-display/>
+      </div>
     </template>
     <div class="equipment-list grid-with-lines" :class="{ 'deleteNotVisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
       <div class="col-label"></div>
       <div class="col-label">Item</div>
       <div class="col-label">Description</div>
-      <div class="col-label">Cost</div>
+      <div class="col-label">EQ</div>
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
       <div
           v-for="item in equipment"
@@ -25,7 +35,6 @@
         </div>
 
         <div v-if="item.source === 'unselected'">
-          <!-- FIXME: Needs a custom widget to do the equipment picker -->
           <select @change="selectItem(item, $event.target.value)">
             <option disabled selected value="">Select Item</option>
             <optgroup label="Custom">
@@ -42,7 +51,7 @@
           </select>
         </div>
         <div v-else-if="item.source === 'standard'" class="name">{{item.name}}</div>
-        <string-entry v-else-if="item.source === 'custom'" v-model="item.name"/>
+        <string-entry v-else-if="item.source === 'custom'" :value="item.name" @input="setItemName(item, $event)"/>
         <div v-else class="error">ERROR: '{{item.source}}' not supported</div>
 
         <div v-if="item.source === 'unselected'" class="inapplicable"/>
@@ -55,7 +64,8 @@
 
         <div v-if="item.source === 'unselected'" class="equipment-cost inapplicable"/>
         <number-display v-else-if="item.source === 'standard'" class="equipment-cost" :value="item.cost"/>
-        <number-entry v-else-if="item.source === 'custom'" class="equipment-cost" v-model="item.cost"/>
+        <number-entry v-else-if="item.source === 'custom' && item.feature === null" class="equipment-cost" v-model="item.cost"/>
+        <number-display v-else-if="item.source === 'custom' && item.feature !== null" class="equipment-cost" :value="item.cost"/>
         <div v-else class="error">ERROR: '{{item.source}}' not supported</div>
 
         <edit-button
@@ -71,7 +81,7 @@
               :power="item.feature"
               :inherited-modifier-lists="[]"
               :mutable="item.source === 'custom'"
-              v-on:update:name="renameFeature(item.feature, $event)"
+              v-on:update:name="setFeatureName(item, $event)"
           />
         </div>
       </div>
@@ -90,7 +100,7 @@
 <script>
   import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
   import MechanicsIcon from "@/components/MechanicsIcon.vue";
-  import {newBlankEquipment, newBlankPower} from "@/js/heroSheetVersioning.js";
+  import {newBlankEquipment, newBlankPower, STARTING_POWER_NAME} from "@/js/heroSheetVersioning.js";
   import {buildFeature, equipmentCost, createUpdatersForFeature} from "@/js/heroSheetUtil.js";
 
   const standardEquipment = require("@/data/standardEquipment.json");
@@ -108,6 +118,11 @@
         deleteIsVisible: false,
         showFeatureDetails: {},
         equipment: this.getCharsheet().equipment
+      }
+    },
+    computed: {
+      totalEQCost: function() {
+        return this.equipment.map(x => x.cost).reduce((x, y) => x + y, 0);
       }
     },
     methods: {
@@ -166,15 +181,38 @@
       toggleMechanics: function(item) {
         this.$set(this.showFeatureDetails, item.hsid, !this.showFeatureDetails[item.hsid]);
       },
-      renameFeature: function(feature, newName) {
+      setItemName: function(item, newName) {
+        item.name = newName;
+        // make the feature name match if it hasn't already been named
+        if (item.feature !== null && item.feature.name === STARTING_POWER_NAME) {
+          this.setFeatureName(item, newName);
+        }
+      },
+      setFeatureName: function(item, newName) {
         const cleanedNewName = newName.replace(/\|/g, ""); // replace all "|"s with "".
-        feature.name = cleanedNewName;
+        item.feature.name = cleanedNewName;
+        // make the item name match if it hasn't already been named
+        if (item.name === "") {
+          this.setItemName(item, cleanedNewName);
+        }
       }
     }
   }
 </script>
 
 <style scoped>
+  .horizontal {
+    display: flex;
+    align-items: baseline;
+  }
+  .equipment-cost {
+    grid-template-columns: max-content max-content;
+    margin: 0;
+  }
+  .paper {
+    background-color: var(--paper-color);
+  }
+
   .equipment-list.deleteNotVisible {
     grid-template-columns: max-content max-content 1fr max-content;
   }

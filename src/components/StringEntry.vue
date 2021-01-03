@@ -47,8 +47,8 @@
     },
     methods: {
       resize: function() {
-        this.$el.style.height = "auto";
-        this.$el.style.height = (this.$el.scrollHeight + this.offset) + "px";
+        this.$el.style["min-height"] = "auto";
+        this.$el.style["min-height"] = (this.$el.scrollHeight + this.offset) + "px";
       }
     }
   }
