@@ -38,11 +38,6 @@
   .cost-display {
     grid-template-columns: max-content max-content max-content;
     margin: 0 2px;
-  }
-  .cost-display > .row-label {
-    background-color: var(--paper-color);
-  }
-  .spacerWord {
     background-color: var(--paper-color);
   }
   .horizontal {

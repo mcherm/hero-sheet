@@ -1432,7 +1432,7 @@ class EquipmentFeatureUpdater extends Updater {
         equipmentExists: this.charsheet.equipment.includes(this.item)
       },
       calculations: {
-        featureCost: Math.round(this.item.feature.cost / 5)
+        featureCost: this.item.feature.cost
       }
     }
   }

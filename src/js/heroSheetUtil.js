@@ -245,8 +245,8 @@ const advantageCost = function(charsheet) {
 };
 
 const equipmentCost = function(charsheet) {
-  const characterPoints = charsheet.equipment.reduce((x,y) => x + y.cost, 0);
-  return Math.ceil(characterPoints / 5);
+  const totalEQ = charsheet.equipment.reduce((x,y) => x + y.cost, 0);
+  return Math.ceil(totalEQ / 5);
 }
 
 const powerCost = function(charsheet) {
