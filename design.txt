@@ -334,3 +334,17 @@ TODO: I should add "other" as an option under Enhanced Trait. That covers for ev
 TODO: The "Increased Range" extra is really annoying to use. An ideal user interface would be that it
   offers options of "Ranged" and "Perception Range" but only offers the appropriate ones at the
   appropriate cost for the given power.
+
+TODO: The Removable flaw says there's an "indestructable" option on it that I don't support.
+
+TODO: An easy way to toggle powers in arrays on and off from the in-use tab would be nice. Maybe
+  it could show all, none, or just arrays. Maybe it could include equipment.
+
+TODO: There's no way to buy just imperviousness for your toughness, but that's a thing that players
+  often do.
+
+TODO: The "Feature" extra should have ranks.
+
+TODO: The ability "Improved Critical" ought to choose an attack just like certain skills do.
+
+FIXME: "Hero Point" appears in some advantage descriptions. Remove it!!

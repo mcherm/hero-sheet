@@ -105,13 +105,11 @@ const powerCostCalculate = function(power, inheritedModifierLists, activeRanks=n
   // --- Deal with optional argument ---
   const effectiveRanks = activeRanks === null ? power.ranks : activeRanks;
 
-  // --- Calculate multipliers & adders from modifiers ---
+  // --- Calculate multipliers & adders from all modifiers ---
   let extrasMultiplier = 0;
   let flawsMultiplier = 0;
-  let normalFlatAdder = 0;
-  let flatPer5FinalPoints = 0;
-  const modifierLists = [power.extras, power.flaws, ...inheritedModifierLists];
-  for (const modifierList of modifierLists) {
+  const allModifierLists = [power.extras, power.flaws, ...inheritedModifierLists];
+  for (const modifierList of allModifierLists) {
     for (const modifier of modifierList) {
       if (modifier.costType === "pointsOfMultiplier") {
         if (modifier.cost < 0) {
@@ -125,49 +123,64 @@ const powerCostCalculate = function(power, inheritedModifierLists, activeRanks=n
         } else {
           extrasMultiplier += modifier.cost * modifier.ranks;
         }
-      } else if (modifier.costType === "flatPoints") {
+      }
+    }
+  }
+
+  // --- Flat adders and flatPer5 figure in only if they are NOT inherited ---
+  let normalFlatAdder = 0;
+  let flatPer5FinalPoints = 0;
+  const ownModifierLists = [power.extras, power.flaws];
+  for (const modifierList of ownModifierLists) {
+    for (const modifier of modifierList) {
+      if (modifier.costType === "flatPoints") {
         normalFlatAdder += modifier.cost;
       } else if (modifier.costType === "flatPointsPerRankOfModifier") {
         normalFlatAdder += modifier.cost * modifier.ranks;
       } else if (modifier.costType === "flatPointsPer5PointsOfFinalCost") {
         flatPer5FinalPoints += modifier.cost;
-      } else {
-        throw new Error(`Unsupported modifier costType of '${modifier.costType}'.`);
       }
     }
   }
 
-  // --- Calculate the cost ---
+  const subpowers = power.subpowers;
+  const numberOfSubpowers = subpowers.length;
   let cost;
   let flatAdder;
-  if (isArray(power)) {
-    const subpowers = power.subpowers;
-    const numberOfSubpowers = subpowers.length;
-    if (numberOfSubpowers === 0) {
-      cost = 0;
-      flatAdder = 0;
-    } else {
+  if ((isArray(power) && numberOfSubpowers === 0) || (!isArray(power) && effectiveRanks === 0)) {
+
+    // --- Special case of non-existent powers ---
+    cost = 0;
+    flatAdder = normalFlatAdder;
+
+  } else {
+
+    // --- Calculate the costBeforeFlats ---
+    let costBeforeFlats;
+    if (isArray(power)) {
       const subpowerCosts = subpowers.map(x => x.cost);
       const largestSubpowerCost = Math.max(...subpowerCosts);
       if (power.effect === "Linked") {
-        cost = subpowerCosts.reduce((x,y) => x + y, 0);
+        costBeforeFlats = subpowerCosts.reduce((x,y) => x + y, 0);
       } else if (power.effect === "Alternate") {
-        cost = largestSubpowerCost + (numberOfSubpowers - 1);
+        costBeforeFlats = largestSubpowerCost + (numberOfSubpowers - 1);
       } else if (power.effect === "Dynamic") {
-        cost = largestSubpowerCost + 2 *(numberOfSubpowers - 1) + 1;
+        costBeforeFlats = largestSubpowerCost + 2 *(numberOfSubpowers - 1) + 1;
       } else {
         throw new Error(`Unsupported array power of '${power.name}'.`)
       }
       flatAdder = normalFlatAdder; // no easy way to display values from a per-5-pts on the array
+    } else {
+      const modifiedCostPerRank = powerBaseCost(power) + extrasMultiplier + flawsMultiplier;
+      costBeforeFlats = modifiedCostPerRank >= 1
+        ? modifiedCostPerRank * effectiveRanks
+        : Math.ceil(effectiveRanks / (2 - modifiedCostPerRank));
     }
-  } else {
-    const modifiedCostPerRank = powerBaseCost(power) + extrasMultiplier + flawsMultiplier;
-    const costBeforeFlats = modifiedCostPerRank >= 1
-      ? modifiedCostPerRank * effectiveRanks
-      : Math.ceil( effectiveRanks / (2 - modifiedCostPerRank) );
+
+    // --- Calculate the cost (and flatAdder) ---
     const costWithNormalAdder = Math.max(1, costBeforeFlats + normalFlatAdder);
     const finalAdjustment = Math.round((costWithNormalAdder / 5) * flatPer5FinalPoints);
-    cost = effectiveRanks === 0 ? 0 : Math.max(1, costBeforeFlats + normalFlatAdder + finalAdjustment);
+    cost = Math.max(1, costBeforeFlats + normalFlatAdder + finalAdjustment);
     flatAdder = cost - costBeforeFlats;
   }
 
