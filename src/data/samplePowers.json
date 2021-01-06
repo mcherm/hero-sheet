@@ -277,7 +277,7 @@
   "Duplication": {
     "feature": {
       "name": "Duplication",
-      "description": "You can create a duplicate of yourself. Your duplicate is a minion with the same traits as you, except for this power and any hero points.",
+      "description": "You can create a duplicate of yourself. Your duplicate is a minion with the same traits as you, except for this power and any effort points.",
       "effect": "Summon",
       "extras": [
         {

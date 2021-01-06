@@ -43,7 +43,7 @@
   },
   "Beginner's Luck": {
     "name": "Beginner's Luck",
-    "description": "Spend a hero point to gain 5 temporary ranks in a skill.",
+    "description": "Spend an effort point to gain 5 temporary ranks in a skill.",
     "isRanked": false,
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-BEGINNER-S-LUCK-FORTUNE-"
   },
@@ -238,7 +238,7 @@
   },
   "Inspire": {
     "name": "Inspire",
-    "description": "Spend a hero point to grant allies a +1 circumstance bonus per rank.",
+    "description": "Spend an effort point to grant allies a +1 circumstance bonus per rank.",
     "isRanked": true,
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-INSPIRE-FORTUNE-RANKED-5-"
   },
@@ -275,7 +275,7 @@
   },
   "Leadership": {
     "name": "Leadership",
-    "description": "Spend a hero point to remove a condition from an ally.",
+    "description": "Spend an effort point to remove a condition from an ally.",
     "isRanked": false,
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-LEADERSHIP-FORTUNE-"
   },
@@ -348,7 +348,7 @@
   },
   "Seize Initiative": {
     "name": "Seize Initiative",
-    "description": "Spend a hero point to go first in the initiative order.",
+    "description": "Spend an effort point to go first in the initiative order.",
     "isRanked": false,
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-SEIZE-INITIATIVE-FORTUNE-"
   },
@@ -414,7 +414,7 @@
   },
   "Ultimate Effort": {
     "name": "Ultimate Effort",
-    "description": "Spend a hero point to get an effective 20 on a specific check.",
+    "description": "Spend an effort point to get an effective 20 on a specific check.",
     "isRanked": false,
     "docsURL": "https://www.d20herosrd.com/5-advantages#TOC-ULTIMATE-EFFORT-FORTUNE-"
   },
