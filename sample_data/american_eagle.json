@@ -427,7 +427,7 @@
       "name": "Mirror Image",
       "hsid": "HIFU3L5S5",
       "effect": "Summon",
-      "description": "You can create two duplicates of yourself (for a total of 3). Your duplicate is a minion with the same traits as you, except for this power and any hero points.",
+      "description": "You can create two duplicates of yourself (for a total of 3). Your duplicate is a minion with the same traits as you, except for this power and any effort points.",
       "extras": [
         {
           "modifierSource": "special",

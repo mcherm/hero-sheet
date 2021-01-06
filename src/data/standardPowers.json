@@ -2631,7 +2631,7 @@
       },
       {
         "name": "Sacrifice",
-        "description": "When you are hit with an effect requiring a resistance check, you can spend a hero point to shift it to one of your minions instead.",
+        "description": "When you are hit with an effect requiring a resistance check, you can spend an effort point to shift it to one of your minions instead.",
         "hasRanks": false,
         "costType": "flatPoints",
         "cost": 1

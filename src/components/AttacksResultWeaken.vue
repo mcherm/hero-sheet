@@ -11,7 +11,7 @@
       <div class="row-data">no effect</div>
       <div class="row-label">Failure</div>
       <div class="row-data">
-        Lose as many power points as you failed by, up<br/>
+        Lose as many character points as you failed by, up<br/>
         to a max of
         <span class="sourced-value" title="Attack Ranks">{{attack.ranks}}</span>
       </div>
