@@ -635,6 +635,12 @@ const POWER_TO_UPDATERS_MAP = {
  * any updater.
  */
 const powerUpdaterEvents = function(charsheet, power) {
+  // NOTE: I'll allow ONE special case, but if I ever get a second one I'll re-design so it isn't special
+  // Special case: Enhanced Trait shouldn't have an updater if the option is "Other Enhanced Trait".
+  if (power.effect === "Enhanced Trait" && power.option === "Other Enhanced Trait") {
+    return [];
+  }
+
   const updaters = POWER_TO_UPDATERS_MAP[power.effect];
   if (updaters === undefined) {
     return [];
