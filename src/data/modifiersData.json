@@ -212,8 +212,8 @@
       "name": "Feature",
       "description": "Adds a minor capability or benefit to an effect.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-FEATURE-FLAT-1-POINT-PER-RANK-",
-      "hasRanks": false,
-      "costType": "flatPoints",
+      "hasRanks": true,
+      "costType": "flatPointsPerRankOfModifier",
       "cost": 1
     },
     {
