@@ -146,5 +146,10 @@
       "triggers": ["stunned", "vulnerable"]
     }
   },
+  "afflictionLevels": [
+    ["dazed", "entranced", "fatigued", "hindered", "impaired", "vulnerable"],
+    ["compelled", "defenseless", "disabled", "exhausted", "immobile", "prone", "stunned"],
+    ["asleep", "controlled", "incapacitated", "paralyzed", "transformed", "unaware"]
+  ],
   "docsURL": "https://www.d20herosrd.com/9-gamemastering/conditions/"
 }

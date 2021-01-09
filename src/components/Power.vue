@@ -20,6 +20,10 @@
           <label class="row-label">Senses</label>
           <power-layout-senses :power="power" :mutable="mutable"/>
         </div>
+        <div v-if="standardPower !== null && standardPower.powerLayout === 'affliction'" class="display-contents">
+          <label class="row-label">Affliction</label>
+          <power-layout-affliction :power="power" :mutable="mutable"/>
+        </div>
 
         <div v-if="standardPower && standardPower.powerOptions" class="display-contents">
           <label class="row-label">Option</label>
@@ -97,6 +101,7 @@
   import ModifierList from "@/components/ModifierList.vue";
   import PowerEffectSelect from "@/components/PowerEffectSelect.vue";
   import PowerLayoutSenses from "@/components/PowerLayoutSenses.vue";
+  import PowerLayoutAffliction from "@/components/PowerLayoutAffliction.vue";
   import {STARTING_POWER_NAME} from "@/js/heroSheetVersioning.js";
   import {
     powerBaseCost, powerCostCalculate, getStandardPower, getPowerOption, setPowerEffect,
@@ -110,6 +115,7 @@
       ModifierList,
       PowerEffectSelect,
       PowerLayoutSenses,
+      PowerLayoutAffliction,
     },
     inject: ["getCharsheet"],
     props: {

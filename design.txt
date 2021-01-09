@@ -300,6 +300,12 @@ TODO: A few powers really should have their own custom way of being created.
  * Senses - should be able to select the sense itself and its features and
    calculate the cost [DONE]
  * Affliction - should be able to select the affliction and what resists it
+   * Three levels (choose for each)
+   * Two special extras:
+     * Extra "Extra Condition" - each application adds another condition of each level
+     * Flaw "Limited Degree" - each level removes a severity
+     * Also select "resist by" which is Fortitude, Will. Alternate resistance just affects
+       the initial roll, not the recovery.
  * Communication - should select the particular features and calculate the number of ranks.
      (or maybe just use options).
 
