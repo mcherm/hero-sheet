@@ -581,6 +581,7 @@ class SensesPowerUpdater extends Updater {
     return {
       identity: {
         powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
+        powerEffect: this.power.effect,
       },
       calculations: {
         addedSenses: this.power.extended.addedSenses,
