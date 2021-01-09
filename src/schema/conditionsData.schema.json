@@ -4,7 +4,8 @@
   "type": "object",
   "title": "Conditions Data Schema",
   "properties": {
-    "conditions": { "$ref": "#/definitions/Conditions"},
+    "conditions": { "$ref": "#/definitions/Conditions" },
+    "afflictionLevels": { "$ref": "#/definitions/AfflictionLevels" },
     "docsURL": { "$ref": "common.schema.json#/definitions/DocsURL" }
   },
   "required": ["conditions", "docsURL"],
@@ -30,6 +31,13 @@
     "ConditionList": {
       "type": "array",
       "items": { "$ref": "common.schema.json#/definitions/Name" }
+    },
+    "AfflictionLevels": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "$ref": "common.schema.json#/definitions/Name" }
+      }
     }
   }
 }
