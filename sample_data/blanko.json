@@ -275,7 +275,17 @@
           "cost": 3,
           "subpowers": [],
           "option": null,
-          "extended": {},
+          "extended": {
+            "conditionsApplied": [
+              [
+                "fatigued",
+                "exhausted",
+                null
+              ]
+            ],
+            "alternateResistance": null,
+            "resistWith": "will"
+          },
           "activation": {
             "activationStatus": "on",
             "ranks": 0

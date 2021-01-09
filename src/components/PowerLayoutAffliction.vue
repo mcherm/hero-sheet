@@ -1,26 +1,26 @@
 <template>
   <div class="affliction-data">
     <div class="affliction-grid">
-      <div v-for="conditionRow of range(0, extraConditions + 1)" class="display-contents">
-        <div v-for="level of range(1, highestDegree + 1)" :key="level" class="affliction-level">
+      <div v-for="conditionRow of power.extended.conditionsApplied" class="display-contents">
+        <div v-for="level of range(1, conditionRow.length + 1)" :key="level" class="affliction-level">
           <label class="col-label">Level {{level}}</label>
           <select-entry
-              value=""
+              v-model="conditionRow[level - 1]"
               :options="conditionsData.afflictionLevels[level - 1]"
               :mutable="mutable"
               :getDisplay="capitalize"
               unselectedItem="Choose..."
           />
         </div>
-        <div v-for="level of range(highestDegree + 1, 4)" :key="level" class="empty-placeholder"/>
+        <div v-for="level of range(conditionRow.length + 1, 4)" :key="level" class="empty-placeholder"/>
       </div>
     </div>
     <div class="affliction-extras">
       <div v-if="altResistance" class="extra-item">
         <label class="row-label">Resist with</label>
         <select-entry
-            value="dodge"
-            :options="['dodge', 'fortitude', 'parry', 'toughness', 'will']"
+            v-model="power.extended.alternateResistance"
+            :options="['dodge', 'parry', 'toughness', 'fortitude', 'will']"
             :mutable="mutable"
             :getDisplay="capitalize"
             unselectedItem="Choose..."
@@ -30,7 +30,7 @@
         <label v-if="altResistance" class="row-label">Recover with</label>
         <label v-else class="row-label">Resist with</label>
         <select-entry
-            value=""
+            v-model="power.extended.resistWith"
             :options="['fortitude', 'will']"
             :mutable="mutable"
             :getDisplay="capitalize"
@@ -44,6 +44,20 @@
 <script>
   const conditionsData = require("@/data/conditionsData.json");
 
+  /*
+   * This is given an array and makes it be the specified length. If it is already right
+   * nothing happens, if it is too long it will be truncated in place, and if it is too
+   * short then makeValue is called repeatedly to create values to append.
+   */
+  const forceArrayLength = function(array, length, makeValue) {
+    if (array.length > length) {
+      array.splice(length, array.length - length);
+    }
+    while (array.length < length) {
+      array.push(makeValue());
+    }
+  }
+
   export default {
     name: "PowerLayoutAffliction",
     props: {
@@ -55,23 +69,55 @@
         conditionsData,
       };
     },
-    computed: {
-      extraConditions: function() {
-        return this.power.extras.filter(
-            x => x.modifierSource === "special" && x.modifierName === "Extra Condition"
-        ).length;
-      },
-     highestDegree: function() {
-        const flaws = this.power.flaws;
+    created: function() {
+      const power = this.power;
+
+      // -- Watch the highest degree and make the length of entries in extended.conditionsApplied match --
+      const highestDegree = function() {
+        if (power.effect !== "affliction") {
+          // We are about to make this a different power anyhow. Ignore it.
+          return undefined;
+        }
         const limitedDegree = x => x.modifierSource === "special" && x.modifierName === "Limited Degree";
-        return (flaws.some(x => limitedDegree(x) && x.optionName === "Limited to one degree of effect")
+        return (power.flaws.some(x => limitedDegree(x) && x.optionName === "Limited to one degree of effect")
           ? 1
-          : (flaws.some(x => limitedDegree(x) && x.optionName === "Limited to two degrees of effect")
+          : (power.flaws.some(x => limitedDegree(x) && x.optionName === "Limited to two degrees of effect")
             ? 2
             : 3
           )
         );
-      },
+      };
+      const onHighestDegreeChange = function(highestDegree) {
+        for (const conditionRow of power.extended.conditionsApplied) {
+          forceArrayLength(conditionRow, highestDegree, () => "");
+        }
+      }
+      this.$watch(
+          highestDegree,
+          onHighestDegreeChange,
+          { deep: true, immediate: true }
+      );
+
+      // -- Watch the number of extra conditions and make the size of extended.conditionsApplied match --
+      const numConditions = function() {
+        if (power.effect !== "affliction") {
+          // We are about to make this a different power anyhow. Ignore it.
+          return undefined;
+        }
+        return 1 + power.extras.filter(
+            x => x.modifierSource === "special" && x.modifierName === "Extra Condition"
+        ).length;
+      };
+      const onNumConditionsChange = function(numConditions) {
+        forceArrayLength(power.extended.conditionsApplied, numConditions, () => new Array(highestDegree()).fill(""));
+      };
+      this.$watch(
+        numConditions,
+        onNumConditionsChange,
+        { deep: true, immediate: true }
+      );
+    },
+    computed: {
       altResistance: function() {
         return this.power.extras.some(x => x.modifierSource === "special" && x.modifierName === "Alternate Resistance");
       }

@@ -471,16 +471,20 @@ const setPowerEffect = function(power, inheritedModifierLists, effect) {
     if (standardPower.powerLayout !== "array") {
       Vue.set(power, "subpowers", []);
     }
+    // Remove any extended fields
+    for (const field in power.extended) {
+      Vue.delete(power.extended, field);
+    }
     if (standardPower.powerLayout === "senses") {
       // Add extended fields
       Vue.set(power.extended, "addedSenses", []);
       Vue.set(power.extended, "addedSenseTypeQualities", []);
       Vue.set(power.extended, "addedSenseQualities", []);
-    } else {
-      // Remove any extended fields
-      for (const field in power.extended) {
-        Vue.delete(power.extended, field);
-      }
+    } else if (standardPower.powerLayout === "affliction") {
+      // Add extended fields
+      Vue.set(power.extended, "conditionsApplied", [["", "", ""]]);
+      Vue.set(power.extended, "alternateResistance", "");
+      Vue.set(power.extended, "resistWith", "");
     }
   }
   recalculatePowerCost(power, inheritedModifierLists);

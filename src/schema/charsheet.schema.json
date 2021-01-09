@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "http://hero-sheet.com/schemas/charsheet.schema.json",
   "type": "object",
-  "title": "Root Schema for a Charsheet - v26",
+  "title": "Root Schema for a Charsheet - v27",
   "description": "The root schema is the schema that comprises the entire JSON document for a charsheet.",
   "properties": {
-    "version": { "type": "integer", "const": 26 },
+    "version": { "type": "integer", "const": 27 },
     "campaign": { "$ref":  "#/definitions/Campaign" },
     "naming": { "$ref":  "#/definitions/Naming" },
     "effortPoints": { "$ref":  "#/definitions/FlexibleInteger" },
@@ -244,7 +244,8 @@
     "PowerExtended": {
       "oneOf": [
         { "$ref": "#/definitions/EmptyPowerExtended" },
-        { "$ref": "#/definitions/SensesPowerExtended" }
+        { "$ref": "#/definitions/SensesPowerExtended" },
+        { "$ref": "#/definitions/AfflictionPowerExtended" }
       ]
     },
     "EmptyPowerExtended": {
@@ -270,6 +271,31 @@
         }
       },
       "required": ["addedSenses", "addedSenseTypeQualities", "addedSenseQualities"],
+      "additionalProperties": false
+    },
+    "AfflictionPowerExtended": {
+      "type": "object",
+      "properties": {
+        "conditionsApplied": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": { "type": "string" }
+          }
+        },
+        "alternateResistance": {
+          "type": "string",
+          "enum": ["", "dodge", "parry", "toughness", "fortitude", "will"]
+        },
+        "resistWith": {
+          "type": "string",
+          "enum": ["", "fortitude", "will"]
+        }
+      },
+      "required": ["conditionsApplied", "alternateResistance", "resistWith"],
       "additionalProperties": false
     },
     "AddedSenseInPower": {

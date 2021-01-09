@@ -6,8 +6,8 @@ const standardPowers = require("@/data/standardPowers.json");
 const conditionsData = require("@/data/conditionsData.json");
 const sensesData = require("@/data/sensesData.json");
 
-const currentVersion = 26; // Up to this version can be saved
-const latestVersion = 26; // Might be an experimental version
+const currentVersion = 27; // Up to this version can be saved
+const latestVersion = 27; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
@@ -936,6 +936,29 @@ const upgradeFuncs = {
     // -- version number --
     charsheet.version = 26;
   },
+
+  upgradeFrom26: function(charsheet) {
+    // -- the Affliction feature now has extended data --
+    const upgradeFeature = function(feature) {
+      if (feature === undefined || feature === null) {
+        return;
+      }
+      if (feature.effect === "Affliction") {
+        feature.extended = {
+          "conditionsApplied": [ [ "", "", "" ] ],
+          "alternateResistance": "",
+          "resistWith": ""
+        };
+      }
+      if (feature.subpowers) {
+        feature.subpowers.forEach(upgradeFeature);
+      }
+    };
+    charsheet.powers.forEach(upgradeFeature);
+    charsheet.equipment.forEach(x => upgradeFeature(x.feature));
+    // -- version number --
+    charsheet.version = 27;
+  }
 
 };
 
