@@ -1,5 +1,5 @@
 <!--
-  This component shows the outcome of an attack that does affliction in a little
+  This component shows the outcome of an attack that does weaken in a little
   folding box.
 -->
 <template>

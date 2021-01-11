@@ -44,6 +44,8 @@
 <script>
   const conditionsData = require("@/data/conditionsData.json");
 
+  import {capitalize} from "@/js/heroSheetUtil.js";
+
   /*
    * This is given an array and makes it be the specified length. If it is already right
    * nothing happens, if it is too long it will be truncated in place, and if it is too
@@ -74,7 +76,7 @@
 
       // -- Watch the highest degree and make the length of entries in extended.conditionsApplied match --
       const highestDegree = function() {
-        if (power.effect !== "affliction") {
+        if (power.effect !== "Affliction") {
           // We are about to make this a different power anyhow. Ignore it.
           return undefined;
         }
@@ -100,7 +102,7 @@
 
       // -- Watch the number of extra conditions and make the size of extended.conditionsApplied match --
       const numConditions = function() {
-        if (power.effect !== "affliction") {
+        if (power.effect !== "Affliction") {
           // We are about to make this a different power anyhow. Ignore it.
           return undefined;
         }
@@ -116,6 +118,21 @@
         onNumConditionsChange,
         { deep: true, immediate: true }
       );
+
+      // -- Watch for the alternate resistance extra --
+      const altResistance = function() {
+        return power.extras.some(x => x.modifierSource === "special" && x.modifierName === "Alternate Resistance");
+      };
+      const onAltResistanceChange = function(altResistance) {
+        if (!altResistance) {
+          power.extended.alternateResistance = "";
+        }
+      }
+      this.$watch(
+        altResistance,
+        onAltResistanceChange,
+        { deep: true, immediate: true }
+      );
     },
     computed: {
       altResistance: function() {
@@ -123,9 +140,7 @@
       }
     },
     methods: {
-      capitalize: function(s) {
-        return s.charAt(0).toUpperCase() + s.slice(1);
-      },
+      capitalize,
       /*
        * Return a series of numbers from [min .. (max-1)].
        */

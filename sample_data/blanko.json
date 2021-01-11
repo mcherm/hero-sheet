@@ -280,10 +280,10 @@
               [
                 "fatigued",
                 "exhausted",
-                null
+                ""
               ]
             ],
-            "alternateResistance": null,
+            "alternateResistance": "",
             "resistWith": "will"
           },
           "activation": {
