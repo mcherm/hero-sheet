@@ -14,6 +14,14 @@ const modifiersData = require("@/data/modifiersData.json");
 const skillsData = require("@/data/skillsData.json");
 
 
+/*
+ * Given a string, this capitalizes the first letter.
+ */
+const capitalize = function(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
+
 const fieldAllowedRegEx = {
   user: "^(|[a-zA-Z0-9$@._+-]+)$",
   email: "^(|[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})$",
@@ -1128,6 +1136,7 @@ const showAlert = function({message, lifetime, format}) {
 
 
 export {
+  capitalize,
   fieldAllowedRegEx,
   powerBaseCost,
   powerCostCalculate,

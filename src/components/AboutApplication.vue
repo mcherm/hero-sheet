@@ -14,6 +14,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2021-01-09: Afflictions now allow the user to specify the effects they have (and other properties).</li>
       <li>2021-01-06: Allow "other" enhanced traits; remove some references to "Hero Points" or "Power Points"; allow ranks for the extra "Feature".</li>
       <li>2021-01-03: Fix the calculation of costs for arrays that have flat modifiers.</li>
       <li>2021-01-03: Fix the calculation of costs for custom items, and improve the display of items generally.</li>

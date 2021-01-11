@@ -38,8 +38,8 @@
         <number-display class="sourced-value" :value="info.ranks" :title="info.ranksSource"/>
       </div>
       <div v-else-if="attack.effectType === 'affliction'">
-        D20 + (Fortitude or Will)
-        <span class="vs">vs. </span>
+        D20 + <span class="sourced-value">{{afflictionPowerResistString()}}</span>
+        <span class="vs"> vs. </span>
         <number-display class="sourced-value" :value="info.ranks" :title="info.ranksSource"/>
         + 10
       </div>
@@ -59,7 +59,7 @@
     </div>
 
     <attacks-result-damage v-if="attack.effectType === 'damage'"/>
-    <attacks-result-affliction v-else-if="attack.effectType === 'affliction'"/>
+    <attacks-result-affliction v-else-if="attack.effectType === 'affliction'" :power="afflictionPower()"/>
     <attacks-result-nullify v-else-if="attack.effectType === 'nullify'"/>
     <attacks-result-weaken v-else-if="attack.effectType === 'weaken'" :attack="attack"/>
     <div v-else class="error">ERROR</div>
@@ -74,6 +74,9 @@ import AttacksResultDamage from "@/components/AttacksResultDamage.vue"
 import AttacksResultAffliction from "@/components/AttacksResultAffliction.vue"
 import AttacksResultNullify from "@/components/AttacksResultNullify.vue"
 import AttacksResultWeaken from "@/components/AttacksResultWeaken.vue"
+import {findFeatureByHsid} from "@/js/heroSheetVersioning.js"
+import {capitalize} from "@/js/heroSheetUtil.js"
+
 
 export default {
   name: "AttacksEntry",
@@ -94,6 +97,33 @@ export default {
     isOutOfSpec: function() {
       const violation = this.getCharsheet().constraintViolations[`AttackRoll@${this.attack.hsid}`];
       return violation !== undefined && !violation.gmApproval;
+    }
+  },
+  methods: {
+    /*
+     * Assuming this is an affliction attack, returns the power that the affliction
+     * was created by.
+     */
+    afflictionPower: function() {
+      const power = findFeatureByHsid(this.getCharsheet(), this.attack.powerHsid);
+      if (power.effect !== "Affliction") {
+        throw new Error("Should only be called for Affliction powers.");
+      }
+      return power;
+    },
+    afflictionPowerResistString: function() {
+      const power = this.afflictionPower();
+      const alternateResistance = power.extended.alternateResistance;
+      if (alternateResistance) {
+        return capitalize(alternateResistance);
+      } else {
+        const resistWith = power.extended.resistWith;
+        if (resistWith) {
+          return capitalize(resistWith);
+        } else {
+          return "(Fortitude or Will)";
+        }
+      }
     }
   }
 }
