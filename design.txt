@@ -347,3 +347,6 @@ TODO: There's no way to buy just imperviousness for your toughness, but that's a
   often do.
 
 TODO: The ability "Improved Critical" ought to choose an attack just like certain skills do.
+
+BUG: When you duplicate a character it goes crazy and makes lots of copies of lots of things!
+  Maybe everything that was ever opened before?

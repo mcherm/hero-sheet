@@ -817,7 +817,7 @@ class ActiveEffectFromAdvantageUpdater extends Updater {
   static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
     const advantage = findAdvantageByHsid(charsheet, activeEffect.advantageHsid);
     if (advantage === null) {
-      throw new Error("Updater references hsid that isn't found.");
+      throw new ActiveEffectInvalid("Updater references hsid that isn't found.");
     }
     return {updater: activeEffect.updater, advantage: advantage};
   }
@@ -990,7 +990,7 @@ class EnhancedTraitUpdater extends Updater {
   static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
     const feature = findFeatureByHsid(charsheet, activeEffect.powerHsid);
     if (feature === null) {
-      throw new Error("Updater references hsid that isn't found.");
+      throw new ActiveEffectInvalid("Updater references hsid that isn't found.");
     }
     return {updater: activeEffect.updater, power: feature};
   }
@@ -1110,7 +1110,7 @@ class ActiveEffectFromPowerUpdater extends Updater {
   static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
     const feature = findFeatureByHsid(charsheet, activeEffect.powerHsid);
     if (feature === null) {
-      throw new Error("Updater references hsid that isn't found.");
+      throw new ActiveEffectInvalid("Updater references hsid that isn't found.");
     }
     return {updater: activeEffect.updater, power: feature};
   }
@@ -1356,7 +1356,7 @@ class CombatSkillUpdater extends Updater {
   static updateEventFromActiveEffect(vm, charsheet, activeEffect) {
     const skill = findSkillByHsid(charsheet, activeEffect.skillHsid);
     if (skill === null) {
-      throw new Error("Updater references hsid that isn't found.");
+      throw new ActiveEffectInvalid("Updater references hsid that isn't found.");
     }
     return {updater: activeEffect.updater, skill: skill};
   }
@@ -1632,9 +1632,11 @@ const updaterClasses = {
 
 
 /*
- * An exception type.
+ * An exception class used when creating an active effect and the effect turns out
+ * to be invalid in some way such as referencing a source that isn't in the charsheet
+ * or an updater type that doesn't exist.
  */
-class UnsupportedUpdaterInActiveEffectError extends Error {
+class ActiveEffectInvalid extends Error {
 }
 
 
@@ -1649,13 +1651,13 @@ class UnsupportedUpdaterInActiveEffectError extends Error {
  *
  * If the call fails because the updater type is not known or does not
  * support being created from an active effect, then this will throw an
- * UnsupportedUpdaterInActiveEffectError.
+ * ActiveEffectInvalid.
  */
 const newUpdaterFromActiveEffect = function(vm, charsheet, activeEffect) {
   const updaterType = activeEffect.updater;
   const updaterClass = updaterClasses[updaterType];
   if (updaterClass === undefined || !("updateEventFromActiveEffect" in updaterClass)) {
-    throw new UnsupportedUpdaterInActiveEffectError(`Unsupported updater type '${updaterType}' in activeEffect.`);
+    throw new ActiveEffectInvalid(`Unsupported updater type '${updaterType}' in activeEffect.`);
   }
   const updateEvent = updaterClass.updateEventFromActiveEffect(vm, charsheet, activeEffect);
   return new updaterClasses[updaterType](vm, charsheet, updateEvent);
@@ -1665,5 +1667,5 @@ const newUpdaterFromActiveEffect = function(vm, charsheet, activeEffect) {
 export {
   updaterClasses,
   newUpdaterFromActiveEffect,
-  UnsupportedUpdaterInActiveEffectError,
+  ActiveEffectInvalid,
 };
