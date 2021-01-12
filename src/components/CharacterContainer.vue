@@ -75,6 +75,18 @@
       this.$globals.eventBus.$on("new-ally", this.initializeAlly);
       this.$globals.eventBus.$on("duplicate-current-character", this.duplicateCurrentCharacter);
     },
+    beforeDestroy() {
+      this.$globals.eventBus.$off("new-updater", this.createUpdater);
+      this.$globals.eventBus.$off("new-ally", this.initializeAlly);
+      this.$globals.eventBus.$off("duplicate-current-character", this.duplicateCurrentCharacter);
+      if (this.activeSaveTimeout !== null) {
+        clearTimeout(this.activeSaveTimeout);
+        this.activeSaveTimeout = null;
+      }
+      if (this.hasUnsavedChanges) {
+        this.saveCharacter();
+      }
+    },
     methods: {
       loadCharacter: async function() {
         try {
@@ -369,15 +381,6 @@
         }
       }
     },
-    beforeDestroy() {
-      if (this.activeSaveTimeout !== null) {
-        clearTimeout(this.activeSaveTimeout);
-        this.activeSaveTimeout = null;
-      }
-      if (this.hasUnsavedChanges) {
-        this.saveCharacter();
-      }
-    }
   }
 </script>
 
