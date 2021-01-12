@@ -19,11 +19,14 @@
 
   const statsData = require("@/data/statsData.json");
 
+  class BadAllyException extends Error {
+  }
+
   import {
     currentVersion, findFeatureByHsid, upgradeVersion, findAllyByHsid,
     allyAdvantagesLowercase, renumberHsids
   } from "@/js/heroSheetVersioning.js";
-  import {updaterClasses, newUpdaterFromActiveEffect, UnsupportedUpdaterInActiveEffectError} from "@/js/updaters.js";
+  import {updaterClasses, newUpdaterFromActiveEffect, ActiveEffectInvalid} from "@/js/updaters.js";
   import {getCharacter, saveCharacter, createCharacter, NotLoggedInError} from "@/js/api.js";
   import {removeActiveEffects, showAlert, getStandardPower} from "@/js/heroSheetUtil.js";
 
@@ -183,15 +186,15 @@
         }
         // For any active effects with an updater, initialize that updater
         for (const activeEffectKey in charsheet.activeEffects) {
-          for (const activeEffect of charsheet.activeEffects[activeEffectKey]) {
+          for (const activeEffect of Array.from(charsheet.activeEffects[activeEffectKey])) { // dup the array as we may delete items while traversing
             const updaterType = activeEffect.updater;
             if (updaterType !== undefined) {
               try {
                 newUpdaterFromActiveEffect(vm, charsheet, activeEffect);
               } catch(err) {
-                if (err instanceof UnsupportedUpdaterInActiveEffectError) {
+                if (err instanceof ActiveEffectInvalid) {
                   removeActiveEffects(charsheet, x => x === activeEffect, activeEffectKey);
-                  console.error(`Unsupported updater type '${updaterType}' in activeEffect. Will delete the activeEffect.`);
+                  console.error(`${err.message} in activeEffect. Will delete the activeEffect.`);
                 } else {
                   throw err;
                 }
@@ -227,11 +230,24 @@
           }
         }
         // -- initialize allies --
-        for (const ally of charsheet.allies) {
-          this.initializeAlly({
-            parentCharsheet: charsheet,
-            allyHsid: ally.hsid
-          });
+        for (const ally of Array.from(charsheet.allies)) { // dup the array since I may delete items while traversing it
+          // FIXME: FIND THIS. MAYBE HERE I SHOULD DELETE THE ALLY
+          try {
+            this.initializeAlly({
+              parentCharsheet: charsheet,
+              allyHsid: ally.hsid
+            });
+          } catch(err) {
+            if (err instanceof BadAllyException) {
+              // This ally is invalid; delete it
+              const badAllyIndex = charsheet.allies.indexOf(ally);
+              if (badAllyIndex >= 0) {
+                charsheet.allies.splice(badAllyIndex, 1);
+              }
+            } else {
+              throw err;
+            }
+          }
         }
       },
       createUpdater: function(newUpdaterEvent) {
@@ -259,9 +275,9 @@
         if (allyAdvantagesLowercase.includes(ally.type)) {
           const allyAdvantages = parentCharsheet.advantages.filter(x => x.allyHsid === allyHsid);
           if (allyAdvantages.length === 0) {
-            const message = `Ally ${allyHsid} has no source. Probably need to handle that case. Maybe delete the ally?`;
+            const message = `Ally ${allyHsid} has no source. Will delete the ally.`;
             console.log(message);
-            throw Error(message);
+            throw new BadAllyException(message);
           } else if (allyAdvantages.length > 1) {
             const message = `Ally ${allyHsid} has MORE THAN 1 source. That's definitely a bug!`;
             console.log(message);
