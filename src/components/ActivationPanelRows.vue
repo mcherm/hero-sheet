@@ -8,6 +8,7 @@
         <activation-widget
             :activation="power.activation"
             :can-be-partial="getStandardPower(power).canBePartial"
+            :horizontal="true"
             @setFeatureActivation="setFeatureActivation(getCharsheet(), power, [], $event)"
         />
       </div>
@@ -58,6 +59,8 @@
   .power {
     border: 1px solid var(--grid-line-color);
     padding: 2px;
+    display: flex;
+    align-items: center;
   }
   span.indent {
     margin-left: 20px;
