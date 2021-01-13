@@ -43,7 +43,7 @@
       <template slot="In Play">
         <div class="v-box">
           <attacks/>
-          <activation-panel v-if="this.$globals.developerMode"/>
+          <activation-panel/>
           <boxed-section title="Senses">
             <senses-chart/>
           </boxed-section>
