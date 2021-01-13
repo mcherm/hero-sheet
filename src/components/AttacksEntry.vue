@@ -3,7 +3,7 @@
   attack.
 -->
 <template>
-  <div class="display-contents" v-show="attack.isActive">
+  <div class="display-contents" v-show="attack.isActive || showActiveAttacks">
     <div class="attack-name">{{attack.name}}</div>
 
     <div v-if="typeof(attack.attackCheck) === 'string'" class="inapplicable">N/A</div>
@@ -88,7 +88,8 @@ export default {
   },
   inject: ["getCharsheet"],
   props: {
-    attack: { type: Object, required: true }
+    attack: { type: Object, required: true },
+    showActiveAttacks: { type: Boolean, required: true },
   },
   computed: {
     info: function() {
