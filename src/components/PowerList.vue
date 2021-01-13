@@ -52,12 +52,12 @@
     data: function() {
       return {
         deleteIsVisible: false,
-        setFeatureActivation,
       }
     },
     methods: {
       getStandardPower,
       powerStateClasses,
+      setFeatureActivation,
       addPower: function() {
         const blankPower = newBlankPower();
         this.powers.push(blankPower);
