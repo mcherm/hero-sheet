@@ -3,7 +3,7 @@
 -->
 <template>
   <div class="display-contents">
-    <div v-for="power in definedPowers" class="display-contents">
+    <div v-for="power in displayedPowers" :key="power.hsid" class="display-contents">
       <div class="activate-pane">
         <activation-widget
             :activation="power.activation"
@@ -17,11 +17,13 @@
         {{power.name}}
       </div>
       <activation-panel-rows
-          v-if="getStandardPower(power).powerLayout === 'array'"
+          v-if="isArray(power)"
           :powerList="power.subpowers"
           :indent-level="indentLevel + 1"
+          :activation-panel-mode="activationPanelMode"
       />
     </div>
+    <div class="empty-notice" v-if="indentLevel === 0 && displayedPowers.length === 0">No Active Powers</div>
   </div>
 </template>
 
@@ -38,16 +40,25 @@
     props: {
       powerList: { type: Array, required: true },
       indentLevel: { type: Number, required: true },
+      activationPanelMode: { type: String, required: true },
     },
     computed: {
-      definedPowers: function() {
-        return this.powerList.filter(p => getStandardPower(p) !== null);
+      displayedPowers: function() {
+        return this.powerList.filter(p => getStandardPower(p) !== null && this.showPower(p));
       }
     },
     methods: {
       setFeatureActivation,
       getStandardPower,
       powerStateClasses,
+      isArray: function(power) {
+        const standardPower = getStandardPower(power);
+        return standardPower && standardPower.powerLayout === 'array';
+      },
+      showPower: function(power) {
+        console.log(`activationPanelMode = ${this.activationPanelMode}; indentLevel = ${this.indentLevel}`); // FIXME: Remove
+        return this.indentLevel > 0 || this.activationPanelMode === "ALL_POWERS" || this.isArray(power);
+      },
     }
   }
 </script>
@@ -55,6 +66,9 @@
 <style scoped>
   .activate-pane {
     border: 1px solid var(--grid-line-color);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
   .power {
     border: 1px solid var(--grid-line-color);

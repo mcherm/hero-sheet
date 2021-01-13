@@ -144,7 +144,7 @@
     align-items: stretch;
   }
   .horizontal > .active-ranks-setting {
-    flex-direction: row;
+    flex-direction: row-reverse;
   }
   .active-ranks {
     border: solid var(--box-border-color) 1px;
@@ -163,11 +163,11 @@
     border-radius: 0 0 5px 5px;
   }
   .horizontal > .active-ranks-setting > button.incr {
-    border-radius: 5px 0 0 5px;
+    border-radius: 0 5px 5px 0;
     padding: 0 1px;
   }
   .horizontal > .active-ranks-setting > button.decr {
-    border-radius: 0 5px 5px 0;
+    border-radius: 5px 0 0 5px;
     padding: 0 1px;
   }
 </style>
