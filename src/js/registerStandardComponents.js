@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import PowerList from "@/components/PowerList.vue";
 import Power from "@/components/Power.vue";
+import ActivationPanelRows from "@/components/ActivationPanelRows.vue";
 import NumberDisplay from "@/components/NumberDisplay.vue";
 import ModifiableNumberDisplay from "@/components/ModifiableNumberDisplay.vue";
 import NumberEntry from "@/components/NumberEntry.vue";
@@ -21,6 +22,7 @@ import DocsLookup from "@/components/DocsLookup.vue";
 const registerStandardComponents = function() {
   Vue.component("PowerList", PowerList);
   Vue.component("Power", Power);
+  Vue.component("ActivationPanelRows", ActivationPanelRows);
   Vue.component("NumberDisplay", NumberDisplay);
   Vue.component("ModifiableNumberDisplay", ModifiableNumberDisplay);
   Vue.component("NumberEntry", NumberEntry);

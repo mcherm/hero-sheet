@@ -43,6 +43,7 @@
       <template slot="In Play">
         <div class="v-box">
           <attacks/>
+          <activation-panel v-if="this.$globals.developerMode"/>
           <boxed-section title="Senses">
             <senses-chart/>
           </boxed-section>
@@ -77,6 +78,7 @@
   import PowerListTopLevel from "@/components/PowerListTopLevel.vue"
   import Complications from "@/components/Complications.vue";
   import Attacks from "@/components/Attacks.vue"
+  import ActivationPanel from "@/components/ActivationPanel.vue"
   import SensesChart from "@/components/SensesChart.vue"
   import Adjustments from "@/components/Adjustments.vue";
   import ConstraintViolations from "@/components/ConstraintViolations.vue";
@@ -100,6 +102,7 @@
       PowerListTopLevel,
       Complications,
       Attacks,
+      ActivationPanel,
       SensesChart,
       RanksAndMeasures,
       Adjustments,
