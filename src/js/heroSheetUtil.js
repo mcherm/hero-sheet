@@ -496,12 +496,9 @@ const effectivePowerRange = function(power, inheritedModifierLists=[]) {
       "Decrease to Close": -1,
       "Affects Others": 1,
     }[modifier.modifierName];
-    console.log(`In lookup, key was ${modifier.modifierName} and value was ${delta}`); // FIXME: Remove
     if (delta === undefined) {
-      console.log(`rangeEffectNum(${JSON.stringify(modifier)}) -> 0`); // FIXME: Remove
       return 0;
     } else {
-      console.log(`rangeEffectNum(${JSON.stringify(modifier)}) -> ${delta}`); // FIXME: Remove
       return delta;
     }
   }
@@ -516,7 +513,6 @@ const effectivePowerRange = function(power, inheritedModifierLists=[]) {
   effectivePowerRangeNum = Math.max(0, Math.min(3, effectivePowerRangeNum));
 
   const result = ["personal", "close", "ranged", "perception"][effectivePowerRangeNum];
-  console.log(`effectivePowerRange() -> ${result}`); // FIXME: Remove
   return result;
 };
 
