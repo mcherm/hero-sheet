@@ -6,16 +6,16 @@
     <div class="dropdowns">
       <select v-model="selectedModifierKey">
         <option disabled value="none">Select One</option>
-        <optgroup v-if="specialExtras.length" :label="`Special ${capitalize(modifierType)}`">
+        <optgroup v-if="specialModifiers.length" :label="`Special ${capitalize(modifierType)}`">
           <option
-              v-for="(modifier, index) in specialExtras"
+              v-for="(modifier, index) in specialModifiers"
               :key="`special_${index}`"
               :value="`special_${index}`"
           >{{modifier.name}}</option>
         </optgroup>
         <optgroup :label="`Standard ${capitalize(modifierType)}`">
           <option
-              v-for="(modifier, index) in modifiers"
+              v-for="(modifier, index) in standardModifiers"
               :key="`standard_${index}`"
               :value="`standard_${index}`"
           >{{modifier.name}}</option>
@@ -50,25 +50,38 @@
 </template>
 
 <script>
-  import {modifierDisplaySign, buildNewModifier} from "@/js/heroSheetUtil.js";
+  import {capitalize, modifierDisplaySign, buildNewModifier, getStandardPower, effectivePowerRange} from "@/js/heroSheetUtil.js";
   const modifiersData = require("@/data/modifiersData.json");
 
   export default {
     name: "ModifierListNewModifierChooser",
     props: {
       modifierType: { type: String, required: true },
-      specialExtras: { type: Array, required: true },
-      powerEffectName: { type: String, required: true }
+      power: { type: Object, required: true },
+      inheritedModifierLists: { type: Array, required: true },
     },
     data: function() {
       return {
-        modifiers: modifiersData[this.modifierType],
         selectedModifierKey: "none",
         selectedOptionIndex: -1,
         ranks: 1
       }
     },
     computed: {
+      standardModifiers: function() {
+        const effectiveRange = effectivePowerRange(this.power, this.inheritedModifierLists);
+        return modifiersData[this.modifierType].filter(
+            x => x.rangeRequirement === undefined || x.rangeRequirement === effectiveRange
+        );
+      },
+      specialModifiers: function() {
+        const standardPower = getStandardPower(this.power);
+        if (standardPower === null) {
+          return [];
+        } else {
+          return standardPower[this.modifierType] || [];
+        }
+      },
       selectedModifierSource: function() {
         const key = this.selectedModifierKey;
         if (key === "none") {
@@ -87,10 +100,10 @@
           return null;
         } else if (key.startsWith("special_")) {
           const index = parseInt(key.slice(8));
-          return this.specialExtras[index];
+          return this.specialModifiers[index];
         } else if (key.startsWith("standard_")) {
           const index = parseInt(key.slice(9));
-          return this.modifiers[index];
+          return this.standardModifiers[index];
         } else {
           throw new Error("Invalid value for selectedModifierKey");
         }
@@ -141,6 +154,7 @@
       }
     },
     methods: {
+      capitalize,
       modifierDisplaySign,
       emitSelection: function() {
         let response = null;
@@ -150,7 +164,7 @@
             modifierSource: this.selectedModifierSource,
             modifierName: this.selectedModifier.name,
             optionName: this.selectedModifierHasOptions ? selectedItem.name : null,
-            effect: this.selectedModifierSource === "special" ? this.powerEffectName : null,
+            effect: this.selectedModifierSource === "special" ? this.power.effect : null,
             ranks: this.ranks
           });
         }
@@ -159,13 +173,6 @@
       cancelCreateModifier: function() {
         this.$emit('choose-modifier', null);
       },
-      capitalize: function(s) {
-        if (s.length === 0) {
-          return s;
-        } else {
-          return s.charAt(0).toUpperCase() + s.slice(1);
-        }
-      }
     }
   }
 </script>

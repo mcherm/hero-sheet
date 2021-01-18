@@ -18,7 +18,11 @@ const skillsData = require("@/data/skillsData.json");
  * Given a string, this capitalizes the first letter.
  */
 const capitalize = function(s) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  if (s.length === 0) {
+    return s;
+  } else {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
 };
 
 
@@ -455,6 +459,65 @@ const getPowerOption = function(power) {
   } else {
     return null;
   }
+};
+
+
+/*
+ * Given a Power object from the charsheet, this returns "personal", "close", "ranged",
+ * or "perception" giving the effective range of the power with the modifiers currently
+ * in effect. It will instead return null if the power is an array power or if the power
+ * doesn't have an effect (a partially created power).
+ */
+const effectivePowerRange = function(power, inheritedModifierLists=[]) {
+  const standardPower = getStandardPower(power);
+  if (standardPower === null) {
+    return null;
+  }
+  if (standardPower.powerLayout === "array") {
+    return null;
+  }
+  const standardPowerRange = standardPower.range;
+  const standardPowerRangeNum = {
+    personal: 0,
+    close: 1,
+    ranged: 2,
+    perception: 3,
+  }[standardPower.range];
+
+  // Given a modifier, this returns 0, +1, or -1 telling how the range is affected by that modifier
+  const rangeEffectNum = function(modifier) {
+    if (modifier.modifierSource !== "standard") {
+      return 0;
+    }
+    const delta = {
+      "Increase to Ranged": 1,
+      "Increase to Perception": 1,
+      "Decrease to Ranged": -1,
+      "Decrease to Close": -1,
+      "Affects Others": 1,
+    }[modifier.modifierName];
+    console.log(`In lookup, key was ${modifier.modifierName} and value was ${delta}`); // FIXME: Remove
+    if (delta === undefined) {
+      console.log(`rangeEffectNum(${JSON.stringify(modifier)}) -> 0`); // FIXME: Remove
+      return 0;
+    } else {
+      console.log(`rangeEffectNum(${JSON.stringify(modifier)}) -> ${delta}`); // FIXME: Remove
+      return delta;
+    }
+  }
+
+  let effectivePowerRangeNum = standardPowerRangeNum;
+  const allModifierLists = [power.extras, power.flaws, ...inheritedModifierLists];
+  for (const modifierList of allModifierLists) {
+    for (const modifier of modifierList) {
+      effectivePowerRangeNum += rangeEffectNum(modifier);
+    }
+  }
+  effectivePowerRangeNum = Math.max(0, Math.min(3, effectivePowerRangeNum));
+
+  const result = ["personal", "close", "ranged", "perception"][effectivePowerRangeNum];
+  console.log(`effectivePowerRange() -> ${result}`); // FIXME: Remove
+  return result;
 };
 
 
@@ -1173,6 +1236,7 @@ export {
   buildFeature,
   getStandardPower,
   getPowerOption,
+  effectivePowerRange,
   replacePower,
   setPowerEffect,
   setPowerOption,

@@ -14,6 +14,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2021-01-18: Better way to specify increased and decreased range extras and flaws.</li>
       <li>2021-01-18: Faster testing when running as a developer.</li>
       <li>2021-01-13: Active Powers panel on In Play tab to activate powers.</li>
       <li>2021-01-12: Let user choose whether to see all attacks or only the active ones.</li>
