@@ -126,7 +126,8 @@
         "docsURL": { "$ref": "#/definitions/DocsURL" },
         "hasRanks": { "type": "boolean" },
         "costType": { "$ref": "#/definitions/CostType" },
-        "cost": { "type": "integer" }
+        "cost": { "type": "integer" },
+        "rangeRequirement": { "$ref": "#/definitions/EffectRange" }
       },
       "required": ["name", "description", "hasRanks", "costType", "cost"],
       "additionalProperties": false
@@ -147,7 +148,8 @@
               "docsURL": { "$ref": "#/definitions/DocsURL" },
               "hasRanks": { "type": "boolean" },
               "costType": { "$ref": "#/definitions/CostType" },
-              "cost": { "type": "integer" }
+              "cost": { "type": "integer" },
+              "rangeRequirement": { "$ref": "#/definitions/EffectRange" }
             },
             "required": ["name", "description", "hasRanks", "costType", "cost"],
             "additionalProperties": false

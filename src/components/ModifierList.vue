@@ -18,8 +18,8 @@
     <modifier-list-new-modifier-chooser
         v-if="isAdding"
         :modifier-type="modifierType"
-        :special-extras="specialExtras || []"
-        :power-effect-name="standardPower.name"
+        :power="power"
+        :inheritedModifierLists="inheritedModifierLists"
         v-on:choose-modifier="finishChoosingNewModifier($event)"
     />
     <edit-button
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import {addPowerModifier, deletePowerModifier, getStandardPower} from "@/js/heroSheetUtil.js";
+  import {addPowerModifier, deletePowerModifier} from "@/js/heroSheetUtil.js";
   import ModifierListNewModifierChooser from "@/components/ModifierListNewModifierChooser.vue";
 
   export default {
@@ -59,9 +59,6 @@
       modifiers: function() {
         return this.power[this.modifierType];
       },
-      standardPower: function() {
-        return getStandardPower(this.power);
-      },
       addButtonName: function() {
         if (this.modifierType === "extras") {
           return "Add Extra";
@@ -71,13 +68,6 @@
           throw Error(`Invalid modifierType, ${this.modifierType}`);
         }
       },
-      specialExtras: function() {
-        if (this.standardPower === null) {
-          return [];
-        } else {
-          return this.standardPower[this.modifierType];
-        }
-      }
     },
     methods: {
       finishChoosingNewModifier: function(event) {

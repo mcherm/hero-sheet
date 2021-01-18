@@ -233,6 +233,24 @@
       "cost": 1
     },
     {
+      "name": "Increase to Ranged",
+      "description": "Increases effect's range from close to ranged.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-RANGE-1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "cost": 1,
+      "rangeRequirement": "close"
+    },
+    {
+      "name": "Increase to Perception",
+      "description": "Increases effect's range from ranged to perception.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-RANGE-1-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "cost": 1,
+      "rangeRequirement": "ranged"
+    },
+    {
       "name": "Increased Duration",
       "description": "Improves effect's duration by one step along instant->sustained->continuous per rank.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-DURATION-1-COST-PER-RANK-",
@@ -246,14 +264,6 @@
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-MASS-FLAT-1-POINT-PER-RANK-",
       "hasRanks": true,
       "costType": "flatPointsPerRankOfModifier",
-      "cost": 1
-    },
-    {
-      "name": "Increased Range",
-      "description": "Improves effect's range by one step along close->ranged->perception per rank.",
-      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-RANGE-1-COST-PER-RANK-",
-      "hasRanks": true,
-      "costType": "pointsOfMultiplierPerRankOfModifier",
       "cost": 1
     },
     {
@@ -514,6 +524,24 @@
       "cost": -1
     },
     {
+      "name": "Decrease to Ranged",
+      "description": "Effect's range decreases from Perception to Ranged.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REDUCED-RANGE--1-OR--2-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "cost": -1,
+      "rangeRequirement": "perception"
+    },
+    {
+      "name": "Decrease to Close",
+      "description": "Effect's range decreases from Ranged to Close.",
+      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REDUCED-RANGE--1-OR--2-COST-PER-RANK-",
+      "hasRanks": false,
+      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "cost": -1,
+      "rangeRequirement": "ranged"
+    },
+    {
       "name": "Diminished Range",
       "description": "Reduces short, medium, and long ranges for the effect.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-DIMINISHED-RANGE-FLAT--1-POINT-PER-RANK-",
@@ -591,14 +619,6 @@
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-QUIRK-FLAT--1-POINT-PER-RANK-",
       "hasRanks": true,
       "costType": "flatPointsPerRankOfModifier",
-      "cost": -1
-    },
-    {
-      "name": "Reduced Range",
-      "description": "Effect's range decreases.",
-      "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REDUCED-RANGE--1-OR--2-COST-PER-RANK-",
-      "hasRanks": true,
-      "costType": "pointsOfMultiplierPerRankOfModifier",
       "cost": -1
     },
     {
