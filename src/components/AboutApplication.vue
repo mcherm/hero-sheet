@@ -14,7 +14,8 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
-      <li>2021-01-13: Active Powers panel on In Play tab to activate powers</li>
+      <li>2021-01-18: Faster testing when running as a developer.</li>
+      <li>2021-01-13: Active Powers panel on In Play tab to activate powers.</li>
       <li>2021-01-12: Let user choose whether to see all attacks or only the active ones.</li>
       <li>2021-01-11: Fix bug for older characters that had allies or Enhanced Traits and another when duplicating.</li>
       <li>2021-01-09: Afflictions now allow the user to specify the effects they have (and other properties).</li>
@@ -128,7 +129,6 @@
     <ul class="scrolling-list">
       <li>Support for summons, morphs, and variable powers.</li>
       <li>Printable character sheet</li>
-      <li>Ability to turn powers on and off during play.</li>
       <li>Sharable link to a public character.</li>
     </ul>
     <h2>Special Settings</h2>
@@ -137,9 +137,9 @@
       <div class="grid-with-lines-cell">
         <input type="checkbox" id="developerMode" v-model="$globals.developerMode">
       </div>
-      <label for="deployment">Dev Deployment</label>
+      <label for="deployment">Environment</label>
       <div class="grid-with-lines-cell">
-        <select id="deployment" :value="$globals.deployment" @change="setDeployment($event.target.value)">
+        <select id="deployment" v-model="$globals.deployment">
           <option value="prod">Production</option>
           <option value="dev">Development</option>
         </select>
@@ -149,21 +149,8 @@
 </template>
 
 <script>
-  import {setDeployment} from "@/js/api.js";
-
   export default {
     name: "AboutApplication",
-    data: function() {
-      return {
-        deployment: "prod"
-      }
-    },
-    methods: {
-      setDeployment: function(newValue) {
-        setDeployment(newValue);
-        this.$globals.deployment = newValue;
-      }
-    }
   }
 </script>
 
