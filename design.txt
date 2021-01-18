@@ -115,6 +115,7 @@ The power layouts would include:
  * array   -- used for "Linked", "Dynamic", and "Alternate". Replaces the old "isArray" field
  * senses  -- used for "Senses". Pick certain senses and that determines cost
  * affliction -- used for "Affliction". User specifies which conditions to apply.
+ * selection -- used for several powers where the user essentially picks powers off a list.
 I'm sure there will be more, but I'm just trying to get started here.
 
   Specific Layouts:
@@ -304,14 +305,15 @@ TODO: A few powers really should have their own custom way of being created.
      * Flaw "Limited Degree" - each level removes a severity
      * Also select "resist by" which is Fortitude, Will. Alternate resistance just affects
        the initial roll, not the recovery.
- + Communication - should select the sense that applies and the distance, then it can
-   calculate the number of ranks. (or maybe just use options).
- + Comprehend - there's a list of stuff you pick from, then no ranks.
  + Environment - NOPE, this is normal.
- + Immunity - there's a list of stuff you pick from, then no ranks.
- + Insubstantial - there's a list of stuff you pick from, then no ranks.
- + Morph - it's like Insubstantial: Pick some things, then no ranks.
- + Movement - there's a list of stuff you pick from, then no ranks (maybe do this one first)
+ + Communication - should select the sense that applies and the distance, then it can
+   calculate the number of ranks. Really wants to have 2 independent dimensions.
+ + Concealment - there's a list of stuff you pick from, then no ranks. (multiple selection nice)
+ + Comprehend - there's a list of stuff you pick from, then no ranks. (multiple selection nice)
+ + Immunity - there's a list of stuff you pick from, then no ranks. (multiple selection important)
+ + Insubstantial - there's a list of stuff you pick from, then no ranks. (multiple selection unimportant)
+ + Morph - it's like Insubstantial: Pick some things, then no ranks. (multiple selection unimportant)
+ + Movement - there's a list of stuff you pick from, then no ranks  (multiple selection nice)
  + Summon - should be able to specify the creature summoned, and calculate cost from that
  + Variable - Yowzers... how do you specify this?? Maybe provide a list of powers you can
       specify? Up to the number of ranks? Or color it red if it's beyond that?

@@ -22,6 +22,19 @@ const capitalize = function(s) {
 };
 
 
+/*
+ * Creates the initial value for the $globals variable. Should be passed the
+ * contents of Window.location.hostname.
+ */
+const initializeGlobals = function(locationHostname) {
+  return {
+    eventBus: new Vue({}),
+    developerMode: locationHostname === "localhost",
+    deployment: locationHostname === "localhost" ? "dev" : "prod",
+  };
+}
+
+
 const fieldAllowedRegEx = {
   user: "^(|[a-zA-Z0-9$@._+-]+)$",
   email: "^(|[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})$",
@@ -1137,6 +1150,7 @@ const showAlert = function({message, lifetime, format}) {
 
 export {
   capitalize,
+  initializeGlobals,
   fieldAllowedRegEx,
   powerBaseCost,
   powerCostCalculate,

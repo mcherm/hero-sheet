@@ -22,16 +22,11 @@
   import Vue from 'vue';
   import LogoSection from "@/components/LogoSection.vue";
   import HeaderSection from "@/components/HeaderSection.vue";
-  import {fieldAllowedRegEx, showAlert} from "@/js/heroSheetUtil.js";
+  import {fieldAllowedRegEx, showAlert, initializeGlobals} from "@/js/heroSheetUtil.js";
   import {resetPassword} from "@/js/api.js";
 
   // Create a global "$globals" available on all vue instances. (NOT reactive).
-  const globals = {
-    eventBus: new Vue({}),
-    developerMode: false,
-    deployment: "prod",
-  };
-  Vue.prototype.$globals = globals;
+  Vue.prototype.$globals = initializeGlobals(location.hostname);
 
   const pageUrl = new URL(location.href);
 

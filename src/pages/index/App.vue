@@ -12,14 +12,10 @@
 <script>
   import Vue from 'vue';
   import EntirePage from "@/components/EntirePage.vue";
+  import {initializeGlobals} from "@/js/heroSheetUtil.js";
 
   // Create a global "$globals" available on all vue instances. (NOT reactive).
-  const globals = {
-    eventBus: new Vue({}),
-    developerMode: false,
-    deployment: "prod",
-  };
-  Vue.prototype.$globals = globals;
+  Vue.prototype.$globals = initializeGlobals(location.hostname);
 
   export default {
     name: "app",

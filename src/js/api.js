@@ -2,13 +2,10 @@
 // Code for making API calls
 //
 
+import Vue from 'vue'
+
 const FIXED_URL_PREFIX = "https://u3qr0bfjmc.execute-api.us-east-1.amazonaws.com/prod/";
 
-let deployment = "prod"; // defaults to the production environment
-
-function setDeployment(newDeployment) {
-  deployment = newDeployment;
-}
 
 function getMuffin() {
   const muffin = localStorage.getItem("muffin");
@@ -35,7 +32,7 @@ async function performAPICall(path, verb, taskDescription, bodyObj=null, prettyP
     const deploymentArgument = {
       "prod": "hero-sheet",
       "dev": "hero-sheet-dev",
-    }[deployment];
+    }[Vue.prototype.$globals.deployment];
     const url = FIXED_URL_PREFIX + deploymentArgument + path;
     const headers = {
     };
@@ -172,7 +169,6 @@ async function getViewableUsers(user) {
 
 
 export {
-  setDeployment,
   APIError,
   NotLoggedInError,
   requestPasswordReset,
