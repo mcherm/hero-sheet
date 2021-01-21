@@ -54,7 +54,7 @@
   const editModeRegex = "[DPR]";
   const characterIdRegex = "CH[A-Z0-9]+";
   const urlParsingRegex = new RegExp(
-      `^(${originRegex})(?:/u/(${userRegex})(?:/(${editModeRegex})/(${characterIdRegex}))?)?$`
+      `^(${originRegex})(?:/(?:u/(${userRegex})(?:/(${editModeRegex})/(${characterIdRegex}))?)?)?$`
   );
 
   export default {
@@ -136,6 +136,11 @@
             : editMode || "DESIGNING"
         );
         this.$nextTick(() => {
+          const actualEditMode = (newCharacter.owningUser !== null
+            ? "READ_ONLY"
+            : (editMode || "DESIGNING")
+          );
+          console.log(`newCharacter.owningUser = ${newCharacter.owningUser}; actualEditMode = ${actualEditMode}`); // FIXME: Remove
           this.characterId = newCharacter.characterId;
           this.characterName = newCharacter.name;
           this.owningUser = newCharacter.owningUser;
