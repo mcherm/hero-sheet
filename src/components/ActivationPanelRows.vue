@@ -56,7 +56,6 @@
         return standardPower && standardPower.powerLayout === 'array';
       },
       showPower: function(power) {
-        console.log(`activationPanelMode = ${this.activationPanelMode}; indentLevel = ${this.indentLevel}`); // FIXME: Remove
         return this.indentLevel > 0 || this.activationPanelMode === "ALL_POWERS" || this.isArray(power);
       },
     }
