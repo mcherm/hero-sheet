@@ -14,6 +14,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2021-01-20: Suport use of the back button and bookmarking of specific characters.</li>
       <li>2021-01-18: Better way to specify increased and decreased range extras and flaws.</li>
       <li>2021-01-18: Faster testing when running as a developer.</li>
       <li>2021-01-13: Active Powers panel on In Play tab to activate powers.</li>
@@ -130,7 +131,6 @@
     <ul class="scrolling-list">
       <li>Support for summons, morphs, and variable powers.</li>
       <li>Printable character sheet</li>
-      <li>Sharable link to a public character.</li>
     </ul>
     <h2>Special Settings</h2>
     <div class="global-settings grid-with-lines">

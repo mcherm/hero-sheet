@@ -229,16 +229,15 @@ dependencies which looks like this:
 
 
 === URLs ===
-We might start having URLs that change as you navigate. But if so, how would they look?
+We now have URLs that change as you navigate.
   Current:
     hero-sheet/reset-password :: reset password page
     hero-sheet/  :: login and show character
   Proposed:
     hero-sheet/reset-password :: reset password page
-    hero-sheet/  :: login and show character
-    hero-sheet/u/{user}  :: select character
+    hero-sheet  :: login screen
+    hero-sheet/u/{user}  :: character list
     hero-sheet/u/{user}/{state}/{character}  :: character (state is one of R/D/P for read-only, design, play)
-  However: it may be a while. router for vue.js seems really confusing to me.
 
 
 === Design for public characters ===
