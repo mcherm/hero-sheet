@@ -237,7 +237,7 @@
       "description": "Increases effect's range from close to ranged.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-RANGE-1-COST-PER-RANK-",
       "hasRanks": false,
-      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "costType": "pointsOfMultiplier",
       "cost": 1,
       "rangeRequirement": "close"
     },
@@ -246,7 +246,7 @@
       "description": "Increases effect's range from ranged to perception.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-INCREASED-RANGE-1-COST-PER-RANK-",
       "hasRanks": false,
-      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "costType": "pointsOfMultiplier",
       "cost": 1,
       "rangeRequirement": "ranged"
     },
@@ -528,7 +528,7 @@
       "description": "Effect's range decreases from Perception to Ranged.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REDUCED-RANGE--1-OR--2-COST-PER-RANK-",
       "hasRanks": false,
-      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "costType": "pointsOfMultiplier",
       "cost": -1,
       "rangeRequirement": "perception"
     },
@@ -537,7 +537,7 @@
       "description": "Effect's range decreases from Ranged to Close.",
       "docsURL": "https://www.d20herosrd.com/6-powers/modifiers#TOC-REDUCED-RANGE--1-OR--2-COST-PER-RANK-",
       "hasRanks": false,
-      "costType": "pointsOfMultiplierPerRankOfModifier",
+      "costType": "pointsOfMultiplier",
       "cost": -1,
       "rangeRequirement": "ranged"
     },

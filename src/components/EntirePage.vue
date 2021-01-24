@@ -140,7 +140,6 @@
             ? "READ_ONLY"
             : (editMode || "DESIGNING")
           );
-          console.log(`newCharacter.owningUser = ${newCharacter.owningUser}; actualEditMode = ${actualEditMode}`); // FIXME: Remove
           this.characterId = newCharacter.characterId;
           this.characterName = newCharacter.name;
           this.owningUser = newCharacter.owningUser;
