@@ -443,8 +443,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -461,8 +460,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -479,8 +477,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -497,8 +494,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         },
         {
           "modifierSource": "standard",
@@ -519,8 +515,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         },
         {
           "modifierSource": "standard",
@@ -541,8 +536,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ],
       "subpowers": [
@@ -586,8 +580,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         },
         {
           "modifierSource": "standard",
@@ -608,8 +601,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         },
         {
           "modifierSource": "standard",
@@ -630,8 +622,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -648,8 +639,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         },
         {
           "modifierSource": "standard",
@@ -670,8 +660,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -688,8 +677,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -706,8 +694,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -770,8 +757,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -787,8 +773,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ],
       "subpowers": [
@@ -827,8 +812,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         },
         {
           "modifierSource": "special",
@@ -856,8 +840,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -875,8 +858,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -893,8 +875,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         },
         {
           "modifierSource": "standard",
@@ -921,8 +902,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -946,8 +926,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -974,8 +953,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ],
       "flaws": [
@@ -1008,8 +986,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         },
         {
           "modifierSource": "special",
@@ -1042,8 +1019,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -1067,8 +1043,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -1091,8 +1066,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -1115,8 +1089,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }

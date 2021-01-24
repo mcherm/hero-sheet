@@ -242,8 +242,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     },
@@ -261,8 +260,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ],
       "flaws": [
@@ -350,8 +348,7 @@
           "extras": [
             {
               "modifierSource": "standard",
-              "modifierName": "Increased Range",
-              "ranks": 1
+              "modifierName": "Increase to Ranged"
             }
           ]
         },
@@ -363,8 +360,7 @@
           "extras": [
             {
               "modifierSource": "standard",
-              "modifierName": "Increased Range",
-              "ranks": 1
+              "modifierName": "Increase to Ranged"
             },
             {
               "modifierSource": "special",
@@ -393,8 +389,7 @@
           "extras": [
             {
               "modifierSource": "standard",
-              "modifierName": "Increased Range",
-              "ranks": 1
+              "modifierName": "Increase to Ranged"
             }
           ]
         },
@@ -449,8 +444,7 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
@@ -463,8 +457,11 @@
       "extras": [
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 2
+          "modifierName": "Increase to Ranged"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increase to Perception"
         },
         {
           "modifierSource": "standard",
@@ -505,8 +502,11 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 2
+          "modifierName": "Increase to Ranged"
+        },
+        {
+          "modifierSource": "standard",
+          "modifierName": "Increase to Perception"
         },
         {
           "modifierSource": "special",
@@ -562,8 +562,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         },
         {
           "modifierSource": "special",
@@ -611,8 +610,7 @@
         },
         {
           "modifierSource": "standard",
-          "modifierName": "Increased Range",
-          "ranks": 1
+          "modifierName": "Increase to Ranged"
         }
       ]
     }
