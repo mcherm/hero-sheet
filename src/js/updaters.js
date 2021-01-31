@@ -490,15 +490,23 @@ class PowerAttackUpdater extends AttackUpdater {
 
   findRange() {
     const baseRange = rangeToInt(standardPowers[this.power.effect].range);
-    const increasedRange = this.power.extras.reduce(
-      (sum, mod) => sum + (mod.modifierName === "Increased Range" ? mod.ranks : 0),
-      0
-    );
-    const diminishedRange = this.power.flaws.reduce(
-      (sum, mod) => sum + (mod.modifierName === "Reduced Range" ? mod.ranks : 0),
-      0
-    );
-    return intToRange(baseRange + increasedRange - diminishedRange);
+    const supportObsoleteRange = true;
+    const rangeEffect = function(mod) {
+      if (supportObsoleteRange && mod.modifierName === "Increased Range") {
+        return mod.ranks;
+      } else if (supportObsoleteRange && mod.modifierName === "Reduced Range") {
+        return -mod.ranks;
+      } else if (["Increase to Ranged", "Increase to Perception"].includes(mod.modifierName)) {
+        return 1;
+      } else if (["Decrease to Ranged", "Decrease to Close"].includes(mod.modifierName)) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
+    const increasedRange = this.power.extras.reduce((sum, mod) => sum + rangeEffect(mod), 0);
+    const diminishedRange = this.power.flaws.reduce((sum, mod) => sum + rangeEffect(mod), 0);
+    return intToRange(baseRange + increasedRange + diminishedRange);
   }
 
   findScope() {
