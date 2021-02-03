@@ -356,11 +356,6 @@ TODO: The ability "Improved Critical" ought to choose an attack just like certai
 
 BUG: Constructs (and MAYBE anyone without stamina?) should have toughness 0 instead of toughness N/A.
 
-BUG: The calculations of whether it is ranged that happen in the "Attacks" tab don't use the new
-  improved version of the Increased Range (and Decreased Range) modifiers.
-
-TODO: Reorder the defenses sensibly!
-
 PROBLEM: In CloudFront, I configured the 403 error page to return "/index.html". That was a work-around
   for any path other than "/" that didn't have a file in the S3 bucket getting a 403 error. What I
   *want* to do is for any path matching "/u/*", "/u/*/", or "/u/*/[RDI]/*" to be redirected to

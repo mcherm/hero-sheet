@@ -9,7 +9,7 @@
       <label class="col-label">Ranks</label>
 
       <div class="display-contents"
-          v-for="defenseName in Object.keys(charsheet.defenses)"
+          v-for="defenseName in defenseNames"
           :key="defenseName"
       >
         <label class="row-label">{{defenseName}}</label>
@@ -50,6 +50,7 @@
   import {activeEffectModifier} from "@/js/heroSheetUtil.js";
   import {addActiveEffect, isManuallyAdjusted, removeActiveEffects, lacksStat} from "@/js/heroSheetUtil.js";
   import {newAdjustment} from "@/js/heroSheetVersioning.js";
+  const defenseNames = require("@/data/defenseNames.json");
 
   const baseValueMap = {
     dodge: "agility",
@@ -64,7 +65,8 @@
     inject: ["getCharsheet"],
     data: function() {
       return {
-        charsheet: this.getCharsheet()
+        charsheet: this.getCharsheet(),
+        defenseNames,
       };
     },
     created: function() {
