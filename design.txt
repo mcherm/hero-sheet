@@ -325,6 +325,10 @@ TODO: "Adjustment" and "ActiveEffect" are two names for the same thing. Fix that
 
 TODO: Along with deleting, it would be kind of nice if there were also a way to re-order
   the items in a list like powers.
+    Specifically, Advantages could do this (and get rid of the automatic alphabetic ordering).
+    Equipment could do this.
+    Powers should do this.
+    Complications could do this.
 
 BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another (eg: Damage)
   and it will remove the old attack but NOT create the new one. Or maybe that's just the bug
@@ -342,10 +346,6 @@ BUG: When you add an extra or flaw to an array, it should recalculate the costs 
 NOTE: For the power Movement I currently require you to select just one power. Other implementations
   allow you to buy multiple ones. I can still recreate that with "linked", but I should consider
   whether it makes sense to do it more like senses.
-
-TODO: The "Increased Range" extra is really annoying to use. An ideal user interface would be that it
-  offers options of "Ranged" and "Perception Range" but only offers the appropriate ones at the
-  appropriate cost for the given power.
 
 TODO: The Removable flaw says there's an "indestructable" option on it that I don't support.
 
