@@ -13,17 +13,27 @@
         <local-cost-display/>
       </div>
     </template>
-    <div class="equipment-list grid-with-lines" :class="{ 'deleteNotVisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
+    <div
+        class="equipment-list grid-with-lines"
+        :class="{'deleteVisible': deleteIsVisible, 'sorting': sorting, 'normalMode': !deleteIsVisible && !sorting}"
+    >
+      <div v-if="sorting" class="col-label"></div>
       <div class="col-label"></div>
       <div class="col-label">Item</div>
       <div class="col-label">Description</div>
       <div class="col-label">EQ</div>
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
       <div
-          v-for="item in equipment"
+          v-for="(item, itemIndex) in equipment"
           :key="item.hsid"
           class="display-contents"
       >
+        <drag-handle
+            v-if="sorting"
+            draggable-list-name="equipment"
+            :items="equipment"
+            :item-index="itemIndex"
+        />
         <div :class="{'feature-control': true, 'open': showFeatureDetails[item.hsid]}">
           <edit-button
               v-if="item.feature"
@@ -89,9 +99,13 @@
     </div>
     <div class="scrolling-list-footer">
       <edit-button :onClick="addEquipment">Add Equipment</edit-button>
-      <edit-button v-if="equipment.length > 0" :onClick="() => deleteIsVisible = !deleteIsVisible">
+      <edit-button v-if="equipment.length > 0 && !sorting" :onClick="() => deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
+      </edit-button>
+      <edit-button v-if="equipment.length > 1 && !deleteIsVisible" :onClick="() => sorting = !sorting">
+        <span v-if="sorting">Done Sorting</span>
+        <span v-else>Sort</span>
       </edit-button>
     </div>
   </boxed-section>
@@ -100,6 +114,7 @@
 <script>
   import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
   import MechanicsIcon from "@/components/MechanicsIcon.vue";
+  import DragHandle from "@/components/DragHandle.vue";
   import {newBlankEquipment, newBlankPower, STARTING_POWER_NAME} from "@/js/heroSheetVersioning.js";
   import {buildFeature, equipmentCost, createUpdatersForFeature} from "@/js/heroSheetUtil.js";
 
@@ -109,13 +124,15 @@
     name: "Equipment.vue",
     components: {
       LocalCostDisplay,
-      MechanicsIcon
+      MechanicsIcon,
+      DragHandle,
     },
     inject: ["getCharsheet"],
     data: function() {
       return {
         standardEquipment,
         deleteIsVisible: false,
+        sorting: false,
         showFeatureDetails: {},
         equipment: this.getCharsheet().equipment
       }
@@ -212,12 +229,14 @@
   .paper {
     background-color: var(--paper-color);
   }
-
-  .equipment-list.deleteNotVisible {
+  .equipment-list.normalMode {
     grid-template-columns: max-content max-content 1fr max-content;
   }
   .equipment-list.deleteVisible {
     grid-template-columns: max-content max-content 1fr max-content max-content;
+  }
+  .equipment-list.sorting {
+    grid-template-columns: max-content max-content max-content 1fr max-content;
   }
   div.scrolling-list-footer {
     background-color: var(--section-color);

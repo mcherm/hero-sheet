@@ -5,8 +5,9 @@
     </template>
     <div
         class="complications-list grid-with-lines"
-        :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}"
+        :class="{'deleteVisible': deleteIsVisible, 'sorting': sorting, 'normalMode': !deleteIsVisible && !sorting}"
     >
+      <label v-if="sorting" class="col-label"></label>
       <label class="col-label">Type</label>
       <label class="col-label">Complication</label>
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
@@ -15,6 +16,12 @@
            v-for="(complication, index) in charsheet.complications"
            :key="index"
       >
+        <drag-handle
+            v-if="sorting"
+            draggable-list-name="complications"
+            :items="charsheet.complications"
+            :item-index="index"
+        />
         <div class="complication-type" :class="{'isOutOfSpec': isOutOfSpec(complication)}">
           <select-entry
               v-model="complication.complicationType"
@@ -37,9 +44,13 @@
     </div>
     <div class="scrolling-list-footer">
       <edit-button :onClick="addComplication">Add Complication</edit-button>
-      <edit-button v-if="charsheet.complications.length > 0" :onClick="() => deleteIsVisible = !deleteIsVisible">
+      <edit-button v-if="charsheet.complications.length > 0 && !sorting" :onClick="() => deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
+      </edit-button>
+      <edit-button v-if="charsheet.complications.length > 1 && !deleteIsVisible" :onClick="() => sorting = !sorting">
+        <span v-if="sorting">Done Sorting</span>
+        <span v-else>Sort</span>
       </edit-button>
     </div>
     <div class="background">
@@ -51,20 +62,23 @@
 
 <script>
   import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
+  import DragHandle from "@/components/DragHandle.vue";
   import {newBlankComplication} from "@/js/heroSheetVersioning.js";
   const complicationsData = require("@/data/complicationsData.json");
 
   export default {
     name: "Complications",
     components: {
-      LocalCostDisplay
+      LocalCostDisplay,
+      DragHandle,
     },
     inject: ["getCharsheet"],
     data: function() {
       return {
         charsheet: this.getCharsheet(),
         complicationsData: complicationsData,
-        deleteIsVisible: false
+        deleteIsVisible: false,
+        sorting: false,
       }
     },
     methods: {
@@ -86,11 +100,14 @@
 </script>
 
 <style scoped>
+  .complications-list.normalMode {
+    grid-template-columns: max-content 1fr;
+  }
   .complications-list.deleteVisible {
     grid-template-columns: max-content 1fr max-content;
   }
-  .complications-list.deleteInvisible {
-    grid-template-columns: max-content 1fr;
+  .complications-list.sorting {
+    grid-template-columns: max-content max-content 1fr;
   }
   div.scrolling-list-footer {
     background-color: var(--section-color);
