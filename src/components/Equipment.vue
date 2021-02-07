@@ -17,7 +17,7 @@
         class="equipment-list grid-with-lines"
         :class="{'deleteVisible': deleteIsVisible, 'sorting': sorting, 'normalMode': !deleteIsVisible && !sorting}"
     >
-      <div v-if="sorting" class="col-label"></div>
+      <div v-if="sorting" class="grid-with-lines-no-lines"></div>
       <div class="col-label"></div>
       <div class="col-label">Item</div>
       <div class="col-label">Description</div>
@@ -33,6 +33,8 @@
             draggable-list-name="equipment"
             :items="equipment"
             :item-index="itemIndex"
+            class="drag-area grid-with-lines-no-lines"
+            :class="{'open': showFeatureDetails[item.hsid]}"
         />
         <div :class="{'feature-control': true, 'open': showFeatureDetails[item.hsid]}">
           <edit-button
@@ -104,8 +106,8 @@
         <span v-else>Delete</span>
       </edit-button>
       <edit-button v-if="equipment.length > 1 && !deleteIsVisible" :onClick="() => sorting = !sorting">
-        <span v-if="sorting">Done Sorting</span>
-        <span v-else>Sort</span>
+        <span v-if="sorting">Done Reordering</span>
+        <span v-else>Reorder</span>
       </edit-button>
     </div>
   </boxed-section>
@@ -262,11 +264,14 @@
     background: transparent;
     border: none;
   }
-  .equipment-list.deleteNotVisible .feature-details {
+  .equipment-list.normalMode .feature-details {
     grid-column: 2/-1;
   }
   .equipment-list.deleteVisible .feature-details {
     grid-column: 2/-2;
+  }
+  .equipment-list.sorting .feature-details {
+    grid-column: 3/-1;
   }
   .feature-control button {
     align-self: end;
@@ -278,6 +283,9 @@
     background-color: var(--paper-color);
   }
   .trash-button.open {
+    grid-row-end: span 2;
+  }
+  .drag-area.open {
     grid-row-end: span 2;
   }
 </style>
