@@ -3,7 +3,11 @@
     <template v-slot:exhibit>
       <local-cost-display extra-label="advantages" :extra-value-function="advantageCost"/>
     </template>
-    <div class="advantages-list grid-with-lines" :class="{ 'deleteInvisible': !deleteIsVisible, 'deleteVisible': deleteIsVisible}">
+    <div
+        class="advantages-list grid-with-lines"
+        :class="{'deleteVisible': deleteIsVisible, 'reordering': reordering, 'normalMode': !deleteIsVisible && !reordering}"
+    >
+      <div v-if="reordering" class="grid-with-lines-no-lines"></div>
       <div class="col-label">Advantage</div>
       <div class="col-label">Ranks</div>
       <div class="col-label">Effect</div>
@@ -11,10 +15,17 @@
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
 
       <div
-          v-for="advantage in advantages"
+          v-for="(advantage, advantageIndex) in advantages"
           :key="advantage.name"
           class="display-contents"
       >
+        <drag-handle
+            v-if="reordering"
+            draggable-list-name="advantages"
+            :items="advantages"
+            :item-index="advantageIndex"
+            class="grid-with-lines-no-lines"
+        />
         <div class="advantage-type" :class="{isOutOfSpec: standardAdvantage(advantage).isOutOfSpec}">
           <select-entry
               :value="advantage.name"
@@ -49,9 +60,13 @@
     </div>
     <div class="scrolling-list-footer">
       <edit-button :onClick="addAdvantage">Add Advantage</edit-button>
-      <edit-button v-if="advantages.length > 0" :onClick="() => deleteIsVisible = !deleteIsVisible">
+      <edit-button v-if="advantages.length > 0 && !reordering" :onClick="() => deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
+      </edit-button>
+      <edit-button v-if="advantages.length > 1 && !deleteIsVisible" :onClick="() => reordering = !reordering">
+        <span v-if="reordering">Done Reordering</span>
+        <span v-else>Reorder</span>
       </edit-button>
     </div>
   </boxed-section>
@@ -59,6 +74,7 @@
 
 <script>
   import LocalCostDisplay from "@/components/LocalCostDisplay.vue";
+  import DragHandle from "@/components/DragHandle.vue";
   import {newBlankAdvantage, makeNewAlly, allyAdvantages} from "@/js/heroSheetVersioning.js";
   import {advantageCost, advantageIsRanked} from "@/js/heroSheetUtil.js";
 
@@ -67,12 +83,14 @@
   export default {
     name: "Advantages",
     components: {
-      LocalCostDisplay
+      LocalCostDisplay,
+      DragHandle,
     },
     inject: ["getCharsheet"],
     data: function() {
       return {
         deleteIsVisible: false,
+        reordering: false,
         advantages: this.getCharsheet().advantages,
         allyAdvantages,
       }
@@ -144,19 +162,6 @@
           };
           this.$globals.eventBus.$emit("new-ally", newAllyInfo); // creates updaters & such
         }
-        // -- Sort, but with empty strings at the end --
-        const sortFunc = (x, y) => {
-          if (x.name === "" && y.name !== "") {
-            return 1;
-          } else if (x.name !== "" && y.name === "") {
-            return -1;
-          } else if (x.name === "" && y.name === "") {
-            return 0;
-          } else {
-            return x.name.localeCompare(y.name);
-          }
-        };
-        this.advantages.sort(sortFunc);
       },
       addAdvantage: function() {
         const newAdvantage = newBlankAdvantage();
@@ -173,11 +178,14 @@
 </script>
 
 <style scoped>
+  .advantages-list.normalMode {
+    grid-template-columns: max-content max-content 2fr 2fr;
+  }
   .advantages-list.deleteVisible {
     grid-template-columns: max-content max-content 2fr 2fr max-content;
   }
-  .advantages-list.deleteInvisible {
-    grid-template-columns: max-content max-content 2fr 2fr;
+  .advantages-list.reordering {
+    grid-template-columns: max-content max-content max-content 2fr 2fr;
   }
   div.scrolling-list-footer {
     background-color: var(--section-color);

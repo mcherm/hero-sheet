@@ -15,9 +15,9 @@
     </template>
     <div
         class="equipment-list grid-with-lines"
-        :class="{'deleteVisible': deleteIsVisible, 'sorting': sorting, 'normalMode': !deleteIsVisible && !sorting}"
+        :class="{'deleteVisible': deleteIsVisible, 'reordering': reordering, 'normalMode': !deleteIsVisible && !reordering}"
     >
-      <div v-if="sorting" class="grid-with-lines-no-lines"></div>
+      <div v-if="reordering" class="grid-with-lines-no-lines"></div>
       <div class="col-label"></div>
       <div class="col-label">Item</div>
       <div class="col-label">Description</div>
@@ -29,7 +29,7 @@
           class="display-contents"
       >
         <drag-handle
-            v-if="sorting"
+            v-if="reordering"
             draggable-list-name="equipment"
             :items="equipment"
             :item-index="itemIndex"
@@ -101,12 +101,12 @@
     </div>
     <div class="scrolling-list-footer">
       <edit-button :onClick="addEquipment">Add Equipment</edit-button>
-      <edit-button v-if="equipment.length > 0 && !sorting" :onClick="() => deleteIsVisible = !deleteIsVisible">
+      <edit-button v-if="equipment.length > 0 && !reordering" :onClick="() => deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
       </edit-button>
-      <edit-button v-if="equipment.length > 1 && !deleteIsVisible" :onClick="() => sorting = !sorting">
-        <span v-if="sorting">Done Reordering</span>
+      <edit-button v-if="equipment.length > 1 && !deleteIsVisible" :onClick="() => reordering = !reordering">
+        <span v-if="reordering">Done Reordering</span>
         <span v-else>Reorder</span>
       </edit-button>
     </div>
@@ -134,7 +134,7 @@
       return {
         standardEquipment,
         deleteIsVisible: false,
-        sorting: false,
+        reordering: false,
         showFeatureDetails: {},
         equipment: this.getCharsheet().equipment
       }
@@ -237,7 +237,7 @@
   .equipment-list.deleteVisible {
     grid-template-columns: max-content max-content 1fr max-content max-content;
   }
-  .equipment-list.sorting {
+  .equipment-list.reordering {
     grid-template-columns: max-content max-content max-content 1fr max-content;
   }
   div.scrolling-list-footer {
@@ -270,7 +270,7 @@
   .equipment-list.deleteVisible .feature-details {
     grid-column: 2/-2;
   }
-  .equipment-list.sorting .feature-details {
+  .equipment-list.reordering .feature-details {
     grid-column: 3/-1;
   }
   .feature-control button {

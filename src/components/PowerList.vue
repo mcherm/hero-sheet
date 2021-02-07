@@ -3,6 +3,12 @@
     <ul class="power-list">
       <li v-for="(power, powerIndex) in powers" :key="power.name">
         <div class="power-list-row">
+          <drag-handle
+              v-if="reordering"
+              :draggable-list-name="`power-list-${listHsid}`"
+              :items="powers"
+              :item-index="powerIndex"
+          />
           <div class="activate-pane" :class="powerStateClasses(power)">
             <activation-widget
                 v-if="getStandardPower(power) !== null"
@@ -25,23 +31,29 @@
     </ul>
     <div class="scrolling-list-footer">
       <edit-button :onClick="addPower" :disabled="!mutable">Add Power</edit-button>
-      <edit-button v-if="powers.length > 0" :onClick="() => deleteIsVisible = !deleteIsVisible" :disabled="!mutable">
+      <edit-button v-if="powers.length > 0 && !reordering" :onClick="() => deleteIsVisible = !deleteIsVisible" :disabled="!mutable">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
+      </edit-button>
+      <edit-button v-if="powers.length > 1 && !deleteIsVisible" :onClick="() => reordering = !reordering" :disabled="!mutable">
+        <span v-if="deleteIsVisible">Done Reordering</span>
+        <span v-else>Reorder</span>
       </edit-button>
     </div>
   </div>
 </template>
 
 <script>
-  import {newBlankPower} from "@/js/heroSheetVersioning.js";
+  import {newBlankPower, newHsid} from "@/js/heroSheetVersioning.js";
   import {setFeatureActivation, getStandardPower, powerStateClasses} from "@/js/heroSheetUtil.js";
   import ActivationWidget from "@/components/ActivationWidget.vue";
+  import DragHandle from "@/components/DragHandle.vue";
 
   export default {
     name: "PowerList",
     components: {
-      ActivationWidget
+      ActivationWidget,
+      DragHandle,
     },
     inject: ["getCharsheet"],
     props: {
@@ -52,6 +64,8 @@
     data: function() {
       return {
         deleteIsVisible: false,
+        reordering: false,
+        listHsid: newHsid(), // a unique ID for this list, used to keep drags in their lane
       }
     },
     methods: {

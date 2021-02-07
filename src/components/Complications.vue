@@ -5,9 +5,9 @@
     </template>
     <div
         class="complications-list grid-with-lines"
-        :class="{'deleteVisible': deleteIsVisible, 'sorting': sorting, 'normalMode': !deleteIsVisible && !sorting}"
+        :class="{'deleteVisible': deleteIsVisible, 'reordering': reordering, 'normalMode': !deleteIsVisible && !reordering}"
     >
-      <label v-if="sorting" class="grid-with-lines-no-lines"></label>
+      <label v-if="reordering" class="grid-with-lines-no-lines"></label>
       <label class="col-label">Type</label>
       <label class="col-label">Complication</label>
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
@@ -17,7 +17,7 @@
            :key="index"
       >
         <drag-handle
-            v-if="sorting"
+            v-if="reordering"
             draggable-list-name="complications"
             :items="charsheet.complications"
             :item-index="index"
@@ -45,12 +45,12 @@
     </div>
     <div class="scrolling-list-footer">
       <edit-button :onClick="addComplication">Add Complication</edit-button>
-      <edit-button v-if="charsheet.complications.length > 0 && !sorting" :onClick="() => deleteIsVisible = !deleteIsVisible">
+      <edit-button v-if="charsheet.complications.length > 0 && !reordering" :onClick="() => deleteIsVisible = !deleteIsVisible">
         <span v-if="deleteIsVisible">Done Deleting</span>
         <span v-else>Delete</span>
       </edit-button>
-      <edit-button v-if="charsheet.complications.length > 1 && !deleteIsVisible" :onClick="() => sorting = !sorting">
-        <span v-if="sorting">Done Reordering</span>
+      <edit-button v-if="charsheet.complications.length > 1 && !deleteIsVisible" :onClick="() => reordering = !reordering">
+        <span v-if="reordering">Done Reordering</span>
         <span v-else>Reorder</span>
       </edit-button>
     </div>
@@ -79,7 +79,7 @@
         charsheet: this.getCharsheet(),
         complicationsData: complicationsData,
         deleteIsVisible: false,
-        sorting: false,
+        reordering: false,
       }
     },
     methods: {
@@ -107,7 +107,7 @@
   .complications-list.deleteVisible {
     grid-template-columns: max-content 1fr max-content;
   }
-  .complications-list.sorting {
+  .complications-list.reordering {
     grid-template-columns: max-content max-content 1fr;
   }
   div.scrolling-list-footer {

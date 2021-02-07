@@ -39,7 +39,7 @@
     },
     computed: {
       mimeType: function() {
-        return `application/x-hero-sheet.${this.draggableListName}`;
+        return `application/x-hero-sheet.${this.draggableListName.toLowerCase()}`;
       },
     },
     methods: {
@@ -54,7 +54,10 @@
       },
       dragEnter: function(event) {
         if (this.itemIndex !== this.getStartingIndex(event)) {
-          this.canDropHereNow = true;
+          if (event.dataTransfer.types.includes(this.mimeType)) {
+            this.canDropHereNow = true;
+            event.preventDefault();
+          }
         }
       },
       dragExit: function(event) {
@@ -74,7 +77,6 @@
         this.canDropHereNow = false;
       },
       dragEnd: function(event) {
-        this.canDropHereNow = false;
         this.amDraggingThisNow = false;
       }
     }
