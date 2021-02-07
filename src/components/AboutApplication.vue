@@ -14,6 +14,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2021-02-07: Improved UI for sorting ("Reordering") things.</li>
       <li>2021-02-06: Allow users to sort the lists of equipment and complications.</li>
       <li>2021-02-03: Display defenses in a sensible order.</li>
       <li>2021-01-31: Fix bug affecting attacks that use the new increased/decreased range modifiers.</li>

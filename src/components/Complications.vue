@@ -7,7 +7,7 @@
         class="complications-list grid-with-lines"
         :class="{'deleteVisible': deleteIsVisible, 'sorting': sorting, 'normalMode': !deleteIsVisible && !sorting}"
     >
-      <label v-if="sorting" class="col-label"></label>
+      <label v-if="sorting" class="grid-with-lines-no-lines"></label>
       <label class="col-label">Type</label>
       <label class="col-label">Complication</label>
       <div v-if="deleteIsVisible" class="grid-with-lines-no-lines"></div>
@@ -21,6 +21,7 @@
             draggable-list-name="complications"
             :items="charsheet.complications"
             :item-index="index"
+            class="grid-with-lines-no-lines"
         />
         <div class="complication-type" :class="{'isOutOfSpec': isOutOfSpec(complication)}">
           <select-entry
@@ -49,8 +50,8 @@
         <span v-else>Delete</span>
       </edit-button>
       <edit-button v-if="charsheet.complications.length > 1 && !deleteIsVisible" :onClick="() => sorting = !sorting">
-        <span v-if="sorting">Done Sorting</span>
-        <span v-else>Sort</span>
+        <span v-if="sorting">Done Reordering</span>
+        <span v-else>Reorder</span>
       </edit-button>
     </div>
     <div class="background">
