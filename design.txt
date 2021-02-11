@@ -360,5 +360,3 @@ PROBLEM: In CloudFront, I configured the 403 error page to return "/index.html".
   for any path other than "/" that didn't have a file in the S3 bucket getting a 403 error. What I
   *want* to do is for any path matching "/u/*", "/u/*/", or "/u/*/[RDI]/*" to be redirected to
   "/index.html", but I don't know how to do it.
-
-BUG: Complex paths make the link to the license broken.
