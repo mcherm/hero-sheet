@@ -12,6 +12,7 @@ import {
 } from "@/js/heroSheetUtil.js"
 const standardPowers = require("@/data/standardPowers.json");
 const sensesData = require("@/data/sensesData.json");
+const selectionLayouts = require("@/data/selectionLayouts.json");
 
 
 /*
@@ -783,6 +784,51 @@ class SensesPowerUpdater extends Updater {
     }
   }
 }
+
+
+/*
+ * Powers with a powerLayout of "selection" should auto-calculate their ranks and cost according
+ * to what got selected.
+ */
+class SelectionPowerUpdater extends Updater {
+
+  setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs) {
+    super.setMoreFieldsInConstructor(vm, charsheet, newUpdaterEvent, ...otherArgs);
+    this.power = newUpdaterEvent.power;
+  }
+
+  watchForChange() {
+    return {
+      identity: {
+        powerExists: findFeatureByHsid(this.charsheet, this.power.hsid) !== null,
+        powerEffect: this.power.effect,
+      },
+      calculations: {
+        selections: this.power.extended.selectedFeatures,
+        isActive: activationState(this.power).isActive,
+      }
+    };
+  }
+
+  applyChanges(newCalculations) {
+    // -- Count up the ranks --
+    const selectionLayout = selectionLayouts[this.power.effect];
+    let ranks = 0;
+    for (const selection of newCalculations.selections) {
+      ranks += selectionLayout.selections[selection].ranks;
+    }
+
+    // -- IF it changed, set the ranks and the costs for the power --
+    if (ranks !== this.power.ranks) {
+      this.vm.$set(this.power, "ranks", ranks);
+      // NOTE: I'm not sure passing [] to powerCostCalculate for extraModifierLists is accurate - that may be a bug
+      // (if so, the bug exists for all of the other powers also).
+      const calculatedFields = powerCostCalculate(this.power, getInheritedModifierLists(this.charsheet, this.power));
+      this.vm.$set(this.power, "cost", calculatedFields.cost);
+    }
+  }
+}
+
 
 /*
  * For Updaters that create an ActiveEffect, this is designed to run once during
@@ -1613,7 +1659,8 @@ const updaterClasses = {
   ThrownAttackUpdater,
   PowerAttackUpdater,
   MoveObjectThrownAttackUpdater,
-  SensesPowerUpdater, // FIXME: make it care about activation
+  SensesPowerUpdater,
+  SelectionPowerUpdater,
   CloseAttackUpdater,
   DefensiveRollUpdater,
   ImprovedInitiativeUpdater,

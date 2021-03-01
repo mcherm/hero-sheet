@@ -12,6 +12,7 @@ const standardAdvantages = require("@/data/standardAdvantages.json");
 const standardPowers = require("@/data/standardPowers.json");
 const modifiersData = require("@/data/modifiersData.json");
 const skillsData = require("@/data/skillsData.json");
+const selectionLayouts = require("@/data/selectionLayouts.json");
 
 
 /*
@@ -565,6 +566,9 @@ const setPowerEffect = function(power, inheritedModifierLists, effect) {
       Vue.set(power.extended, "conditionsApplied", [["", "", ""]]);
       Vue.set(power.extended, "alternateResistance", "");
       Vue.set(power.extended, "resistWith", "");
+    } else if (standardPower.powerLayout === "selection") {
+      // Add extended fields
+      Vue.set(power.extended, "selectedFeatures", []);
     }
   }
   recalculatePowerCost(power, inheritedModifierLists);
@@ -705,12 +709,11 @@ const POWER_TO_UPDATERS_MAP = {
     "StrengthFromShrinkingUpdater",
     "DodgeFromShrinkingUpdater",
     "ParryFromShrinkingUpdater",
-    "StealthFromShrinkingthUpdater",
+    "StealthFromShrinkingUpdater",
     "IntimidationFromShrinkingUpdater",
   ],
-  "Senses": [
-    "SensesPowerUpdater",
-  ]
+  "Senses": ["SensesPowerUpdater"],
+  "Comprehend": ["SelectionPowerUpdater"],
 };
 
 /*

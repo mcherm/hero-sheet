@@ -24,6 +24,10 @@
           <label class="row-label">Affliction</label>
           <power-layout-affliction :power="power" :mutable="mutable"/>
         </div>
+        <div v-if="standardPower !== null && standardPower.powerLayout === 'selection'" class="display-contents">
+          <label class="row-label">Selected</label>
+          <power-layout-selection :power="power" :mutable="mutable"/>
+        </div>
 
         <div v-if="standardPower && standardPower.powerOptions" class="display-contents">
           <label class="row-label">Option</label>
@@ -76,7 +80,7 @@
             v-if="!isArray()"
             :value="power.ranks"
             @input="setPowerRanks($event)"
-            :mutable="mutable && !(standardPower && standardPower.powerLayout === 'senses')"
+            :mutable="mutable && !(standardPower && ['senses', 'selection'].includes(standardPower.powerLayout))"
         />
 
         <label class="row-label">Flats</label>
@@ -102,6 +106,7 @@
   import PowerEffectSelect from "@/components/PowerEffectSelect.vue";
   import PowerLayoutSenses from "@/components/PowerLayoutSenses.vue";
   import PowerLayoutAffliction from "@/components/PowerLayoutAffliction.vue";
+  import PowerLayoutSelection from "@/components/PowerLayoutSelection.vue";
   import {STARTING_POWER_NAME} from "@/js/heroSheetVersioning.js";
   import {
     powerBaseCost, powerCostCalculate, getStandardPower, getPowerOption, setPowerEffect,
@@ -116,6 +121,7 @@
       PowerEffectSelect,
       PowerLayoutSenses,
       PowerLayoutAffliction,
+      PowerLayoutSelection,
     },
     inject: ["getCharsheet"],
     props: {

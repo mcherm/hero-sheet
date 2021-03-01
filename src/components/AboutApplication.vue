@@ -14,6 +14,7 @@
     <p>If you have any feedback or suggestions, send an email to <a href="mailto:hero-sheet@mcherm.com">hero-sheet@mcherm.com</a>.</p>
     <h2>Recent Changes</h2>
     <ul class="change-list scrolling-list">
+      <li>2021-02-28: The user can now choose from a list of specific selections for the Comprehend effect.</li>
       <li>2021-02-07: Improved UI for sorting ("Reordering") things. Support reordering of powers and advantages.</li>
       <li>2021-02-06: Allow users to sort the lists of equipment and complications.</li>
       <li>2021-02-03: Display defenses in a sensible order.</li>

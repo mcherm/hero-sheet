@@ -1,5 +1,5 @@
 {
-  "version": 27,
+  "version": 28,
   "campaign": {
     "powerLevel": 10,
     "xpAwarded": 0,
@@ -90,156 +90,33 @@
     "isMindlessConstruct": false,
     "isImmobileConstruct": false
   },
-  "advantages": [],
-  "equipment": [
+  "advantages": [
     {
-      "hsid": "HIZSJLSLB",
-      "name": "Rocket Launcher",
-      "cost": 27,
-      "source": "standard",
-      "feature": {
-        "name": "Rocket Launcher",
-        "hsid": "HI5YWY1B9",
-        "effect": "Linked",
-        "description": "A rocket-launcher is generally an antitank weapon, although they also make useful anti-superhero weapons as well. The primary target hit by the rocket resists explosive Damage 10, while all other targets in the burst area resist Damage 7.",
-        "extras": [
-          {
-            "modifierSource": "standard",
-            "modifierName": "Increased Range",
-            "ranks": 1,
-            "costType": "pointsOfMultiplierPerRankOfModifier",
-            "cost": 1,
-            "displayText": "Increased Range (+1)"
-          }
-        ],
-        "flaws": [],
-        "ranks": 1,
-        "cost": 27,
-        "subpowers": [
-          {
-            "name": "Area Blast",
-            "hsid": "HIVQNYDUU",
-            "effect": "Damage",
-            "description": "Explosion affecting things near the target.",
-            "extras": [
-              {
-                "modifierSource": "standard",
-                "modifierName": "Area",
-                "optionName": "Burst Area",
-                "ranks": 1,
-                "costType": "pointsOfMultiplierPerRankOfModifier",
-                "cost": 1,
-                "displayText": "Burst Area (+1)"
-              }
-            ],
-            "flaws": [],
-            "ranks": 7,
-            "cost": 21,
-            "subpowers": [],
-            "extended": {},
-            "activation": {
-              "activationStatus": "on",
-              "ranks": 0
-            },
-            "option": null
-          },
-          {
-            "name": "Damage to Target",
-            "hsid": "HIREWRU7J",
-            "effect": "Damage",
-            "description": "Additional levels of damage to the target of the rocket.",
-            "extras": [],
-            "flaws": [],
-            "ranks": 3,
-            "cost": 6,
-            "subpowers": [],
-            "extended": {},
-            "activation": {
-              "activationStatus": "on",
-              "ranks": 0
-            },
-            "option": null
-          }
-        ],
-        "extended": {},
-        "activation": {
-          "activationStatus": "on",
-          "ranks": 0
-        },
-        "option": null
-      }
-    },
-    {
-      "hsid": "HINUR9SSX",
-      "name": "Simple Type",
-      "cost": 0,
-      "source": "custom",
-      "feature": null,
+      "name": "Agile Feint",
+      "hsid": "HIRKR1K53",
+      "ranks": null,
       "description": ""
     },
     {
-      "hsid": "HI1ECCUT6",
-      "name": "Powered thing",
-      "cost": 3,
-      "source": "custom",
-      "feature": {
-        "name": "Hover Platform",
-        "hsid": "HIJQTQ1SF",
-        "effect": "Linked",
-        "description": "",
-        "extras": [
-          {
-            "modifierSource": "standard",
-            "modifierName": "Contagious",
-            "optionName": null,
-            "ranks": 1,
-            "costType": "pointsOfMultiplier",
-            "cost": 1,
-            "displayText": "Contagious (+1)"
-          }
-        ],
-        "flaws": [],
-        "ranks": 1,
-        "cost": 13,
-        "subpowers": [
-          {
-            "name": "Hovering",
-            "hsid": "HIGUDG8PN",
-            "effect": "Flight",
-            "description": "",
-            "extras": [
-              {
-                "modifierSource": "standard",
-                "modifierName": "Dimensional",
-                "optionName": "Affects Single Dimension",
-                "ranks": 1,
-                "costType": "flatPoints",
-                "cost": 1,
-                "displayText": "Affects Single Dimension (+1 flat)"
-              }
-            ],
-            "flaws": [],
-            "ranks": 4,
-            "cost": 13,
-            "subpowers": [],
-            "extended": {},
-            "activation": {
-              "activationStatus": "on",
-              "ranks": 0
-            },
-            "option": null
-          }
-        ],
-        "extended": {},
-        "activation": {
-          "activationStatus": "on",
-          "ranks": 0
-        },
-        "option": null
-      },
+      "name": "Defensive Attack",
+      "hsid": "HIBUYS28E",
+      "ranks": null,
+      "description": ""
+    },
+    {
+      "name": "Attractive",
+      "hsid": "HIKCAJ8S7",
+      "ranks": 1,
+      "description": ""
+    },
+    {
+      "name": "Tracking",
+      "hsid": "HIBU5V6ZL",
+      "ranks": null,
       "description": ""
     }
   ],
+  "equipment": [],
   "skills": {
     "skillList": [
       {
@@ -310,76 +187,22 @@
     ],
     "cost": 0
   },
-  "powers": [
-    {
-      "name": "Mind Manage",
-      "hsid": "HI89ZG2GD",
-      "effect": "Affliction",
-      "description": "",
-      "extras": [],
-      "flaws": [],
-      "ranks": 9,
-      "cost": 9,
-      "subpowers": [],
-      "extended": {
-        "conditionsApplied": [
-          [
-            "impaired",
-            "",
-            "transformed"
-          ]
-        ],
-        "alternateResistance": "",
-        "resistWith": "will"
-      },
-      "activation": {
-        "activationStatus": "off",
-        "ranks": 0
-      },
-      "option": null
-    },
-    {
-      "name": "Dipsomize",
-      "hsid": "HIXWRFZPZ",
-      "effect": "Affliction",
-      "description": "",
-      "extras": [],
-      "flaws": [
-        {
-          "modifierSource": "special",
-          "modifierName": "Limited Degree",
-          "optionName": "Limited to two degrees of effect",
-          "ranks": 1,
-          "costType": "pointsOfMultiplier",
-          "cost": -1,
-          "displayText": "Limited to two degrees of effect (-1)"
-        }
-      ],
-      "ranks": 6,
-      "cost": 3,
-      "subpowers": [],
-      "extended": {
-        "conditionsApplied": [
-          [
-            "hindered",
-            "disabled"
-          ]
-        ],
-        "alternateResistance": "",
-        "resistWith": "fortitude"
-      },
-      "activation": {
-        "activationStatus": "on",
-        "ranks": 0
-      },
-      "option": null
-    }
-  ],
+  "powers": [],
   "complications": [
     {
-      "hsid": "HIND7XD52",
-      "complicationType": "motivation",
-      "description": ""
+      "hsid": "HI2CML8US",
+      "complicationType": "disability",
+      "description": "Can't walk."
+    },
+    {
+      "hsid": "HIXRJX1GL",
+      "complicationType": "honor",
+      "description": "Very honest.\n"
+    },
+    {
+      "hsid": "HIQBPZME9",
+      "complicationType": "phobia",
+      "description": "Afraid of water."
     }
   ],
   "background": "",
@@ -408,58 +231,6 @@
         "attackCheckAdjustment": 0,
         "isStrengthBased": true,
         "isActive": true
-      },
-      {
-        "hsid": "HIWMJKJGS",
-        "updater": "PowerAttackUpdater",
-        "effectType": "damage",
-        "name": "Area Blast",
-        "range": "close",
-        "scope": "area",
-        "ranks": 7,
-        "isStrengthBased": false,
-        "attackCheckAdjustment": 0,
-        "isActive": true,
-        "powerHsid": "HIVQNYDUU"
-      },
-      {
-        "hsid": "HI549JFVM",
-        "updater": "PowerAttackUpdater",
-        "effectType": "damage",
-        "name": "Damage to Target",
-        "range": "close",
-        "scope": "singleTarget",
-        "ranks": 3,
-        "isStrengthBased": false,
-        "attackCheckAdjustment": 0,
-        "isActive": true,
-        "powerHsid": "HIREWRU7J"
-      },
-      {
-        "hsid": "HI9PY6J81",
-        "updater": "PowerAttackUpdater",
-        "effectType": "affliction",
-        "name": "Mind Manage",
-        "range": "close",
-        "scope": "singleTarget",
-        "ranks": 0,
-        "isStrengthBased": false,
-        "attackCheckAdjustment": 0,
-        "isActive": false,
-        "powerHsid": "HI89ZG2GD"
-      },
-      {
-        "hsid": "HIU2K2RRV",
-        "updater": "PowerAttackUpdater",
-        "effectType": "affliction",
-        "name": "Dipsomize",
-        "range": "close",
-        "scope": "singleTarget",
-        "ranks": 6,
-        "isStrengthBased": false,
-        "attackCheckAdjustment": 0,
-        "isActive": true,
-        "powerHsid": "HIXWRFZPZ"
       }
     ]
   },
@@ -470,6 +241,23 @@
         {
           "name": "Normal Sight",
           "hsid": "HIRTL573U",
+          "qualities": [
+            {
+              "name": "Ranged"
+            },
+            {
+              "name": "Acute"
+            },
+            {
+              "name": "Accurate"
+            }
+          ]
+        },
+        {
+          "name": "Infravision",
+          "hsid": "HI4YNDJ7S",
+          "sourceFeatureHsid": "HIZF35CGX",
+          "sourceHsid": "HIZCNDD3W",
           "qualities": [
             {
               "name": "Ranged"

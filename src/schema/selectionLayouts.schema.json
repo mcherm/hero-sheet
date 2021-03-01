@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://hero-sheet.com/schemas/samplePowers.schema.json",
+  "type": "object",
+  "title": "selectionLayouts schema",
+  "description": "The root schema is the schema that comprises the entire JSON document.",
+  "patternProperties": {
+    "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/SelectionLayout" }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "SelectionLayout": {
+      "type": "object",
+      "properties": {
+        "selections": { "$ref": "#/definitions/Selections" }
+      },
+      "required": [ "selections" ],
+      "additionalProperties": false
+    },
+    "Selections": {
+      "patternProperties": {
+        "^[A-Za-z0-9: '-]+$": { "$ref": "#/definitions/Selection" }
+      },
+      "additionalProperties": false
+    },
+    "Selection": {
+      "type": "object",
+      "properties": {
+        "name": { "$ref": "common.schema.json#/definitions/Name" },
+        "ranks": { "type": "integer" },
+        "prerequisites": { "$ref": "#/definitions/SelectionList" },
+        "invalidates": { "$ref": "#/definitions/SelectionList" }
+      },
+      "required": [ "name", "ranks" ],
+      "additionalProperties": false
+    },
+    "SelectionList": {
+      "type": "array",
+      "items": { "$ref":  "common.schema.json#/definitions/Name" }
+    }
+  }
+}

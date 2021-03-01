@@ -264,7 +264,7 @@
     "duration": "Permanent",
     "resistance": "-",
     "baseCost": 2,
-    "description": "You can comprehend different sorts of communication. Each rank gives one of Animals, Languages, Machines, Objects, Plants, Spirits.",
+    "description": "You can engage in special sorts of communication.",
     "extras": [
     ],
     "flaws": [
@@ -289,7 +289,7 @@
         ]
       }
     ],
-    "powerLayout": "default",
+    "powerLayout": "selection",
     "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/comprehend-sensory"
   },
