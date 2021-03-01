@@ -297,7 +297,7 @@ TODO: [Adran06] Maybe an "extra sheet" for variable powers? Listing some options
 TODO: A few powers really should have their own custom way of being created.
  * Senses - should be able to select the sense itself and its features and
    calculate the cost [DONE]
- * Affliction - should be able to select the affliction and what resists it
+ * Affliction - should be able to select the affliction and what resists it [DONE]
    * Three levels (choose for each)
    * Two special extras:
      * Extra "Extra Condition" - each application adds another condition of each level
@@ -307,12 +307,99 @@ TODO: A few powers really should have their own custom way of being created.
  + Environment - NOPE, this is normal.
  + Communication - should select the sense that applies and the distance, then it can
    calculate the number of ranks. Really wants to have 2 independent dimensions.
- + Concealment - there's a list of stuff you pick from, then no ranks. (multiple selection nice)
- + Comprehend - there's a list of stuff you pick from, then no ranks. (multiple selection nice)
- + Immunity - there's a list of stuff you pick from, then no ranks. (multiple selection important)
+ * selection layout:
+   Analysis:
+     List items. Each has a name and a # of ranks.
+     Also each has properties:
+       "prerequisites" - other items you must have or this can't be checked
+       "invalidates" - other items which become unchecked and disabled if you select this
+       "invalidatedBy" - other items which, if checked, this becomes unchecked and disabled ***NOTE: REMOVE THIS!!***
+       "includedIn" - other items which, if checked, this becomes checked and disabled ***NOTE: REMOVE THIS!!***
+   * Concealment - there's a list of stuff you pick from, then no ranks. (multiple selection nice)
+     * <any non-visual sense from sensesData.json> - 1
+     * <any visual sense from sensesData.json> - 2
+     * <any non-visual sense type from sensesData.json> - 2 (invalidates some senses)
+     * <the visual sense type> - 4 (invalidates some senses)
+   + Comprehend - there's a list of stuff you pick from, then no ranks. (multiple selection nice)
+     * Comprehend Animals - 1
+     * Speak to Animals - 1
+     * Comprehend any Language - 1
+     * Read any Language - 1 (prerequisite: Comprehend any Language)
+     * Speak any Language - 1
+     * Understood by Anyone - 3 (invalidates: Speak any Language)
+     * Communicate with Electronics - 2
+     * Communicate with Objects - 2
+     * Communicate with Plants - 2
+     * Perceive and Understand Spirits - 1
+     * Communicate with Spirits - 2 (invalidates: Perceive and Understand Spirits)
+   + Immunity - there's a list of stuff you pick from, then no ranks. (multiple selection important)
+     * Aging - 1
+     * Disease - 1
+     * Poison - 1
+     * Cold - 1
+     * Heat - 1
+     * High Pressure - 1
+     * Radiation - 1
+     * Vacuum - 1
+     * Suffocation in One Environment - 1
+     * Starvation and Thirst - 1
+     * Need for Sleep - 1
+     * A Rare Power - 1
+     * Critical Hits - 2
+     * Suffocation - 2 (invalidates Suffocation in One Environment)
+     * Uncommon Power Descriptor - 2
+     * Alteration Effects - 5
+     * Sensory Affliction Effects - 5
+     * Entrapment - 5
+     * Fatigue - 5
+     * Interaction Skills - 5
+     * A Particular Damage Effect - 5
+     * Common Power Descriptor - 10
+     * Life Support - 10 (invalidates Disease, Poison, Cold,
+       Heat, High Pressure, Radiation, Vacuum, Suffocation in One Environment,
+       Suffocation, Starvation and Thirst)
+     * Very Common Power Descriptor - 20
+     * All Effects Resisted by Fortitude - 30
+     * All Effects Resisted by Will - 30
+     * All Effects Resisted by Toughness - 80
+   + Movement - there's a list of stuff you pick from, then no ranks  (multiple selection nice)
+     * Dimension Travel - 1
+     * Adapt to an Environment - 1
+     * Permeate at Speed-2 - 1 (invalidates Permeate at Speed-2, Permeate at Full Speed)
+     * Permeate at Speed-1 - 2 (invalidates Permeate at Speed-1, Permeate at Full Speed)
+     * Permeate at Full Speed - 3 (invalidates Permeate at Speed-2, Permeate at Speed-1)
+     * Safe Fall - 1
+     * Slithering - 1
+     * FTL Travel in Solar System - 1 (invalidates FTL Travel in Galaxy, FTL Travel in Universe)
+     * FTL Travel in Galaxy - 2 (invalidates FTL Travel in Solar System, FTL Travel in Universe)
+     * FTL Travel in Universe - 3 (invalidates FTL Travel in Solar System, FTL Travel in Galaxy)
+     * Sure-Footed - 1
+     * Swinging - 1
+     * Time Travel to Fixed Time - 1
+     * Time Travel to Past - 2
+     * Time Travel to Future - 2
+     * Time Travel - 3 (invalidates Time Travel to Fixed Time, Time Travel to Past, Time Travel to Future)
+     * Trackless to Visual Senses - 1
+     * Trackless to Auditory Senses - 1
+     * Trackless to Olfactory Senses - 1
+     * Trackless to Tactile Senses - 1
+     * Trackless to Mental Senses - 1
+     * Trackless to Radio Senses - 1
+     * Wall-Crawling - 1
+     * Water-Walking - 1 (invalidates Water Walk or Stand)
+     * Water Walk or Stand - 2 (invalidates Water-Walking)
  + Insubstantial - there's a list of stuff you pick from, then no ranks. (multiple selection unimportant)
+   <PICK ONE - MAYBE THIS IS OPTIONS>
+   * Fluid - 1 (invalidates Gaseous, Energy, Incorporeal)
+   * Gaseous - 2 (invalidates Fluid, Energy, Incorporeal)
+   * Energy - 3 (invalidates Fluid, Gaseous, Incorporeal)
+   * Incorporeal - 4 (invalidates Fluid, Gaseous, Energy)
  + Morph - it's like Insubstantial: Pick some things, then no ranks. (multiple selection unimportant)
- + Movement - there's a list of stuff you pick from, then no ranks  (multiple selection nice)
+   <PICK ONE - MAYBE THIS IS OPTIONS>
+   * Single Other Appearance - 1 (invalidates *others*)
+   * Narrow Group of Forms - 2 (invalidates *others*)
+   * Broad Group of Forms - 3 (invalidates *others*)
+   * Any Same-Size Form - 4 (invalidates *others*)
  + Summon - should be able to specify the creature summoned, and calculate cost from that
  + Variable - Yowzers... how do you specify this?? Maybe provide a list of powers you can
       specify? Up to the number of ranks? Or color it red if it's beyond that?
@@ -322,13 +409,6 @@ TODO: Some way to have enhanced traits that apply to other POWERS like Iron Man
   using it to boost his blast. Or that gives you an advantage.
 
 TODO: "Adjustment" and "ActiveEffect" are two names for the same thing. Fix that.
-
-TODO: Along with deleting, it would be kind of nice if there were also a way to re-order
-  the items in a list like powers.
-    Specifically, Advantages could do this (and get rid of the automatic alphabetic ordering).
-    Equipment could do this.
-    Powers should do this.
-    Complications could do this.
 
 BUG: Switch a power from one attack-creating effect type (eg: Weaken) to another (eg: Damage)
   and it will remove the old attack but NOT create the new one. Or maybe that's just the bug
@@ -360,3 +440,6 @@ PROBLEM: In CloudFront, I configured the 403 error page to return "/index.html".
   for any path other than "/" that didn't have a file in the S3 bucket getting a 403 error. What I
   *want* to do is for any path matching "/u/*", "/u/*/", or "/u/*/[RDI]/*" to be redirected to
   "/index.html", but I don't know how to do it.
+
+BUG: [Reported by Peter]  "Just came across a bug in the senses. If you add a sense and remove the senses
+  power the sense you added is still there and miscalculated."

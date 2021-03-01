@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "http://hero-sheet.com/schemas/charsheet.schema.json",
   "type": "object",
-  "title": "Root Schema for a Charsheet - v27",
+  "title": "Root Schema for a Charsheet - v28",
   "description": "The root schema is the schema that comprises the entire JSON document for a charsheet.",
   "properties": {
-    "version": { "type": "integer", "const": 27 },
+    "version": { "type": "integer", "const": 28 },
     "campaign": { "$ref":  "#/definitions/Campaign" },
     "naming": { "$ref":  "#/definitions/Naming" },
     "effortPoints": { "$ref":  "#/definitions/FlexibleInteger" },
@@ -245,7 +245,8 @@
       "oneOf": [
         { "$ref": "#/definitions/EmptyPowerExtended" },
         { "$ref": "#/definitions/SensesPowerExtended" },
-        { "$ref": "#/definitions/AfflictionPowerExtended" }
+        { "$ref": "#/definitions/AfflictionPowerExtended" },
+        { "$ref": "#/definitions/SelectionPowerExtended" }
       ]
     },
     "EmptyPowerExtended": {
@@ -296,6 +297,17 @@
         }
       },
       "required": ["conditionsApplied", "alternateResistance", "resistWith"],
+      "additionalProperties": false
+    },
+    "SelectionPowerExtended": {
+      "type": "object",
+      "properties": {
+        "selectedFeatures": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "required": ["selectedFeatures"],
       "additionalProperties": false
     },
     "AddedSenseInPower": {

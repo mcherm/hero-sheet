@@ -80,7 +80,7 @@
     },
     "PowerLayoutNonarray": {
       "type": "string",
-      "enum": ["default", "senses", "affliction"]
+      "enum": ["default", "senses", "affliction", "selection"]
     },
     "PowerLayoutArray": {
       "type": "string",

@@ -6,8 +6,8 @@ const standardPowers = require("@/data/standardPowers.json");
 const conditionsData = require("@/data/conditionsData.json");
 const sensesData = require("@/data/sensesData.json");
 
-const currentVersion = 27; // Up to this version can be saved
-const latestVersion = 27; // Might be an experimental version
+const currentVersion = 28; // Up to this version can be saved
+const latestVersion = 28; // Might be an experimental version
 
 
 const fieldsInOrder = ["version", "campaign", "naming", "effortPoints", "abilities", "defenses", "misc",
@@ -958,7 +958,28 @@ const upgradeFuncs = {
     charsheet.equipment.forEach(x => upgradeFeature(x.feature));
     // -- version number --
     charsheet.version = 27;
-  }
+  },
+
+  upgradeFrom27: function(charsheet) {
+    const upgradeFeature = function(feature) {
+      if (feature === undefined || feature === null || !feature.effect) {
+        return;
+      }
+      const powerLayout = standardPowers[feature.effect].powerLayout;
+      if (powerLayout === "selection") {
+        if (feature.extended.selectedFeatures === undefined) {
+          // we don't know what was intended to be selected; make it "nothing" as a starting point
+          feature.extended["selectedFeatures"] = [];
+        }
+      }
+      if (feature.subpowers) {
+        feature.subpowers.forEach(upgradeFeature);
+      }
+    }
+    charsheet.powers.forEach(upgradeFeature);
+    charsheet.equipment.forEach(x => upgradeFeature(x.feature));
+    charsheet.version = 28;
+  },
 
 };
 

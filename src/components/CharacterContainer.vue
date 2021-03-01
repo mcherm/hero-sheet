@@ -231,6 +231,8 @@
             }
           } else if (powerLayout === "senses") {
             new updaterClasses["SensesPowerUpdater"](vm, charsheet, {power: feature});
+          } else if (powerLayout === "selection") {
+            new updaterClasses["SelectionPowerUpdater"](vm, charsheet, {power: feature});
           }
         }
         for (const power of charsheet.powers) {

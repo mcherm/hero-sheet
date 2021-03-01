@@ -1,0 +1,53 @@
+{
+  "Comprehend": {
+    "selections": {
+      "Comprehend Animals": {
+        "name": "Comprehend Animals",
+        "ranks": 1
+      },
+      "Speak to Animals": {
+        "name": "Speak to Animals",
+        "ranks": 1
+      },
+      "Comprehend any Language": {
+        "name": "Comprehend any Language",
+        "ranks": 1
+      },
+      "Read any Language": {
+        "name": "Read any Language",
+        "ranks": 1,
+        "prerequisites": ["Comprehend any Language"]
+      },
+      "Speak any Language": {
+        "name": "Speak any Language",
+        "ranks": 1
+      },
+      "Understood by Anyone": {
+        "name": "Understood by Anyone",
+        "ranks": 3,
+        "invalidates": ["Speak any Language"]
+      },
+      "Communicate with Electronics": {
+        "name": "Communicate with Electronics",
+        "ranks": 2
+      },
+      "Communicate with Objects": {
+        "name": "Communicate with Objects",
+        "ranks": 2
+      },
+      "Communicate with Plants": {
+        "name": "Communicate with Plants",
+        "ranks": 2
+      },
+      "Perceive and Understand Spirits": {
+        "name": "Perceive and Understand Spirits",
+        "ranks": 1
+      },
+      "Communicate with Spirits": {
+        "name": "Communicate with Spirits",
+        "ranks": 2,
+        "invalidates": ["Perceive and Understand Spirits"]
+      }
+    }
+  }
+}
