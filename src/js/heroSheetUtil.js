@@ -714,6 +714,10 @@ const POWER_TO_UPDATERS_MAP = {
   ],
   "Senses": ["SensesPowerUpdater"],
   "Comprehend": ["SelectionPowerUpdater"],
+  "Immunity": ["SelectionPowerUpdater"],
+  "Movement": ["SelectionPowerUpdater"],
+  "Insubstantial": ["SelectionPowerUpdater"],
+  "Morph": ["SelectionPowerUpdater"],
 };
 
 /*
