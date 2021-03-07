@@ -49,5 +49,287 @@
         "invalidates": ["Perceive and Understand Spirits"]
       }
     }
+  },
+  "Immunity": {
+    "selections": {
+      "Aging": {
+        "name": "Aging",
+        "ranks": 1
+      },
+      "Disease": {
+        "name": "Disease",
+        "ranks": 1
+      },
+      "Poison": {
+        "name": "Poison",
+        "ranks": 1
+      },
+      "Cold": {
+        "name": "Cold",
+        "ranks": 1
+      },
+      "Heat": {
+        "name": "Heat",
+        "ranks": 1
+      },
+      "High Pressure": {
+        "name": "High Pressure",
+        "ranks": 1
+      },
+      "Radiation": {
+        "name": "Radiation",
+        "ranks": 1
+      },
+      "Vacuum": {
+        "name": "Vacuum",
+        "ranks": 1
+      },
+      "Suffocation in One Environment": {
+        "name": "Suffocation in One Environment",
+        "ranks": 1
+      },
+      "Starvation and Thirst": {
+        "name": "Starvation and Thirst",
+        "ranks": 1
+      },
+      "Need for Sleep": {
+        "name": "Need for Sleep",
+        "ranks": 1
+      },
+      "A Rare Power": {
+        "name": "A Rare Power",
+        "ranks": 1
+      },
+      "Critical Hits": {
+        "name": "Critical Hits",
+        "ranks": 2
+      },
+      "Suffocation": {
+        "name": "Suffocation",
+        "ranks": 2,
+        "invalidates": ["Suffocation in One Environment"]
+      },
+      "Uncommon Power Descriptor": {
+        "name": "Uncommon Power Descriptor",
+        "ranks": 2
+      },
+      "Alteration Effects": {
+        "name": "Alteration Effects",
+        "ranks": 5
+      },
+      "Sensory Affliction Effects": {
+        "name": "Sensory Affliction Effects",
+        "ranks": 5
+      },
+      "Entrapment": {
+        "name": "Entrapment",
+        "ranks": 5
+      },
+      "Fatigue": {
+        "name": "Fatigue",
+        "ranks": 5
+      },
+      "Interaction Skills": {
+        "name": "Interaction Skills",
+        "ranks": 5
+      },
+      "A Particular Damage Effect": {
+        "name": "A Particular Damage Effect",
+        "ranks": 5
+      },
+      "Common Power Descriptor": {
+        "name": "Common Power Descriptor",
+        "ranks": 10
+      },
+      "Life Support": {
+        "name": "Life Support",
+        "ranks": 10,
+        "invalidates": [
+          "Disease", "Poison", "Cold", "Heat", "High Pressure", "Radiation", "Vacuum",
+          "Suffocation in One Environment", "Suffocation", "Starvation and Thirst"
+        ]
+      },
+      "Very Common Power Descriptor": {
+        "name": "Very Common Power Descriptor",
+        "ranks": 20
+      },
+      "All Effects Resisted by Fortitude": {
+        "name": "All Effects Resisted by Fortitude",
+        "ranks": 30
+      },
+      "All Effects Resisted by Will": {
+        "name": "All Effects Resisted by Will",
+        "ranks": 30
+      },
+      "All Effects Resisted by Toughness": {
+        "name": "All Effects Resisted by Toughness",
+        "ranks": 80
+      }
+    }
+  },
+  "Movement": {
+    "selections": {
+      "Dimension Travel": {
+        "name": "Dimension Travel",
+        "ranks": 1
+      },
+      "Adapt to an Environment": {
+        "name": "Adapt to an Environment",
+        "ranks": 1
+      },
+      "Permeate at One-Fourth Speed": {
+        "name": "Permeate at One-Fourth Speed",
+        "ranks": 1,
+        "invalidates": ["Permeate at Half Speed", "Permeate at Full Speed"]
+      },
+      "Permeate at Half Speed": {
+        "name": "Permeate at Half Speed",
+        "ranks": 2,
+        "invalidates": ["Permeate at One-Fourth Speed", "Permeate at Full Speed"]
+      },
+      "Permeate at Full Speed": {
+        "name": "Permeate at Full Speed",
+        "ranks": 3,
+        "invalidates": ["Permeate at One-Fourth Speed", "Permeate at Half Speed"]
+      },
+      "Safe Fall": {
+        "name": "Safe Fall",
+        "ranks": 1
+      },
+      "Slithering": {
+        "name": "Slithering",
+        "ranks": 1
+      },
+      "FTL Travel in Solar System": {
+        "name": "FTL Travel in Solar System",
+        "ranks": 1,
+        "invalidates": ["FTL Travel in Galaxy", "FTL Travel in Universe"]
+      },
+      "FTL Travel in Galaxy": {
+        "name": "FTL Travel in Galaxy",
+        "ranks": 2,
+        "invalidates": ["FTL Travel in Solar System", "FTL Travel in Universe"]
+      },
+      "FTL Travel in Universe": {
+        "name": "FTL Travel in Universe",
+        "ranks": 3,
+        "invalidates": ["FTL Travel in Solar System", "FTL Travel in Galaxy"]
+      },
+      "Sure-Footed": {
+        "name": "Sure-Footed",
+        "ranks": 1
+      },
+      "Swinging": {
+        "name": "Swinging",
+        "ranks": 1
+      },
+      "Time Travel to Fixed Time": {
+        "name": "Time Travel to Fixed Time",
+        "ranks": 1
+      },
+      "Time Travel to Past": {
+        "name": "Time Travel to Past",
+        "ranks": 2
+      },
+      "Time Travel to Future": {
+        "name": "Time Travel to Future",
+        "ranks": 2
+      },
+      "Time Travel": {
+        "name": "Time Travel",
+        "ranks": 3,
+        "invalidates": ["Time Travel to Fixed Time", "Time Travel to Past", "Time Travel to Future"]
+      },
+      "Trackless to Visual Senses": {
+        "name": "Trackless to Visual Senses",
+        "ranks": 1
+      },
+      "Trackless to Auditory Senses": {
+        "name": "Trackless to Auditory Senses",
+        "ranks": 1
+      },
+      "Trackless to Olfactory Senses": {
+        "name": "Trackless to Olfactory Senses",
+        "ranks": 1
+      },
+      "Trackless to Tactile Senses": {
+        "name": "Trackless to Tactile Senses",
+        "ranks": 1
+      },
+      "Trackless to Mental Senses": {
+        "name": "Trackless to Mental Senses",
+        "ranks": 1
+      },
+      "Trackless to Radio Senses": {
+        "name": "Trackless to Radio Senses",
+        "ranks": 1
+      },
+      "Wall-Crawling": {
+        "name": "Wall-Crawling",
+        "ranks": 1
+      },
+      "Water-Walking": {
+        "name": "Water-Walking",
+        "ranks": 1,
+        "invalidates": ["Water Walk or Stand"]
+      },
+      "Water Walk or Stand": {
+        "name": "Water Walk or Stand",
+        "ranks": 2,
+        "invalidates": ["Water-Walking"]
+      }
+    }
+  },
+  "Insubstantial": {
+    "selections": {
+      "Fluid": {
+        "name": "Fluid",
+        "ranks": 1,
+        "invalidates": ["Gaseous", "Energy", "Incorporeal"],
+        "description": "You become a fluid mass. You can flow through any sort of opening, under (or around) doors, through keyholes and pipes, and so forth."
+      },
+      "Gaseous": {
+        "name": "Gaseous",
+        "ranks": 2,
+        "invalidates": ["Fluid", "Energy", "Incorporeal"],
+        "description": "You become a cloud of gas or fine particles. You have no effective Strength in gaseous form, but have Immunity to Physical Damage."
+      },
+      "Energy": {
+        "name": "Energy",
+        "ranks": 3,
+        "invalidates": ["Fluid", "Gaseous", "Incorporeal"],
+        "description": "You become coherent energy. You have no effective Strength, but have Immunity to Physical Damage. Energy attacks (other than the energy making up your form, to which you have Immunity) damage you normally."
+      },
+      "Incorporeal": {
+        "name": "Incorporeal",
+        "ranks": 4,
+        "invalidates": ["Fluid", "Gaseous", "Energy"],
+        "description": "You become an incorporeal phantom. You can pass through solid matter at your normal speed and you have Immunity to Physical and Energy Damage."
+      }
+    }
+  },
+  "Morph": {
+    "selections": {
+      "Single Other Appearance": {
+        "name": "Single Other Appearance",
+        "ranks": 1,
+        "invalidates": ["Narrow Group of Forms", "Broad Group of Forms", "Any Same-Size Form"]
+      },
+      "Narrow Group of Forms": {
+        "name": "Narrow Group of Forms",
+        "ranks": 2,
+        "invalidates": ["Single Other Appearance", "Broad Group of Forms", "Any Same-Size Form"]
+      },
+      "Broad Group of Forms": {
+        "name": "Broad Group of Forms",
+        "ranks": 3,
+        "invalidates": ["Single Other Appearance", "Narrow Group of Forms", "Any Same-Size Form"]
+      },
+      "Any Same-Size Form": {
+        "name": "Any Same-Size Form",
+        "ranks": 4,
+        "invalidates": ["Single Other Appearance", "Narrow Group of Forms", "Broad Group of Forms"]
+      }
+    }
   }
 }

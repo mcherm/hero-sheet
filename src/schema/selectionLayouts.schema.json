@@ -29,7 +29,8 @@
         "name": { "$ref": "common.schema.json#/definitions/Name" },
         "ranks": { "type": "integer" },
         "prerequisites": { "$ref": "#/definitions/SelectionList" },
-        "invalidates": { "$ref": "#/definitions/SelectionList" }
+        "invalidates": { "$ref": "#/definitions/SelectionList" },
+        "description": { "$ref": "common.schema.json#/definitions/Description" }
       },
       "required": [ "name", "ranks" ],
       "additionalProperties": false

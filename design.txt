@@ -320,7 +320,7 @@ TODO: A few powers really should have their own custom way of being created.
      * <any visual sense from sensesData.json> - 2
      * <any non-visual sense type from sensesData.json> - 2 (invalidates some senses)
      * <the visual sense type> - 4 (invalidates some senses)
-   + Comprehend - there's a list of stuff you pick from, then no ranks. (multiple selection nice)
+   * Comprehend - there's a list of stuff you pick from, then no ranks. (multiple selection nice)
      * Comprehend Animals - 1
      * Speak to Animals - 1
      * Comprehend any Language - 1
@@ -332,7 +332,7 @@ TODO: A few powers really should have their own custom way of being created.
      * Communicate with Plants - 2
      * Perceive and Understand Spirits - 1
      * Communicate with Spirits - 2 (invalidates: Perceive and Understand Spirits)
-   + Immunity - there's a list of stuff you pick from, then no ranks. (multiple selection important)
+   * Immunity - there's a list of stuff you pick from, then no ranks. (multiple selection important)
      * Aging - 1
      * Disease - 1
      * Poison - 1
@@ -362,7 +362,7 @@ TODO: A few powers really should have their own custom way of being created.
      * All Effects Resisted by Fortitude - 30
      * All Effects Resisted by Will - 30
      * All Effects Resisted by Toughness - 80
-   + Movement - there's a list of stuff you pick from, then no ranks  (multiple selection nice)
+   * Movement - there's a list of stuff you pick from, then no ranks  (multiple selection nice)
      * Dimension Travel - 1
      * Adapt to an Environment - 1
      * Permeate at Speed-2 - 1 (invalidates Permeate at Speed-2, Permeate at Full Speed)
@@ -388,13 +388,13 @@ TODO: A few powers really should have their own custom way of being created.
      * Wall-Crawling - 1
      * Water-Walking - 1 (invalidates Water Walk or Stand)
      * Water Walk or Stand - 2 (invalidates Water-Walking)
- + Insubstantial - there's a list of stuff you pick from, then no ranks. (multiple selection unimportant)
+ * Insubstantial - there's a list of stuff you pick from, then no ranks. (multiple selection unimportant)
    <PICK ONE - MAYBE THIS IS OPTIONS>
    * Fluid - 1 (invalidates Gaseous, Energy, Incorporeal)
    * Gaseous - 2 (invalidates Fluid, Energy, Incorporeal)
    * Energy - 3 (invalidates Fluid, Gaseous, Incorporeal)
    * Incorporeal - 4 (invalidates Fluid, Gaseous, Energy)
- + Morph - it's like Insubstantial: Pick some things, then no ranks. (multiple selection unimportant)
+ * Morph - it's like Insubstantial: Pick some things, then no ranks. (multiple selection unimportant)
    <PICK ONE - MAYBE THIS IS OPTIONS>
    * Single Other Appearance - 1 (invalidates *others*)
    * Narrow Group of Forms - 2 (invalidates *others*)

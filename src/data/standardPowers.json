@@ -1369,7 +1369,7 @@
         "cost": -1
       }
     ],
-    "powerLayout": "default",
+    "powerLayout": "selection",
     "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/immunity-defense"
   },
@@ -1495,7 +1495,7 @@
         "cost": 0
       }
     ],
-    "powerLayout": "default",
+    "powerLayout": "selection",
     "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/insubstantial-general"
   },
@@ -1825,7 +1825,7 @@
         "cost": -1
       }
     ],
-    "powerLayout": "default",
+    "powerLayout": "selection",
     "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/morph-general"
   },
@@ -1943,75 +1943,13 @@
     "range": "personal",
     "duration": "Sustained",
     "resistance": "-",
-    "baseCost": "powerOptions",
+    "baseCost": 1,
     "description": "You have a special form of movement.",
-    "powerOptions": {
-      "Dimension Travel": {
-        "name": "Dimension Travel",
-        "baseCost": 2,
-        "description": "You can move instantly from one dimension to another as a move action. For 1 rank, you can move between your home dimension and one other. For 2 ranks you can move between any of a related group of dimensions (mystical dimensions, alien dimensions, etc). For 3 ranks you can travel to any dimension."
-      },
-      "Environmental Adaptation": {
-        "name": "Environmental Adaptation",
-        "baseCost": 2,
-        "description": "You’re adapted to a particular environment, such as underwater, zero gravity, and so forth. You suffer none of the normal unfavorable circumstance or movement penalties associated with that environment, moving and acting normally."
-      },
-      "Permeate": {
-        "name": "Permeate",
-        "baseCost": 2,
-        "description": "For 1 rank, you can move at speed rank –2 through any physical object. For 2 ranks, you can move at speed rank –1 and for 3 ranks, you move at your normal speed through any obstacles."
-      },
-      "Safe Fall": {
-        "name": "Safe Fall",
-        "baseCost": 2,
-        "description": "So long as you are capable of action, you can fall any distance without harm. You can also stop your fall at any point along a distance so long as there is a handhold or projection for you to grab."
-      },
-      "Slithering": {
-        "name": "Slithering",
-        "baseCost": 2,
-        "description": "You can move while prone at your normal ground speed. You suffer no circumstance penalty for making attacks while prone."
-      },
-      "Space Travel": {
-        "name": "Space Travel",
-        "baseCost": 2,
-        "description": "You can travel faster than the speed of light through the vacuum of space (but not in a planetary atmosphere). At rank 1 you can travel to other planets in a solar system. At rank 2, you can travel to other star systems, while at rank 3, you can visit distant star systems, perhaps even other galaxies."
-      },
-      "Sure-Footed": {
-        "name": "Sure-Footed",
-        "baseCost": 2,
-        "description": "You’re better able to deal with obstacles and obstructions to movement. Reduce the speed penalty for moving through or around such obstacles by 1 for each rank of this effect."
-      },
-      "Swinging": {
-        "name": "Swinging",
-        "baseCost": 2,
-        "description": "You can swing through the air at your normal ground speed rank, using a swing-line you provide or available lines and projections (tree limbs, flagpoles, vines, telephone and power lines, etc.)."
-      },
-      "Time Travel": {
-        "name": "Time Travel",
-        "baseCost": 2,
-        "description": "You can move through time! For 1 rank, you can move between the present and another fixed point in time (such as 100 years into the past, or 1,000 years into the future). For 2 ranks you can move to any point in the past or any point in the future (but not both). For 3 ranks, you can travel to any point in time."
-      },
-      "Trackless": {
-        "name": "Trackless",
-        "baseCost": 2,
-        "description": "You leave no trail and cannot be tracked by one sense type such as visual senses. You can walk across the surface of soft sand or snow without leaving tracks and you have total concealment from tremorsense. Each additional rank renders you trackless to another sense type."
-      },
-      "Wall-Crawling": {
-        "name": "Wall-Crawling",
-        "baseCost": 2,
-        "description": "You can climb walls and ceilings at your ground speed rank –1 with no chance of falling and no need for an Athletics check. You are still vulnerable while climbing, however. An additional rank of this effect means you climb at your full speed rank and are not vulnerable while climbing."
-      },
-      "Water-Walking": {
-        "name": "Water-Walking",
-        "baseCost": 2,
-        "description": "You can stand or move at your normal ground speed on the surface of water, quicksand, and other liquids without sinking. If you fall prone for any reason, you sink into the liquid normally. With 2 ranks of this effect, you can also lie prone on a liquid surface without sinking; you only sink if you choose to."
-      }
-    },
     "extras": [
     ],
     "flaws": [
     ],
-    "powerLayout": "default",
+    "powerLayout": "selection",
     "canBePartial": false,
     "docsURL": "https://www.d20herosrd.com/6-powers/effects/effect-descriptions/movement-movement"
   },
