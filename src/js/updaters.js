@@ -783,6 +783,17 @@ class SensesPowerUpdater extends Updater {
       this.vm.$delete(this.charsheet.senses, senseTypeToDelete.name);
     }
   }
+
+  destroy() {
+    const calculationsIfGone = {
+      addedSenses: [],
+      addedSenseTypeQualities: [],
+      addedSenseQualities: [],
+      isActive: true
+    };
+    this.removeDeletedSenseStuff(calculationsIfGone);
+    super.destroy();
+  }
 }
 
 

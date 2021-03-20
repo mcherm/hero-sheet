@@ -313,8 +313,6 @@ TODO: A few powers really should have their own custom way of being created.
      Also each has properties:
        "prerequisites" - other items you must have or this can't be checked
        "invalidates" - other items which become unchecked and disabled if you select this
-       "invalidatedBy" - other items which, if checked, this becomes unchecked and disabled ***NOTE: REMOVE THIS!!***
-       "includedIn" - other items which, if checked, this becomes checked and disabled ***NOTE: REMOVE THIS!!***
    * Concealment - there's a list of stuff you pick from, then no ranks. (multiple selection nice)
      * <any non-visual sense from sensesData.json> - 1
      * <any visual sense from sensesData.json> - 2
